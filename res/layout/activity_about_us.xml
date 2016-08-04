@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
+
+        <Button
+            android:id="@+id/btn_title_left"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:background="@null"
+            android:text="返回"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size" />
+ </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:text="真相网络"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/item_hight"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/tv_title"
+            android:background="@drawable/ww" />
+    </RelativeLayout>
+   <TextView 
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="@dimen/layout_marginLeft"
+       android:layout_marginRight="@dimen/layout_marginRight"
+       android:textSize="@dimen/text_size"
+       android:background="@color/ghostwhite"
+       android:text="      真相网络科技（北京）有限公司（以下简称“真相网络科技”）是专注于电子数据主权确定及网络行为分析，以构建数字世界的文明秩序为愿景，依托区块链、大数据、深度学习等技术进行计算法律学实践的技术公司。 真相网络科技一直致力于通过自身的技术和产品服务政府与企业组织，帮助政府和企业更好的进行网络治理，真相网络科技在行政执法协助、司法协助、网络内容检测与分析等领域都具备深厚的技术积累，希望通过技术服务还原互联网的内容和数据真相。 互联网，因“真相”而不同。"
+       />
+</LinearLayout>

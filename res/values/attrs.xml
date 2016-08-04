@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+     <declare-styleable name="ViewFlow">
+        <attr name="sidebuffer" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="CircleFlowIndicator">
+        <attr name="activeColor" format="color" />
+        <attr name="inactiveColor" format="color" />
+        <attr name="radiuss" format="dimension" />
+		<attr name="centereed" format="boolean" />
+		<attr name="fadeOut" format="integer" />
+		<attr name="inactiveType">
+			<flag name="stroke" value="0" />
+			<flag name="fill" value="1" />
+		</attr>
+		<attr name="activeType">
+			<flag name="stroke" value="0" />
+			<flag name="fill" value="1" />
+		</attr>
+		<attr name="circleSeparation" format="dimension" />
+		<attr name="activeRadius" format="dimension" />
+    </declare-styleable>
+    
+     <!-- 拖动刷新加载相关 -->
+    <declare-styleable name="swiperefresh">
+        <attr name="srlbg" format="color" />
+        <attr name="srlTextSize" format="dimension" />
+        <attr name="srlTextColor" format="color" />
+        <attr name="roateImage" format="reference" />
+        <attr name="flipImage" format="reference" />
+        <attr name="finishedImage" format="reference" />
+        <attr name="ptr" format="boolean" />
+        <attr name="ptl" format="boolean" />
+        <!-- 下拉 -->
+        <attr name="pullDownLabel" format="string" />
+        <attr name="refreshingLabel" format="string" />
+        <attr name="releaseDownLabel" format="string" />
+        <!-- 上拉 -->
+        <attr name="pullUpLabel" format="string" />
+        <attr name="loadingLabel" format="string" />
+        <attr name="releaseUpLabel" format="string" />
+        <attr name="srlAnimationStyle">
+            <flag name="rotate" value="0x0" />
+            <flag name="flip" value="0x1" />
+        </attr>
+    </declare-styleable>
+     <string-array name="bind_card_spingarr">
+     	<item>身份证</item>  
+    	<item>护照</item>  
+    	<item>港澳居民来往内地通行证</item>  
+    	<item>户口簿</item>  
+    	<item>军官证</item>  
+    	<item>士兵证</item>  
+    	<item>驾照</item>  
+    	<item>出生证明</item>  
+    	<item>台湾居民来往大陆通行证</item>  
+    	<item>其他</item>  
+    	<item>异常身份证</item>  
+    	<item>临时身份证</item>  
+    </string-array>
+
+    <declare-styleable name="HorizontalProgressBarWithNumber">
+        <attr name="progress_unreached_color" format="color" />
+        <attr name="progress_reached_color" format="color" />
+        <attr name="progress_reached_bar_height" format="dimension" />
+        <attr name="progress_unreached_bar_height" format="dimension" />
+        <attr name="progress_text_size" format="dimension" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="progress_text_offset" format="dimension" />
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+     <declare-styleable name="CarPolicyCommonRelativeLayout"> 
+        <attr name="textName" format="string"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>  
+    </declare-styleable> 
+     <declare-styleable name="LossCaseRelativeLayout"> 
+        <attr name="textStaticName" format="string"/>
+        <attr name="textClickName" format="string"/>
+        <attr name="textStaticColor" format="color"/>
+        <attr name="textClickColor" format="color"/>
+    </declare-styleable> 
+    <declare-styleable name="roundedimageview"> 
+        <attr name="border_thickness" format="dimension" /> 
+        <attr name="border_inside_color" format="color" /> 
+        <attr name="border_outside_color" format="color"></attr> 
+    </declare-styleable> 
+    
+    
+    <!-- 下拉刷新 -->
+     <declare-styleable name="XRefreshView">
+        <attr name="isHeightMatchParent" format="boolean" />
+        <attr name="isWidthMatchParent" format="boolean" />
+        <attr name="autoRefresh" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="StickyListHeadersListView">
+
+        <!-- Android attributes -->
+        <attr name="android:clipToPadding" />
+        <attr name="android:padding" />
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingBottom" />
+
+        <!-- ListView attributes -->
+        <attr name="android:fadingEdgeLength" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:cacheColorHint" />
+        <attr name="android:choiceMode" />
+        <attr name="android:drawSelectorOnTop" />
+        <attr name="android:fastScrollEnabled" />
+        <attr name="android:listSelector" />
+        <attr name="android:scrollingCache" />
+        <attr name="android:scrollbarStyle" />
+        <attr name="android:divider" />
+        <attr name="android:dividerHeight" />
+
+        <!-- StickyListHeaders attributes -->
+        <attr name="hasStickyHeaders" format="boolean" />
+        <attr name="isDrawingListUnderStickyHeader" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="my">
+		<attr name="type" format="integer" />
+	</declare-styleable>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg" >
+
+    <include layout="@layout/top_title" />
+
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:maxHeight="1000dp"
+        android:maxWidth="1000dp"
+        android:scaleType="fitCenter" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:background="@color/title_bg_color"
+        android:text="放弃"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size" />
+
+    <Button
+        android:id="@+id/btn_preserved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:background="@color/title_bg_color"
+        android:text="保全"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size" />
+
+</RelativeLayout>

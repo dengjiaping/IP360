@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_filedata"
+    android:layout_width="match_parent"
+    android:descendantFocusability = "blocksDescendants"
+    android:layout_height="60dp"
+    android:background="#ffffff" >
+<LinearLayout 
+    android:id="@+id/ll_checkbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    
+    >
+    <CheckBox
+        android:id="@+id/cb_checkbox"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8.5dp"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/checkbox"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:gravity="left" />
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@id/cb_checkbox"
+        android:layout_marginRight="15dp" />
+</LinearLayout>
+    
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/ll_checkbox"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           
+            android:lines="1"
+            android:text="证据照片：img01.jpg"
+            android:textColor="#666666"
+            android:textSize="15sp" />
+
+     
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:lines="1"
+                android:text="2015-12-12 10:30"
+                android:textColor="#666666"
+                android:textSize="15sp" />
+   
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_next"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/sanjiao" />
+
+</RelativeLayout>

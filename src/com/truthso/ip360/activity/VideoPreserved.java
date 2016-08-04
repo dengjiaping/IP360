@@ -1,0 +1,130 @@
+package com.truthso.ip360.activity;
+
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+
+import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.utils.BaiduLocationUtil;
+import com.truthso.ip360.utils.GetFileSizeUtil;
+import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
+
+/**
+ * @despriction :录像保全的界面
+ * 
+ * @author wsx_summer Email:wangshaoxia@truthso.com
+ * @date 创建时间：2016-7-21下午5:21:25
+ * @version 1.0
+ * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
+ */
+
+public class VideoPreserved extends BaseActivity implements OnClickListener {
+	private String mVideoPath;
+	private String mVideoName;
+	private ImageView iv_video;
+	private String mVideoSize;
+	private String mDate;
+	private Button btn_preserved,btn_cancel;
+
+	@Override
+	public void initData() {
+
+	}
+
+	@Override
+	public void initView() {
+		mVideoPath = getIntent().getStringExtra("filePath");
+		mDate = getIntent().getStringExtra("date");
+		iv_video = (ImageView) findViewById(R.id.iv_video);
+
+		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
+				MediaStore.Images.Thumbnails.MICRO_KIND));
+		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
+		
+		btn_preserved = (Button) findViewById(R.id.btn_preserved);
+		btn_preserved.setOnClickListener(this);
+		btn_cancel = (Button) findViewById(R.id.btn_cancel);
+		btn_cancel.setOnClickListener(this);
+	}
+
+	@Override
+	public int setLayout() {
+		return R.layout.activity_videopreserved;
+	}
+
+	@Override
+	public String setTitle() {
+		return "录像完成";
+	}
+
+	/**
+	 * 获取视频的缩略图 先通过ThumbnailUtils来创建一个视频的缩略图，然后再利用ThumbnailUtils来生成指定大小的缩略图。
+	 * 如果想要的缩略图的宽和高都小于MICRO_KIND，则类型要使用MICRO_KIND作为kind的值，这样会节省内存。
+	 * 
+	 * @author wsx_summer
+	 * 
+	 * @param videoPath
+	 *            视频的路径
+	 * @param width
+	 *            指定输出视频缩略图的宽度
+	 * @param height
+	 *            指定输出视频缩略图的高度度
+	 * @param kind
+	 *            参照MediaStore.Images.Thumbnails类中的常量MINI_KIND和MICRO_KIND。
+	 *            其中，MINI_KIND: 512 x 384，MICRO_KIND: 96 x 96
+	 * @return 指定大小的视频缩略图
+	 */
+	@SuppressWarnings("unused")
+	private Bitmap getVideoThumbnail(String videoPath, int width, int height,
+			int kind) {
+		Bitmap bitmap = null;
+		// 获取视频的缩略图
+		bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, kind);
+		bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+				ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+		return bitmap;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_cancel://放弃
+			finish();
+			break;
+		case R.id.btn_preserved://保全
+			saveToDB();
+			break;
+
+		default:
+			break;
+		}
+	}
+	//保存录像的数据到数据库
+	private void saveToDB() {
+		
+	    BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
+				
+				@Override
+				public void location(String s) {
+					LogUtils.e("111111111111"+s);
+				}
+			});
+			DbBean dbBean =new DbBean();
+			dbBean.setTitle(mVideoName);
+			dbBean.setCreateTime(mDate);
+			dbBean.setResourceUrl(mVideoPath);
+			dbBean.setType(MyConstants.VIDEO);
+			dbBean.setFileSize(mVideoSize);
+			SqlDao.getSQLiteOpenHelper(this).save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
+			finish();
+	}
+}
