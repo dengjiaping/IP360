@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		case R.id.ll_record:// 录音取证
 			Intent intent2 = new Intent(getActivity(),
 					LiveRecordImplementationActivity.class);
+			startActivity(intent2);
 			break;
 		default:
 			break;
