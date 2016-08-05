@@ -46,7 +46,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 		actionBar=(MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("类别");
 		actionBar.setTitle("云端证据");
-		actionBar.setRightText("多选");
+		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 		
 		xRefresh = (XRefreshView)view.findViewById(R.id.xrefresh_cloudevidence);
@@ -134,8 +134,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 				case R.id.acition_bar_right://取消
 					adapter.setChoice(false);
 					lv_cloudevidence.invalidateViews();
-					actionBar.setRightText("多选");
+					actionBar.setRightText("选择");
 					actionBar.setLeftText("类别");
+					
 					actionBar.setActionBarOnClickListener(CloudEvidence.this);
 					break;
 		        case R.id.acition_bar_left://全选

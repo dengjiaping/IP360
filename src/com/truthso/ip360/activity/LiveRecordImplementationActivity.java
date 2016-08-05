@@ -34,7 +34,8 @@ import com.truthso.ip360.view.VoiceLineView;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class LiveRecordImplementationActivity extends Activity implements OnClickListener {
+public class LiveRecordImplementationActivity extends BaseActivity implements
+		OnClickListener {
 
 	private TextView mRecordTime;
 	private String timeUsed;
@@ -52,17 +53,18 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 				break;
 			default:
 			case 2:
-				if(mediaRecorder==null) return;
-	            double ratio = (double) mediaRecorder.getMaxAmplitude() / 100;
-	            double db = 0;// 分贝
-	            //默认的最大音量是100,可以修改，但其实默认的，在测试过程中就有不错的表现
-	            //你可以传自定义的数字进去，但需要在一定的范围内，比如0-200，就需要在xml文件中配置maxVolume
-	            //同时，也可以配置灵敏度sensibility
-	            if (ratio > 1)
-	                db = 20 * Math.log10(ratio);
-	            //只要有一个线程，不断调用这个方法，就可以使波形变化
-	            //主要，这个方法必须在ui线程中调用
-	            voiceLineView.setVolume((int) (db));
+				if (mediaRecorder == null)
+					return;
+				double ratio = (double) mediaRecorder.getMaxAmplitude() / 100;
+				double db = 0;// 分贝
+				// 默认的最大音量是100,可以修改，但其实默认的，在测试过程中就有不错的表现
+				// 你可以传自定义的数字进去，但需要在一定的范围内，比如0-200，就需要在xml文件中配置maxVolume
+				// 同时，也可以配置灵敏度sensibility
+				if (ratio > 1)
+					db = 20 * Math.log10(ratio);
+				// 只要有一个线程，不断调用这个方法，就可以使波形变化
+				// 主要，这个方法必须在ui线程中调用
+				voiceLineView.setVolume((int) (db));
 				break;
 			}
 		}
@@ -85,15 +87,9 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 	private String recTotalTime;
 	private VoiceLineView voiceLineView;
 	private boolean isAlive = true;
+	
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_liverecord_implement);
-		fileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-		initView();
-	}
+
 
 	private void startTime() {
 		uiHandle.sendEmptyMessageDelayed(1, 1000);
@@ -130,26 +126,12 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 		return sec < 10 ? "0" + sec : String.valueOf(sec);
 	}
 
-	private void initView() {
-		mButton = (Button) findViewById(R.id.btn_record);
-		btn_cancle = (Button) findViewById(R.id.btn_cancle);
-		btn_save = (Button) findViewById(R.id.btn_save);
-		voiceLineView = (VoiceLineView) findViewById(R.id.voicLine);
-		mButton.setOnClickListener(this);
-		btn_cancle.setOnClickListener(this);
-		btn_save.setOnClickListener(this);
-
-		mRecordTime = (TextView) findViewById(R.id.tv_record_time);
-		// mBack=(ImageView) findViewById(R.id.iv_back);
-		// mBack.setOnClickListener(this);
-	}
-	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_record:
 			if (!isRecording) {
-				isAlive=true;
+				isAlive = true;
 				isRecording = true;
 				mButton.setSelected(true);
 				recordVoice();
@@ -157,33 +139,35 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 				startTime();
 				isPause = false;
 				new Thread(new Runnable() {
-					
+
 					@Override
-					public void run() {						
+					public void run() {
 						while (isAlive) {
 							uiHandle.sendEmptyMessage(2);
-				            try {
-				                Thread.sleep(100);
-				            } catch (InterruptedException e) {
-				                e.printStackTrace();
-				            }
-				        }
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 				}).start();
-				
+
 			} else {
-				isAlive=false;
+				isAlive = false;
 				isRecording = false;
 				mButton.setSelected(false);
 				mButton.setVisibility(View.GONE);
 				btn_cancle.setVisibility(View.VISIBLE);
 				btn_save.setVisibility(View.VISIBLE);
+				
 				stoprecordVoice();
 				formatter = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss     ");
 				curDate = new Date(System.currentTimeMillis());
 				date = formatter.format(curDate);
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
-				fileName = filePath.substring(filePath.lastIndexOf("_") + 1, filePath.lastIndexOf("."));
+				fileName = filePath.substring(filePath.lastIndexOf("_") + 1,
+						filePath.lastIndexOf("."));
 				recTotalTime = mRecordTime.getText().toString().trim();
 				isPause = true;
 				timeUsedInsec = 0;
@@ -213,7 +197,10 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 		mediaRecorder = null;
 		mediaRecorder = new MediaRecorder();
 
-		filePath = fileDir + "/record_" + new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".3gp";
+		filePath = fileDir
+				+ "/record_"
+				+ new DateFormat().format("yyyyMMdd_hhmmss",
+						Calendar.getInstance(Locale.CHINA)) + ".3gp";
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		// 设置录音文件的格式,这里是指文件的后缀名格式,这个设置的3GP
@@ -252,7 +239,8 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 	/**
 	 * 将数据保存到数据库
 	 */
-	private void saveData(String date, String fileSize, String name, String path, String recordTime) {
+	private void saveData(String date, String fileSize, String name,
+			String path, String recordTime) {
 		SqlDao sqlDao = new SqlDao(this);
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.RECODE);// 文件类别
@@ -262,6 +250,39 @@ public class LiveRecordImplementationActivity extends Activity implements OnClic
 		dbBean.setTitle(name);// 名称
 		dbBean.setRecordTime(recordTime);
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
+	}
+
+	@Override
+	public void initData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void initView() {
+		
+		fileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+		mButton = (Button) findViewById(R.id.btn_record);
+		btn_cancle = (Button) findViewById(R.id.btn_cancle);
+		btn_save = (Button) findViewById(R.id.btn_save);
+		voiceLineView = (VoiceLineView) findViewById(R.id.voicLine);
+		mButton.setOnClickListener(this);
+		btn_cancle.setOnClickListener(this);
+		btn_save.setOnClickListener(this);
+
+		mRecordTime = (TextView) findViewById(R.id.tv_record_time);
+
+	}
+
+	@Override
+	public int setLayout() {
+		return R.layout.activity_liverecord_implement;
+	}
+
+	@Override
+	public String setTitle() {
+		return "录音取证";
 	}
 
 }

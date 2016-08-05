@@ -21,6 +21,8 @@ import com.truthso.ip360.adapter.CommonAdapter;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.viewholder.ViewHolder;
 
 /**
@@ -33,8 +35,7 @@ import com.truthso.ip360.viewholder.ViewHolder;
  */
 
 public class TransList extends BaseFragment implements OnClickListener {
-	private Button btn_title_right;
-	private Button btn_title_left;
+	private MainActionBar actionBar;
 	private View line;
 	private TextView tv_right_text, tv_left_text;
 	private ViewPager viewPager;
@@ -49,14 +50,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		btn_title_right = (Button) view.findViewById(R.id.btn_title_right);
-		btn_title_right.setVisibility(View.VISIBLE);
-		btn_title_right.setText("选择");
-		btn_title_right.setOnClickListener(this);
-
-		btn_title_left = (Button) view.findViewById(R.id.btn_title_left);
-		btn_title_left.setVisibility(View.INVISIBLE);
-		btn_title_left.setOnClickListener(this);
+		actionBar=(MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
+		actionBar.setTitle("传输列表");
+		actionBar.setRightText("选择");
+		actionBar.setActionBarOnClickListener(this);
 
 		line = view.findViewById(R.id.line);
 		rl_left = (RelativeLayout) view.findViewById(R.id.rl_left);
@@ -147,13 +144,11 @@ public class TransList extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_title_right:// 选择
-			btn_title_left.setVisibility(View.VISIBLE);
-			btn_title_left.setText("全选");
-			btn_title_right.setText("取消");
-
+		case R.id.acition_bar_right:
+			choice();
 			break;
-		case R.id.btn_title_left:// 全选
+		case R.id.acition_bar_left:
+//				actionBar.setRightEnable();
 
 			break;
 		case R.id.tv_left_text:
@@ -165,7 +160,35 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 		}
 	}
-
+	//点击多选按钮
+	private void choice() {
+		actionBar.setLeftText("全选");
+		actionBar.setRightText("取消");
+		actionBar.setActionBarOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.acition_bar_right://取消
+//					adapter.setChoice(false);
+//					lv_cloudevidence.invalidateViews();
+					actionBar.setRightText("选择");
+					actionBar.setLeftGone();
+					actionBar.setActionBarOnClickListener(this);
+					break;
+		        case R.id.acition_bar_left://全选
+//		        	adapter.setAllSelect(true);
+//		        	lv_cloudevidence.invalidateViews();
+					break;
+				default:
+					break;
+				}
+				
+			}
+		});
+//		adapter.setChoice(true);
+//		lv_cloudevidence.invalidateViews();
+	}
 	private class MyPageAdapter extends PagerAdapter {
 
 		private ListView listView;
