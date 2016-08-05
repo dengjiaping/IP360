@@ -3,6 +3,7 @@ package com.truthso.ip360.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,5 +56,8 @@ public abstract class BaseFragment extends Fragment {
 	public abstract int setViewId();
 
 	protected abstract void initData();
-
+	
+	public  boolean onKeyDown(int keyCode, KeyEvent event){
+		return false;
+	};
 }

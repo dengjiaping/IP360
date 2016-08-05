@@ -45,7 +45,7 @@ import android.widget.RadioGroup;
 						// fragment.onResume(); // 启动目标tab的onResum
 						// e()
 					} else {
-						ft.add(fragmentContentId, fragment);
+						ft.add(fragmentContentId, fragment,"fragment");
 						ft.commit();
 					}
 					showTab(i); // 显示目标tab

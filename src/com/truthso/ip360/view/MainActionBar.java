@@ -96,6 +96,12 @@ import com.truthso.ip360.activity.R;
 	public void setRightVisible() {
 		acition_bar_right.setVisibility(View.VISIBLE);
 	}
+	public void setRightEnable() {
+		acition_bar_right.setEnabled(true);
+	}
+	public void setRightDisEnable() {
+		acition_bar_right.setEnabled(false);
+	}
 
 	public void setLeftIcon(int resourceId) {
 		//acition_bar_left.setImageResource(resourceId);

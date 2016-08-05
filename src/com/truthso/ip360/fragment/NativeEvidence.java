@@ -4,21 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
-import com.truthso.ip360.activity.CategoryCloudEvidenceActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.NativeEvidenceAdapter;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
 /**
@@ -35,6 +40,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener, OnI
 	private ListView listView;
 	private int CODE_SEARCH=101;
 	private NativeEvidenceAdapter adapter;
+	private PopupWindow window;
 	private   List<DbBean> mDatas = new ArrayList<DbBean>();
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
@@ -74,7 +80,14 @@ public class NativeEvidence extends BaseFragment implements OnClickListener, OnI
 			choice();
 			break;
 		case R.id.acition_bar_left:
-			startActivityForResult(new Intent(getActivity(), CategoryCloudEvidenceActivity.class), CODE_SEARCH);
+			//startActivityForResult(new Intent(getActivity(), CategoryCloudEvidenceActivity.class), CODE_SEARCH);
+			if(!CheckUtil.isEmpty(window)&&window.isShowing()){
+				actionBar.setRightEnable();
+				window.dismiss();
+			}else{
+				actionBar.setRightDisEnable();
+				showPop();
+			}
 			break;
 		default:
 			break;
@@ -118,5 +131,28 @@ public class NativeEvidence extends BaseFragment implements OnClickListener, OnI
 		}
 	}
 
+	//显示类别popwindow
+		private void showPop() {
+			LayoutInflater inflater=getActivity().getLayoutInflater().from(getActivity());
+			View view = inflater.inflate(R.layout.activity_category_cloudcvidence, null);
+			TextView tv = (TextView) view.findViewById(R.id.tv_all);
+			FrameLayout fl_empty=(FrameLayout) view.findViewById(R.id.fl_empty);
+			 window = new PopupWindow(view,
+				        WindowManager.LayoutParams.MATCH_PARENT,
+				        WindowManager.LayoutParams.MATCH_PARENT);
+			 // 实例化一个ColorDrawable颜色为半透明    
+			 ColorDrawable dw = new ColorDrawable(0xb0000000);    
+			 // 设置弹出窗体的背景      this.setBackgroundDrawable(dw);  
+			 window.setBackgroundDrawable(dw);
+			 window.setTouchable(true);
+			 fl_empty.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					window.dismiss();
+					}
+			});
+			 window.showAsDropDown(getActivity().findViewById(R.id.actionbar_cloudevidence));
+		}
 	
 }

@@ -1,26 +1,30 @@
 package com.truthso.ip360.fragment;
 
-import com.truthso.ip360.activity.CategoryCloudEvidenceActivity;
-import com.truthso.ip360.activity.R;
-import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
-import com.truthso.ip360.adapter.CloudEvidenceAdapter;
-import com.truthso.ip360.view.MainActionBar;
-import com.truthso.ip360.view.xrefreshview.XRefreshView;
-import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
-
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.adapter.CloudEvidenceAdapter;
+import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.MainActionBar;
+import com.truthso.ip360.view.xrefreshview.XRefreshView;
+import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
 
 /**
  * @despriction :云端证据
@@ -33,7 +37,7 @@ import android.widget.ListView;
 
 public class CloudEvidence extends BaseFragment implements OnClickListener, OnItemClickListener, XRefreshViewListener {
 	private MainActionBar actionBar;
-	private ListView listView_cloudevidence;
+	private ListView lv_cloudevidence;
 	private CloudEvidenceAdapter adapter;
 	private XRefreshView xRefresh;
 	private int CODE_SEARCH=101;
@@ -51,12 +55,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 		xRefresh.setAutoRefresh(false);
 		xRefresh.setXRefreshViewListener(this);
 		
-		listView_cloudevidence=(ListView) view.findViewById(R.id.lv_cloudevidence);
+		lv_cloudevidence=(ListView) view.findViewById(R.id.lv_cloudevidence);
 		adapter = new CloudEvidenceAdapter(getActivity());
-		listView_cloudevidence.setAdapter(adapter);
+		lv_cloudevidence.setAdapter(adapter);
 		View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_cloudevidence, null);
-		listView_cloudevidence.addHeaderView(headView);
-		listView_cloudevidence.setOnItemClickListener(this);
+		lv_cloudevidence.addHeaderView(headView);
+		lv_cloudevidence.setOnItemClickListener(this);
 	}
 
 	@Override
@@ -78,12 +82,44 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 			choice();
 			break;
 		case R.id.acition_bar_left:
-			startActivityForResult(new Intent(getActivity(), CategoryCloudEvidenceActivity.class), CODE_SEARCH);
+			/*startActivityForResult(new Intent(getActivity(), CategoryCloudEvidenceActivity.class), CODE_SEARCH);*/
+			if(!CheckUtil.isEmpty(window)&&window.isShowing()){
+				actionBar.setRightEnable();
+				window.dismiss();
+			}else{
+				actionBar.setRightDisEnable();
+				showPop();
+			}
+		
 			break;
 		default:
 			break;
 		}
 		
+	}
+
+	//显示类别popwindow
+	private void showPop() {
+		LayoutInflater inflater=getActivity().getLayoutInflater().from(getActivity());
+		View view = inflater.inflate(R.layout.activity_category_cloudcvidence, null);
+		TextView tv = (TextView) view.findViewById(R.id.tv_all);
+		FrameLayout fl_empty=(FrameLayout) view.findViewById(R.id.fl_empty);
+		 window = new PopupWindow(view,
+			        WindowManager.LayoutParams.MATCH_PARENT,
+			        WindowManager.LayoutParams.MATCH_PARENT);
+		 // 实例化一个ColorDrawable颜色为半透明    
+		 ColorDrawable dw = new ColorDrawable(0xb0000000);    
+		 // 设置弹出窗体的背景      this.setBackgroundDrawable(dw);  
+		 window.setBackgroundDrawable(dw);
+		 window.setTouchable(true);
+		 fl_empty.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				window.dismiss();
+				}
+		});
+		 window.showAsDropDown(getActivity().findViewById(R.id.actionbar_cloudevidence));
 	}
 
 	//点击多选按钮
@@ -97,14 +133,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 				switch (v.getId()) {
 				case R.id.acition_bar_right://取消
 					adapter.setChoice(false);
-					listView_cloudevidence.invalidateViews();
+					lv_cloudevidence.invalidateViews();
 					actionBar.setRightText("多选");
 					actionBar.setLeftText("类别");
 					actionBar.setActionBarOnClickListener(CloudEvidence.this);
 					break;
 		        case R.id.acition_bar_left://全选
 		        	adapter.setAllSelect(true);
-		        	listView_cloudevidence.invalidateViews();
+		        	lv_cloudevidence.invalidateViews();
 					break;
 				default:
 					break;
@@ -113,7 +149,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 			}
 		});
 		adapter.setChoice(true);
-		listView_cloudevidence.invalidateViews();
+		lv_cloudevidence.invalidateViews();
 	}
 
 	@Override
@@ -135,6 +171,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 			xRefresh.stopRefresh();
 		}
 	};
+	private PopupWindow window;
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
@@ -147,4 +184,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener, OnIt
 		
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode==event.KEYCODE_BACK){
+			if(!CheckUtil.isEmpty(window)&&window.isShowing()){
+				actionBar.setRightEnable();
+				window.dismiss();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

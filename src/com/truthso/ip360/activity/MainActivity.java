@@ -3,14 +3,15 @@ package com.truthso.ip360.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.RadioGroup;
 
+import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.fragment.CloudEvidence;
 import com.truthso.ip360.fragment.HomeFragment;
 import com.truthso.ip360.fragment.NativeEvidence;
@@ -60,5 +61,17 @@ OnRgsExtraCheckedChangedListener {
 	public void replaceFragment(Fragment argFragment, String argName) {
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.main_fragment, argFragment, argName).commit();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
+		if(baseFragment.onKeyDown(keyCode, event)){
+			return true;
+		}else{
+			return super.onKeyDown(keyCode, event);
+		}
+		
 	}
 }
