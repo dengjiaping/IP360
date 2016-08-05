@@ -146,18 +146,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-<<<<<<< HEAD
-				case R.id.acition_bar_right://取消
-					adapter.setChoice(false);
-					lv_cloudevidence.invalidateViews();
-					actionBar.setRightText("选择");
-					actionBar.setLeftText("类别");
-					
-					actionBar.setActionBarOnClickListener(CloudEvidence.this);
-=======
 				case R.id.acition_bar_right:// 取消
 					cancelChoose();
->>>>>>> 04dc65e7133511cb445317910c52a02d8206c93d
 					break;
 				case R.id.acition_bar_left:// 全选
 					adapter.setAllSelect(true);
