@@ -26,6 +26,7 @@ public  class NativeEvidenceAdapter extends CommonAdapter<DbBean> implements OnC
 	public NativeEvidenceAdapter(Context context, List<DbBean> mDatas,
 			int itemLayoutId) {
 		super(context, mDatas, itemLayoutId);
+		inflater=LayoutInflater.from(context);
 		View view = inflater.inflate(itemLayoutId, null);
 
 		cb_choice = (CheckBox)view.findViewById(R.id.cb_choice);
