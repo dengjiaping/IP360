@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,56 +37,63 @@ import com.truthso.ip360.view.MainActionBar;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
-public class NativeEvidence extends BaseFragment implements OnClickListener, OnItemClickListener {
+public class NativeEvidence extends BaseFragment implements OnClickListener,
+		OnItemClickListener {
 	private MainActionBar actionBar;
 	private ListView listView;
-	private int CODE_SEARCH=101;
+	private int CODE_SEARCH = 101;
 	private NativeEvidenceAdapter adapter;
-	private PopupWindow window;
-	private   List<DbBean> mDatas = new ArrayList<DbBean>();
+	private PopupWindow window, downLoadwindow;
+	private List<DbBean> mDatas = new ArrayList<DbBean>();
+	private LayoutInflater inflater;
+
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_nativeevidence);
+		actionBar = (MainActionBar) view
+				.findViewById(R.id.actionbar_nativeevidence);
 		actionBar.setLeftText("类别");
 		actionBar.setTitle("本地证据");
 		actionBar.setRightText("多选");
 		actionBar.setActionBarOnClickListener(this);
-		
-		listView=(ListView) view.findViewById(R.id.lv_nativeevidence);
+
+		listView = (ListView) view.findViewById(R.id.lv_nativeevidence);
 		mDatas = GroupDao.getInstance(getActivity()).queryAll();
-		
-		adapter = new NativeEvidenceAdapter(getActivity(), mDatas, R.layout.item_native_evidence);
+
+		adapter = new NativeEvidenceAdapter(getActivity(), mDatas,
+				R.layout.item_native_evidence);
 		listView.setAdapter(adapter);
-		
-		View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_cloudevidence, null);
+
+		View headView = LayoutInflater.from(getActivity()).inflate(
+				R.layout.head_cloudevidence, null);
 		listView.addHeaderView(headView);
 		listView.setOnItemClickListener(this);
-		
+
 	}
 
 	@Override
 	public int setViewId() {
 		return R.layout.fragment_native_evidence;
 	}
-	
+
 	@Override
 	protected void initData() {
-		
+		inflater = getActivity().getLayoutInflater().from(getActivity());
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()){
+		switch (v.getId()) {
 		case R.id.acition_bar_right:
 			choice();
 			break;
 		case R.id.acition_bar_left:
-			//startActivityForResult(new Intent(getActivity(), CategoryCloudEvidenceActivity.class), CODE_SEARCH);
-			if(!CheckUtil.isEmpty(window)&&window.isShowing()){
+			// startActivityForResult(new Intent(getActivity(),
+			// CategoryCloudEvidenceActivity.class), CODE_SEARCH);
+			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
 				actionBar.setRightEnable();
 				window.dismiss();
-			}else{
+			} else {
 				actionBar.setRightDisEnable();
 				showPop();
 			}
@@ -93,66 +102,111 @@ public class NativeEvidence extends BaseFragment implements OnClickListener, OnI
 			break;
 		}
 	}
-	//点击多选按钮
-		private void choice() {
-			actionBar.setLeftText("全选");
-			actionBar.setRightText("取消");
-			actionBar.setActionBarOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					switch (v.getId()) {
-					case R.id.acition_bar_right://取消
-						adapter.setChoice(false);
-						listView.invalidateViews();
-						actionBar.setRightText("多选");
-						actionBar.setLeftText("类别");
-						actionBar.setActionBarOnClickListener(NativeEvidence.this);
-						break;
-			        case R.id.acition_bar_left://全选
-			        	adapter.setAllSelect(true);
-			        	listView.invalidateViews();
-						break;
-					default:
-						break;
-					}
-					
+
+	// 点击多选按钮
+	private void choice() {
+		actionBar.setLeftText("全选");
+		actionBar.setRightText("取消");
+		actionBar.setActionBarOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.acition_bar_right:// 取消
+					cancelChoose();
+					break;
+				case R.id.acition_bar_left:// 全选
+					adapter.setAllSelect(true);
+					listView.invalidateViews();
+					break;
+				default:
+					break;
 				}
-			});
-			adapter.setChoice(true);
-			listView.invalidateViews();
-		}
+
+			}
+		});
+		showDownLoadPop();
+		adapter.setChoice(true);
+		listView.invalidateViews();
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		if(position==0){
-			startActivityForResult(new Intent(getActivity(), SearchCloudEvidenceActivity.class), CODE_SEARCH);
+		if (position == 0) {
+			startActivityForResult(new Intent(getActivity(),
+					SearchCloudEvidenceActivity.class), CODE_SEARCH);
 		}
 	}
 
-	//显示类别popwindow
-		private void showPop() {
-			LayoutInflater inflater=getActivity().getLayoutInflater().from(getActivity());
-			View view = inflater.inflate(R.layout.activity_category_cloudcvidence, null);
-			TextView tv = (TextView) view.findViewById(R.id.tv_all);
-			FrameLayout fl_empty=(FrameLayout) view.findViewById(R.id.fl_empty);
-			 window = new PopupWindow(view,
-				        WindowManager.LayoutParams.MATCH_PARENT,
-				        WindowManager.LayoutParams.MATCH_PARENT);
-			 // 实例化一个ColorDrawable颜色为半透明    
-			 ColorDrawable dw = new ColorDrawable(0xb0000000);    
-			 // 设置弹出窗体的背景      this.setBackgroundDrawable(dw);  
-			 window.setBackgroundDrawable(dw);
-			 window.setTouchable(true);
-			 fl_empty.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					window.dismiss();
-					}
-			});
-			 window.showAsDropDown(getActivity().findViewById(R.id.actionbar_cloudevidence));
+	// 取消多选状态
+	private void cancelChoose() {
+		if (downLoadwindow.isShowing()) {
+			downLoadwindow.dismiss();
 		}
-	
+		adapter.setChoice(false);
+		listView.invalidateViews();
+		actionBar.setRightText("多选");
+		actionBar.setLeftText("类别");
+		actionBar.setActionBarOnClickListener(NativeEvidence.this);
+	}
+
+	// 显示类别popwindow
+	private void showPop() {
+		if (CheckUtil.isEmpty(window)) {
+			View view = inflater.inflate(
+					R.layout.activity_category_cloudcvidence, null);
+			FrameLayout fl_empty = (FrameLayout) view
+					.findViewById(R.id.fl_empty);
+			TextView tv = (TextView) view.findViewById(R.id.tv_all);
+			window = new PopupWindow(view,
+					WindowManager.LayoutParams.MATCH_PARENT,
+					WindowManager.LayoutParams.MATCH_PARENT);
+			// 实例化一个ColorDrawable颜色为半透明
+			ColorDrawable dw = new ColorDrawable(0xb0000000);
+			// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
+			window.setBackgroundDrawable(dw);
+			window.setTouchable(true);
+			fl_empty.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					if (window.isShowing()) {
+						window.dismiss();
+					}
+				}
+			});
+		}
+
+		window.showAsDropDown(getActivity().findViewById(
+				R.id.actionbar_cloudevidence));
+	}
+
+	// 显示底部下载按钮
+	private void showDownLoadPop() {
+		View contentView = inflater.inflate(R.layout.pop_download, null);
+		downLoadwindow = new PopupWindow(contentView,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		// 进入退出的动画
+		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == event.KEYCODE_BACK) {
+			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
+				actionBar.setRightEnable();
+				window.dismiss();
+				return true;
+			}
+			if (!CheckUtil.isEmpty(downLoadwindow)
+					&& downLoadwindow.isShowing()) {
+				cancelChoose();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }
