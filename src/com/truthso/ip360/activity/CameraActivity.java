@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,6 +42,7 @@ import com.truthso.ip360.viewholder.ViewHolder;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
+@SuppressLint("SimpleDateFormat")
 public class CameraActivity extends CommonMediaActivity implements OnClickListener {
 	private static final int CAMERA = 0;
 	private List<DbBean> mDatas;
@@ -107,7 +109,7 @@ public class CameraActivity extends CommonMediaActivity implements OnClickListen
 			if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
 				return;
 			}
-			String name = new DateFormat().format("yyyyMMdd_hhmmss",Calendar.getInstance(Locale.CHINA))
+			String name = new DateFormat().format("yyyyMMdd_HHmmss",Calendar.getInstance(Locale.CHINA))
 					+ ".jpg";
 
 			Bundle bundle = data.getExtras();

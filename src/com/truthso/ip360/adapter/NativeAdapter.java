@@ -15,15 +15,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChangeListener {
+public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListener {
 
 	private Context context;
 	private LayoutInflater inflater;
 	private Boolean isAllSelect=false;
 	private boolean isChoice=false;
 	protected List<DbBean> mDatas;
-	public CloudEvidenceAdapter(Context context,List<DbBean> mDatas) {
+	public NativeAdapter(Context context,List<DbBean> mDatas) {
 		super();
 		this.context = context;
 		this.mDatas=mDatas;
@@ -47,7 +48,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 
 	@Override
 	public int getCount() {
-		return 10;
+		return mDatas.size();
 	}
 
 	@Override
@@ -64,10 +65,13 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	public View getView(int position, View convertView , ViewGroup parent) {
 		ViewHolder vh=null;
 		if(convertView==null){		
-			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
+			convertView = inflater.inflate(R.layout.item_native_evidence, null);
 			vh=new ViewHolder();
 			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
+			vh.tv_filename=(TextView) convertView.findViewById(R.id.tv_filename);
+			vh.tv_filesize=(TextView) convertView.findViewById(R.id.tv_filesize);
+			vh.tv_date=(TextView) convertView.findViewById(R.id.tv_date);
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();
@@ -75,13 +79,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 		}
 	
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
-		
-		
+		vh.tv_filename.setText(mDatas.get(position).getTitle());
+		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
+		vh.tv_date.setText(mDatas.get(position).getCreateTime());
 		return convertView;
 	}
 
 	class ViewHolder{
-		private CheckBox cb_choice,cb_option;		
+		private CheckBox cb_choice,cb_option;	
+		private TextView tv_filename,tv_date,tv_filesize;
 	}
 	
 	
@@ -122,10 +128,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			});
 		}
 	}
-
-	
-	
-	
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

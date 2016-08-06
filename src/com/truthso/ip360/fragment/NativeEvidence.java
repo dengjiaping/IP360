@@ -3,9 +3,17 @@ package com.truthso.ip360.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.UriMatcher;
+import android.database.ContentObserver;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,7 +30,9 @@ import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.adapter.NativeEvidenceAdapter;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.utils.CheckUtil;
@@ -42,11 +52,12 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private MainActionBar actionBar;
 	private ListView listView;
 	private int CODE_SEARCH = 101;
-	private NativeEvidenceAdapter adapter;
+	private NativeAdapter adapter;
 	private PopupWindow window, downLoadwindow;
-	private List<DbBean> mDatas = new ArrayList<DbBean>();
+	private List<DbBean> mDatas;
 	private LayoutInflater inflater;
-
+	private Activity mActivity;
+   
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -60,17 +71,37 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		listView = (ListView) view.findViewById(R.id.lv_nativeevidence);
 		mDatas = GroupDao.getInstance(getActivity()).queryAll();
 
-		adapter = new NativeEvidenceAdapter(getActivity(), mDatas,
-				R.layout.item_native_evidence);
+		adapter = new NativeAdapter(getActivity(), mDatas);
 		listView.setAdapter(adapter);
 
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
 		listView.addHeaderView(headView);
-		listView.setOnItemClickListener(this);
+		listView.setOnItemClickListener(this);		
+        getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
 
 	}
 
+	private ContentObserver MyObserver=new ContentObserver(new Handler()) {
+		@SuppressLint("NewApi")
+		@Override
+		public void onChange(boolean selfChange, Uri uri) {
+			// TODO Auto-generated method stub
+			super.onChange(selfChange, uri);
+			mDatas = GroupDao.getInstance(getActivity()).queryAll();
+			adapter.addData(mDatas);
+		}
+		
+	};
+	
+	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
+	}
+	
 	@Override
 	public int setViewId() {
 		return R.layout.fragment_native_evidence;
@@ -78,7 +109,8 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	protected void initData() {
-		inflater = getActivity().getLayoutInflater().from(getActivity());
+		mActivity=getActivity();
+		inflater = LayoutInflater.from(mActivity);
 	}
 
 	@Override
@@ -178,7 +210,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			});
 		}
 
-		window.showAsDropDown(getActivity().findViewById(
+		window.showAsDropDown(mActivity.findViewById(
 				R.id.actionbar_cloudevidence));
 	}
 

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
+import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
@@ -64,7 +65,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh.setXRefreshViewListener(this);
 
 		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
-		adapter = new CloudEvidenceAdapter(getActivity());
+		adapter = new CloudEvidenceAdapter(getActivity(),null);
 		lv_cloudevidence.setAdapter(adapter);
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
@@ -80,7 +81,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	protected void initData() {
-		inflater = getActivity().getLayoutInflater().from(getActivity());
+		inflater = LayoutInflater.from(getActivity());
 
 	}
 
