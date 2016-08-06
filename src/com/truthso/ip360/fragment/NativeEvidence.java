@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -55,6 +56,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private NativeAdapter adapter;
 	private PopupWindow window, downLoadwindow;
 	private List<DbBean> mDatas;
+
 	private LayoutInflater inflater;
 	private Activity mActivity;
    
@@ -217,6 +219,8 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	// 显示底部下载按钮
 	private void showDownLoadPop() {
 		View contentView = inflater.inflate(R.layout.pop_download, null);
+		Button btn_delete= (Button) contentView.findViewById(R.id.btn_download);
+		btn_delete.setText("删除");
 		downLoadwindow = new PopupWindow(contentView,
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
