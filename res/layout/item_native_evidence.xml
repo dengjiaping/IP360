@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -77,8 +78,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/bg_option"
-            android:button="@null" />
+            android:background="@drawable/bg_option" 
+            android:button="@null"
+            />
 
         <TextView
             android:id="@+id/tv_filesize"

@@ -1,19 +1,15 @@
 package com.truthso.ip360.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.UriMatcher;
 import android.database.ContentObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -29,11 +25,10 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.NativeAdapter;
-import com.truthso.ip360.adapter.NativeEvidenceAdapter;
-import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
@@ -166,22 +161,21 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		id = mDatas.get(position).getId();
 		if (position == 0) {
 			startActivityForResult(new Intent(getActivity(),
 					SearchCloudEvidenceActivity.class), CODE_SEARCH);
 		}else {
-			if (mDatas.get(position).getType()==MyConstants.PHOTO) {//条目类型照片
+	       DbBean dbBean = mDatas.get(position-1);
+			if (dbBean.getType()==MyConstants.PHOTO) {//条目类型照片
 				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
-				intent.putExtra("id", id);
+				intent.putExtra("url", dbBean.getResourceUrl());
 				startActivity(intent);
 			}else if (mDatas.get(position).getType()==MyConstants.VIDEO) {//条目类型录像
 				
 			}else if (mDatas.get(position).getType()==MyConstants.RECODE) {//条目类型录音
 				
 			}
-		}
-		
+		}	
 		
 	}
 

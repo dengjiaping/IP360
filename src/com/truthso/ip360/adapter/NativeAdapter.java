@@ -4,8 +4,12 @@ import java.util.List;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.dao.SqlDao;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,10 +18,11 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListener {
+public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListener ,OnClickListener{
 
 	private Context context;
 	private LayoutInflater inflater;
@@ -107,34 +112,48 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		}else{
 			cb_choice.setVisibility(View.GONE);
 			cb_option.setVisibility(View.VISIBLE);
+			cb_option.setChecked(false);
+			
 			final LinearLayout ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
-			cb_option.setOnClickListener(new OnClickListener() {
-				
+			ll_option.setVisibility(View.GONE);
+			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
+			cb_option.setOnClickListener(new OnClickListener() {			
 				@Override
-				public void onClick(View v) {
-					switch (v.getId()) {
-					case R.id.cb_option:
+				public void onClick(View v) {		
 						if(ll_option.getVisibility()==View.VISIBLE){
 							ll_option.setVisibility(View.GONE);
 						}else{
 							ll_option.setVisibility(View.VISIBLE);
 						}
-						break;
-
-					default:
-						break;
-					}
 				}
 			});
+			tv_delete.setTag(position);
+			tv_delete.setOnClickListener(this);
 		}
 	}
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if(isChecked){
-			int positon = (Integer) buttonView.getTag();
-			System.out.println("positon"+positon);
+		int positon = (Integer) buttonView.getTag();
+		if(isChecked){	
+			System.out.println("positon+"+positon);
+		}else{
+			System.out.println("positon-"+positon);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_delete:
+		DbBean dbBean = mDatas.get((Integer) v.getTag());
+	     new SqlDao(context).delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
+			break;
+			
+		default:
+			break;
+		}
+		
 	}
 
 }

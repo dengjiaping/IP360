@@ -1,4 +1,4 @@
-package com.truthso.ip360.fragment;
+package com.truthso.ip360.activity;
 
 import android.widget.ImageView;
 
@@ -18,21 +18,17 @@ import com.truthso.ip360.dao.SqlDao;
 
 public class PhotoDetailActivity extends BaseActivity {
 	private ImageView iv_photo;
-	private int id;
-	private DbBean dbBean;
+	private String url;
 	@Override
 	public void initData() {
-
+		url=getIntent().getStringExtra("url");
 	}
 
 	@Override
 	public void initView() {
-		iv_photo = (ImageView) findViewById(R.id.iv_photo);
-		id = getIntent().getIntExtra("id", 1);
-		SqlDao sqlDao = new SqlDao(this);
-		dbBean = sqlDao.queryById(id);
+		 iv_photo = (ImageView) findViewById(R.id.iv_photo);
 		 BitmapUtils bitmap = new BitmapUtils(this);
-         bitmap.display(iv_photo, dbBean.getResourceUrl());
+         bitmap.display(iv_photo, url);
 	}
 
 	@Override

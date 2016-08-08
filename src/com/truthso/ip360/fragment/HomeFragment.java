@@ -116,13 +116,13 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
 			if (photo.exists()) {
-				String name = new DateFormat().format("yyyyMMdd_hhmmss",
+				String name = new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".jpg";
 				File newFile = new File(photoDir, name);
 				photo.renameTo(newFile);
 				String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
 						.getAbsolutePath());
-				String date = new DateFormat().format("yyyy年MM月dd日 hh:mm:ss",
+				String date = new DateFormat().format("yyyy年MM月dd日 HH:mm:ss",
 						Calendar.getInstance(Locale.CHINA)).toString();
 				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());

@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:background="@drawable/bg_option"
-            android:button="@null" />
+            android:button="@null"/>
 
         <TextView
             android:id="@+id/tv_size"
@@ -96,7 +96,7 @@
             android:text="下载" />
 
         <TextView
-            android:id="@+id/tv_download"
+            android:id="@+id/tv_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -105,7 +105,7 @@
             android:text="备注" />
 
         <TextView
-            android:id="@+id/tv_download"
+            android:id="@+id/tv_certificate_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"

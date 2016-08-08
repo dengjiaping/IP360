@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChangeListener {
@@ -81,7 +82,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	}
 
 	class ViewHolder{
-		private CheckBox cb_choice,cb_option;		
+		private CheckBox cb_choice,cb_option;	
 	}
 	
 	
@@ -123,9 +124,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 		}
 	}
 
-	
-	
-	
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

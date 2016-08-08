@@ -62,6 +62,7 @@ public class SqlDao {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.delete(table, "id=?", new String[] { id + "" });
 		db.close();
+		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
 	}
 
 	/**

@@ -63,10 +63,13 @@ public class GroupDao {
 		 cursor.close();
 		return list;
 	}
+	
+	
+	
 	public List<DbBean> queryAll() {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "createTime asc");
+		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "createTime desc");
 		while (cursor.moveToNext()) {
 			DbBean bean = new DbBean();
 			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
@@ -83,5 +86,6 @@ public class GroupDao {
 		 cursor.close();
 		return list;
 	}
+	
 	
 	}
