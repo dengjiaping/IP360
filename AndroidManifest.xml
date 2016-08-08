@@ -197,6 +197,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
+           <!-- 照片详情-->
+        <activity
+            android:name="com.truthso.ip360.activity.PhotoDetailActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
 		<!--定位  -->
         <service
             android:name="com.baidu.location.f"

@@ -35,6 +35,7 @@ import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.adapter.NativeEvidenceAdapter;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
@@ -59,7 +60,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	private LayoutInflater inflater;
 	private Activity mActivity;
-   
+	private int id;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +89,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		@SuppressLint("NewApi")
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
-			// TODO Auto-generated method stub
 			super.onChange(selfChange, uri);
 			mDatas = GroupDao.getInstance(getActivity()).queryAll();
 			adapter.addData(mDatas);
@@ -99,7 +99,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
 	}
@@ -167,10 +166,23 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		id = mDatas.get(position).getId();
 		if (position == 0) {
 			startActivityForResult(new Intent(getActivity(),
 					SearchCloudEvidenceActivity.class), CODE_SEARCH);
+		}else {
+			if (mDatas.get(position).getType()==MyConstants.PHOTO) {//条目类型照片
+				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
+				intent.putExtra("id", id);
+				startActivity(intent);
+			}else if (mDatas.get(position).getType()==MyConstants.VIDEO) {//条目类型录像
+				
+			}else if (mDatas.get(position).getType()==MyConstants.RECODE) {//条目类型录音
+				
+			}
 		}
+		
+		
 	}
 
 	// 取消多选状态
