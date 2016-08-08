@@ -1,8 +1,5 @@
 package com.truthso.ip360.viewholder;
 
-import com.truthso.ip360.utils.ImageLoader;
-import com.truthso.ip360.utils.ImageLoader.Type;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.SparseArray;
@@ -11,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.truthso.ip360.utils.ImageLoader;
+import com.truthso.ip360.utils.ImageLoader.Type;
+
 
 public class ViewHolder {
 	private final SparseArray<View> mViews;
