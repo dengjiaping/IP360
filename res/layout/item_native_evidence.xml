@@ -104,27 +104,20 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:visibility="gone" >
+        android:visibility="gone"
+>
 
         <TextView
-            android:id="@+id/tv_download"
+            android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/remark"
             android:gravity="center"
-            android:text="下载" />
+            android:text="删除" />
+
 
         <TextView
-            android:id="@+id/tv_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/remark"
-            android:gravity="center"
-            android:text="备注" />
-
-        <TextView
-            android:id="@+id/tv_download"
+            android:id="@+id/tv_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"

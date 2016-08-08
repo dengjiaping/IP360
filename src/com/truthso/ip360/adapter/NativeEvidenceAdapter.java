@@ -3,6 +3,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,20 +23,24 @@ public  class NativeEvidenceAdapter extends CommonAdapter<DbBean> implements OnC
 	private boolean isChoice=false;
 	private CheckBox cb_choice;
 	private CheckBox cb_option;
-	private LinearLayout ll_option;
+	private View view;
 	public NativeEvidenceAdapter(Context context, List<DbBean> mDatas,
 			int itemLayoutId) {
 		super(context, mDatas, itemLayoutId);
 		inflater=LayoutInflater.from(context);
-		View view = inflater.inflate(itemLayoutId, null);
+		view = inflater.inflate(itemLayoutId, null);
 
 		cb_choice = (CheckBox)view.findViewById(R.id.cb_choice);
 		cb_option = (CheckBox) view.findViewById(R.id.cb_option);
-		ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
+		
 		
 	}
 	
-	
+	public void addData(List<DbBean> mDatas){
+		this.mDatas.clear();
+		this.mDatas.addAll(mDatas);
+		notifyDataSetChanged();
+	}
 
 	public void setChoice(Boolean isChoice){
 		this.isAllSelect=false;
@@ -65,13 +70,14 @@ public  class NativeEvidenceAdapter extends CommonAdapter<DbBean> implements OnC
 		}else{
 			cb_choice.setVisibility(View.GONE);
 			cb_option.setVisibility(View.VISIBLE);
-			
+		final LinearLayout	ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
 			cb_option.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					switch (v.getId()) {
 					case R.id.cb_option:
+						Log.i("djj", "123");
 						if(ll_option.getVisibility()==View.VISIBLE){
 							ll_option.setVisibility(View.GONE);
 						}else{

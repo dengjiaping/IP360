@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 public class SqlDao {
 
@@ -45,6 +46,7 @@ public class SqlDao {
 		values.put("remark", dbBean.getRemark());
 		db.insert(table, null, values);
 		db.close();
+		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
 	}
 
 	/**

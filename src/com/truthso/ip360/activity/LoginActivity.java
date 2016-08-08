@@ -52,6 +52,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		case R.id.btn_loginin:// 登录
 			Intent intent2 = new Intent(this,MainActivity.class);
 			startActivity(intent2);
+			finish();
 			break;
 
 		}
