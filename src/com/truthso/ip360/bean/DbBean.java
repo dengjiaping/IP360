@@ -21,6 +21,15 @@ public class DbBean {
 	private String resourceUrl;// 资源路径
 	private String recordTime;// 录音专用录音时长
     private String remark;//备注
+    private String location;
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public int getId() {
 		return id;
 	}
