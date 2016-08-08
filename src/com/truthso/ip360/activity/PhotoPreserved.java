@@ -43,12 +43,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		title =getIntent().getStringExtra("title");
 		size =getIntent().getStringExtra("size");
 		date =getIntent().getStringExtra("date");
-		try{
-			System.loadLibrary("liblocSDK6a");		
-		}catch(UnsatisfiedLinkError e){
-			e.printStackTrace();
-		}
-		
 	}
 	
 	@Override
@@ -84,15 +78,15 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	//保存照片信息到数据库
 	private void saveToDb() {
-		
+		final DbBean dbBean =new DbBean();
     BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
 			
 			@Override
 			public void location(String s) {
-				LogUtils.e("2222222222222"+s);
+				dbBean.setLocation(s);
 			}
 		});
-		DbBean dbBean =new DbBean();
+		
 		dbBean.setTitle(title);
 		dbBean.setCreateTime(date);
 		dbBean.setResourceUrl(path);

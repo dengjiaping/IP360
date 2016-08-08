@@ -44,6 +44,7 @@ public class SqlDao {
 		values.put("lable", dbBean.getLable());
 		values.put("resourceUrl", dbBean.getResourceUrl());
 		values.put("remark", dbBean.getRemark());
+		values.put("location", dbBean.getLocation());
 		db.insert(table, null, values);
 		db.close();
 		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);

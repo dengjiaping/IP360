@@ -207,6 +207,10 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6hjNTqBPR05KcO8OKefEG30ZuC2ageCH" />    
             
+        <!--活体检查-->
+         <activity android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
+                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+        
     </application>
 
 </manifest>
