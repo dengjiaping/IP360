@@ -30,10 +30,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.adapter.NativeAdapter;
-import com.truthso.ip360.adapter.NativeEvidenceAdapter;
-import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
@@ -60,7 +60,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	private LayoutInflater inflater;
 	private Activity mActivity;
-	private int id;
+
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -166,19 +166,23 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		id = mDatas.get(position).getId();
+		DbBean dbBean = mDatas.get(position-1);
 		if (position == 0) {
 			startActivityForResult(new Intent(getActivity(),
 					SearchCloudEvidenceActivity.class), CODE_SEARCH);
 		}else {
 			if (mDatas.get(position).getType()==MyConstants.PHOTO) {//条目类型照片
 				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
-				intent.putExtra("id", id);
+				intent.putExtra("url", dbBean.getResourceUrl());
 				startActivity(intent);
 			}else if (mDatas.get(position).getType()==MyConstants.VIDEO) {//条目类型录像
-				
+				Intent videoIntent = new Intent(getActivity(),VideoDetailActivity.class);
+				videoIntent.putExtra("url",dbBean.getResourceUrl() );
+				startActivity(videoIntent);
 			}else if (mDatas.get(position).getType()==MyConstants.RECODE) {//条目类型录音
-				
+				Intent recordIntent = new Intent(getActivity(),RecordDetailActivity.class);
+				recordIntent.putExtra("url", dbBean.getResourceUrl());
+				startActivity(recordIntent);
 			}
 		}
 		

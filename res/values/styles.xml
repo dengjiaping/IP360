@@ -24,4 +24,14 @@
         <!-- 指定消失的动画xml -->
         <item name="android:windowExitAnimation">@anim/pophide_anim</item>
     </style>
+<!--     videoplayer seekbar
+    <style name="MVideoPlayer.SeekBar" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">3dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/seekbar_horizontal_style</item>
+        <item name="android:minHeight">3dp</item>
+        <item name="android:thumb">@drawable/video_seek_thumb</item>
+        <item name="android:thumbOffset">10dp</item>
+    </style> -->
 </resources>
