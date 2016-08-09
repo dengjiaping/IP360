@@ -1,5 +1,6 @@
 package com.truthso.ip360.activity;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,7 +62,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				// 你可以传自定义的数字进去，但需要在一定的范围内，比如0-200，就需要在xml文件中配置maxVolume
 				// 同时，也可以配置灵敏度sensibility
 				if (ratio > 1)
-					db = 20 * Math.log10(ratio);
+					db = 40 * Math.log10(ratio);
 				// 只要有一个线程，不断调用这个方法，就可以使波形变化
 				// 主要，这个方法必须在ui线程中调用
 				voiceLineView.setVolume((int) (db));
@@ -166,8 +167,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				curDate = new Date(System.currentTimeMillis());
 				date = formatter.format(curDate);
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
-				fileName = filePath.substring(filePath.lastIndexOf("_") + 1,
-						filePath.lastIndexOf("."));
+				fileName = filePath.substring(filePath.indexOf("_") + 1);
 				recTotalTime = mRecordTime.getText().toString().trim();
 				isPause = true;
 				timeUsedInsec = 0;
@@ -181,11 +181,12 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			mRecordTime.setText("00:00:00");
 			break;
 		case R.id.btn_save:
-			btn_cancle.setVisibility(View.GONE);
+			/*btn_cancle.setVisibility(View.GONE);
 			btn_save.setVisibility(View.GONE);
 			mButton.setVisibility(View.VISIBLE);
-			mRecordTime.setText("00:00:00");
+			mRecordTime.setText("00:00:00");*/
 			saveData(date, fileSize, fileName, filePath, recTotalTime);
+			finish();
 			break;
 		default:
 			break;
@@ -198,8 +199,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		mediaRecorder = new MediaRecorder();
 
 		filePath = fileDir
-				+ "/record_"
-				+ new DateFormat().format("yyyyMMdd_hhmmss",
+				+ new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".3gp";
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -208,6 +208,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		// 设置录音的解码格式,这个必须在setOutputFile方法前设置,否则无效
 		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mediaRecorder.setOutputFile(filePath);// 设置录音文件的输出路径
+		mediaRecorder.setOutputFile(filePath);
 		try {
 			mediaRecorder.prepare();
 		} catch (IllegalStateException e) {
@@ -243,7 +244,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			String path, String recordTime) {
 		SqlDao sqlDao = new SqlDao(this);
 		DbBean dbBean = new DbBean();
-		dbBean.setType(MyConstants.RECODE);// 文件类别
+		dbBean.setType(MyConstants.RECORD);// 文件类别
 		dbBean.setCreateTime(date);// 生成时间
 		dbBean.setFileSize(fileSize);// 文件大小
 		dbBean.setResourceUrl(path);
@@ -255,13 +256,17 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-
+		fileDir =MyConstants.RECORD_PATH;
+		File f=new File(fileDir);
+		if(!f.exists()){
+			f.mkdirs();
+		}
 	}
 
 	@Override
 	public void initView() {
 		
-		fileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+	
 
 		mButton = (Button) findViewById(R.id.btn_record);
 		btn_cancle = (Button) findViewById(R.id.btn_cancle);

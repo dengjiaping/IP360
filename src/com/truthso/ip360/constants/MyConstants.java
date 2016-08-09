@@ -16,7 +16,7 @@ public class MyConstants {
 
 	public static final int PHOTO = 0;
 	public static final int VIDEO = 1;
-	public static final int RECODE = 2;
+	public static final int RECORD = 2;
 	/**
 	 * 判断是否是第一次进入应用的文件标识
 	 */
@@ -31,6 +31,11 @@ public class MyConstants {
 	 */
 	public final static  String PHOTO_PATH=Environment.getExternalStorageDirectory()+"/ip360/photo";
 	
+
+	/**
+	 *录音保存路径
+	 */
+	public final static  String RECORD_PATH=Environment.getExternalStorageDirectory()+"/ip360/record";
 	/**
 	 * 数据库表名_media
 	 */

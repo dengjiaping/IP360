@@ -74,7 +74,7 @@
             android:layout_height="match_parent"
             voiceView:fineness="three"
             voiceView:lineSpeed="90"
-            voiceView:maxVolume="200"
+            voiceView:maxVolume="300"
             voiceView:middleLine="@android:color/black"
             voiceView:middleLineHeight="1dp"
             voiceView:rectSpace="2dp"

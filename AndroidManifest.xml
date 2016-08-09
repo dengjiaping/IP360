@@ -206,14 +206,12 @@
         <activity
             android:name="com.truthso.ip360.activity.VideoDetailActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
                 <!-- 录音详情-->
         <activity
             android:name="com.truthso.ip360.activity.RecordDetailActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:screenOrientation="portrait" >
         </activity>
 		<!--定位  -->

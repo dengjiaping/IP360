@@ -32,7 +32,7 @@ public class LiveRecordActivity extends CommonMediaActivity {
  	private CommonAdapter< DbBean> adapter;
  
 	public void initData() {
-		mDatas = GroupDao.getInstance(this).queryByFileType(MyConstants.RECODE);
+		mDatas = GroupDao.getInstance(this).queryByFileType(MyConstants.RECORD);
 		adapter = new CommonAdapter<DbBean>(this,mDatas,R.layout .item_record_list) {
 
 			@Override
