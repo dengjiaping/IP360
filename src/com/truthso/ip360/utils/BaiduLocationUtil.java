@@ -85,7 +85,6 @@ public class BaiduLocationUtil {
 			}
 			s = location.getAddrStr() + location.getLocationDescribe();
 			mlocationListener.location(s);
-			LogUtils.e("qqqqqqqqqqqqqqqqqqqq"+s);
 			// DebugLog.e("location1",s);
 			// System.out.println(location.getAddrStr()+"");
 
