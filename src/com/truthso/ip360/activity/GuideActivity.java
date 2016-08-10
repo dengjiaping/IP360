@@ -77,7 +77,7 @@ public class GuideActivity extends Activity implements OnClickListener,
 		SharePreferenceUtil.saveOrUpdateAttribute(mContext,
 				MyConstants.SP_ISFIRST_IN_TAG, MyConstants.APP_ISFIRST_IN,
 				false);
-		startActivity(new Intent(mContext, MainActivity.class));
+		startActivity(new Intent(mContext, LoginActivity.class));
 		finish();
 		}
 

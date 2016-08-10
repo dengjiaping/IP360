@@ -79,7 +79,7 @@
         android:layout_height="@dimen/image_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_top_20"
-        android:background="@drawable/ww" />
+        android:background="@drawable/clickme" />
 
     <Button
         android:id="@+id/btn_sure"

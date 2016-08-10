@@ -1,5 +1,6 @@
 package com.truthso.ip360.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,10 +20,9 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.adapter.CommonAdapter;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
-import com.truthso.ip360.dao.GroupDao;
-import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.pager.BasePager;
+import com.truthso.ip360.pager.DownLoadListPager;
 import com.truthso.ip360.view.MainActionBar;
-import com.truthso.ip360.viewholder.ViewHolder;
 
 /**
  * @despriction :传输列表的fragment
@@ -43,14 +42,16 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private int screanWidth;
 	private TranslateAnimation moveLeft, moveRight;
 	private RelativeLayout rl_left, rl_right;
-	private CommonAdapter<DbBean> adapter;
-	private ListView listView;
+//	private CommonAdapter<DbBean> adapter;
+//	private ListView listView;
 	private List<DbBean> mDatas;
-	
+	private List<BasePager> pagerList;
+
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		actionBar=(MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
+		actionBar = (MainActionBar) view
+				.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setTitle("传输列表");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
@@ -70,13 +71,21 @@ public class TransList extends BaseFragment implements OnClickListener {
 		tv_right_text.setTextColor(getResources().getColor(R.color.black));
 
 		viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+
+		pagerList = new ArrayList<BasePager>();
+		pagerList.add(new DownLoadListPager(getActivity()));
+		pagerList.add(new DownLoadListPager(getActivity()));
 		mPageAdapter = new MyPageAdapter();
 		viewPager.setAdapter(mPageAdapter);
+		// 初始化viewPager 中第一页的数据
+		pagerList.get(0).initData(0);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {
-				// TODO Auto-generated method stub
+				viewPager.setCurrentItem(position);
+				// 初始化本页数据
+				pagerList.get(position).initData(position);
 				if (position == 0) {
 					line.startAnimation(moveLeft);
 					rl_left.setBackgroundColor(getResources().getColor(
@@ -131,14 +140,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initData() {
-//		mDatas = GroupDao.getInstance(getActivity()).queryAll();
-//		adapter = new CommonAdapter<DbBean>(getActivity(),mDatas,R.layout.item_native_evidence) {
-//
-//			@Override
-//			public void convert(ViewHolder helper, DbBean item, int position) {
-//				
-//			}
-//		};
+
 	}
 
 	@Override
@@ -148,7 +150,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 			choice();
 			break;
 		case R.id.acition_bar_left:
-//				actionBar.setRightEnable();
+			// actionBar.setRightEnable();
 
 			break;
 		case R.id.tv_left_text:
@@ -160,38 +162,40 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 		}
 	}
-	//点击多选按钮
+
+	// 点击多选按钮
 	private void choice() {
 		actionBar.setLeftText("全选");
 		actionBar.setRightText("取消");
 		actionBar.setActionBarOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-				case R.id.acition_bar_right://取消
-//					adapter.setChoice(false);
-//					lv_cloudevidence.invalidateViews();
+				case R.id.acition_bar_right:// 取消
+					// adapter.setChoice(false);
+					// lv_cloudevidence.invalidateViews();
 					actionBar.setRightText("选择");
 					actionBar.setLeftGone();
 					actionBar.setActionBarOnClickListener(this);
 					break;
-		        case R.id.acition_bar_left://全选
-//		        	adapter.setAllSelect(true);
-//		        	lv_cloudevidence.invalidateViews();
+				case R.id.acition_bar_left:// 全选
+					// adapter.setAllSelect(true);
+					// lv_cloudevidence.invalidateViews();
 					break;
 				default:
 					break;
 				}
-				
+
 			}
 		});
-//		adapter.setChoice(true);
-//		lv_cloudevidence.invalidateViews();
+		// adapter.setChoice(true);
+		// lv_cloudevidence.invalidateViews();
 	}
+
 	private class MyPageAdapter extends PagerAdapter {
 
-		private ListView listView;
+		
 
 		@Override
 		public int getCount() {
@@ -210,13 +214,12 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
-			return null;
 
-//			listView = new ListView(getActivity());
-//			if (position == 0) {
-//				listView.setAdapter(adapter);
-//			}
-//			return listView;
+			// 获得 viewPager 中的一个页面
+			View view = pagerList.get(position).getView();
+			container.addView(view);
+
+			return view;
 		}
 
 	}

@@ -39,14 +39,14 @@ public class SplashActivty extends Activity {
 					MyConstants.SP_ISFIRST_IN_TAG, MyConstants.APP_ISFIRST_IN,
 					SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			if (isFirstOpen) {
-				// 第一次启动先进入引导页
-				Intent intent = new Intent(ctx, GuideActivity.class);
-				startActivity(intent);
-			} else {
-				
 				// 进登录界面
 				Intent intent = new Intent(ctx, LoginActivity.class);
 				startActivity(intent);
+			} else {
+				// 第一次启动先进入引导页
+				Intent intent = new Intent(ctx, GuideActivity.class);
+				startActivity(intent);
+				
 				
 			}
 			finish();
