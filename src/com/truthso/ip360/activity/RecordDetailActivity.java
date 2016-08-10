@@ -1,15 +1,24 @@
 package com.truthso.ip360.activity;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.SimpleFormatter;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -28,35 +37,59 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 
 	private MediaPlayer mp=new MediaPlayer();
 	private String url,recordTime;
-	private Button btn_start;
+	private CheckBox btn_start;
 	private TextView tv_current,tv_total;
 	private SeekBar sb_recorddetail;
 	private Timer mTimer;
-	private boolean isFirst=true,isChanging;
+	private boolean isChanging,isFirst=true;
+	private int duration;
+	private SimpleDateFormat formatter;
+	private boolean isPlaying;
 	@Override
 	public void initData() {
 
 		url=getIntent().getStringExtra("url");
-		recordTime=getIntent().getStringExtra("recordTime");
+          if(url!=null){
+      		try {
+      			mp.setDataSource(url);
+      			mp.prepare();
+      		} catch (IllegalArgumentException e) {
+      			// TODO Auto-generated catch block
+      			e.printStackTrace();
+      		} catch (SecurityException e) {
+      			// TODO Auto-generated catch block
+      			e.printStackTrace();
+      		} catch (IllegalStateException e) {
+      			// TODO Auto-generated catch block
+      			e.printStackTrace();
+      		} catch (IOException e) {
+      			// TODO Auto-generated catch block
+      			e.printStackTrace();
+      		}
+}
+  		duration = mp.getDuration();
 	}
 
 	@Override
 	public void initView() {
-		btn_start=(Button) findViewById(R.id.btn_start);
+		btn_start=(CheckBox) findViewById(R.id.btn_start);
 		tv_current=(TextView) findViewById(R.id.tv_current);
 		tv_total=(TextView) findViewById(R.id.tv_total);
-		tv_total.setText(recordTime);
+		formatter = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
+		formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+		tv_total.setText(formatter.format(duration)) ;  
 		sb_recorddetail=(SeekBar) findViewById(R.id.sb_recorddetail);
-
+		sb_recorddetail.setMax(duration);
+		
 		sb_recorddetail.setOnSeekBarChangeListener(this);
 		btn_start.setOnClickListener(this);
-		/*mp.setOnCompletionListener(new OnCompletionListener() {
+		mp.setOnCompletionListener(new OnCompletionListener() {
 			
 			@Override
 			public void onCompletion(MediaPlayer arg0) {
-				mp.release();
+				btn_start.setChecked(false);
 			}
-		});*/
+		});
 	}
 
 	@Override
@@ -77,51 +110,36 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 				mp.pause();
 			}else{
 				if(isFirst){
-					if(!CheckUtil.isEmpty(url)){
-						try {
-							mp.setDataSource(url);
-							mp.prepare();
-							sb_recorddetail.setMax(mp.getDuration());
-	                        mTimer=new Timer();
-	                        mTimer.schedule(new TimerTask() {
-								
-								@Override
-								public void run() {
-									if(isChanging){
-										return;
-									}
-
-										sb_recorddetail.setProgress(mp.getCurrentPosition());								
-								}
-							}, 0, 10);
-							
-							mp.start();
-							isFirst=false;
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IllegalStateException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					mTimer=new Timer();
+					mTimer.schedule(new TimerTask() {
+						
+						@Override
+						public void run() {
+							if(isChanging){
+								return;
+							}
+							 int position = mp.getCurrentPosition();
+							sb_recorddetail.setProgress(position);
+							Message msg=new Message();
+							msg.obj=position;
+							handler.sendMessage(msg);
 						}
-					}				
-				}else{
-					mp.start();
-				}
+					}, 0, 100);
+					isFirst=false;
+				}		
+				mp.start();
 			}
-			break;
-
-		default:
 			break;
 		}
 	}
-
+	
+	private Handler handler=new Handler(){
+	   public void handleMessage(android.os.Message msg) {
+		   tv_current.setText(formatter.format(msg.obj)) ;
+	   };
+	};
+	
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -134,22 +152,21 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+		if(mTimer!=null){
+			mTimer.cancel();			
+		}
 		if(mp!=null){
-			if(mp.isPlaying()){
-				mp.stop();
-			}
 			mp.release();
 		}
-		mTimer.cancel();
+		
 		super.onDestroy();
 	}
 
 	@Override
 	public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-		if(mp!=null){
-			mp.seekTo(arg1);
+		if(mp.isPlaying()&&isChanging){
+			
 		}
-		
 	}
 
 	@Override
@@ -161,6 +178,7 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void onStopTrackingTouch(SeekBar arg0) {
 		// TODO Auto-generated method stub
+		mp.seekTo(arg0.getProgress());
 		isChanging=false;
 	}
 }
