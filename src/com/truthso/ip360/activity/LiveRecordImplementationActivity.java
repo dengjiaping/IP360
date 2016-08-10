@@ -199,7 +199,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		mediaRecorder = new MediaRecorder();
 
 		filePath = fileDir
-				+ new DateFormat().format("yyyyMMdd_HHmmss",
+				+"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".3gp";
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -208,7 +208,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		// 设置录音的解码格式,这个必须在setOutputFile方法前设置,否则无效
 		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mediaRecorder.setOutputFile(filePath);// 设置录音文件的输出路径
-		mediaRecorder.setOutputFile(filePath);
 		try {
 			mediaRecorder.prepare();
 		} catch (IllegalStateException e) {
