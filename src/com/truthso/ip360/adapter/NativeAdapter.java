@@ -2,6 +2,7 @@ package com.truthso.ip360.adapter;
 
 import java.util.List;
 
+import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.DbBean;
@@ -84,8 +85,6 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.tv_filename=(TextView) convertView.findViewById(R.id.tv_filename);
 			vh.tv_filesize=(TextView) convertView.findViewById(R.id.tv_filesize);
 			vh.tv_date=(TextView) convertView.findViewById(R.id.tv_date);
-//			vh.tv_delete = (TextView) convertView.findViewById(R.id.tv_delete);
-//			vh.tv_delete.setOnClickListener(this);
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();
@@ -101,7 +100,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 	class ViewHolder{
 		private CheckBox cb_choice,cb_option;	
-		private TextView tv_filename,tv_date,tv_filesize,tv_delete;
+		private TextView tv_filename,tv_date,tv_filesize;
 	}
 	
 	
@@ -126,6 +125,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			final LinearLayout ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
 			ll_option.setVisibility(View.GONE);
 			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
+			TextView tv_preview=(TextView) ll_option.findViewById(R.id.tv_preview);
+			
 			cb_option.setOnClickListener(new OnClickListener() {			
 				@Override
 				public void onClick(View v) {		
@@ -138,6 +139,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			});
 			tv_delete.setTag(position);
 			tv_delete.setOnClickListener(this);
+			tv_preview.setTag(position);
+			tv_preview.setOnClickListener(this);
 		}
 	}
 	
@@ -154,11 +157,12 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	@Override
 	public void onClick( View v) {
 		switch (v.getId()) {
-		case R.id.tv_delete:
-//			Toast.makeText(context, "是这个", 1).show();
+		case R.id.tv_delete://删除
 			showDialog();
 			dbBean = mDatas.get((Integer) v.getTag());
-	
+		case R.id.tv_preview://查看证书
+			Intent intent = new Intent(context,CertificationActivity.class);
+			context.startActivity(intent);
 			break;
 			
 		default:
