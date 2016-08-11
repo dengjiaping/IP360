@@ -216,7 +216,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 	// 显示底部下载按钮
 		private void showDownLoadPop() {
 			if(CheckUtil.isEmpty(downLoadwindow)){
-			contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_download, null);
+			contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_translist, null);
 				downLoadwindow = new PopupWindow(contentView,
 						ViewGroup.LayoutParams.MATCH_PARENT,
 						ViewGroup.LayoutParams.WRAP_CONTENT);
