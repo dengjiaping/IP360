@@ -51,7 +51,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		actionBar = (MainActionBar) view
-				.findViewById(R.id.actionbar_cloudevidence);
+				.findViewById(R.id.actionbar_tranlist);
 		actionBar.setTitle("传输列表");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
@@ -75,10 +75,12 @@ public class TransList extends BaseFragment implements OnClickListener {
 		pagerList = new ArrayList<BasePager>();
 		pagerList.add(new DownLoadListPager(getActivity()));
 		pagerList.add(new DownLoadListPager(getActivity()));
+	
+		
 		mPageAdapter = new MyPageAdapter();
 		viewPager.setAdapter(mPageAdapter);
-		// 初始化viewPager 中第一页的数据
-		pagerList.get(0).initData(0);
+		/*// 初始化viewPager 中第一页的数据
+		pagerList.get(0).initData(0);*/  
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -204,7 +206,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
-			return view == (object);
+			return view ==(View)object;
 		}
 
 		@Override
