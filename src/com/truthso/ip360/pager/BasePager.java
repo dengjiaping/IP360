@@ -19,7 +19,7 @@ public abstract class BasePager {
 	}
 	
 	public View getView(){
-		return initView();
+		return view;//构造方法已经执行initView()了 直接返回view就行；
 	}
 	
 	/**

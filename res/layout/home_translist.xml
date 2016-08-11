@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
   <com.truthso.ip360.view.MainActionBar
-        android:id="@+id/actionbar_cloudevidence"
+        android:id="@+id/actionbar_tranlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

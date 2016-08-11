@@ -1,5 +1,7 @@
 package com.truthso.ip360.adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,15 @@ import com.truthso.ip360.activity.R;
  */
 public class DownLoadAdapter extends BaseAdapter{
 	private LayoutInflater inflater;
+	private Context context;
+	
+	
+	public DownLoadAdapter(Context context) {
+		super();
+		this.context = context;
+		inflater=LayoutInflater.from(context);
+	}
+
 	@Override
 	public int getCount() {
 		return 6;
