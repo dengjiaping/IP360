@@ -63,7 +63,9 @@ public class TransList extends BaseFragment implements OnClickListener {
 		line = view.findViewById(R.id.line);
 		rl_left = (RelativeLayout) view.findViewById(R.id.rl_left);
 		rl_right = (RelativeLayout) view.findViewById(R.id.rl_right);
-
+		rl_left.setOnClickListener(this);
+		rl_right.setOnClickListener(this);
+		
 		tv_right_text = (TextView) view.findViewById(R.id.tv_right_text);
 		tv_left_text = (TextView) view.findViewById(R.id.tv_left_text);
 
@@ -72,6 +74,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 				R.color.title_bg_color));
 		tv_left_text.setTextColor(getResources().getColor(R.color.white));
 		rl_right.setBackgroundColor(getResources().getColor(R.color.white));
+		
 		tv_right_text.setTextColor(getResources().getColor(R.color.black));
 
 		viewPager = (ViewPager) view.findViewById(R.id.viewPager);
@@ -160,13 +163,12 @@ public class TransList extends BaseFragment implements OnClickListener {
 			// actionBar.setRightEnable();
 
 			break;
-		case R.id.tv_left_text:
+		case R.id.rl_left:
 			viewPager.setCurrentItem(0);
 			break;
-		case R.id.tv_right_text:
+		case R.id.rl_right:
 			viewPager.setCurrentItem(1);
 			break;
-
 		}
 	}
 
