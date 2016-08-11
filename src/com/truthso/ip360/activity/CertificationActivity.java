@@ -21,12 +21,11 @@ public class CertificationActivity extends BaseActivity {
 
 	@Override
 	public int setLayout() {
-		return R.layout.activity_certification;
+		return R.layout.activity_look_certification;
 	}
 
 	@Override
 	public String setTitle() {
-		// TODO Auto-generated method stub
 		return "查看证书";
 	}
 

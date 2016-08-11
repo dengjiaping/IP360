@@ -2,13 +2,19 @@ package com.truthso.ip360.adapter;
 
 import java.util.List;
 
+import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +27,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListener ,OnClickListener{
-
+	private Dialog alertDialog;
 	private Context context;
 	private LayoutInflater inflater;
 	private Boolean isAllSelect=false;
 	private boolean isChoice=false;
 	protected List<DbBean> mDatas;
+	private DbBean dbBean;
 	public NativeAdapter(Context context,List<DbBean> mDatas) {
 		super();
 		this.context = context;
@@ -117,6 +125,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			final LinearLayout ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
 			ll_option.setVisibility(View.GONE);
 			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
+			TextView tv_preview=(TextView) ll_option.findViewById(R.id.tv_preview);
+			
 			cb_option.setOnClickListener(new OnClickListener() {			
 				@Override
 				public void onClick(View v) {		
@@ -129,6 +139,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			});
 			tv_delete.setTag(position);
 			tv_delete.setOnClickListener(this);
+			tv_preview.setTag(position);
+			tv_preview.setOnClickListener(this);
 		}
 	}
 	
@@ -143,11 +155,14 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick( View v) {
 		switch (v.getId()) {
-		case R.id.tv_delete:
-		DbBean dbBean = mDatas.get((Integer) v.getTag());
-	     new SqlDao(context).delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
+		case R.id.tv_delete://删除
+			showDialog();
+			dbBean = mDatas.get((Integer) v.getTag());
+		case R.id.tv_preview://查看证书
+			Intent intent = new Intent(context,CertificationActivity.class);
+			context.startActivity(intent);
 			break;
 			
 		default:
@@ -155,5 +170,29 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		}
 		
 	}
+	private void showDialog() {
+		alertDialog = new AlertDialog.Builder(context).
+        	    setTitle("温馨提示").
+        	    setMessage("是否确认删除？").
+        	    setIcon(R.drawable.ww).
+        	    setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        	     @Override
+        	     public void onClick(DialogInterface dialog, int which) {
+        	    	 
+        	    		
+        	   	     new SqlDao(context).delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
+        	    	
+        	     }
+        	    }).
+        	    setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        	     
+        	     @Override
+        	     public void onClick(DialogInterface dialog, int which) {
+        	    	 alertDialog.dismiss();
+        	     }
+        	    }).
+        	    create();
+				alertDialog.show();
+        	 }
 
 }
