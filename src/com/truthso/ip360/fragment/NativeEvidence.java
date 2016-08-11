@@ -220,6 +220,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				@Override
 				public void onClick(View arg0) {
 					if (window.isShowing()) {
+						actionBar.setRightEnable();
 						window.dismiss();
 					}
 				}

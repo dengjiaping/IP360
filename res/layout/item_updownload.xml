@@ -97,41 +97,4 @@
         android:layout_marginTop="5dp"
         android:background="@color/grey" />
 
-    <LinearLayout
-        android:id="@+id/ll_option"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/tv_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/remark"
-            android:gravity="center"
-            android:text="下载" />
-
-        <TextView
-            android:id="@+id/tv_remark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/remark"
-            android:gravity="center"
-            android:text="备注" />
-
-        <TextView
-            android:id="@+id/tv_certificate_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/remark"
-            android:gravity="center"
-            android:text="证书预览" />
-    </LinearLayout>
-
 </LinearLayout>

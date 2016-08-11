@@ -27,7 +27,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 
 	private Context context;
 	private LayoutInflater inflater;
-	private Boolean isAllSelect=false;
+	private boolean isAllSelect=false;
 	private boolean isChoice=false;
 	protected List<DbBean> mDatas;
 	public CloudEvidenceAdapter(Context context,List<DbBean> mDatas) {

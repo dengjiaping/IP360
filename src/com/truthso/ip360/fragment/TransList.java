@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +25,7 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.pager.BasePager;
 import com.truthso.ip360.pager.DownLoadListPager;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
 /**
@@ -46,7 +50,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 //	private ListView listView;
 	private List<DbBean> mDatas;
 	private List<BasePager> pagerList;
-
+    private int position;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -55,7 +59,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 		actionBar.setTitle("传输列表");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
-
+		
 		line = view.findViewById(R.id.line);
 		rl_left = (RelativeLayout) view.findViewById(R.id.rl_left);
 		rl_right = (RelativeLayout) view.findViewById(R.id.rl_right);
@@ -85,6 +89,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void onPageSelected(int position) {
+				TransList.this.position=position;
 				viewPager.setCurrentItem(position);
 				// 初始化本页数据
 				pagerList.get(position).initData(position);
@@ -167,6 +172,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 	// 点击多选按钮
 	private void choice() {
+	  currentPager = (DownLoadListPager) pagerList.get(position);						
 		actionBar.setLeftText("全选");
 		actionBar.setRightText("取消");
 		actionBar.setActionBarOnClickListener(new OnClickListener() {
@@ -175,25 +181,63 @@ public class TransList extends BaseFragment implements OnClickListener {
 			public void onClick(View v) {
 				switch (v.getId()) {
 				case R.id.acition_bar_right:// 取消
-					// adapter.setChoice(false);
-					// lv_cloudevidence.invalidateViews();
-					actionBar.setRightText("选择");
-					actionBar.setLeftGone();
-					actionBar.setActionBarOnClickListener(this);
+					
+					cancelChoose();
 					break;
 				case R.id.acition_bar_left:// 全选
-					// adapter.setAllSelect(true);
-					// lv_cloudevidence.invalidateViews();
+					currentPager.setAllSelect(true);
 					break;
 				default:
 					break;
 				}
 
 			}
+
 		});
-		// adapter.setChoice(true);
-		// lv_cloudevidence.invalidateViews();
+		currentPager.setChoice(true);
+		showDownLoadPop();
 	}
+
+	//取消选择
+	private void cancelChoose() {
+		currentPager.setChoice(false);
+		actionBar.setRightText("选择");
+		actionBar.setLeftText("");
+		actionBar.setActionBarOnClickListener(TransList.this);
+		if (downLoadwindow.isShowing()) {
+			downLoadwindow.dismiss();
+		}
+	}
+	
+	
+	private PopupWindow downLoadwindow;
+	private View contentView;
+	private DownLoadListPager currentPager;
+	// 显示底部下载按钮
+		private void showDownLoadPop() {
+			if(CheckUtil.isEmpty(downLoadwindow)){
+			contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_download, null);
+				downLoadwindow = new PopupWindow(contentView,
+						ViewGroup.LayoutParams.MATCH_PARENT,
+						ViewGroup.LayoutParams.WRAP_CONTENT);
+			}		
+			// 进入退出的动画
+			// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+			downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+		}
+		
+		
+		@Override
+		public boolean onKeyDown(int keyCode, KeyEvent event) {
+			
+				if (!CheckUtil.isEmpty(downLoadwindow)
+						&& downLoadwindow.isShowing()) {
+					cancelChoose();
+					return true;
+				}
+		
+			return super.onKeyDown(keyCode, event);
+		}
 
 	private class MyPageAdapter extends PagerAdapter {
 

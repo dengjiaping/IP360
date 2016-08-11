@@ -34,4 +34,13 @@ public class DownLoadListPager extends BasePager {
 			break;
 		}
 	}
+
+	public void setChoice(boolean b) {
+		adapter.setChoice(b);
+		listView.invalidateViews();
+	}
+	public void setAllSelect(Boolean isAllSelect){
+		adapter.setAllSelect(isAllSelect);
+		listView.invalidateViews();
+	}
 }

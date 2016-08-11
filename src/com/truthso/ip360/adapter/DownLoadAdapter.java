@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder;
 /**
  * @despriction :下载列表的adapter
  * 
@@ -16,10 +20,11 @@ import com.truthso.ip360.activity.R;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class DownLoadAdapter extends BaseAdapter{
+public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListener{
 	private LayoutInflater inflater;
 	private Context context;
-	
+	private boolean isAllSelect=false;
+	private boolean isChoice=false;
 	
 	public DownLoadAdapter(Context context) {
 		super();
@@ -27,6 +32,15 @@ public class DownLoadAdapter extends BaseAdapter{
 		inflater=LayoutInflater.from(context);
 	}
 
+	public void setChoice(Boolean isChoice){
+		this.isAllSelect=false;
+		this.isChoice=isChoice;
+	}
+	public void setAllSelect(Boolean isAllSelect){
+		this.isChoice=true;
+		this.isAllSelect=isAllSelect;
+	}
+	
 	@Override
 	public int getCount() {
 		return 6;
@@ -43,9 +57,41 @@ public class DownLoadAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = inflater.inflate(R.layout.item_updownload, null);
-		return view;
+	public View getView(int position, View convertView , ViewGroup parent) {
+		ViewHolder vh=null;
+		if(convertView==null){		
+			convertView = inflater.inflate(R.layout.item_updownload, null);
+			vh=new ViewHolder();
+			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
+			vh.cb_choice.setOnCheckedChangeListener(this);
+			convertView.setTag(vh);
+		}else{
+			vh=	(ViewHolder) convertView.getTag();
+			
+		}
+	
+	  if(isChoice){
+		  if(isAllSelect){
+			vh.	cb_choice.setChecked(true);
+			}else{
+				vh.cb_choice.setChecked(false);
+			}
+		  vh.cb_choice.setVisibility(View.VISIBLE);
+	   }else{
+		vh.cb_choice.setVisibility(View.GONE);
+	   }
+		
+		
+		return convertView;
 	}
 
+	class ViewHolder{
+		private CheckBox cb_choice;	
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+		// TODO Auto-generated method stub
+		
+	}
 }
