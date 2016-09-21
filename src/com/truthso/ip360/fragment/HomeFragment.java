@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -26,7 +27,10 @@ import com.truthso.ip360.activity.PhotoPreserved;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.VideoPreserved;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 /**
  * @despriction :首页
@@ -51,7 +55,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	private File photoDir;
 
 	private String date1;
-
+	private String loc;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				false);
 		// 初始化控件
 		initView(homeView);
-
+		getLocation();
 		return homeView;
 	}
 
@@ -76,6 +80,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
+			getLocation();
 			photoDir = new File(MyConstants.PHOTO_PATH);
 			if (!photoDir.exists()) {
 				photoDir.mkdirs();
@@ -88,6 +93,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			startActivityForResult(intent, CAMERA);
 			break;
 		case R.id.ll_take_video:// 录像取证
+			getLocation();
 			Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 			startActivityForResult(intent1, CASE_VIDEO);
@@ -97,6 +103,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			date1 = formatter.format(curDate);
 			break;
 		case R.id.ll_record:// 录音取证
+			getLocation();
 			Intent intent2 = new Intent(getActivity(),
 					LiveRecordImplementationActivity.class);
 			startActivity(intent2);
@@ -116,6 +123,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
 			if (photo.exists()) {
+				
 				String name = new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".jpg";
 				File newFile = new File(photoDir, name);
@@ -124,11 +132,13 @@ public class HomeFragment extends Fragment implements OnClickListener {
 						.getAbsolutePath());
 				String date = new DateFormat().format("yyyy年MM月dd日 HH:mm:ss",
 						Calendar.getInstance(Locale.CHINA)).toString();
+				
 				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);
 				intent.putExtra("date", date);
+				intent.putExtra("loc", loc);
 				startActivity(intent);
 			}
 		}
@@ -153,5 +163,16 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			startActivity(intent);
 		}
 	}
+	private void getLocation(){
+		  BaiduLocationUtil.getLocation(getActivity(), new locationListener() {
+				
+				@Override
+				public void location(String s) {
+					loc = s;
+					LogUtils.e("位置位置位置位置位置位置切换"+loc);
+				}
+			});
+	}
+
 
 }

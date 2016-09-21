@@ -4,39 +4,264 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg" >
 
-    <include layout="@layout/top_title" />
+    <include
+        android:id="@+id/include1"
+        layout="@layout/top_title" />
 
-    <ImageView
+    <!--
+         <ImageView
         android:id="@+id/iv_photo"
+        android:layout_width="120dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/include1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" />
+    -->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:maxHeight="1000dp"
-        android:maxWidth="1000dp"
-        android:scaleType="fitCenter" />
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/include1"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="10dp"
-        android:background="@color/title_bg_color"
-        android:text="放弃"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size" />
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@color/white" />
 
-    <Button
-        android:id="@+id/btn_preserved"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:background="@color/title_bg_color"
-        android:text="保全"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size" />
+        <RelativeLayout
+            android:id="@+id/rl_filename"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/item_bg" >
+
+            <ImageView
+                android:id="@+id/iv_account_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/ww" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:layout_toRightOf="@id/iv_account_message"
+                android:text="文件名称"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/tv_filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="我的第一个现场取证.mp3" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_loc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/rl_filename"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/item_bg" >
+
+            <ImageView
+                android:id="@+id/iv_account_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/ww" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:layout_toRightOf="@id/iv_account_message"
+                android:text="取证地点"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/tv_loc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="中国北京市朝阳区s50(北五环路)在启样路路路路路路路路路"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/rl_loc"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/item_bg" >
+
+            <ImageView
+                android:id="@+id/iv_account_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/ww" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:layout_toRightOf="@id/iv_account_message"
+                android:text="取证时间"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="2016.9.19 18:11:25" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_filesize"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/rl_date"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/item_bg" >
+
+            <ImageView
+                android:id="@+id/iv_account_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/ww" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:layout_toRightOf="@id/iv_account_message"
+                android:text="文件大小"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:id="@+id/tv_filesize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="1.3M" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_money"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/rl_filesize"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:background="@color/item_bg" >
+
+            <ImageView
+                android:id="@+id/iv_account_message"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/ww" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:layout_toRightOf="@id/iv_account_message"
+                android:text="保全费用"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="￥5.00" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dp" >
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="@dimen/button_pre"
+                android:layout_height="@dimen/button_pre"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@color/title_bg_color"
+                android:text="放弃"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size" />
+
+            <Button
+                android:id="@+id/btn_preserved"
+                android:layout_width="@dimen/button_pre"
+                android:layout_height="@dimen/button_pre"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:background="@color/title_bg_color"
+                android:text="保全"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/btn_cancel"
+                android:layout_centerHorizontal="true"
+                android:text="30秒后自动放弃"
+                android:textColor="@color/title_bg_color"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>
