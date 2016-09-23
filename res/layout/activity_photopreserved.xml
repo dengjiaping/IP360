@@ -8,16 +8,7 @@
         android:id="@+id/include1"
         layout="@layout/top_title" />
 
-    <!--
-         <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="120dp"
-        android:layout_height="140dp"
-        android:layout_below="@+id/include1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/white" />
-    -->
+ 
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -31,9 +32,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private String mVideoName;
 	private ImageView iv_video;
 	private String mVideoSize;
-	private String mDate;
+	private String mDate,loc,time;
 	private Button btn_preserved,btn_cancel;
-
+	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time;
 	@Override
 	public void initData() {
 
@@ -41,14 +42,34 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
+	
+		
+		iv_video = (ImageView) findViewById(R.id.iv_video);
+		tv_filename = (TextView) findViewById(R.id.tv_filename);
+		
+		tv_loc = (TextView) findViewById(R.id.tv_loc);
+		
+		tv_date = (TextView) findViewById(R.id.tv_date);
+		
+		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
+		
+		tv_time = (TextView) findViewById(R.id.tv_time);
+		
+		getLocation();
 		mVideoPath = getIntent().getStringExtra("filePath");
 		mDate = getIntent().getStringExtra("date");
-		iv_video = (ImageView) findViewById(R.id.iv_video);
-
+		loc =getIntent().getStringExtra("loc");
+		time = getIntent().getStringExtra("time");
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
 		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
 				MediaStore.Images.Thumbnails.MICRO_KIND));
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
+		
+		tv_filename.setText(mVideoName);
+		tv_loc.setText(loc);
+		tv_date.setText(mDate);
+		tv_filesize.setText(mVideoSize);
+		tv_time.setText(time);
 		
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		btn_preserved.setOnClickListener(this);
@@ -108,22 +129,25 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			break;
 		}
 	}
-	//保存录像的数据到数据库
-	private void saveToDB() {
-		
-	    BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
+	private void getLocation(){
+		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
 				
 				@Override
 				public void location(String s) {
-					LogUtils.e("111111111111"+s);
+					loc = s;
+					
 				}
 			});
+	}
+	//保存录像的数据到数据库
+	private void saveToDB() {
 			DbBean dbBean =new DbBean();
 			dbBean.setTitle(mVideoName);
 			dbBean.setCreateTime(mDate);
 			dbBean.setResourceUrl(mVideoPath);
 			dbBean.setType(MyConstants.VIDEO);
 			dbBean.setFileSize(mVideoSize);
+			dbBean.setLocation(loc);
 			SqlDao.getSQLiteOpenHelper(this).save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 			finish();
 	}

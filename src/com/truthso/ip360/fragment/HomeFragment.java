@@ -45,7 +45,8 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	private static final int CAMERA = 0;
 
 	private static final int CASE_VIDEO = 1;
-
+	private String timeUsed;
+	private int timeUsedInsec;
 	private MainActivity mActivity;
 	private LinearLayout mTakePhoto;
 	private LinearLayout mTakeVideo;
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			getLocation();
 			Intent intent2 = new Intent(getActivity(),
 					LiveRecordImplementationActivity.class);
+			addTimeUsed();
 			startActivity(intent2);
 			break;
 		default:
@@ -144,6 +146,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		}
 		if (requestCode == CASE_VIDEO && resultCode == Activity.RESULT_OK
 				&& null != data) {
+			String time = getHor() + ":" + getMin() + ":" + getSec();
 			Uri uri = data.getData();
 			String filePath = "";
 			if (uri == null) {
@@ -160,6 +163,8 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			Intent intent = new Intent(getActivity(), VideoPreserved.class);
 			intent.putExtra("filePath", filePath);
 			intent.putExtra("date", date1);
+			intent.putExtra("loc", loc);
+			intent.putExtra("time", time);
 			startActivity(intent);
 		}
 	}
@@ -173,6 +178,26 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				}
 			});
 	}
+	public void addTimeUsed() {
+		timeUsedInsec = timeUsedInsec + 1;
+		timeUsed = this.getMin() + ":" + this.getSec();
+	}
 
+	public CharSequence getHor() {
+		int hor = timeUsedInsec / 3600;
+		return hor < 10 ? "0" + hor : String.valueOf(hor);
+
+	}
+
+	public CharSequence getMin() {
+		int min = timeUsedInsec / 60;
+		return min < 10 ? "0" + min : String.valueOf(min);
+
+	}
+
+	public CharSequence getSec() {
+		int sec = timeUsedInsec % 60;
+		return sec < 10 ? "0" + sec : String.valueOf(sec);
+	}
 
 }
