@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.RadioGroup;
@@ -17,6 +18,9 @@ import com.truthso.ip360.fragment.HomeFragment;
 import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.fragment.TransList;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
 
@@ -50,6 +54,8 @@ OnRgsExtraCheckedChangedListener {
 				getSupportFragmentManager(), fragmentList, R.id.main_fragment,
 				radioGroup);
 
+
+		
 	}
 
 	@Override
