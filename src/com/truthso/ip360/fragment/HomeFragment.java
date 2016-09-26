@@ -107,6 +107,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			getLocation();
 			Intent intent2 = new Intent(getActivity(),
 					LiveRecordImplementationActivity.class);
+			intent2.putExtra("loc", loc);
 			addTimeUsed();
 			startActivity(intent2);
 			break;

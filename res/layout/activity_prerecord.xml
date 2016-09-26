@@ -17,13 +17,13 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/iv_video"
+            android:id="@+id/iv_record"
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:background="@drawable/ww"
-            />
+            
+            android:background="@drawable/ww" />
 
         <RelativeLayout
             android:id="@+id/rl_filename"
@@ -210,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:text="时长"
                 android:layout_marginRight="@dimen/layout_marginRight"
                  />
         </RelativeLayout>

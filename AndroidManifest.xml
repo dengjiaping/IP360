@@ -99,9 +99,9 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        <!-- 现场录音 -->
+        <!-- 现场录音保全 -->
         <activity
-            android:name="com.truthso.ip360.activity.LiveRecordActivity"
+            android:name="com.truthso.ip360.activity.LiveRecordPreActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

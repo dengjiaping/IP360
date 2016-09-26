@@ -7,23 +7,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaRecorder;
-import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.view.VoiceLineView;
 
 /**
@@ -37,7 +35,7 @@ import com.truthso.ip360.view.VoiceLineView;
  */
 public class LiveRecordImplementationActivity extends BaseActivity implements
 		OnClickListener {
-
+	private String loc;
 	private TextView mRecordTime;
 	private String timeUsed;
 	private int timeUsedInsec;
@@ -145,6 +143,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 					public void run() {
 						while (isAlive) {
 							uiHandle.sendEmptyMessage(2);
+						
 							try {
 								Thread.sleep(100);
 							} catch (InterruptedException e) {
@@ -159,11 +158,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				isRecording = false;
 				mButton.setSelected(false);
 				mButton.setVisibility(View.GONE);
-				btn_cancle.setVisibility(View.VISIBLE);
-				btn_save.setVisibility(View.VISIBLE);
-				
 				stoprecordVoice();
-				formatter = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss     ");
+
+				formatter = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss");
 				curDate = new Date(System.currentTimeMillis());
 				date = formatter.format(curDate);
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
@@ -171,23 +168,38 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				recTotalTime = mRecordTime.getText().toString().trim();
 				isPause = true;
 				timeUsedInsec = 0;
+				
+				Intent intent = new Intent(this,LiveRecordPreActivity.class);
+				intent.putExtra("fileTime", recTotalTime);
+				intent.putExtra("date", date);
+				intent.putExtra("fileSize", fileSize);
+				intent.putExtra("fileName", fileName);
+				intent.putExtra("filePath", filePath);
+				intent.putExtra("loc", loc);
+				startActivity(intent);
+				
+				finish();
+//				btn_cancle.setVisibility(View.VISIBLE);
+//				btn_save.setVisibility(View.VISIBLE);
+				
+				
 
 			}
 			break;
-		case R.id.btn_cancle:
-			btn_cancle.setVisibility(View.GONE);
-			btn_save.setVisibility(View.GONE);
-			mButton.setVisibility(View.VISIBLE);
-			mRecordTime.setText("00:00:00");
-			break;
-		case R.id.btn_save:
-			/*btn_cancle.setVisibility(View.GONE);
-			btn_save.setVisibility(View.GONE);
-			mButton.setVisibility(View.VISIBLE);
-			mRecordTime.setText("00:00:00");*/
-			saveData(date, fileSize, fileName, filePath, recTotalTime);
-			finish();
-			break;
+//		case R.id.btn_cancle:
+////			btn_cancle.setVisibility(View.GONE);
+////			btn_save.setVisibility(View.GONE);
+////			mButton.setVisibility(View.VISIBLE);
+////			mRecordTime.setText("00:00:00");
+//			break;
+//		case R.id.btn_save:
+//			/*btn_cancle.setVisibility(View.GONE);
+//			btn_save.setVisibility(View.GONE);
+//			mButton.setVisibility(View.VISIBLE);
+//			mRecordTime.setText("00:00:00");*/
+//			saveData(date, fileSize, fileName, filePath, recTotalTime);
+//			finish();
+//			break;
 		default:
 			break;
 		}
@@ -218,7 +230,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			e.printStackTrace();
 		}
 		mediaRecorder.start(); // 开始录音
-		// Toast.makeText(LiveRecordActivity.this, "开始录音", 0).show();
 	}
 
 	/** 停止录音 */
@@ -227,7 +238,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			mediaRecorder.stop(); // 停止录音
 			mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
 			mediaRecorder.release(); // 这个是否录音控件的,不然会一直占据资源
-			// Toast.makeText(LiveRecordActivity.this, "停止录音", 0).show();
 		}
 	}
 
@@ -238,7 +248,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 	/**
 	 * 将数据保存到数据库
-	 */
+	 *//*
 	private void saveData(String date, String fileSize, String name,
 			String path, String recordTime) {
 		SqlDao sqlDao = new SqlDao(this);
@@ -250,7 +260,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		dbBean.setTitle(name);// 名称
 		dbBean.setRecordTime(recordTime);
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
-	}
+	}*/
 
 	@Override
 	public void initData() {
@@ -264,16 +274,17 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
-		
-	
+		getLocation();
+//		loc = getIntent().getStringExtra("loc");
+				
 
 		mButton = (Button) findViewById(R.id.btn_record);
-		btn_cancle = (Button) findViewById(R.id.btn_cancle);
-		btn_save = (Button) findViewById(R.id.btn_save);
+//		btn_cancle = (Button) findViewById(R.id.btn_cancle);
+//		btn_save = (Button) findViewById(R.id.btn_save);
 		voiceLineView = (VoiceLineView) findViewById(R.id.voicLine);
 		mButton.setOnClickListener(this);
-		btn_cancle.setOnClickListener(this);
-		btn_save.setOnClickListener(this);
+//		btn_cancle.setOnClickListener(this);
+//		btn_save.setOnClickListener(this);
 
 		mRecordTime = (TextView) findViewById(R.id.tv_record_time);
 
@@ -288,5 +299,14 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	public String setTitle() {
 		return "录音取证";
 	}
-
+	private void getLocation(){
+		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
+				
+				@Override
+				public void location(String s) {
+					loc = s;
+					
+				}
+			});
+	}
 }
