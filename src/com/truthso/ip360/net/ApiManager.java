@@ -3,6 +3,9 @@ package com.truthso.ip360.net;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
+import com.truthso.ip360.bean.LoginBean;
+import com.truthso.ip360.constants.URLConstant;
+import com.truthso.ip360.utils.CheckUtil;
 
 public class ApiManager implements BaseHttpRequestCallBack {
 
@@ -73,70 +76,27 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * 登录
 	 * 
 	 * @param callback
-	 * @param accountCode
-	 * @param accountPassword
-	 * @param verificationCode
+	 * @param userAccount
+	 * @param userPwd
 	 * @return
-	 *//*
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle doLogin(ABApiCallback callback, String accountCode,
-			String accountPassword, String verificationCode) {
-		ABBaseHttpRequest request = new ABBaseHttpRequest<LoginBean>(
-				LoginBean.class, this, SystemConstant.LOGIN);
+	public RequestHandle doLogin(String userAccount,
+			String userPwd,ApiCallback callback) {
+		BaseHttpRequest<LoginBean> request = new BaseHttpRequest<LoginBean>(
+				LoginBean.class, this);
 
-		request.setPath(URLConstant.getLoginPath());
-		request.params().add("accountCode", CheckUtil.isEmpty(accountCode)?"":AESUtil.encode(key, accountCode));
-		request.params().add("accountPassword",
-				CheckUtil.isEmpty(accountPassword)?"":AESUtil.encode(key, accountPassword));
-		request.params().add("verificationCode", verificationCode);
+		request.setPath(URLConstant.LoginPath);
+		request.params().add("userAccount",userAccount);
+		request.params().add("userPwd",userPwd);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		
 		requestHashMap.put(requestHandle, request);
 
 		return requestHandle;
-	}*/
+	}
 
-	
-//	//获取天气
-//    public RequestHandle getWeatherInfo(String cityName,ApiCallback call){
-//    	
-//    	BaseHttpRequest<WeatherBean> request=new BaseHttpRequest<WeatherBean>(WeatherBean.class, this);
-//    	
-//    	request.setPath("http://apis.baidu.com/apistore/weatherservice/cityname");
-//    	request.params().add("cityname", cityName);
-//    	
-//    	
-//    	request.setApiCallback(call);
-//    	RequestHandle requestHandle = request.get();
-//    	
-//    	requestHashMap.put(requestHandle, request);
-//    	return requestHandle;
-//    }
-//	
-////微信热门
-//    public RequestHandle getWeChatData(String word,String src,int num,int rand,int page,ApiCallback callback){
-//		BaseHttpRequest<WeChatBean> request = new BaseHttpRequest<WeChatBean>(WeChatBean.class, this);
-//		request.setPath("http://apis.baidu.com/txapi/weixin/wxhot");
-//		request.params().add("word", word);
-//		request.params().add("src", src);
-//		request.params().add("num", num+"");
-//		request.params().add("rand", rand+"");
-//		request.params().add("page", page+"");
-//
-//		request.setApiCallback(callback);
-//		RequestHandle requestHandle = request.get();
-//		requestHashMap.put(requestHandle, request);
-//    	
-//    	
-//    	
-//    	return requestHandle;
-//		
-//		
-//		
-//		
-//    	
-//    }
-//    
+
     
 }

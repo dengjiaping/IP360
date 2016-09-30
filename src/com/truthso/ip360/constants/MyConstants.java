@@ -43,4 +43,17 @@ public class MyConstants {
 	
 	public static int GPS_LOOP_TIME = 30;// gps轮询定位时间单位（秒）
 	public final static String SP_SYSTEM_CONFIG="IP360_services_system_sp";
+	/**
+	 * 保存的用户密码
+	 */
+	public final static String SP_USER_PWD = "IP360_login_userPwd";
+	/**
+	 * 登录的token
+	 */
+	public  final static String SP＿TOKEN = "IP360_login_token";
+	/**
+	 * 用户类型
+	 */
+	public final static String SP_USER_TYPE="IP360_userType";
+	
 }
