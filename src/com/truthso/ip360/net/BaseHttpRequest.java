@@ -21,6 +21,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
+import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.GsonUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
@@ -122,6 +124,7 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 		params.add("platformSecret", CryptoUtils.getOauthKey());
 		*/
 	
+		params.add("token", (String) SharePreferenceUtil.getAttributeByKey(MyApplication.getInstance(), MyConstants.SP_USER_KEY, "token", SharePreferenceUtil.VALUE_IS_STRING));
 		
 	}
 	

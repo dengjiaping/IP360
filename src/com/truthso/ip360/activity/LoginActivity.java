@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -48,12 +49,18 @@ protected void onCreate(Bundle savedInstanceState) {
 		btn_title_left.setVisibility(View.INVISIBLE);
 		
 		
-		et_useraccount = (EditText) findViewById(R.id.et_useraccount);
-		userAccount = et_useraccount.getText().toString().trim();
+		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
+		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "et_useraccount", SharePreferenceUtil.VALUE_IS_STRING);
+		if(!CheckUtil.isEmpty(userAccount)){
+			et_useraccount.setText(userAccount);
+		}
 		
 		
-		et_userpwd = (EditText) findViewById(R.id.et_userpwd);
-		userPwd = et_userpwd.getText().toString().trim();
+		et_userpwd = (EditText) findViewById(R.id.et_userpwd);			
+		String pwd = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userPwd", SharePreferenceUtil.VALUE_IS_STRING);
+		if(!CheckUtil.isEmpty(pwd)){
+			et_userpwd.setText(pwd);
+		}
 		
 		
 		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
@@ -82,15 +89,20 @@ protected void onCreate(Bundle savedInstanceState) {
 			startActivity(intent1);
 			break;
 		case R.id.btn_loginin:// 登录
-			if (CheckUtil.isEmpty("userAccount")||CheckUtil.isEmpty("userPwd")) {
+			
+			userAccount = et_useraccount.getText().toString().trim();
+			userPwd = et_userpwd.getText().toString().trim();
+			
+			if (CheckUtil.isEmpty(userAccount)||CheckUtil.isEmpty(userPwd)) {
 				Toaster.showToast(this, "用户名或密码不能为空");
 			}else{
-				Login();
-//				Intent intent2 = new Intent(this,MainActivity.class);
-//				startActivity(intent2);
-				finish();
+				String phoneReg="^1\\d{10}";
+				if(!userAccount.matches(phoneReg)){
+					Toaster.showToast(this, "请输入正确的手机号");
+				}else{
+					Login();
+				}				
 			}
-			
 			
 			break;
 
@@ -103,9 +115,39 @@ protected void onCreate(Bundle savedInstanceState) {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				LogUtils.e(errorCode+"错误码啊啊啊啊啊啊啊啊啊");
+
 				LoginBean bean = (LoginBean) response;
-				if (bean.getCode() == 200) {
+				if(!CheckUtil.isEmpty(bean)){
+					if(bean.getCode()==200){
+						//登录成功
+						String token = bean.getToken();//登录标识
+						LogUtils.e("接口痛不痛"+token);
+						//保存登录的token
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
+						int userType = bean.getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
+						LogUtils.e("接口痛不痛"+userType);
+						//保存用户类型
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userType", userType);
+						//保存帐号
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userAccount", userAccount);
+						
+						//判断是否保存帐号密码
+						savePwd();
+						
+						
+						//跳转到主页面
+						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
+						startActivity(intent2);
+						finish();
+						
+					}else{
+						Toaster.showToast(LoginActivity.this, bean.getMsg());
+					}					
+				}else{
+					Toaster.showToast(LoginActivity.this, "登录失败");
+				}
+				
+				/*if (bean.getCode() == 200) {
 					String token = bean.getToken();//登录标识
 					LogUtils.e("接口痛不痛"+token);
 					//保存登录的token
@@ -114,15 +156,24 @@ protected void onCreate(Bundle savedInstanceState) {
 					LogUtils.e("接口痛不痛"+userType);
 					//保存用户类型
 					SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_TYPE, "userType", userType);
-				}
-				
-				
+				}	*/						
 			}
+
+			
 		});
 		
 		
 	}
 
+	private void savePwd() {
+		if(cb_checkbox.isChecked()){
+			SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userPwd", userPwd);
+		}else{
+			SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userPwd", null);
+		}
+	}
+	
+	
 	@Override
 	public void initData() {
 		
