@@ -83,6 +83,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		case R.id.tv_register:// 注册
 			Intent intent = new Intent(this,RegisterActivity.class);
 			startActivity(intent);
+//			finish();
 			break;
 		case R.id.tv_forget_pwd:// 忘记密码
 			Intent intent1 = new Intent(this,findPwdActivity.class);
@@ -125,7 +126,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						//保存登录的token
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
 						int userType = bean.getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
-						LogUtils.e("接口痛不痛"+userType);
+//						LogUtils.e("接口痛不痛"+userType);
 						//保存用户类型
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userType", userType);
 						//保存帐号
@@ -147,16 +148,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					Toaster.showToast(LoginActivity.this, "登录失败");
 				}
 				
-				/*if (bean.getCode() == 200) {
-					String token = bean.getToken();//登录标识
-					LogUtils.e("接口痛不痛"+token);
-					//保存登录的token
-					SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP＿TOKEN, "token", token);
-					int userType = bean.getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
-					LogUtils.e("接口痛不痛"+userType);
-					//保存用户类型
-					SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_TYPE, "userType", userType);
-				}	*/						
+						
 			}
 
 			

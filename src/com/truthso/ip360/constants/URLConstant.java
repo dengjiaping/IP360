@@ -13,4 +13,21 @@ public class URLConstant {
 	 * 登录
 	 */
 	public  final  static String LoginPath = "http://101.201.74.230:9091/api/v1/user/login";
+	/**
+	 * 获取验证码
+	 */
+	public final static String GetVertCode = "http://101.201.74.230:9091/api/v1/vcode/getVcodeNotToken";
+	/**
+	 * 注册
+	 * 
+	 */
+	public final static String RegistUser = "http://101.201.74.230:9091/api/v1/user/registUser";
+	/**
+	 * 找回密码
+	 * 
+	 */
+	public final static String FindPwd = "http://101.201.74.230:9091/api/v1/security/resetPwd";
+
+
+
 }

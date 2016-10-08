@@ -19,7 +19,7 @@
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/tv_psw"
             android:background="@null"
-            android:hint="请输入您的手机号/邮箱"
+            android:hint="请输入您的手机号"
             android:textSize="@dimen/text_size" />
 
         

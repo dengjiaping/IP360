@@ -3,9 +3,9 @@ package com.truthso.ip360.net;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
+import com.truthso.ip360.activity.RegisterActivity;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.constants.URLConstant;
-import com.truthso.ip360.utils.CheckUtil;
 
 public class ApiManager implements BaseHttpRequestCallBack {
 
@@ -96,7 +96,80 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		return requestHandle;
 	}
+	/**
+	 * 获取验证码的接口
+	 * @param type
+	 * @param acount
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle getRegVerCode(String type,
+			String acount,String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
 
+		request.setPath(URLConstant.GetVertCode);
+		request.params().add("type",type);
+		request.params().add("acount",acount);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 注册
+	 * @param type
+	 * @param acount
+	 * @param vcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle registUser(String userAccount,
+			String userPwd,String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.RegistUser);
+		request.params().add("userAccount",userAccount);
+		request.params().add("userPwd",userPwd);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 重置密码
+	 * @param type
+	 * @param acount
+	 * @param vcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle ResetPwd(String userAccount,
+			String newPwd,String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.FindPwd);
+		request.params().add("userAccount",userAccount);
+		request.params().add("newPwd",newPwd);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
 
     
 }
