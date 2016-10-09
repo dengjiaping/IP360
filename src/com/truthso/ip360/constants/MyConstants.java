@@ -17,6 +17,16 @@ public class MyConstants {
 	public static final int PHOTO = 0;
 	public static final int VIDEO = 1;
 	public static final int RECORD = 2;
+	
+	//1-注册；2-找回密码；3-绑定手机号；4-解绑旧手机号5-绑定新手机号6-绑定邮箱7-解绑旧邮箱8-绑定新邮箱
+	public static final String REGISTER = "1";
+	public static final String FIND_PWD = "2";
+	public static final String BIND_PHONUM = "3";
+	public static final String OFFBIND_PHONUM = "4";
+	public static final String BINDNEW_PHONUM = "5";
+	public static final String BINDEMAIL = "6";
+	public static final String OFFBIND_EMAIL = "7";
+	public static final String BINDNEW_EMAIL = "8";
 	/**
 	 * 判断是否是第一次进入应用的文件标识
 	 */

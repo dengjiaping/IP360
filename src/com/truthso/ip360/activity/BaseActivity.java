@@ -101,7 +101,7 @@ public abstract class BaseActivity extends Activity{
 			switch (msg.what) {
 			case NET_FIAL:
 				MyAsyncHttpClient.cancel();
-				Toast.makeText(BaseActivity.this, "网络请求超时，请检查网络～", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BaseActivity.this, "网络请求超时，请检查网络后重试", Toast.LENGTH_SHORT).show();
 				break;
 
 			default:

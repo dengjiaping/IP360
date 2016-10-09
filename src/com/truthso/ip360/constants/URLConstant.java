@@ -14,9 +14,14 @@ public class URLConstant {
 	 */
 	public  final  static String LoginPath = "http://101.201.74.230:9091/api/v1/user/login";
 	/**
-	 * 获取验证码
+	 * 登录，注册获取验证码
 	 */
 	public final static String GetVertCode = "http://101.201.74.230:9091/api/v1/vcode/getVcodeNotToken";
+	
+	/**
+	 * 除登录注册外的获取验证码
+	 */
+	public final static String GetVCode = "http://101.201.74.230:9091/api/v1/vcode/getVcode";
 	/**
 	 * 注册
 	 * 
@@ -28,6 +33,16 @@ public class URLConstant {
 	 */
 	public final static String FindPwd = "http://101.201.74.230:9091/api/v1/security/resetPwd";
 
+	/**
+	 * 绑定手机号/更改绑定手机号
+	 * 
+	 */
+	public final static String BindPhonum = "http://101.201.74.230:9091/api/v1/security/bindMobile";
+	/**
+	 * 绑定邮箱/更改绑定邮箱
+	 * 
+	 */
+	public final static String BindEmail = "http://101.201.74.230:9091/api/v1/security/bindEmail";
 
 
 }

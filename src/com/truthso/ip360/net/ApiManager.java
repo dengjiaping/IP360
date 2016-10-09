@@ -97,7 +97,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 	/**
-	 * 获取验证码的接口
+	 * 登录注册不带token获取验证码的接口
 	 * @param type
 	 * @param acount
 	 * @param callback
@@ -110,6 +110,30 @@ public class ApiManager implements BaseHttpRequestCallBack {
 				BaseHttpResponse.class, this);
 
 		request.setPath(URLConstant.GetVertCode);
+		request.params().add("type",type);
+		request.params().add("acount",acount);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 带token获取验证码的接口
+	 * @param type
+	 * @param acount
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle getVerCode(String type,
+			String acount,String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.GetVCode);
 		request.params().add("type",type);
 		request.params().add("acount",acount);
 		request.params().add("vcode", vcode);
@@ -170,6 +194,101 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		return requestHandle;
 	}
+	/**
+	 * 绑定手机号
+	 * @param mobile
+	 * @param vcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle BindPhonum(String mobile,
+			String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
 
+		request.setPath(URLConstant.BindPhonum);
+		request.params().add("mobile", mobile);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 更改绑定的手机号
+	 * @param mobile
+	 * @param oldVcode
+	 * @param newVcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle BindNewPhonum(String mobile,
+			String oldVcode,String newVcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.BindPhonum);
+		request.params().add("mobile", mobile);
+		request.params().add("oldVcode", oldVcode);
+		request.params().add("newVcode", newVcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 绑定邮箱
+	 * @param email
+	 * @param vcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle BindEmail(String email,
+			String vcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.BindEmail);
+		request.params().add("email", email);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
+	/**
+	 * 更改绑定的邮箱
+	 * @param newEmail
+	 * @param oldVcode
+	 * @param newVcode
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle BindNewEmail(String newEmail,
+			String oldVcode,String newVcode,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.BindEmail);
+		request.params().add("newEmail", newEmail);
+		request.params().add("oldVcode", oldVcode);
+		request.params().add("newVcode", newVcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
     
 }

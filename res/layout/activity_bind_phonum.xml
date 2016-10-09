@@ -36,15 +36,15 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
+            android:id="@+id/et_account"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv_psw"
             android:background="@null"
             android:hint="请输入您的常用手机号码"
-            android:layouaat_width="match_parent"
             android:textSize="@dimen/text_size" />
 
     </RelativeLayout>
@@ -84,7 +84,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_sure"
+        android:id="@+id/btn_bind"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"

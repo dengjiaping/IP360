@@ -1,5 +1,6 @@
 package com.truthso.ip360.activity;
 
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -115,7 +116,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
-		ApiManager.getInstance().getRegVerCode("1", phoneNum, null, new ApiCallback() {
+		ApiManager.getInstance().getRegVerCode(MyConstants.REGISTER, phoneNum, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
