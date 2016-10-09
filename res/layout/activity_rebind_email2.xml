@@ -31,20 +31,19 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="手机号"
+            android:text="邮箱"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv_psw"
             android:background="@null"
-            android:hint="请输入您的常用手机号码"
-            android:layouaat_width="match_parent"
+            android:hint="请输入您的常用邮箱"
             android:textSize="@dimen/text_size" />
 
     </RelativeLayout>
