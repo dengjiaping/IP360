@@ -33,12 +33,14 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
+            android:id="@+id/et_oldpwd"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv_psw"
+            android:inputType="textPassword"
             android:background="@null"
             android:hint="请输入您的原始密码"
             android:textSize="@dimen/text_size" />
@@ -74,12 +76,14 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
+            android:id="@+id/et_newpwd"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv_psw"
+            android:inputType="textPassword"
             android:background="@null"
             android:hint="6~18位数字与字母的组合"
             android:textSize="@dimen/text_size" />
@@ -115,12 +119,14 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
+            android:id="@+id/et_again_newpwd"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv_psw"
+            android:inputType="textPassword"
             android:background="@null"
             android:hint="再次输入新密码以确认"
             android:textSize="@dimen/text_size" />

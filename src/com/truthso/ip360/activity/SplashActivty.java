@@ -38,19 +38,23 @@ public class SplashActivty extends Activity {
 			boolean isFirstOpen = (Boolean) SharePreferenceUtil.getAttributeByKey(SplashActivty.this,
 					MyConstants.SP_ISFIRST_IN_TAG, MyConstants.APP_ISFIRST_IN,
 					SharePreferenceUtil.VALUE_IS_BOOLEAN);
-			if (isFirstOpen) {
-				// 进登录界面
+		/*	if (isFirstOpen) {
+//				// 进登录界面
 				Intent intent = new Intent(ctx, LoginActivity.class);
 				startActivity(intent);
+				
 			} else {
 				// 第一次启动先进入引导页
 				Intent intent = new Intent(ctx, GuideActivity.class);
 				startActivity(intent);
 				
 				
-			}
+			}*/
 			finish();
+			Intent intent = new Intent(ctx, MainActivity.class);
+			startActivity(intent);
 		};
+		
 	};
 
 }

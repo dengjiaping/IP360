@@ -43,6 +43,10 @@ public class URLConstant {
 	 * 
 	 */
 	public final static String BindEmail = "http://101.201.74.230:9091/api/v1/security/bindEmail";
-
+	/**
+	 * 修改密码
+	 * 
+	 */
+	public final static String ChangePwd = "http://101.201.74.230:9091/api/v1/security/changePwd";
 
 }

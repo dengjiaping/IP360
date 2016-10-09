@@ -120,8 +120,8 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(ReBindPhonumBindNewActivity.this,response.getMsg());
-						Intent intent = new Intent(ReBindPhonumBindNewActivity.this,MainActivity.class);
-						startActivity(intent);
+//						Intent intent = new Intent(ReBindPhonumBindNewActivity.this,MainActivity.class);
+//						startActivity(intent);
 						finish();
 						
 					}else{

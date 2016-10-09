@@ -120,8 +120,8 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(BindPhoNumActivity.this,response.getMsg());
-						Intent intent = new Intent(BindPhoNumActivity.this,MainActivity.class);
-						startActivity(intent);
+//						Intent intent = new Intent(BindPhoNumActivity.this,MainActivity.class);
+//						startActivity(intent);
 						finish();
 						
 					}else{

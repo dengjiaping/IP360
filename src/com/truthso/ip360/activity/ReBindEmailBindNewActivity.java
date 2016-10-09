@@ -120,8 +120,8 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(ReBindEmailBindNewActivity.this,response.getMsg());
-						Intent intent = new Intent(ReBindEmailBindNewActivity.this,MainActivity.class);
-						startActivity(intent);
+//						Intent intent = new Intent(ReBindEmailBindNewActivity.this,MainActivity.class);
+//						startActivity(intent);
 						finish();
 						
 					}else{

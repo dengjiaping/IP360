@@ -290,5 +290,28 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		return requestHandle;
 	}
+	/**
+	 * 修改密码
+	 * @param oldPwd
+	 * @param newPwd
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle ChangePwd(String oldPwd,
+			String newPwd,ApiCallback callback) {
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+
+		request.setPath(URLConstant.ChangePwd);
+		request.params().add("oldPwd", oldPwd);
+		request.params().add("newPwd", newPwd);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		
+		requestHashMap.put(requestHandle, request);
+
+		return requestHandle;
+	}
     
 }

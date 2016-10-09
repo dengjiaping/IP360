@@ -123,8 +123,8 @@ private void bind() {
 			if (!CheckUtil.isEmpty(response)) {
 				if (response.getCode() == 200) {
 					Toaster.showToast(BindEmialActivity.this,response.getMsg());
-					Intent intent = new Intent(BindEmialActivity.this,MainActivity.class);
-					startActivity(intent);
+//					Intent intent = new Intent(BindEmialActivity.this,MainActivity.class);
+//					startActivity(intent);
 					finish();
 					
 				}else{
