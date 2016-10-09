@@ -52,5 +52,8 @@ public class URLConstant {
 	 * 退出登录
 	 */
 	public final static String LogOut = "http://101.201.74.230:9091/api/v1/user/logout";
-
+	/**
+	 * 获取个人信息概要
+	 */
+	public final static String GetPersonalMsg = "http://101.201.74.230:9091/api/v1/user/getUserInfo";
 }

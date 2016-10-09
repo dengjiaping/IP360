@@ -3,8 +3,8 @@ package com.truthso.ip360.net;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
-import com.truthso.ip360.activity.RegisterActivity;
 import com.truthso.ip360.bean.LoginBean;
+import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.constants.URLConstant;
 
 public class ApiManager implements BaseHttpRequestCallBack {
@@ -329,4 +329,19 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
     	
     }
+	/**
+	 * 获取个人信息概要
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getPersonalMsg(ApiCallback callback){
+    	BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
+    			PersonalMsgBean.class, this);
+		request.setPath(URLConstant.GetPersonalMsg);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+		
+	}
 }

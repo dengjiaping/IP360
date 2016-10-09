@@ -1,6 +1,6 @@
 package com.truthso.ip360.fragment;
 
-import javax.security.auth.callback.Callback;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.truthso.ip360.activity.AboutUsAcctivity;
 import com.truthso.ip360.activity.AccountPayActivity;
@@ -21,7 +22,12 @@ import com.truthso.ip360.activity.BindEmialActivity;
 import com.truthso.ip360.activity.BindPhoNumActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.ReBindEmailBindNewActivity;
+import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
+import com.truthso.ip360.activity.findPwdActivity;
+import com.truthso.ip360.bean.PersonalMsgBean;
+import com.truthso.ip360.bean.product;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -38,10 +44,15 @@ import com.truthso.ip360.utils.CheckUtil;
  */
 
 public class PersonalCenter extends BaseFragment implements OnClickListener {
+	private PersonalMsgBean bean;
 	private Dialog alertDialog;
 	private RelativeLayout ll_count_pay, rl_Certification, rl_bind_phonum,
 			rl_bind_mail, rl_amend_psd,rl_about_us;
 	private Button btn_logout;
+	//账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
+	private TextView tv_account_balance,tv_realname,tv_bindphonenum,tv_bindemail;
+	
+	private List<product> list;//业务余量的集合
 
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
@@ -68,7 +79,57 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		
 		btn_logout = (Button) view.findViewById(R.id.btn_logout);
 		btn_logout.setOnClickListener(this);
+		
+		tv_account_balance = (TextView) view.findViewById(R.id.tv_account_balance);
+		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
+		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
+		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
+		
+		getPersonalMsg();
 
+	}
+	//获取个人信息概要
+	private void getPersonalMsg() {
+		showProgress();
+		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
+			
+			
+
+			@Override
+			public void onApiResult(int errorCode, String message,
+					BaseHttpResponse response) {
+				hideProgress();
+				bean = (PersonalMsgBean) response;
+				if (!CheckUtil.isEmpty(bean)) {
+					if (bean.getCode() == 200) {
+						list = bean.getProductBalance();//业务余量
+						if (bean.getUserType() == 1) {//1-付费用户（C）；2-合同用户（B）
+							tv_account_balance.setText(bean.getAccountBalance());
+						}else{
+							//跳转到另一个界面，展示B类用户	
+						}
+						tv_realname.setText(bean.getRealNameState());//实名认证状态
+						if (!CheckUtil.isEmpty(bean.getBindedMobile())) {//为空时，是未绑定手机号
+							tv_bindphonenum.setText(bean.getBindedMobile());
+						}else {
+							tv_bindphonenum.setText("未绑定");
+						}
+						if (!CheckUtil.isEmpty(bean.getBindedEmail())) {//为空时，是未绑定
+							tv_bindemail.setText(bean.getBindedEmail());
+						}else {
+							tv_bindemail.setText("未绑定");
+						}
+					
+						
+					}else{
+						Toaster.showToast(getActivity(),bean.getMsg());
+					}
+				}else{
+					Toaster.showToast(getActivity(), "获取信息失败");
+				}
+				
+			}
+		});
 	}
 
 	@Override
@@ -94,13 +155,25 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			break;
 
 		case R.id.rl_bind_phonum:// 绑定手机
-			Intent intent3 = new Intent(getActivity(),BindPhoNumActivity.class);
-			startActivity(intent3);
+			if (CheckUtil.isEmpty(bean.getBindedMobile())) {//为空是未绑定
+				Intent intent3 = new Intent(getActivity(),BindPhoNumActivity.class);
+				startActivity(intent3);
+			}else{//已绑定跳转到更改绑定
+				Intent intent4 = new Intent(getActivity(),ReBindPhoNumActivity.class);
+				startActivity(intent4);
+			}
+			
 			break;
 
 		case R.id.rl_bind_mail:// 绑定邮箱
-			Intent intent4 = new Intent(getActivity(),BindEmialActivity.class);
-			startActivity(intent4);
+			if (CheckUtil.isEmpty(bean.getBindedEmail())) {//为空是未绑定
+				Intent intent4 = new Intent(getActivity(),BindEmialActivity.class);
+				startActivity(intent4);
+			}else{//已绑定跳转到更改绑定
+				Intent intent5 = new Intent(getActivity(),ReBindEmailBindNewActivity.class);
+				startActivity(intent5);
+			}
+			
 			break;
 
 		case R.id.rl_amend_psd:// 修改密码
@@ -148,7 +221,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private void logOut() {
 		showProgress();
 		ApiManager.getInstance().LogOut(new ApiCallback() {
-			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
