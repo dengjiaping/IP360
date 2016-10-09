@@ -90,7 +90,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			startActivity(intent1);
 			break;
 		case R.id.btn_loginin:// 登录
-			
+
 			userAccount = et_useraccount.getText().toString().trim();
 			userPwd = et_userpwd.getText().toString().trim();
 			
@@ -111,12 +111,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	public  void Login(){
 		userPwd=MD5Util.encoder(userPwd);
+		showProgress();
 		ApiManager.getInstance().doLogin(userAccount, userPwd, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-
+                hideProgress();
 				LoginBean bean = (LoginBean) response;
 				if(!CheckUtil.isEmpty(bean)){
 					if(bean.getCode()==200){
@@ -134,8 +135,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						
 						//判断是否保存帐号密码
 						savePwd();
-						
-						
+							
 						//跳转到主页面
 						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
 						startActivity(intent2);
@@ -146,12 +146,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					}					
 				}else{
 					Toaster.showToast(LoginActivity.this, "登录失败");
-				}
-				
-						
+				}					
 			}
-
-			
 		});
 		
 		

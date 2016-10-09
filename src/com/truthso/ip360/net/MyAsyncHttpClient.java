@@ -78,12 +78,12 @@ public class MyAsyncHttpClient {
 //
 //	}
 //
-//	public static void cancelRequest(Context context) {
-//		httpClient.cancelRequests(context, true);
-//
-//	}
-//
-//	public static void cancel() {
-//		httpClient.cancelAllRequests(true);
-//	}
+	public static void cancelRequest(Context context) {
+		httpClient.cancelRequests(context, true);
+
+	}
+
+	public static void cancel() {
+		httpClient.cancelAllRequests(true);
+	}
 }
