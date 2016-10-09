@@ -313,5 +313,20 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		return requestHandle;
 	}
-    
+	/**
+	 * 退出登录
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+    public RequestHandle LogOut(ApiCallback callback){
+    	BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.LogOut);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+    	
+    }
 }

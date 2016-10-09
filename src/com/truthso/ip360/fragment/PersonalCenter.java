@@ -1,5 +1,7 @@
 package com.truthso.ip360.fragment;
 
+import javax.security.auth.callback.Callback;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -20,6 +22,11 @@ import com.truthso.ip360.activity.BindPhoNumActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RealNameCertification;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.utils.CheckUtil;
 
 /**
  * @despriction :个人中心
@@ -105,6 +112,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.btn_logout://退出登录
+			
 			showDialog();
 		default:
 			break;
@@ -120,9 +128,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
         	     
         	     @Override
         	     public void onClick(DialogInterface dialog, int which) {
-        	    	 Intent intent = new Intent(getActivity(),LoginActivity.class);
-        	    	 startActivity(intent);
+        	    	 logOut();
+        	    	
         	    	 }
+
+			
         	    }).
         	    setNegativeButton("取消", new DialogInterface.OnClickListener() {
         	     
@@ -134,4 +144,27 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
         	    create();
 				alertDialog.show();
         	 }
+	//退出登录
+	private void logOut() {
+		showProgress();
+		ApiManager.getInstance().LogOut(new ApiCallback() {
+			
+			@Override
+			public void onApiResult(int errorCode, String message,
+					BaseHttpResponse response) {
+				hideProgress();
+				if (!CheckUtil.isEmpty(response)) {
+					if (response.getCode() == 200) {
+						Toaster.showToast(getActivity(),"已退出登录");
+						 Intent intent = new Intent(getActivity(),LoginActivity.class);
+	        	    	 startActivity(intent);
+					}else{
+						Toaster.showToast(getActivity(),response.getMsg());
+					}
+				}else{
+					Toaster.showToast(getActivity(), "退出登录失败");
+				}
+			}
+		});
+	}
 	}

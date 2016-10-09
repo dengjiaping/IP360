@@ -48,5 +48,9 @@ public class URLConstant {
 	 * 
 	 */
 	public final static String ChangePwd = "http://101.201.74.230:9091/api/v1/security/changePwd";
+	/**
+	 * 退出登录
+	 */
+	public final static String LogOut = "http://101.201.74.230:9091/api/v1/user/logout";
 
 }
