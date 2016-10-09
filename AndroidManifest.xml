@@ -141,9 +141,33 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
+          <!-- 更改绑定手机号码页面 -->
+        <activity
+            android:name="com.truthso.ip360.activity.ReBindPhoNumActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+              <!-- 更改绑定手机号码页面2 -->
+        <activity
+            android:name="com.truthso.ip360.activity.ReBindPhonumBindNewActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.BindEmialActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+           <!-- 更改绑定邮箱页面 -->
+        <activity
+            android:name="com.truthso.ip360.activity.ReBindEmailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+              <!-- 更改绑定邮箱页面2 -->
+        <activity
+            android:name="com.truthso.ip360.activity.ReBindEmailBindNewActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>

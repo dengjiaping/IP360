@@ -5,10 +5,7 @@
     android:background="@color/activity_bg"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/top_title" />
+    <include layout="@layout/top_title" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,7 +33,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
@@ -44,9 +41,7 @@
             android:layout_toRightOf="@id/tv_psw"
             android:background="@null"
             android:hint="请输入您的常用手机号码"
-            android:layouaat_width="match_parent"
             android:textSize="@dimen/text_size" />
-
     </RelativeLayout>
 
     <View

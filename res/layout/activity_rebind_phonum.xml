@@ -5,10 +5,7 @@
     android:background="@color/activity_bg"
     android:orientation="vertical" >
 
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/top_title" />
+    <include layout="@layout/top_title" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,22 +28,57 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="手机号"
+            android:text="已绑定手机号"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_marginRight"
+            android:gravity="center_vertical"
+            android:text="18810075505"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:background="@color/item_bg" >
+
+        <ImageView
+            android:id="@+id/iv_jiupsd"
+            android:layout_width="@dimen/image_edit_head"
+            android:layout_height="@dimen/image_edit_head"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:layout_toRightOf="@id/tv_psw"
-            android:background="@null"
-            android:hint="请输入您的常用手机号码"
-            android:layouaat_width="match_parent"
+            android:background="@drawable/ww" />
+
+        <TextView
+            android:id="@+id/tv_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/iv_jiupsd"
+            android:text="验证方式"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_marginRight"
+            android:gravity="center_vertical"
+            android:text="手机验证"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <View
@@ -56,17 +88,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
-        android:background="@color/item_bg" 
-        android:orientation="horizontal"
-        >
+        android:background="@color/item_bg"
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/et_cercode"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
-            android:layout_weight="1"
             android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_weight="1"
             android:background="@null"
             android:hint="请输入验证码"
             android:textSize="@dimen/text_size" />
@@ -75,22 +106,29 @@
             android:id="@+id/btn_send_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
             android:background="@color/title_color"
             android:text="发送验证码"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/text_size" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="提示：我们会向之前已经绑定的手机号发送验证码"
+        android:textSize="10sp" />
+
     <Button
-        android:id="@+id/btn_sure"
+        android:id="@+id/btn_next"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
         android:background="@color/title_color"
-        android:text="确认绑定"
+        android:text="下一步"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />
 
