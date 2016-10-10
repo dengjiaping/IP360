@@ -140,20 +140,18 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
-		showProgress();
+		//开始倒计时
+		btn_send_code.setEnabled(false);
+		timer.start();
 		ApiManager.getInstance().getVerCode(MyConstants.BINDNEW_PHONUM, phoneNum, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				hideProgress();
+				
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						hideProgress();
-						//开始倒计时
-						btn_send_code.setEnabled(false);
-						timer.start();
-					}else{
+					
 						Toaster.showToast(ReBindPhonumBindNewActivity.this,response.getMsg());
 					}
 				}else{

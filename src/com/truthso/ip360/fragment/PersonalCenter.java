@@ -92,9 +92,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private void getPersonalMsg() {
 		showProgress();
 		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
-			
-			
-
+	
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {

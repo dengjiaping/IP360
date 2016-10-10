@@ -140,20 +140,17 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
-		showProgress();
+		//开始倒计时
+		btn_send_code.setEnabled(false);
+		timer.start();
 		ApiManager.getInstance().getVerCode(MyConstants.BINDNEW_EMAIL, email, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				hideProgress();
+	
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						hideProgress();
-						//开始倒计时
-						btn_send_code.setEnabled(false);
-						timer.start();
-					}else{
 						Toaster.showToast(ReBindEmailBindNewActivity.this,response.getMsg());
 					}
 				}else{

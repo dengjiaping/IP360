@@ -116,6 +116,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
+		btn_send_code.setEnabled(false);
+		timer.start();
 		ApiManager.getInstance().getRegVerCode(MyConstants.REGISTER, phoneNum, null, new ApiCallback() {
 			
 			@Override
@@ -123,14 +125,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 				
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
-						
-						//开始倒计时
-						btn_send_code.setEnabled(false);
-						timer.start();
-					}else{
 						Toaster.showToast(RegisterActivity.this,response.getMsg());
-					}
 				}else{
 					Toaster.showToast(RegisterActivity.this,"获取失败");
 				}

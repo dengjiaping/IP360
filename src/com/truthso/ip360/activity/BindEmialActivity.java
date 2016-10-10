@@ -144,22 +144,18 @@ private void bind() {
 
 private void sendVerCode() {
 
-	showProgress();
+	btn_send_code.setEnabled(false);
+	timer.start();
 	ApiManager.getInstance().getVerCode(MyConstants.BINDEMAIL, bindEmial, null, new ApiCallback() {
 		
 		@Override
 		public void onApiResult(int errorCode, String message,
 				BaseHttpResponse response) {
-			hideProgress();
+			
 			if (!CheckUtil.isEmpty(response)) {
-				if (response.getCode() == 200) {
-					hideProgress();
-					//开始倒计时
-					btn_send_code.setEnabled(false);
-					timer.start();
-				}else{
+			
 					Toaster.showToast(BindEmialActivity.this,response.getMsg());
-				}
+			
 			}else{
 				Toaster.showToast(BindEmialActivity.this,"获取失败");
 			}
