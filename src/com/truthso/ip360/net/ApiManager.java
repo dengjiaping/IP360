@@ -344,4 +344,23 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 		
 	}
+	/**
+	 * 获取业务计费状态（计费相关）
+	 * @param type 业务类型()50001:现场取证拍照 50002:现场取证录音 50003：现场取证录像
+	 * @param count 可空  当次使用业务量 无论B、C类用户，均表示使用的业务量的条数、分钟数。照片按次，录像、录音按时长（分钟）。可为0。
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getAccountStatus(int type,int count,ApiCallback callback){
+    	BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
+    			PersonalMsgBean.class, this);
+		request.setPath(URLConstant.GetPersonalMsg);
+		request.params().add("type", type+"");
+		request.params().add("count", count+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+		
+	}
 }

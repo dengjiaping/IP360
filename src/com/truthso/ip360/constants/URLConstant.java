@@ -14,7 +14,7 @@ public class URLConstant {
 	 */
 	public  final  static String LoginPath = "http://101.201.74.230:9091/api/v1/user/login";
 	/**
-	 * 登录，注册获取验证码
+	 * 登录，注册，忘记密码获取验证码
 	 */
 	public final static String GetVertCode = "http://101.201.74.230:9091/api/v1/vcode/getVcodeNotToken";
 	
@@ -56,4 +56,8 @@ public class URLConstant {
 	 * 获取个人信息概要
 	 */
 	public final static String GetPersonalMsg = "http://101.201.74.230:9091/api/v1/user/getUserInfo";
+	/**
+	 * 获取业务计费状态（计费相关）
+	 */
+	public final static String GetAccountStatus = "http://101.201.74.230:9091/api/v1/expense/getAccountStatus";
 }
