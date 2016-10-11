@@ -90,20 +90,17 @@ public class ReBindPhoNumActivity extends BaseActivity implements OnClickListene
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
-		showProgress();
+		//开始倒计时
+		btn_send_code.setEnabled(false);
+		timer.start();
 		ApiManager.getInstance().getRegVerCode(MyConstants.OFFBIND_PHONUM, null, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				hideProgress();
+				
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
-						
-						//开始倒计时
-						btn_send_code.setEnabled(false);
-						timer.start();
-					}else{
+					if (response.getCode() == 200) {			
 						Toaster.showToast(ReBindPhoNumActivity.this,response.getMsg());
 					}
 				}else{

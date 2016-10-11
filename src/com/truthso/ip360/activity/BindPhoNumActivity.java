@@ -140,20 +140,17 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
-		showProgress();
+		btn_send_code.setEnabled(false);
+		timer.start();
 		ApiManager.getInstance().getVerCode(MyConstants.BIND_PHONUM, phoneNum, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				hideProgress();
+				
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						hideProgress();
-						//开始倒计时
-						btn_send_code.setEnabled(false);
-						timer.start();
-					}else{
+						
 						Toaster.showToast(BindPhoNumActivity.this,response.getMsg());
 					}
 				}else{
