@@ -27,6 +27,11 @@ public class MyConstants {
 	public static final String BINDEMAIL = "6";
 	public static final String OFFBIND_EMAIL = "7";
 	public static final String BINDNEW_EMAIL = "8";
+	
+	//取证的业务类型 50001现场取证拍照 50002 现场取证录音 50003现场取证录像
+	public static final int PHOTOTYPE = 50001;
+	public static final int VIDEOTYPE = 50003;
+	public static final int RECORDTYPE = 50002;
 	/**
 	 * 判断是否是第一次进入应用的文件标识
 	 */
