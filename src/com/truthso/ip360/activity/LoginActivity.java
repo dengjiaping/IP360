@@ -20,7 +20,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.MD5Util;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
+
 
 /**
  * 登录界面
@@ -123,13 +123,9 @@ protected void onCreate(Bundle savedInstanceState) {
 				if(!CheckUtil.isEmpty(bean)){
 					if(bean.getCode()==200){
 						//登录成功
-<<<<<<< HEAD
-						String token = bean.getToken();//登录标识
-						LogUtils.e("-------------------"+token);
-=======
 						String token = bean.getDatas().getToken();//登录标识
 						Log.i("djj", "token:"+token);
->>>>>>> 871d990f65aa42b1bbec1ef1fda9de7e8df063c1
+
 						//保存登录的token
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
 						int userType = bean.getDatas().getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
