@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
@@ -36,23 +37,23 @@ public class SplashActivty extends Activity {
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			boolean isFirstOpen = (Boolean) SharePreferenceUtil.getAttributeByKey(SplashActivty.this,
-					MyConstants.SP_ISFIRST_IN_TAG, MyConstants.APP_ISFIRST_IN,
+					MyConstants.APP_KEY, MyConstants.APP_ISFIRST_IN,
 					SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			String token=MyApplication.getInstance().getTokenId();
+			Intent intent;
 			if (isFirstOpen) {
-//				// 进登录界面
-				Intent intent = new Intent(ctx, LoginActivity.class);
-				startActivity(intent);
-				
+				if(token==null){
+					// 进登录界面
+					 intent = new Intent(ctx, LoginActivity.class);
+				}else{
+					intent = new Intent(ctx, MainActivity.class);
+				}
 			} else {
 				// 第一次启动先进入引导页
-				Intent intent = new Intent(ctx, GuideActivity.class);
-				startActivity(intent);
-				
-				
+				 intent = new Intent(ctx, GuideActivity.class);
 			}
-//			finish();
-//			Intent intent = new Intent(ctx, MainActivity.class);
-//			startActivity(intent);
+			startActivity(intent);
+			finish();
 		};
 		
 	};

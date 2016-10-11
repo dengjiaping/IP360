@@ -15,6 +15,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 /**
  * application
@@ -132,4 +134,7 @@ public class MyApplication extends Application {
 				.build();// 开始构建
 	}
 
+    public String getTokenId (){
+		return (String)SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "token", com.truthso.ip360.utils.SharePreferenceUtil.VALUE_IS_STRING);
+	}
 }

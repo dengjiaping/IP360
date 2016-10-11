@@ -182,6 +182,7 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 					@Override
 					public void onSuccess(int statusCode, Header[] headers,
 							byte[] responseBody) {
+						Log.i("paramsString", params.toString());
 						BaseHttpRequest.this.onSuccess(statusCode, headers,
 								responseBody);
 					}

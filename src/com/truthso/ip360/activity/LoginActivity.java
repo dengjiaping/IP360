@@ -2,6 +2,7 @@ package com.truthso.ip360.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -122,10 +123,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				if(!CheckUtil.isEmpty(bean)){
 					if(bean.getCode()==200){
 						//登录成功
-						String token = bean.getToken();//登录标识
+						String token = bean.getDatas().getToken();//登录标识
+						Log.i("djj", "token:"+token);
 						//保存登录的token
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
-						int userType = bean.getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
+						int userType = bean.getDatas().getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
 						//保存用户类型
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userType", userType);
 						//保存帐号
