@@ -75,7 +75,7 @@ public class RegisterSetPwd extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						Intent intent = new Intent(RegisterSetPwd.this,MainActivity.class);
+						Intent intent = new Intent(RegisterSetPwd.this,LoginActivity.class);
 						startActivity(intent);
 						finish();
 						
