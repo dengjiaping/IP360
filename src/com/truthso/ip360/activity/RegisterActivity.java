@@ -103,7 +103,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(this, "请输入正确的手机号");
 				}else{
-				
+					//开始倒计时
+					btn_send_code.setEnabled(false);
+					timer.start();
 				sendVerCode();
 				}				
 			}

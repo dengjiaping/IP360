@@ -27,6 +27,9 @@ import com.truthso.ip360.activity.PhotoPreserved;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.VideoPreserved;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
@@ -43,7 +46,6 @@ import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 public class HomeFragment extends Fragment implements OnClickListener {
 	private static final int CAMERA = 0;
-
 	private static final int CASE_VIDEO = 1;
 	private String timeUsed;
 	private int timeUsedInsec;
@@ -81,6 +83,8 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
+			//调接口,看是否可以拍照
+			getPortPhoto();
 			getLocation();
 			photoDir = new File(MyConstants.PHOTO_PATH);
 			if (!photoDir.exists()) {
@@ -114,6 +118,23 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	/**
+	 * 调是否可以拍照的接口
+	 */
+	private void getPortPhoto() {
+//		
+//	
+//		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE ,null, new ApiCallback() {
+//			
+//			@Override
+//			public void onApiResult(int errorCode, String message,
+//					BaseHttpResponse response) {
+//				
+//			}
+//		});
+//		
+		
 	}
 
 	/**
