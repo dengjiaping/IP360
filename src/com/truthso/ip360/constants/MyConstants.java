@@ -35,7 +35,7 @@ public class MyConstants {
 	/**
 	 * 判断是否是第一次进入应用的文件标识
 	 */
-	public final static String SP_ISFIRST_IN_TAG= "sp_isFirst_in_tag";
+	public final static String APP_KEY= "app_key";
 	/**
 	 * 是否是第一次进来
 	 */

@@ -11,19 +11,31 @@ import com.truthso.ip360.net.BaseHttpResponse;
  */
 
 public class LoginBean extends BaseHttpResponse{
-	private int userType;
-	private String token;
-	public int getUserType() {
-		return userType;
+	
+	private Login datas;
+
+	public Login getDatas() {
+		return datas;
 	}
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
+
+	public void setDatas(Login datas) {
+		this.datas = datas;
 	}
 	
+	public class Login{
+		private int userType;
+		private String token;
+		public int getUserType() {
+			return userType;
+		}
+		public void setUserType(int userType) {
+			this.userType = userType;
+		}
+		public String getToken() {
+			return token;
+		}
+		public void setToken(String token) {
+			this.token = token;
+		}
+	}
 }

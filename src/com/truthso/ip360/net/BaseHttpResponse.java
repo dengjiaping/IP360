@@ -6,6 +6,7 @@ import java.io.Serializable;
 //	private static final long serialVersionUID = 1L;
 	private int code;
 	private String msg;
+	
 	public int getCode() {
 		return code;
 	}
