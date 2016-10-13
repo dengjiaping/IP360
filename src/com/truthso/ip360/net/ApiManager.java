@@ -1,5 +1,7 @@
 package com.truthso.ip360.net;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
@@ -227,20 +229,41 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RequestHandle BindNewPhonum(String mobile,
-			String oldVcode,String newVcode,ApiCallback callback) {
+			String vcode,ApiCallback callback) {
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
 
 		request.setPath(URLConstant.BindPhonum);
 		request.params().add("mobile", mobile);
-		request.params().add("oldVcode", oldVcode);
-		request.params().add("newVcode", newVcode);
+//		request.params().add("oldVcode", oldVcode);
+		request.params().add("vcode", vcode);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		
 		requestHashMap.put(requestHandle, request);
 
 		return requestHandle;
+	}
+	/**
+	 * 验证校验码（解绑旧手机号，旧邮箱时，点下一步操作时用）
+	 * @param type
+	 * @param acount
+	 * @param vcode
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getCapVerCode(String type, String acount,String vcode,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.GetCapVerCode);
+		request.params().add("type", type);
+		request.params().add("acount", acount);
+		request.params().add("vcode", vcode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+		
 	}
 	/**
 	 * 绑定邮箱
@@ -274,15 +297,13 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle BindNewEmail(String newEmail,
-			String oldVcode,String newVcode,ApiCallback callback) {
+	public RequestHandle BindNewEmail(String email,String vcode,ApiCallback callback) {
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
 
 		request.setPath(URLConstant.BindEmail);
-		request.params().add("newEmail", newEmail);
-		request.params().add("oldVcode", oldVcode);
-		request.params().add("newVcode", newVcode);
+		request.params().add("email", email);
+		request.params().add("vcode", vcode);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		
@@ -361,6 +382,33 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
+		
+	}
+	/**
+	 * 实名认证
+	 * @param idCardNum 身份证号
+	 * @param userRealName 真实姓名
+	 * @param file 已采集成功的照片
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle setRealName(String idCardNum,String userRealName,File file,ApiCallback callback){
+		BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
+    			PersonalMsgBean.class, this);
+		request.setPath(URLConstant.GetPersonalMsg);
+		request.params().add("idCardNum", idCardNum);
+		request.params().add("userRealName", userRealName);
+		try {
+			request.params().put("file", file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+		
+		
 		
 	}
 }

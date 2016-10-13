@@ -1,18 +1,18 @@
 package com.truthso.ip360.activity;
 
-import com.megvii.livenessdetection.ui.LiveDectActivity;
-import com.truthso.ip360.utils.CheckUtil;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.megvii.livenessdetection.ui.LiveDectActivity;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.CheckUtil;
 
 /**
  * @despriction :个人中心-> 实名认证
@@ -24,7 +24,7 @@ import android.widget.Toast;
  */
 
 public class RealNameCertification extends BaseActivity implements OnClickListener {
-
+	private Button btn_ver;
 	private ImageView iv_face;
 	@Override
 	public void initData() {
@@ -35,6 +35,8 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 	public void initView() {
 		iv_face=(ImageView) findViewById(R.id.iv_face);
 		iv_face.setOnClickListener(this);
+		btn_ver = (Button) findViewById(R.id.btn_ver);
+		btn_ver.setOnClickListener(this);
 	}
 
 	@Override
@@ -50,10 +52,16 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.iv_face:		
+		case R.id.iv_face://采集照片		
 			startActivityForResult(new Intent(this, LiveDectActivity.class), 20);
 			break;
-
+		case R.id.btn_ver://去认证
+			
+			//调认证的接口
+			
+			setResult(MyConstants.REALNAME_VERTIFICATION);
+			finish();
+			break;
 		default:
 			break;
 		}

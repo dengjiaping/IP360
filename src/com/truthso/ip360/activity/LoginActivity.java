@@ -124,13 +124,17 @@ protected void onCreate(Bundle savedInstanceState) {
 					if(bean.getCode()==200){
 						//登录成功
 						String token = bean.getDatas().getToken();//登录标识
-						Log.i("djj", "token:"+token);
-
 						//保存登录的token
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
+						
 						int userType = bean.getDatas().getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
 						//保存用户类型
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userType", userType);
+						
+						int accountType = bean.getDatas().getAccountType();//1 个人 2 企业
+						//保存用户是企业用户还是个人用户
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "accountType", accountType);
+						
 						//保存帐号
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userAccount", userAccount);
 						

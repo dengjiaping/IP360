@@ -1,11 +1,13 @@
 package com.truthso.ip360.activity;
 
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -24,7 +26,7 @@ import android.widget.EditText;
  */
 
 public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickListener{
-	private String oldCerCode,newCerCode,email;
+	private String newCerCode,email;
 	private Button btn_bind, btn_send_code;
 	private EditText et_account, et_cercode;
 	// 倒计时
@@ -48,7 +50,7 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 
 	@Override
 	public void initView() {
-		oldCerCode = getIntent().getStringExtra("cerCode");
+//		oldCerCode = getIntent().getStringExtra("cerCode");
 		btn_bind = (Button) findViewById(R.id.btn_bind);
 		btn_bind.setOnClickListener(this);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
@@ -102,26 +104,21 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 		default:
 			break;
 		}
-	
-		
 	}
 	/**
 	 * 确认绑定
 	 */
 	private void bind() {
 		showProgress();
-		ApiManager.getInstance().BindNewPhonum(email, oldCerCode,newCerCode, new ApiCallback() {
+		ApiManager.getInstance().BindNewEmail(email, newCerCode, new ApiCallback() {
 			
 			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
+			public void onApiResult(int errorCode, String message,BaseHttpResponse response) {
 				hideProgress();
-
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(ReBindEmailBindNewActivity.this,response.getMsg());
-//						Intent intent = new Intent(ReBindEmailBindNewActivity.this,MainActivity.class);
-//						startActivity(intent);
+						setResult(1);
 						finish();
 						
 					}else{
@@ -133,9 +130,10 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 			
 				
 			}
+			
 		});
+		
 	}
-
 	/**
 	 * 发送验证码
 	 */
@@ -148,7 +146,6 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-	
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(ReBindEmailBindNewActivity.this,response.getMsg());

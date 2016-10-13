@@ -1,18 +1,19 @@
 package com.truthso.ip360.activity;
 
-import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.net.ApiCallback;
-import com.truthso.ip360.net.ApiManager;
-import com.truthso.ip360.net.BaseHttpResponse;
-import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.utils.CheckUtil;
-
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.utils.CheckUtil;
 
 /**
  * @despriction :更改绑定的手机号
@@ -23,36 +24,44 @@ import android.widget.EditText;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
-public class ReBindPhoNumActivity extends BaseActivity implements OnClickListener{
+public class ReBindPhoNumActivity extends BaseActivity implements
+		OnClickListener {
 	private Button btn_next, btn_send_code;
 	private EditText et_cercode;
 	private String cerCode;
+	private TextView tv_binded_mobile;
 	// 倒计时
-		private CountDownTimer timer = new CountDownTimer(60000, 1000) {
+	private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
-			@Override
-			public void onTick(long millisUntilFinished) {
-				btn_send_code.setText(millisUntilFinished / 1000 + "秒");
-			}
+		@Override
+		public void onTick(long millisUntilFinished) {
+			btn_send_code.setText(millisUntilFinished / 1000 + "秒");
+		}
 
-			@Override
-			public void onFinish() {
-				btn_send_code.setText("获取验证码");
-				btn_send_code.setEnabled(true);
-			}
-		};
+		@Override
+		public void onFinish() {
+			btn_send_code.setText("获取验证码");
+			btn_send_code.setEnabled(true);
+		}
+	};
+	private String bindedMobile;
+
 	@Override
 	public void initData() {
-		
+
 	}
 
 	@Override
 	public void initView() {
+		bindedMobile = getIntent().getStringExtra("bindedMonile");
 		btn_next = (Button) findViewById(R.id.btn_next);
 		btn_next.setOnClickListener(this);
 		et_cercode = (EditText) findViewById(R.id.et_cercode);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
 		btn_send_code.setOnClickListener(this);
+		
+		tv_binded_mobile = (TextView) findViewById(R.id.tv_binded_mobile);
+		tv_binded_mobile.setText(bindedMobile);
 	}
 
 	@Override
@@ -72,44 +81,71 @@ public class ReBindPhoNumActivity extends BaseActivity implements OnClickListene
 			cerCode = et_cercode.getText().toString().trim();
 			if (CheckUtil.isEmpty(cerCode)) {
 				Toaster.showToast(this, "验证码不能为空");
-			}else{
-					Intent intent = new Intent(this, ReBindPhonumBindNewActivity.class);
-					intent.putExtra("cerCode", cerCode);
-					startActivity(intent);
-//					finish();
+			} else {
+				//验证码校验
+				CaptchaValidation();
 			}
 			break;
 		case R.id.btn_send_code:
 			sendVerCode();
-			
+
 		default:
 			break;
 		}
 	}
 	/**
-	 * 发送验证码
+	 * 验证码校验
 	 */
-	private void sendVerCode() {
-		//开始倒计时
-		btn_send_code.setEnabled(false);
-		timer.start();
-		ApiManager.getInstance().getRegVerCode(MyConstants.OFFBIND_PHONUM, null, null, new ApiCallback() {
+	private void CaptchaValidation() {
+		showProgress();
+		ApiManager.getInstance().getCapVerCode(MyConstants.OFFBIND_PHONUM, bindedMobile, cerCode, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				
+				hideProgress();
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {			
-						Toaster.showToast(ReBindPhoNumActivity.this,response.getMsg());
+					if (response.getCode() == 200) {
+						Intent intent = new Intent(ReBindPhoNumActivity.this, ReBindPhonumBindNewActivity.class);
+						startActivityForResult(intent,  MyConstants.OFFBIND_BINDNEWEMOBILE);
+						setResult( MyConstants.OFFBIND_BINDNEWEMOBILE);
+						finish();
+						
+					}else{
+						Toaster.showToast(ReBindPhoNumActivity.this, response.getMsg());
 					}
 				}else{
-					Toaster.showToast(ReBindPhoNumActivity.this,"获取失败");
+					Toaster.showToast(ReBindPhoNumActivity.this, "验证错误");
+					
 				}
 			}
 		});
-		
-	}
-		
 	}
 
+	/**
+	 * 发送验证码
+	 */
+	private void sendVerCode() {
+		// 开始倒计时
+		btn_send_code.setEnabled(false);
+		timer.start();
+		ApiManager.getInstance().getVerCode(MyConstants.OFFBIND_PHONUM,
+				null, null, new ApiCallback() {
+
+					@Override
+					public void onApiResult(int errorCode, String message,
+							BaseHttpResponse response) {
+
+						if (!CheckUtil.isEmpty(response)) {
+							if (response.getCode() == 200) {
+								
+							}
+						} else {
+							Toaster.showToast(ReBindPhoNumActivity.this, "获取失败");
+						}
+					}
+				});
+
+	}
+
+}

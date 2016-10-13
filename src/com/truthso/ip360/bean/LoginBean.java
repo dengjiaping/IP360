@@ -23,8 +23,16 @@ public class LoginBean extends BaseHttpResponse{
 	}
 	
 	public class Login{
-		private int userType;
+		private int userType;//1-付费用户（C）；2-合同用户（B）
 		private String token;
+		private int accountType;//1 个人 2 企业
+		
+		public int getAccountType() {
+			return accountType;
+		}
+		public void setAccountType(int accountType) {
+			this.accountType = accountType;
+		}
 		public int getUserType() {
 			return userType;
 		}

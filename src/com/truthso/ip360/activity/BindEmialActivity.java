@@ -122,9 +122,8 @@ private void bind() {
 
 			if (!CheckUtil.isEmpty(response)) {
 				if (response.getCode() == 200) {
-					Toaster.showToast(BindEmialActivity.this,response.getMsg());
-//					Intent intent = new Intent(BindEmialActivity.this,MainActivity.class);
-//					startActivity(intent);
+//					Toaster.showToast(BindEmialActivity.this,response.getMsg());
+					setResult(MyConstants.BINDNEWEMAIL);
 					finish();
 					
 				}else{
@@ -143,7 +142,6 @@ private void bind() {
  */
 
 private void sendVerCode() {
-
 	btn_send_code.setEnabled(false);
 	timer.start();
 	ApiManager.getInstance().getVerCode(MyConstants.BINDEMAIL, bindEmial, null, new ApiCallback() {
@@ -154,7 +152,7 @@ private void sendVerCode() {
 			
 			if (!CheckUtil.isEmpty(response)) {
 			
-					Toaster.showToast(BindEmialActivity.this,response.getMsg());
+//					Toaster.showToast(BindEmialActivity.this,response.getMsg());
 			
 			}else{
 				Toaster.showToast(BindEmialActivity.this,"获取失败");

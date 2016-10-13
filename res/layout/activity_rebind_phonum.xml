@@ -33,12 +33,13 @@
             android:textSize="@dimen/text_size" />
 
         <TextView
+            android:id="@+id/tv_binded_mobile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:gravity="center_vertical"
-            android:text="18810075505"
+            android:text=""
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
 

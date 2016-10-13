@@ -65,22 +65,24 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 		}
 		
 		
-		Intent intent = new Intent(this,MainActivity.class);
-		startActivity(intent);
-		finish();
+//		Intent intent = new Intent(this,MainActivity.class);
+//		startActivity(intent);
+//		finish();
 	}
 
 	private void ResetPwd() {
-
+		showProgress();
 		userPwd=MD5Util.encoder(userPwd);
-		ApiManager.getInstance().registUser(phoneNum, userPwd, cerCode, new ApiCallback() {
+		ApiManager.getInstance().ResetPwd(phoneNum, userPwd, cerCode, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
+				hideProgress();
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						Intent intent = new Intent(FindpwdSetNewPwd.this,MainActivity.class);
+						Toaster.showToast(FindpwdSetNewPwd.this,"重置成功");
+						Intent intent = new Intent(FindpwdSetNewPwd.this,LoginActivity.class);
 						startActivity(intent);
 						finish();
 						
