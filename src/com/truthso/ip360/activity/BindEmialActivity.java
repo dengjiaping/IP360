@@ -112,7 +112,7 @@ public void onClick(View v) {
  * 确认绑定
  */
 private void bind() {
-	showProgress();
+	showProgress("正在绑定...");
 	ApiManager.getInstance().BindEmail(bindEmial, cerCode, new ApiCallback() {
 		
 		@Override

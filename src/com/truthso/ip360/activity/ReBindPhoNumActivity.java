@@ -97,7 +97,7 @@ public class ReBindPhoNumActivity extends BaseActivity implements
 	 * 验证码校验
 	 */
 	private void CaptchaValidation() {
-		showProgress();
+		showProgress("");
 		ApiManager.getInstance().getCapVerCode(MyConstants.OFFBIND_PHONUM, bindedMobile, cerCode, new ApiCallback() {
 			
 			@Override

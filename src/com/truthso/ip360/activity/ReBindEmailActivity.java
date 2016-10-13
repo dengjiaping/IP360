@@ -98,7 +98,7 @@ public class ReBindEmailActivity extends BaseActivity implements OnClickListener
 	 * 验证码校验
 	 */
 	private void CaptchaValidation() {
-		showProgress();
+		showProgress("");
 		ApiManager.getInstance().getCapVerCode(MyConstants.OFFBIND_EMAIL, bindedEmail, cerCode, new ApiCallback() {
 			
 			@Override

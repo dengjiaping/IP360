@@ -69,9 +69,9 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 //		startActivity(intent);
 //		finish();
 	}
-
+   //重置密码的接口
 	private void ResetPwd() {
-		showProgress();
+		showProgress("正在重置...");
 		userPwd=MD5Util.encoder(userPwd);
 		ApiManager.getInstance().ResetPwd(phoneNum, userPwd, cerCode, new ApiCallback() {
 			

@@ -112,7 +112,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	public  void Login(){
 		userPwd=MD5Util.encoder(userPwd);
-		showProgress();
+		showProgress("正在登录...");
 		ApiManager.getInstance().doLogin(userAccount, userPwd, new ApiCallback() {
 			
 			@Override

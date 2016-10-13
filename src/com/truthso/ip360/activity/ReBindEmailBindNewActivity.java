@@ -109,7 +109,7 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 	 * 确认绑定
 	 */
 	private void bind() {
-		showProgress();
+		showProgress("正在绑定...");
 		ApiManager.getInstance().BindNewEmail(email, newCerCode, new ApiCallback() {
 			
 			@Override

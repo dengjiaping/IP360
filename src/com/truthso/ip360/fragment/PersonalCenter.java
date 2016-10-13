@@ -63,7 +63,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private List<product> list;// 业务余量的集合
 	private String contractStart;
 	private String contractEnd;
-
+	
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -98,14 +98,14 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
-
-		getPersonalMsg();
+	
+		
 
 	}
 
 	// 获取个人信息概要
-	private void getPersonalMsg() {
-		showProgress();
+	public void getPersonalMsg() {
+		showProgress("正在获取信息，请稍后...");
 		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
 
 			@Override
@@ -309,7 +309,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 
 	// 退出登录
 	private void logOut() {
-		showProgress();
+		showProgress("正在退出...");
 		ApiManager.getInstance().LogOut(new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,

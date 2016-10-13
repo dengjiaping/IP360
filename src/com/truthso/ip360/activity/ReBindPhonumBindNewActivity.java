@@ -110,7 +110,7 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 	 * 确认绑定
 	 */
 	private void bind() {
-		showProgress();
+		showProgress("正在绑定...");
 		ApiManager.getInstance().BindNewPhonum(phoneNum, newCerCode, new ApiCallback() {
 
 			@Override
