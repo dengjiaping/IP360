@@ -36,6 +36,7 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 /**
@@ -99,7 +100,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
 	
-		
+		getPersonalMsg();
 
 	}
 
@@ -278,7 +279,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			startActivity(intent6);
 			break;
 		case R.id.btn_logout:// 退出登录
-
+            
 			showDialog();
 		default:
 			break;
@@ -293,9 +294,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						logOut();
-
 					}
-
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
@@ -321,6 +320,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 						Intent intent = new Intent(getActivity(),
 								LoginActivity.class);
 						startActivity(intent);
+						getActivity().finish();
+						//清空登录的token
+						SharePreferenceUtil.saveOrUpdateAttribute(getActivity(), MyConstants.SP_USER_KEY, "token", null);
 					} else {
 						Toaster.showToast(getActivity(), response.getMsg());
 					}
@@ -345,4 +347,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 //			break;
 //		}
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		System.out.println("hahahhahaha");
+	}
+	
 }

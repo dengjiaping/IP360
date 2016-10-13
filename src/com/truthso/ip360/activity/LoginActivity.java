@@ -51,7 +51,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		
 		
 		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
-		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "et_useraccount", SharePreferenceUtil.VALUE_IS_STRING);
+		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(userAccount)){
 			et_useraccount.setText(userAccount);
 		}
@@ -59,12 +59,13 @@ protected void onCreate(Bundle savedInstanceState) {
 		
 		et_userpwd = (EditText) findViewById(R.id.et_userpwd);			
 		String pwd = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userPwd", SharePreferenceUtil.VALUE_IS_STRING);
-		if(!CheckUtil.isEmpty(pwd)){
+		if(!CheckUtil.isEmpty(pwd)){			
 			et_userpwd.setText(pwd);
 		}
 		
 		
 		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
+		cb_checkbox.setChecked(true);
 		
 		tv_register = (TextView) findViewById(R.id.tv_register);
 		tv_register.setOnClickListener(this);
@@ -111,9 +112,9 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	}
 	public  void Login(){
-		userPwd=MD5Util.encoder(userPwd);
+		String encordPwd=MD5Util.encoder(userPwd);
 		showProgress("正在登录...");
-		ApiManager.getInstance().doLogin(userAccount, userPwd, new ApiCallback() {
+		ApiManager.getInstance().doLogin(userAccount, encordPwd, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,

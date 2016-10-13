@@ -20,6 +20,7 @@ import com.truthso.ip360.fragment.HomeFragment;
 import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.fragment.TransList;
+import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -65,8 +66,6 @@ OnRgsExtraCheckedChangedListener {
 				getSupportFragmentManager(), fragmentList, R.id.main_fragment,
 				radioGroup);
 		
-
-		
 	}
 
 	@Override
@@ -92,7 +91,16 @@ OnRgsExtraCheckedChangedListener {
 	}
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+		
+		
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		BaiduLocationUtil.cancelLocation();
+		super.onDestroy();
+		
+	}
 	
 }

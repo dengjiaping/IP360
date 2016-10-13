@@ -114,6 +114,7 @@
             android:background="@drawable/checkbox"
             android:layout_centerVertical="true"
             android:button="@null"
+            android:checked="true"
             />
         <ImageView 
             android:layout_width="140dp"
