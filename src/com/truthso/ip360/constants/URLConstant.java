@@ -49,8 +49,6 @@ public class URLConstant {
 	 */
 	public final static String GetCapVerCode = "http://101.201.74.230:9091/api/v1/vcode/getValidateVcode";
 	
-	
-	
 	/**
 	 * 修改密码
 	 * 
@@ -68,4 +66,10 @@ public class URLConstant {
 	 * 获取业务计费状态（计费相关）
 	 */
 	public final static String GetAccountStatus = "http://101.201.74.230:9091/api/v1/expense/getAccountStatus";
+	/**
+	 * 云端证据
+	 */
+	public final static String GetCloudEvidence = "http://101.201.74.230:9091/api/v1/file/getCloudEvidence";
+
+	
 }

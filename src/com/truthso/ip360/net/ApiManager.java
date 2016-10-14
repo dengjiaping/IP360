@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
+import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.constants.URLConstant;
@@ -115,7 +116,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 	/**
-	 * 登录注册不带token获取验证码的接口
+	 * 登录注册找回密码不带token获取验证码的接口
 	 * @param type
 	 * @param acount
 	 * @param callback
@@ -427,6 +428,33 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
+		
+	}
+	/**
+	 * 云端证据
+	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
+	 * @param type 展示类别 1-确权  2-现场取证 3-pc取证 非空
+	 * @param mobileType 取证类型 现场取证 （拍照（50001）、录像（50003）、录音（50002）可空
+	 * @param pageNumber 当前第几页  非空
+	 * @param pageSize 每页显示条数 非空
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getCloudEvidence(String keywork,int type,int mobileType,int pageNumber,int pageSize,ApiCallback callback){
+		//得返回认证是否成功
+		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
+				CloudEvidenceBean.class, this);
+		request.setPath(URLConstant.GetCloudEvidence);
+		request.params().add("keywork", keywork);
+		request.params().add("type", type+"");
+		request.params().add("mobileType", mobileType+"");
+		request.params().add("pageNumber", pageNumber+"");
+		request.params().add("pageSize", pageSize+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+		
 		
 	}
 

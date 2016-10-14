@@ -1,7 +1,6 @@
 package com.truthso.ip360.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
-import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
@@ -46,6 +44,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private XRefreshView xRefresh;
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
+	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
 
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
@@ -65,7 +64,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh.setXRefreshViewListener(this);
 
 		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
-		adapter = new CloudEvidenceAdapter(getActivity(),null);
+		adapter = new CloudEvidenceAdapter(getActivity(), null);
 		lv_cloudevidence.setAdapter(adapter);
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
@@ -75,7 +74,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public int setViewId() {
-		// TODO Auto-generated method stub
 		return R.layout.fragment_clouddevidence;
 	}
 
@@ -103,8 +101,23 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				actionBar.setRightDisEnable();
 				showPop();
 			}
-
+		case R.id.tv_photo://pop中的拍照取证
+			
 			break;
+		case R.id.tv_video://pop中的录像取证
+			
+			break;
+		case R.id.tv_record://pop中的录音取证
+			
+			break;
+		case R.id.tv_pc://pop线上取证
+			
+			break;
+		case R.id.tv_file://确权文件
+			
+			break;
+		
+
 		default:
 			break;
 		}
@@ -116,7 +129,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		View view = inflater.inflate(R.layout.activity_category_cloudcvidence,
 				null);
-		TextView tv = (TextView) view.findViewById(R.id.tv_all);
+		tv_photo = (TextView) view.findViewById(R.id.tv_photo);
+		tv_photo.setOnClickListener(this);
+		tv_video = (TextView) view.findViewById(R.id.tv_video);
+		tv_video.setOnClickListener(this);
+		 tv_record = (TextView) view.findViewById(R.id.tv_record);
+		 tv_record.setOnClickListener(this);
+		 tv_pc = (TextView) view.findViewById(R.id.tv_pc);
+		 tv_pc.setOnClickListener(this);
+		 tv_file = (TextView) view.findViewById(R.id.tv_file);
+		 tv_file.setOnClickListener(this);
 		FrameLayout fl_empty = (FrameLayout) view.findViewById(R.id.fl_empty);
 		window = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT,
 				WindowManager.LayoutParams.MATCH_PARENT);
@@ -182,12 +204,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	// 显示底部下载按钮
 	private void showDownLoadPop() {
-		if(CheckUtil.isEmpty(downLoadwindow)){
+		if (CheckUtil.isEmpty(downLoadwindow)) {
 			contentView = inflater.inflate(R.layout.pop_download, null);
 			downLoadwindow = new PopupWindow(contentView,
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
-		}		
+		}
 		// 进入退出的动画
 		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
