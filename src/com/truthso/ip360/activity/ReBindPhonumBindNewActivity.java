@@ -8,6 +8,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 
+import cz.msebera.android.httpclient.Header;
+
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -133,6 +135,12 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 			
 				
 			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 
@@ -156,6 +164,12 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 				}else{
 					Toaster.showToast(ReBindPhonumBindNewActivity.this,"获取失败");
 				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

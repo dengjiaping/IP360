@@ -160,6 +160,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		case R.id.tv_delete://删除
 			showDialog();
 			dbBean = mDatas.get((Integer) v.getTag());
+			break;
 		case R.id.tv_preview://查看证书
 			Intent intent = new Intent(context,CertificationActivity.class);
 			context.startActivity(intent);

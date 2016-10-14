@@ -9,6 +9,8 @@ import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.constants.URLConstant;
 
+import cz.msebera.android.httpclient.Header;
+
 public class ApiManager implements BaseHttpRequestCallBack {
 
 	@SuppressWarnings("rawtypes")
@@ -71,7 +73,21 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 
 	
-	
+	@Override
+	public void onFaile(RequestHandle requestHandle,int statusCode, Header[] headers,
+			byte[] responseBody, Throwable error) {
+		// TODO Auto-generated method stub
+		if (requestHandle != null) {
+			BaseHttpRequest request = requestHashMap.get(requestHandle);
+			// WeakReference callback = request.getApiCallback();
+			ApiCallback callback = request.getApiCallback();
+
+			if (callback != null) {
+				callback.onApiResultFailure(statusCode, headers, responseBody,error);
+			}
+			requestHashMap.remove(requestHandle);
+		}
+	}
 	
 
 	/**
@@ -386,6 +402,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 		
 	}
+
 	/**
 	 * 实名认证
 	 * @param idCardNum 身份证号
@@ -411,7 +428,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 		
-		
-		
 	}
+
 }

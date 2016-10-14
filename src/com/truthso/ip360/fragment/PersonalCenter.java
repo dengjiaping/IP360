@@ -39,6 +39,8 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
+import cz.msebera.android.httpclient.Header;
+
 /**
  * @despriction :个人中心
  * 
@@ -188,6 +190,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 				}
 
 			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 
@@ -330,6 +338,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 					Toaster.showToast(getActivity(), "退出登录失败");
 				}
 			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 	@Override
@@ -352,7 +366,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		System.out.println("hahahhahaha");
 	}
 	
 }

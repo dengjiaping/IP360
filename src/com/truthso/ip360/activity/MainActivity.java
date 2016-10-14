@@ -25,9 +25,7 @@ import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
-
-public class MainActivity extends FragmentActivity implements
-OnRgsExtraCheckedChangedListener {
+public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedChangedListener {
 	private RadioGroup radioGroup;
 	private SharedPreferences sp;
 	private PersonalCenter personalCenter;
@@ -45,53 +43,42 @@ OnRgsExtraCheckedChangedListener {
 	// 初始化控件
 	private void initView() {
 		List<Fragment> fragmentList = new ArrayList<Fragment>();
-	
+
 		fragmentList.add(new HomeFragment());// 首页（现在取证）
-		 fragmentList.add(new CloudEvidence());// 云端证据
-		 fragmentList.add(new NativeEvidence());//本地证据
-		 fragmentList.add(new TransList());//传输列表
-		 fragmentList.add(new PersonalCenter());//个人中心
-		/* for (int i = 0; i < fragmentList.size(); i++) {
-			boolean tag = fragmentList.get(i).equals(new PersonalCenter());
-			if (tag) {
-				personalCenter.getPersonalMsg();
-			}
-		}*/
-	
+		fragmentList.add(new CloudEvidence());// 云端证据
+		fragmentList.add(new NativeEvidence());// 本地证据
+		fragmentList.add(new TransList());// 传输列表
+		fragmentList.add(new PersonalCenter());// 个人中心
 		radioGroup = (RadioGroup) findViewById(R.id.main_RadioGroup);
-		rb_pc = (RadioButton) findViewById(R.id.rb_pc);
-		
-	
-		FragmentTabUtils fragmentTabUtils = new FragmentTabUtils(
-				getSupportFragmentManager(), fragmentList, R.id.main_fragment,
-				radioGroup);
-		
+		FragmentTabUtils fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(), fragmentList, R.id.main_fragment, radioGroup);
+
 	}
 
 	@Override
-	public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId,
-			int index) {
-		
+	public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
+
+
 	}
 
 	public void replaceFragment(Fragment argFragment, String argName) {
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.main_fragment, argFragment, argName).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, argFragment, argName).commit();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
-		if(baseFragment.onKeyDown(keyCode, event)){
+		if (baseFragment.onKeyDown(keyCode, event)) {
 			return true;
-		}else{
+		} else {
 			return super.onKeyDown(keyCode, event);
 		}
-		
+
 	}
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		
+		// super.onSaveInstanceState(outState);
+	
 		
 	}
 

@@ -331,6 +331,10 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 	public void onFailure(int statusCode, Header[] headers,
 			byte[] responseBody, Throwable error) {
 		// TODO: 15/12/19 callback
+		if (this.resultCallback != null) {
+			this.resultCallback.onFaile(this.handle,statusCode, headers, responseBody, error);
+
+		}
 	}
 	
 }

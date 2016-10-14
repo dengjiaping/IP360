@@ -2,14 +2,19 @@ package com.truthso.ip360.net;
 
 import com.loopj.android.http.RequestHandle;
 
+import cz.msebera.android.httpclient.Header;
+
 /**
  * 
  * @author wsx_summer
- * @date ´´½¨Ê±¼ä£º2016Äê5ÔÂ26ÈÕÏÂÎç2:32:45
+ * @date ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£º2016ï¿½ï¿½5ï¿½ï¿½26ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2:32:45
  * @version 1.0  
- * @Copyright (c) 2016 ÕæÏàÍøÂç¿Æ¼¼£¨±±¾©£©.Co.Ltd. All rights reserved.
+ * @Copyright (c) 2016 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.Co.Ltd. All rights reserved.
  */
 public interface BaseHttpRequestCallBack {
 	public void onRequestResult(RequestHandle requestHandle, int errorCode,
 			String message,BaseHttpResponse response);
+	
+	public void onFaile(RequestHandle requestHandle,int statusCode, Header[] headers,
+			byte[] responseBody, Throwable error);
 }

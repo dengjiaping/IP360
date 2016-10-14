@@ -15,6 +15,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 
+import cz.msebera.android.httpclient.Header;
+
 /**
  * @despriction :更改绑定的手机号
  * 
@@ -119,6 +121,12 @@ public class ReBindPhoNumActivity extends BaseActivity implements
 					
 				}
 			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
 		});
 	}
 
@@ -143,6 +151,12 @@ public class ReBindPhoNumActivity extends BaseActivity implements
 						} else {
 							Toaster.showToast(ReBindPhoNumActivity.this, "获取失败");
 						}
+					}
+
+					@Override
+					public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+						// TODO Auto-generated method stub
+						
 					}
 				});
 

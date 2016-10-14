@@ -21,6 +21,8 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.MD5Util;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
+import cz.msebera.android.httpclient.Header;
+
 
 /**
  * 登录界面
@@ -153,6 +155,12 @@ protected void onCreate(Bundle savedInstanceState) {
 				}else{
 					Toaster.showToast(LoginActivity.this, "登录失败");
 				}					
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
