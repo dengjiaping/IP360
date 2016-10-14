@@ -111,7 +111,7 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 	 * 确认绑定
 	 */
 	private void bind() {
-		showProgress();
+		showProgress("正在绑定...");
 		ApiManager.getInstance().BindPhonum(phoneNum, cerCode, new ApiCallback() {
 			
 			@Override
@@ -122,8 +122,7 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(BindPhoNumActivity.this,response.getMsg());
-//						Intent intent = new Intent(BindPhoNumActivity.this,MainActivity.class);
-//						startActivity(intent);
+						setResult(MyConstants.BINDNEWEMOBILE);
 						finish();
 						
 					}else{

@@ -44,6 +44,14 @@ public class URLConstant {
 	 */
 	public final static String BindEmail = "http://101.201.74.230:9091/api/v1/security/bindEmail";
 	/**
+	 * 验证码校验(解绑旧邮箱或者手机号，下一步的操作时用)
+	 * 
+	 */
+	public final static String GetCapVerCode = "http://101.201.74.230:9091/api/v1/vcode/getValidateVcode";
+	
+	
+	
+	/**
 	 * 修改密码
 	 * 
 	 */

@@ -1,6 +1,7 @@
 package com.truthso.ip360.activity;
 
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -111,9 +112,9 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 	 * 确认绑定
 	 */
 	private void bind() {
-		showProgress();
-		ApiManager.getInstance().BindNewPhonum(phoneNum, oldCerCode,newCerCode, new ApiCallback() {
-			
+		showProgress("正在绑定...");
+		ApiManager.getInstance().BindNewPhonum(phoneNum, newCerCode, new ApiCallback() {
+
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -122,8 +123,7 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						Toaster.showToast(ReBindPhonumBindNewActivity.this,response.getMsg());
-//						Intent intent = new Intent(ReBindPhonumBindNewActivity.this,MainActivity.class);
-//						startActivity(intent);
+						setResult( MyConstants.OFFBIND_BINDNEWEMOBILE);
 						finish();
 						
 					}else{
@@ -160,7 +160,6 @@ public class ReBindPhonumBindNewActivity extends BaseActivity implements OnClick
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 					
-						Toaster.showToast(ReBindPhonumBindNewActivity.this,response.getMsg());
 					}
 				}else{
 					Toaster.showToast(ReBindPhonumBindNewActivity.this,"获取失败");

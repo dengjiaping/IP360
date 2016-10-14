@@ -11,7 +11,17 @@ import android.os.Environment;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class MyConstants {
-
+	//回传时候的resultCode
+	
+	public static final int REALNAME_VERTIFICATION = 0;//实名认证
+	public static final int BINDNEWEMAIL = 1;//未绑定邮箱的情况下绑定邮箱
+	public static final int OFFBIND_BINDNEWEMAIL = 2;//解绑旧邮箱绑定新邮箱
+	public static final int BINDNEWEMOBILE = 3;//未绑定手机号时绑定手机号
+	public static final int OFFBIND_BINDNEWEMOBILE = 4;//解绑旧手机号绑定新手机号
+	public static final int ACCOUNT_YUE = 5;//账户余额
+	
+	
+	
 	// 0照片，1视频，2录音
 
 	public static final int PHOTO = 0;

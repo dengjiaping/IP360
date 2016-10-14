@@ -28,7 +28,32 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		private String bindedEmail;//已绑定的邮箱（未绑定时为空字符串）
 		private int realNameState;//实名认证的状态
 		private int accountBalance;//账户余额
+//		contractStart	合同开始时间	String			2016-10-2
+//		contractEnd	合同结束时间	String			2017-10-2
+		private String contractStart;//合同开始时间
+		private String contractEnd;//合同结束时间
 		private List<product> productBalance;//业务余量  B类用户非空。C类用户无
+		private int accountType;//账户种类 1 个人 2 企业
+		
+		
+		public String getContractStart() {
+			return contractStart;
+		}
+		public void setContractStart(String contractStart) {
+			this.contractStart = contractStart;
+		}
+		public String getContractEnd() {
+			return contractEnd;
+		}
+		public void setContractEnd(String contractEnd) {
+			this.contractEnd = contractEnd;
+		}
+		public int getAccountType() {
+			return accountType;
+		}
+		public void setAccountType(int accountType) {
+			this.accountType = accountType;
+		}
 		public int getUserType() {
 			return userType;
 		}
@@ -68,47 +93,5 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		
 	}
 	
-	private int userType;//用户类型 1-付费用户（C）；2-合同用户（B）
-	private String bindedMobile;//已绑定的手机号码（未绑定时为空字符串）
-	private String bindedEmail;//已绑定的邮箱（未绑定时为空字符串）
-	private int realNameState;//实名认证的状态
-	private int accountBalance;//账户余额
-	private List<product> productBalance;//业务余量  B类用户非空。C类用户无
-	public int getUserType() {
-		return userType;
-	}
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
-	public String getBindedMobile() {
-		return bindedMobile;
-	}
-	public void setBindedMobile(String bindedMobile) {
-		this.bindedMobile = bindedMobile;
-	}
-	public String getBindedEmail() {
-		return bindedEmail;
-	}
-	public void setBindedEmail(String bindedEmail) {
-		this.bindedEmail = bindedEmail;
-	}
-	public int getRealNameState() {
-		return realNameState;
-	}
-	public void setRealNameState(int realNameState) {
-		this.realNameState = realNameState;
-	}
-	public int getAccountBalance() {
-		return accountBalance;
-	}
-	public void setAccountBalance(int accountBalance) {
-		this.accountBalance = accountBalance;
-	}
-	public List<product> getProductBalance() {
-		return productBalance;
-	}
-	public void setProductBalance(List<product> productBalance) {
-		this.productBalance = productBalance;
-	}
-	
+
 }

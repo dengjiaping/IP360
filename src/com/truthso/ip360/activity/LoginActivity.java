@@ -53,7 +53,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		
 		
 		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
-		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "et_useraccount", SharePreferenceUtil.VALUE_IS_STRING);
+		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(userAccount)){
 			et_useraccount.setText(userAccount);
 		}
@@ -61,12 +61,13 @@ protected void onCreate(Bundle savedInstanceState) {
 		
 		et_userpwd = (EditText) findViewById(R.id.et_userpwd);			
 		String pwd = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userPwd", SharePreferenceUtil.VALUE_IS_STRING);
-		if(!CheckUtil.isEmpty(pwd)){
+		if(!CheckUtil.isEmpty(pwd)){			
 			et_userpwd.setText(pwd);
 		}
 		
 		
 		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
+		cb_checkbox.setChecked(true);
 		
 		tv_register = (TextView) findViewById(R.id.tv_register);
 		tv_register.setOnClickListener(this);
@@ -113,9 +114,9 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	}
 	public  void Login(){
-		userPwd=MD5Util.encoder(userPwd);
-		showProgress();
-		ApiManager.getInstance().doLogin(userAccount, userPwd, new ApiCallback() {
+		String encordPwd=MD5Util.encoder(userPwd);
+		showProgress("正在登录...");
+		ApiManager.getInstance().doLogin(userAccount, encordPwd, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -126,13 +127,17 @@ protected void onCreate(Bundle savedInstanceState) {
 					if(bean.getCode()==200){
 						//登录成功
 						String token = bean.getDatas().getToken();//登录标识
-						Log.i("djj", "token:"+token);
-
 						//保存登录的token
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "token", token);
+						
 						int userType = bean.getDatas().getUserType();//用户类型1-付费用户（C）；2-合同用户（B）
 						//保存用户类型
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userType", userType);
+						
+						int accountType = bean.getDatas().getAccountType();//1 个人 2 企业
+						//保存用户是企业用户还是个人用户
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "accountType", accountType);
+						
 						//保存帐号
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userAccount", userAccount);
 						

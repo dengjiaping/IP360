@@ -32,12 +32,13 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
         <TextView 
+            android:id="@+id/tv_binded_mobile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_alignParentRight="true"
-            android:text="wangshaoxia@truthso.com"
+            android:text="wsx@truthso.com"
             android:textSize="@dimen/text_size" 
             />
 

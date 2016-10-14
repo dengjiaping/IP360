@@ -56,10 +56,10 @@ public abstract class BaseActivity extends Activity{
 	public abstract String setTitle();
 	
 
-	public void showProgress() {
+	public void showProgress(String msg) {
 		if ((this instanceof Activity) && !this.isFinishing()) {
 			if (pDialog == null) {
-				pDialog = createLoadingDialog(this,"努力加载中..."); // 创建ProgressDialog对象
+				pDialog = createLoadingDialog(this,msg); // 创建ProgressDialog对象
 			}
 			pDialog.setCancelable(false); // 设置ProgressDialog 是否可以按退回按键取消
 			if (!pDialog.isShowing()) {

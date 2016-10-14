@@ -21,6 +21,12 @@ public class product {
 	RECORD_TYPE_MOBILE_SOUND(50002,"现场取证录音"),
 	RECORD_TYPE_MOBILE_VIDEO(50003,"现场取证录像")
 	*/
+	/*balanceCount": 10,
+    "freeCount": 10,
+    "limitCount": "",
+    "type": 50001,
+    "unit": "次",
+    "usedCount": 0*/
 	private String unit;//数量单位 业务量的单位。如次、分钟、周。
 	private int freeCount;//赠送量 大于等于0
 	private int usedCount;//累计使用量

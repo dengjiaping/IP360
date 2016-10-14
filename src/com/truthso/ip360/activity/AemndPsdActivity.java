@@ -77,7 +77,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 	private void ChangePwd() {
 		oldPwd = MD5Util.encoder(oldPwd);
 		newPwd = MD5Util.encoder(newPwd);
-		showProgress();
+		showProgress("正在修改...");
 		ApiManager.getInstance().ChangePwd(oldPwd, newPwd, new ApiCallback() {
 			
 			@Override

@@ -33,6 +33,7 @@
             android:textSize="@dimen/text_size" />
 
         <EditText
+            android:id="@+id/et_cardid"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
@@ -47,7 +48,46 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp" />
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:background="@color/item_bg" >
 
+        <ImageView
+            android:id="@+id/iv_card"
+            android:layout_width="@dimen/image_edit_head"
+            android:layout_height="@dimen/image_edit_head"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:background="@drawable/ww" />
+
+        <TextView
+            android:id="@+id/tv_realname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/iv_card"
+            android:text="真实姓名"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/et_realname"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_marginRight="@dimen/layout_marginRight"
+            android:layout_toRightOf="@id/tv_realname"
+            android:background="@null"
+            android:hint="请输入您的真实姓名"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
@@ -82,7 +122,7 @@
         android:background="@drawable/clickme" />
 
     <Button
-        android:id="@+id/btn_sure"
+        android:id="@+id/btn_ver"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"

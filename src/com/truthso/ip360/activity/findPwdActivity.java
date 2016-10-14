@@ -84,7 +84,7 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(this, "请输入正确的手机号");
 				}else{
-					Intent intent = new Intent(this, RegisterSetPwd.class);
+					Intent intent = new Intent(this, FindpwdSetNewPwd.class);
 					intent.putExtra("phoneNum", phoneNum);
 					intent.putExtra("cerCode", cerCode);
 					startActivity(intent);
@@ -120,7 +120,7 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 	private void sendVerCode() {
 		btn_send_code.setEnabled(false);
 		timer.start();
-		ApiManager.getInstance().getVerCode(MyConstants.FIND_PWD, phoneNum, null, new ApiCallback() {
+		ApiManager.getInstance().getRegVerCode(MyConstants.FIND_PWD, phoneNum, null, new ApiCallback() {
 			
 			@Override
 			public void onApiResult(int errorCode, String message,

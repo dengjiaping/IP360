@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.truthso.ip360.fragment.BaseFragment;
@@ -18,16 +20,16 @@ import com.truthso.ip360.fragment.HomeFragment;
 import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.fragment.TransList;
-import com.truthso.ip360.net.ApiCallback;
-import com.truthso.ip360.net.ApiManager;
-import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedChangedListener {
 	private RadioGroup radioGroup;
 	private SharedPreferences sp;
-
+	private PersonalCenter personalCenter;
+	private RadioButton rb_pc;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	@Override
 	public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
 
+
 	}
 
 	public void replaceFragment(Fragment argFragment, String argName) {
@@ -63,7 +66,6 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
 		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
 		if (baseFragment.onKeyDown(keyCode, event)) {
 			return true;
@@ -76,5 +78,16 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		// super.onSaveInstanceState(outState);
+	
+		
 	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		BaiduLocationUtil.cancelLocation();
+		super.onDestroy();
+		
+	}
+	
 }

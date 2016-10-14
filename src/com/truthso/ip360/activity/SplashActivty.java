@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 /**
@@ -41,8 +43,8 @@ public class SplashActivty extends Activity {
 					SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			String token=MyApplication.getInstance().getTokenId();
 			Intent intent;
-			if (isFirstOpen) {
-				if(token==null){
+			if (isFirstOpen) {	
+				if(CheckUtil.isEmpty(token)){
 					// 进登录界面
 					 intent = new Intent(ctx, LoginActivity.class);
 				}else{
@@ -52,6 +54,7 @@ public class SplashActivty extends Activity {
 				// 第一次启动先进入引导页
 				 intent = new Intent(ctx, GuideActivity.class);
 			}
+	
 			startActivity(intent);
 			finish();
 		};

@@ -1,11 +1,9 @@
 package com.truthso.ip360.fragment;
 
-import com.truthso.ip360.activity.BaseActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.net.MyAsyncHttpClient;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -77,17 +75,16 @@ public abstract class BaseFragment extends Fragment {
 		return false;
 	};
 	
-	public void showProgress() {
+	public void showProgress(String msg) {
 		if (this.getActivity()!=null && !this.isDetached()) {
 			if (pDialog == null) {
-				pDialog = createLoadingDialog(getActivity(),"努力加载中..."); // 创建ProgressDialog对象
+				pDialog = createLoadingDialog(getActivity(),msg); // 创建ProgressDialog对象
 			}
 			pDialog.setCancelable(false); // 设置ProgressDialog 是否可以按退回按键取消
 			if (!pDialog.isShowing()) {
 				pDialog.show();// 让ProgressDialog显示
 			}
-			pDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-
+			pDialog.setOnKeyListener(new DialogInterface.OnKeyListener(){
 				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {		
 					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						if(pDialog.isShowing()){
@@ -143,9 +140,7 @@ public abstract class BaseFragment extends Fragment {
 		MyAsyncHttpClient.cancelRequest(MyApplication.getInstance());
 		Log.i("cancelHttp", "cancelHttp");
 	}
-
-	
-	public Dialog createLoadingDialog(Context context, String msg) {  
+	 Dialog createLoadingDialog(Context context, String msg) {  
 
 		LayoutInflater inflater = LayoutInflater.from(context);  
 		View v = inflater.inflate(R.layout.loading_dialog, null);// 得到加载view     
