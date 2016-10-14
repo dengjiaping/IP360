@@ -373,7 +373,9 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	public RequestHandle getAccountStatus(int type,int count,ApiCallback callback){
-    	BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
+    	
+		//改bean
+		BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
     			PersonalMsgBean.class, this);
 		request.setPath(URLConstant.GetPersonalMsg);
 		request.params().add("type", type+"");
@@ -393,8 +395,9 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	public RequestHandle setRealName(String idCardNum,String userRealName,File file,ApiCallback callback){
-		BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
-    			PersonalMsgBean.class, this);
+		//得返回认证是否成功
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
 		request.setPath(URLConstant.GetPersonalMsg);
 		request.params().add("idCardNum", idCardNum);
 		request.params().add("userRealName", userRealName);
