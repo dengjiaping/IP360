@@ -7,6 +7,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 
+import cz.msebera.android.httpclient.Header;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -136,6 +138,12 @@ private void bind() {
 		
 			
 		}
+
+		@Override
+		public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+			// TODO Auto-generated method stub
+			
+		}
 	});
 }
 /**
@@ -159,6 +167,12 @@ private void sendVerCode() {
 			}else{
 				Toaster.showToast(BindEmialActivity.this,"获取失败");
 			}
+		}
+
+		@Override
+		public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+			// TODO Auto-generated method stub
+			
 		}
 	});
 	

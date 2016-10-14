@@ -7,6 +7,8 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.MD5Util;
 
+import cz.msebera.android.httpclient.Header;
+
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -85,6 +87,12 @@ public class RegisterSetPwd extends BaseActivity implements OnClickListener {
 				}else{
 					Toaster.showToast(RegisterSetPwd.this,"注册失败");
 				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

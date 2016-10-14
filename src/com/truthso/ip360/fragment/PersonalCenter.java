@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +34,8 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction :个人中心
@@ -106,7 +109,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 						}else{
 							//跳转到另一个界面，展示B类用户	
 						}
-						tv_realname.setText(bean.getRealNameState());//实名认证状态
+						tv_realname.setText(bean.getRealNameState()+"");//实名认证状态
 						if (!CheckUtil.isEmpty(bean.getBindedMobile())) {//为空时，是未绑定手机号
 							tv_bindphonenum.setText(bean.getBindedMobile());
 						}else {
@@ -126,6 +129,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 					Toaster.showToast(getActivity(), "获取信息失败");
 				}
 				
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+		
+			
 			}
 		});
 	}
@@ -234,6 +243,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 				}else{
 					Toaster.showToast(getActivity(), "退出登录失败");
 				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
