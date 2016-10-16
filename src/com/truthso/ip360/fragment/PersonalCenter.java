@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +36,7 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.upload.UpDownLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -288,7 +290,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.btn_logout:// 退出登录
             
-			showDialog();
+			//showDialog();
+			String uploadFilePath=Environment.getExternalStorageDirectory()+"/ip360/photo/123.txt";
+			UpDownLoadManager.getInstance().resuambleUpload(uploadFilePath);
 		default:
 			break;
 		}
