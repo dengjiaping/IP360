@@ -18,14 +18,23 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
+import com.truthso.ip360.bean.CloudEviItemBean;
+import com.truthso.ip360.bean.CloudEvidenceBean;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
 import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction :云端证据
@@ -38,6 +47,7 @@ import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
 
 public class CloudEvidence extends BaseFragment implements OnClickListener,
 		OnItemClickListener, XRefreshViewListener {
+	private int pagerNumber = 1;
 	private MainActionBar actionBar;
 	private ListView lv_cloudevidence;
 	private CloudEvidenceAdapter adapter;
@@ -45,10 +55,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
 	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
-
+	private CloudEviItemBean cloudEviItemBean;
+	private String keywork;//搜索框里的搜索内容
+	private int type,mobileType;//类型，取证类型
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view
 				.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("类别");
@@ -101,21 +114,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				actionBar.setRightDisEnable();
 				showPop();
 			}
-		case R.id.tv_photo://pop中的拍照取证
-			
-			break;
-		case R.id.tv_video://pop中的录像取证
-			
-			break;
-		case R.id.tv_record://pop中的录音取证
-			
-			break;
-		case R.id.tv_pc://pop线上取证
-			
-			break;
-		case R.id.tv_file://确权文件
-			
-			break;
+//		case R.id.tv_photo://pop中的拍照取证
+////			window.dismiss();
+//			break;
+//		case R.id.tv_video://pop中的录像取证
+//			break;
+//		case R.id.tv_record://pop中的录音取证
+//			break;
+//		case R.id.tv_pc://pop线上取证
+//			break;
+//		case R.id.tv_file://确权文件
+//			break;
 		
 
 		default:
@@ -127,26 +136,100 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	// 显示类别popwindow
 	private void showPop() {
 
-		View view = inflater.inflate(R.layout.activity_category_cloudcvidence,
+		popview = inflater.inflate(R.layout.activity_category_cloudcvidence,
 				null);
-		tv_photo = (TextView) view.findViewById(R.id.tv_photo);
-		tv_photo.setOnClickListener(this);
-		tv_video = (TextView) view.findViewById(R.id.tv_video);
-		tv_video.setOnClickListener(this);
-		 tv_record = (TextView) view.findViewById(R.id.tv_record);
-		 tv_record.setOnClickListener(this);
-		 tv_pc = (TextView) view.findViewById(R.id.tv_pc);
-		 tv_pc.setOnClickListener(this);
-		 tv_file = (TextView) view.findViewById(R.id.tv_file);
-		 tv_file.setOnClickListener(this);
-		FrameLayout fl_empty = (FrameLayout) view.findViewById(R.id.fl_empty);
-		window = new PopupWindow(view, WindowManager.LayoutParams.MATCH_PARENT,
+		tv_photo = (TextView) popview.findViewById(R.id.tv_photo);
+	
+		tv_video = (TextView) popview.findViewById(R.id.tv_video);
+		
+		 tv_record = (TextView) popview.findViewById(R.id.tv_record);
+		 
+		 tv_pc = (TextView) popview.findViewById(R.id.tv_pc);
+		 
+		 tv_file = (TextView) popview.findViewById(R.id.tv_file);
+		
+		FrameLayout fl_empty = (FrameLayout) popview.findViewById(R.id.fl_empty);
+		window = new PopupWindow(popview, WindowManager.LayoutParams.MATCH_PARENT,
 				WindowManager.LayoutParams.MATCH_PARENT);
 		// 实例化一个ColorDrawable颜色为半透明
 		ColorDrawable dw = new ColorDrawable(0xb0000000);
 		// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
 		window.setBackgroundDrawable(dw);
 		window.setTouchable(true);
+		
+		tv_photo.setOnClickListener(new OnClickListener() {//拍照
+			
+			@Override
+			public void onClick(View arg0) {
+				if (window.isShowing()) {
+					actionBar.setRightEnable();
+					window.dismiss();
+				}
+				keywork = null;
+				type = 2;//现场取证
+				mobileType = 50001;
+				getDatas();
+			}
+
+		
+		});
+		
+		tv_video.setOnClickListener(new OnClickListener() {//录像			
+			@Override
+			public void onClick(View arg0) {
+				if (window.isShowing()) {
+					actionBar.setRightEnable();
+					window.dismiss();
+				}
+				keywork = null;
+				type = 2;//现场取证
+				mobileType = 50003;
+				getDatas();
+			}
+		});
+		
+		tv_record.setOnClickListener(new OnClickListener() {//录音
+			
+			@Override
+			public void onClick(View arg0) {
+				if (window.isShowing()) {
+					actionBar.setRightEnable();
+					window.dismiss();
+				}
+				keywork = null;
+				type = 2;//现场取证
+				mobileType = 50002;
+				getDatas();
+			}
+		});
+		tv_pc.setOnClickListener(new OnClickListener() {//线上取证
+			
+			@Override
+			public void onClick(View arg0) {
+				if (window.isShowing()) {
+					actionBar.setRightEnable();
+					window.dismiss();
+				}
+				keywork = null;
+				type = 3;//线上取证
+				mobileType = (Integer) null;
+				getDatas();
+			}
+		});
+		 tv_file.setOnClickListener(new OnClickListener() {//确权文件
+			
+			@Override
+			public void onClick(View arg0) {
+				if (window.isShowing()) {
+					actionBar.setRightEnable();
+					window.dismiss();
+				}
+				keywork = null;
+				type = 1;//确权文件
+				mobileType = (Integer) null;
+				getDatas();
+			}
+		});
 		fl_empty.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -239,16 +322,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow window;
 	private PopupWindow downLoadwindow;
 	private View contentView;
+	private View popview;
 
 	@Override
 	public void onLoadMore() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onRelease(float direction) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -267,5 +349,37 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+	/**
+	 * 调接口获取数据
+	 */
+	private void getDatas() {
+		showProgress("正在加载数据...");
+		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message,
+					BaseHttpResponse response) {
+				hideProgress();
+				CloudEvidenceBean bean = (CloudEvidenceBean) response;
+				if (!CheckUtil.isEmpty(bean)) {
+					if (bean.getCode() == 200) {
+						cloudEviItemBean.setFileName(bean.getFileTitle());
+						cloudEviItemBean.setCreateTime(bean.getFileDate());
+						cloudEviItemBean.setFileSize(bean.getFileSize());
+					}else{
+						Toaster.showToast(getActivity(), bean.getMsg());
+					}
+				}else{
+					Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
+				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }

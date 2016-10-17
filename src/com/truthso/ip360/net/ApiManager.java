@@ -440,8 +440,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RequestHandle getCloudEvidence(String keywork,int type,int mobileType,int pageNumber,int pageSize,ApiCallback callback){
-		//得返回认证是否成功
 		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
 				CloudEvidenceBean.class, this);
 		request.setPath(URLConstant.GetCloudEvidence);
