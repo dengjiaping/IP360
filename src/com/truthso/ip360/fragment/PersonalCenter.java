@@ -288,11 +288,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			Intent intent6 = new Intent(getActivity(), AboutUsAcctivity.class);
 			startActivity(intent6);
 			break;
-		case R.id.btn_logout:// 退出登录
-            
-			//showDialog();
-			String uploadFilePath=Environment.getExternalStorageDirectory()+"/ip360/photo/123.txt";
-			UpDownLoadManager.getInstance().resuambleUpload(uploadFilePath);
+		case R.id.btn_logout:// 退出登录        
+			showDialog();		
 		default:
 			break;
 		}

@@ -24,6 +24,7 @@ import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.utils.CheckUtil;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChangeListener, OnClickListener {
 
@@ -31,7 +32,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	private LayoutInflater inflater;
 	private boolean isAllSelect=false;
 	private boolean isChoice=false;
-	protected List<CloudEviItemBean> mDatas = new ArrayList<CloudEviItemBean>();
+	protected List<CloudEviItemBean> mDatas;
 	public CloudEvidenceAdapter(Context context,List<CloudEviItemBean> mDatas) {
 		super();
 		this.context = context;
@@ -55,7 +56,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount() {		
 		return mDatas.size();
 	}
 
@@ -78,10 +79,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_size);
-			vh.tv_filename.setText(mDatas.get(position).getFileName());
+			vh.tv_filename.setText(mDatas.get(position).getFileTitle());
 
 			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
-			vh.tv_filedate.setText(mDatas.get(position).getCreateTime());
+			vh.tv_filedate.setText(mDatas.get(position).getFileTime());
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.tv_size.setText(mDatas.get(position).getFileSize());
 			convertView.setTag(vh);

@@ -71,7 +71,7 @@ public abstract class BaseFragment extends Fragment {
 
 	protected abstract void initData();
 	
-	public  boolean onKeyDown(int keyCode, KeyEvent event){
+	public   boolean  onKeyDown(int keyCode, KeyEvent event){
 		return false;
 	};
 	

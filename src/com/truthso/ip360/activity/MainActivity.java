@@ -21,6 +21,7 @@ import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.PersonalCenter;
 import com.truthso.ip360.fragment.TransList;
 import com.truthso.ip360.utils.BaiduLocationUtil;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -67,12 +68,10 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
-		if (baseFragment.onKeyDown(keyCode, event)) {
+		if(!CheckUtil.isEmpty(baseFragment)&&  baseFragment.onKeyDown(keyCode, event)){
 			return true;
-		} else {
-			return super.onKeyDown(keyCode, event);
-		}
-
+		} 
+		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override

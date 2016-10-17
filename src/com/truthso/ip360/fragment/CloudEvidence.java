@@ -1,5 +1,7 @@
 package com.truthso.ip360.fragment;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -77,8 +79,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh.setXRefreshViewListener(this);
 
 		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
-		adapter = new CloudEvidenceAdapter(getActivity(), null);
-		lv_cloudevidence.setAdapter(adapter);
+	
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);
@@ -348,7 +349,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				return true;
 			}
 		}
-		return super.onKeyDown(keyCode, event);
+		return false;
 	}
 	/**
 	 * 调接口获取数据
@@ -363,9 +364,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-						cloudEviItemBean.setFileName(bean.getFileTitle());
-						cloudEviItemBean.setCreateTime(bean.getFileDate());
-						cloudEviItemBean.setFileSize(bean.getFileSize());
+						List<CloudEviItemBean> datas = bean.getDatas();
+						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
+							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas());
+							lv_cloudevidence.setAdapter(adapter);
+						}					
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}

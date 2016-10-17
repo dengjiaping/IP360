@@ -258,6 +258,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				return true;
 			}
 		}
-		return super.onKeyDown(keyCode, event);
+		return false;
 	}
 }
