@@ -70,6 +70,11 @@ public class URLConstant {
 	 * 云端证据
 	 */
 	public final static String GetCloudEvidence = "http://101.201.74.230:9091/api/v1/file/getCloudEvidence";
+	/**
+	 * 文件保全
+	 */
+	public final static String UploadPreserveFile = "http://101.201.74.230:9091/api/v1/file/uploadPreserveFile";
 
+	
 	
 }

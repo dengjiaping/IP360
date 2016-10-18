@@ -8,6 +8,7 @@ import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
+import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.constants.URLConstant;
 
 import cz.msebera.android.httpclient.Header;
@@ -454,7 +455,34 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
-		
+	}
+	/**
+	 * 文件保全
+	 * @param fileType 文件类型   文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
+	 * @param hashCode 哈希值 非空
+	 * @param fileDate 取证时间
+	 * @param fileUrl 上传oss的文件路径
+	 * @param fileLocation 取证地点 可空
+	 * @param fileTime 取证时长 录像 录音不为空
+	 * @param imei手机的IMEI码
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle uploadPreserveFile(int fileType,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
+		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
+				UpLoadBean.class, this);
+		request.setPath(URLConstant.UploadPreserveFile);
+		request.params().add("fileType", fileType+"");
+		request.params().add("hashCode", hashCode);
+		request.params().add("fileDate", fileDate);
+		request.params().add("fileUrl", fileUrl);
+		request.params().add("fileLocation", fileLocation);
+		request.params().add("fileTime", fileTime);
+		request.params().add("imei", imei);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
 		
 	}
 

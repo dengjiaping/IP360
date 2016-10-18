@@ -91,7 +91,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		return R.layout.fragment_clouddevidence;
 	}
 
-	@Override
+	@Override	
 	protected void initData() {
 		inflater = LayoutInflater.from(getActivity());
 
