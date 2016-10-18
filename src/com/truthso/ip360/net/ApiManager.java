@@ -485,5 +485,27 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 		
 	}
+	
+	/**
+	 * 设置备注
+	 * @param remarkText备注的文本
+	 * @param pkValue证据记录主键值
+	 * @param type  请求展示类别  1-确权  2-现场取证 3-pc取证
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle setFileRemark(String remarkText,int pkValue,int type,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.SetFileRemark);
+		request.params().add("remarkText", remarkText);
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("type", type+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	
 
 }

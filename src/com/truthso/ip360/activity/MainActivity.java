@@ -1,5 +1,6 @@
 package com.truthso.ip360.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,7 +23,6 @@ import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedChangedListener {
 	private RadioGroup radioGroup;
@@ -39,6 +37,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 
 		setContentView(R.layout.activity_main);
 		initView();
+		
 	}
 
 	// 初始化控件

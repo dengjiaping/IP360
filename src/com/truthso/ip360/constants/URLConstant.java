@@ -74,7 +74,12 @@ public class URLConstant {
 	 * 文件保全
 	 */
 	public final static String UploadPreserveFile = "http://101.201.74.230:9091/api/v1/file/uploadPreserveFile";
+	/**
+	 * 设置文件备注
+	 */
+	public final static String SetFileRemark = "http://101.201.74.230:9091/api/v1/file/setFileRemark";
 
+	
 	
 	
 }

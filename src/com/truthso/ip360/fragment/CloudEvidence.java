@@ -116,18 +116,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				actionBar.setRightDisEnable();
 				showPop();
 			}
-//		case R.id.tv_photo://pop中的拍照取证
-////			window.dismiss();
-//			break;
-//		case R.id.tv_video://pop中的录像取证
-//			break;
-//		case R.id.tv_record://pop中的录音取证
-//			break;
-//		case R.id.tv_pc://pop线上取证
-//			break;
-//		case R.id.tv_file://确权文件
-//			break;
-		
+
 
 		default:
 			break;
