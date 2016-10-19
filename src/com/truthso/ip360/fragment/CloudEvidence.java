@@ -342,7 +342,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	/**
 	 * 调接口获取数据
 	 */
-	private void getDatas(String keywork,int type,int mobileType,int pagerNumber) {
+	private void getDatas(String keywork,final int type,int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
 			@Override
@@ -354,7 +354,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					if (bean.getCode() == 200) {
 						List<CloudEviItemBean> datas = bean.getDatas();
 						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
-							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas());
+							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
 							lv_cloudevidence.setAdapter(adapter);
 						}					
 					}else{
@@ -368,7 +368,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 				
 			}
 		});

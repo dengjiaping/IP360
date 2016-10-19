@@ -78,7 +78,10 @@ public class URLConstant {
 	 * 设置文件备注
 	 */
 	public final static String SetFileRemark = "http://101.201.74.230:9091/api/v1/file/setFileRemark";
-
+	/**
+	 * 查看保全证书
+	 */
+	public final static String GetFilePosition = "http://101.201.74.230:9091/api/v1/file/getFilePosition";
 	
 	
 	

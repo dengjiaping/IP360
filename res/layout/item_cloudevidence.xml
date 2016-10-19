@@ -42,7 +42,7 @@
                     android:id="@+id/tv_filename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的照片证据1.png" />
+                    android:text="文件名称" />
 
                 <TextView
                     android:id="@+id/tv_filedate"

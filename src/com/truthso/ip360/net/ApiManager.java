@@ -506,6 +506,25 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+	/**
+	 * 查看 保全证书
+	 * @param pkValue
+	 * @param type 1-确权  2-现场取证 3-pc取证
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getCertificateInfo(int pkValue,int type,ApiCallback callback){
+		//接口要返回Url，后台改好再换Bean
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.GetFilePosition);
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("type", type+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
 	
 
 }
