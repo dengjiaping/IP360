@@ -200,11 +200,12 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
                 android:layout_toRightOf="@id/iv_account_message"
-                android:text="保全费用"
+                android:text="当次消费"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/tv_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

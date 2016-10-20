@@ -36,7 +36,6 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.upload.UpDownLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -51,7 +50,6 @@ import cz.msebera.android.httpclient.Header;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-
 public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private PersonalMsgBean bean;
 	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量

@@ -81,8 +81,23 @@ public class URLConstant {
 	/**
 	 * 查看保全证书
 	 */
+	public final static String GetCertificateInfo = "http://101.201.74.230:9091/api/v1/file/getCertificateInfo";
+	/**
+	 * 文件断点的位置
+	 */
 	public final static String GetFilePosition = "http://101.201.74.230:9091/api/v1/file/getFilePosition";
+	/**
+	 * 上传文件
+	 */
+	public final static String UploadFile = "http://101.201.74.230:9091/api/v1/file/uploadFile";
 	
-	
+	/**
+	 * 文件下载
+	 */
+	public final static String DownloadFile = "http://101.201.74.230:9091/api/v1/file/downloadFile";
+	/**
+	 * 版本更新
+	 */
+	public final static String GetVerUpDate = "http://101.201.74.230:9091/api/v1/system/getVerUp";
 	
 }

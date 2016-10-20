@@ -5,10 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
+import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
+import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.UpLoadBean;
+import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.constants.URLConstant;
 
 import cz.msebera.android.httpclient.Header;
@@ -393,8 +397,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public RequestHandle getAccountStatus(int type,int count,ApiCallback callback){
     	
 		//改bean
-		BaseHttpRequest<PersonalMsgBean> request = new BaseHttpRequest<PersonalMsgBean>(
-    			PersonalMsgBean.class, this);
+		BaseHttpRequest<AccountStatusBean> request = new BaseHttpRequest<AccountStatusBean>(
+				AccountStatusBean.class, this);
 		request.setPath(URLConstant.GetPersonalMsg);
 		request.params().add("type", type+"");
 		request.params().add("count", count+"");
@@ -457,8 +461,9 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 	/**
-	 * 文件保全
+	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
 	 * @param fileType 文件类型   文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
+	 * @param fileSize 文件大小，单位为B
 	 * @param hashCode 哈希值 非空
 	 * @param fileDate 取证时间
 	 * @param fileUrl 上传oss的文件路径
@@ -468,11 +473,12 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle uploadPreserveFile(int fileType,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
+	public RequestHandle uploadPreserveFile(int fileType,String fileSize,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
 		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
 				UpLoadBean.class, this);
 		request.setPath(URLConstant.UploadPreserveFile);
 		request.params().add("fileType", fileType+"");
+		request.params().add("fileSize", fileSize);
 		request.params().add("hashCode", hashCode);
 		request.params().add("fileDate", fileDate);
 		request.params().add("fileUrl", fileUrl);
@@ -517,7 +523,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		//接口要返回Url，后台改好再换Bean
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
-		request.setPath(URLConstant.GetFilePosition);
+		request.setPath(URLConstant.GetCertificateInfo);
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
 		request.setApiCallback(callback);
@@ -525,6 +531,81 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
-	
+	/**
+	 * 上传文件:(调完保全接口调，返回可用再上传)
+	 * @param resourceId 唯一标示，就是调完保全接口给返回的keyValue
+	 * @param position 文件断点的位置，为0 表示还没传过
+	 * @param file 要上传的文件
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle uploadFile(int resourceId,int position,File file,ApiCallback callback){
+		
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.UploadFile);
+		request.params().add("resourceId", resourceId+"");
+		request.params().add("position", position+"");
+		try {
+			request.params().put("file", file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 文件断点位置
+	 * @param resourceId 文件唯一标示，调完保全接口返回的valueKey
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getFilePosition(int resourceId,ApiCallback callback){
+		
+		BaseHttpRequest<FilePositionBean> request = new BaseHttpRequest<FilePositionBean>(
+				FilePositionBean.class, this);
+		request.setPath(URLConstant.GetFilePosition);
+		request.params().add("resourceId", resourceId+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 文件的下载
+	 * @param pkValue 唯一标示（云端证据接口返回的keyValue）
+	 * @param type 1-确权  2-现场取证 3-pc取证
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle downloadFile(int pkValue,int type,ApiCallback callback){
+		BaseHttpRequest<DownLoadFileBean> request = new BaseHttpRequest<DownLoadFileBean>(
+				DownLoadFileBean.class, this);
+		request.setPath(URLConstant.DownloadFile);
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("type", type+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 版本更新
+	 * @param versionCode版本号
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getVerUpDate(String  versionCode,ApiCallback callback){
+		BaseHttpRequest<VerUpDateBean> request = new BaseHttpRequest<VerUpDateBean>(
+				VerUpDateBean.class, this);
+		request.setPath(URLConstant.GetVerUpDate);
+		request.params().add("versionCode", versionCode);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
 
 }

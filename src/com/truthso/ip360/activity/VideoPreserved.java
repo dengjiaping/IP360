@@ -10,13 +10,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction :录像保全的界面
@@ -34,10 +43,16 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private String mVideoSize;
 	private String mDate,loc,time;
 	private Button btn_preserved,btn_cancel;
-	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time;
+	private int minTime;
+	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time,tv_account;
 	@Override
 	public void initData() {
-
+		getLocation();
+		mVideoPath = getIntent().getStringExtra("filePath");
+		mDate = getIntent().getStringExtra("date");
+		loc =getIntent().getStringExtra("loc");
+		time = getIntent().getStringExtra("time");
+		minTime = getIntent().getIntExtra("minTime", 0);
 	}
 
 	@Override
@@ -55,11 +70,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		
-		getLocation();
-		mVideoPath = getIntent().getStringExtra("filePath");
-		mDate = getIntent().getStringExtra("date");
-		loc =getIntent().getStringExtra("loc");
-		time = getIntent().getStringExtra("time");
+		tv_account = (TextView) findViewById(R.id.tv_account);
+	
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
 		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
 				MediaStore.Images.Thumbnails.MICRO_KIND));
@@ -75,6 +87,52 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_preserved.setOnClickListener(this);
 		btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		btn_cancel.setOnClickListener(this);
+		
+	int	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_STRING);
+		  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+			  getport();
+		}else if(useType ==2 ){
+			String str = minTime+"分钟";
+			tv_account.setText(str);
+		}
+	}
+
+	private void getport() {
+
+		showProgress("正在加载...");
+		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1, new ApiCallback() {
+			
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
+				
+			}
+			
+			@Override
+			public void onApiResult(int errorCode, String message,
+					BaseHttpResponse response) {
+				hideProgress();		
+				AccountStatusBean bean = (AccountStatusBean)response;
+				if (!CheckUtil.isEmpty(bean)) {
+					if (bean.getCode()== 200) {
+						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+							//可以继续保全
+						}
+						
+							String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
+							tv_account.setText("￥"+yue);
+						
+						
+					}else{
+						Toaster.showToast(VideoPreserved.this, bean.getMsg());
+					}
+				}else{
+					Toaster.showToast(VideoPreserved.this, "请重试");
+				}
+			}
+		});
+	
+		
 	}
 
 	@Override
