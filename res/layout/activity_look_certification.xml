@@ -6,11 +6,16 @@
     android:orientation="vertical" >
 
     <include layout="@layout/top_title" />
-	<ImageView 
+	<!-- <ImageView 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:layout_gravity="center"
 	    android:layout_margin="15dp"
 	    android:background="@drawable/zhengshu"
-	    />
+	    /> -->
+ <WebView  
+    android:id="@+id/webview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+/>
 </LinearLayout>

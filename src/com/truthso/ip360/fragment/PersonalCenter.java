@@ -47,7 +47,6 @@ import cz.msebera.android.httpclient.Header;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-
 public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private PersonalMsgBean bean;
 	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量

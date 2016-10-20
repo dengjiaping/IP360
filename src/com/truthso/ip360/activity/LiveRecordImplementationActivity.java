@@ -86,6 +86,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private String recTotalTime;
 	private VoiceLineView voiceLineView;
 	private boolean isAlive = true;
+	private int hor;
+	private int min;
+	private int sec;
 	
 
 
@@ -109,19 +112,19 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	}
 
 	public CharSequence getHor() {
-		int hor = timeUsedInsec / 3600;
+		hor = timeUsedInsec / 3600;
 		return hor < 10 ? "0" + hor : String.valueOf(hor);
 
 	}
 
 	public CharSequence getMin() {
-		int min = timeUsedInsec / 60;
+		min = timeUsedInsec / 60;
 		return min < 10 ? "0" + min : String.valueOf(min);
 
 	}
 
 	public CharSequence getSec() {
-		int sec = timeUsedInsec % 60;
+		sec = timeUsedInsec % 60;
 		return sec < 10 ? "0" + sec : String.valueOf(sec);
 	}
 

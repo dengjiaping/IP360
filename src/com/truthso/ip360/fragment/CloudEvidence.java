@@ -60,6 +60,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private CloudEviItemBean cloudEviItemBean;
 	private String keywork;//搜索框里的搜索内容
 	private int type,mobileType;//类型，取证类型
+	private String searchText;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -91,7 +92,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		return R.layout.fragment_clouddevidence;
 	}
 
-	@Override
+	@Override	
 	protected void initData() {
 		inflater = LayoutInflater.from(getActivity());
 
@@ -115,18 +116,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				actionBar.setRightDisEnable();
 				showPop();
 			}
-//		case R.id.tv_photo://pop中的拍照取证
-////			window.dismiss();
-//			break;
-//		case R.id.tv_video://pop中的录像取证
-//			break;
-//		case R.id.tv_record://pop中的录音取证
-//			break;
-//		case R.id.tv_pc://pop线上取证
-//			break;
-//		case R.id.tv_file://确权文件
-//			break;
-		
+
 
 		default:
 			break;
@@ -166,10 +156,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-				keywork = null;
+
 				type = 2;//现场取证
 				mobileType = 50001;
-				getDatas();
+				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 
 		
@@ -182,10 +172,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-				keywork = null;
-				type = 2;//现场取证
+		
+			    type = 2;//现场取证
 				mobileType = 50003;
-				getDatas();
+				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
 		
@@ -197,10 +187,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-				keywork = null;
+			
 				type = 2;//现场取证
 				mobileType = 50002;
-				getDatas();
+				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
 		tv_pc.setOnClickListener(new OnClickListener() {//线上取证
@@ -211,10 +201,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-				keywork = null;
+
 				type = 3;//线上取证
-				mobileType = (Integer) null;
-				getDatas();
+   			    mobileType = 0;
+				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
 		 tv_file.setOnClickListener(new OnClickListener() {//确权文件
@@ -225,10 +215,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-				keywork = null;
+
 				type = 1;//确权文件
-				mobileType = (Integer) null;
-				getDatas();
+				mobileType = 0;
+				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
 		fl_empty.setOnClickListener(new OnClickListener() {
@@ -311,23 +301,21 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void onRefresh() {
-		handler.sendEmptyMessageDelayed(0, 1000);
+		
 	}
 
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			xRefresh.stopRefresh();
-		}
-	};
 	private PopupWindow window;
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
-
+	
+	/**
+	 *底部加载更多
+	 */
 	@Override
 	public void onLoadMore() {
-
+		pagerNumber++;
+		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
 	@Override
@@ -354,7 +342,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	/**
 	 * 调接口获取数据
 	 */
-	private void getDatas() {
+	private void getDatas(String keywork,final int type,int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
 			@Override
@@ -366,7 +354,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					if (bean.getCode() == 200) {
 						List<CloudEviItemBean> datas = bean.getDatas();
 						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
-							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas());
+							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
 							lv_cloudevidence.setAdapter(adapter);
 						}					
 					}else{
@@ -380,7 +368,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 				
 			}
 		});

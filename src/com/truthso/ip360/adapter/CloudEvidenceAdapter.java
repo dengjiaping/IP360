@@ -33,10 +33,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	private boolean isAllSelect=false;
 	private boolean isChoice=false;
 	protected List<CloudEviItemBean> mDatas;
-	public CloudEvidenceAdapter(Context context,List<CloudEviItemBean> mDatas) {
+	private int pkValue,type;
+	public CloudEvidenceAdapter(Context context,List<CloudEviItemBean> mDatas, int type) {
 		super();
 		this.context = context;
 		this.mDatas=mDatas;
+		this.type = type;
 		inflater=LayoutInflater.from(context);
 	}
 	
@@ -78,13 +80,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			vh=new ViewHolder();
 			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
-			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_size);
+			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
 			vh.tv_filename.setText(mDatas.get(position).getFileTitle());
 
 			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
-			vh.tv_filedate.setText(mDatas.get(position).getFileTime());
+			vh.tv_filedate.setText(mDatas.get(position).getFileDate());
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.tv_size.setText(mDatas.get(position).getFileSize());
+			
+			pkValue = mDatas.get(position).getPkValue();
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();
@@ -167,6 +171,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			break;
 		case R.id.tv_certificate_preview://证书预览
 			Intent intent1 = new Intent(context,CertificationActivity.class);
+			intent1.putExtra("pkValue", pkValue);//唯一标识
+			intent1.putExtra("type", type);//类型 1-确权  2-现场取证 3-pc取证
 			context.startActivity(intent1);
 			break;
 
