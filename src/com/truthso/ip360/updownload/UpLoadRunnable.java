@@ -1,35 +1,39 @@
 package com.truthso.ip360.updownload;
 
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PushbackInputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.Socket;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.dao.UpDownLoadDao;
-
-import android.os.Message;
 
 public class UpLoadRunnable implements Runnable {
 
 	private String uploadUrl, filePath;
 	private boolean isCancle;
 	private UpLoadListener upLoadListener;
-	private int upLoadProgress;
+	private int upLoadProgress,position,resourceId;
 	private UpDownLoadDao dao;
 
-	public UpLoadRunnable(String uploadUrl, String filePath) {
+	public UpLoadRunnable(String uploadUrl, String filePath,int position,int resourceId) {
 		super();
 		this.uploadUrl = uploadUrl;
 		this.filePath = filePath;
-		dao = new UpDownLoadDao(MyApplication.getInstance());
+		this.position=position;
+		this.resourceId=resourceId;
+	 Log.i("djj","uploadUrl"+uploadUrl);
+	 Log.i("djj", "filePath"+filePath);
+	 Log.i("djj", "position"+position);
+	 Log.i("djj", "resourceId"+resourceId);
 	}
 
 	public void cancle() {
@@ -42,50 +46,74 @@ public class UpLoadRunnable implements Runnable {
 
 	@Override
 	public void run() {
-
+		    String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
+	        String PREFIX = "--", LINE_END = "\r\n";
+	        String CONTENT_TYPE = "multipart/form-data"; // 内容类型
+	        String CHARSET="utf-8";
+	        int TIME_OUT=60000;
 		try {
 			File uploadFile = new File(filePath);
 			if (!uploadFile.exists()) {
 				uploadFile.createNewFile();
 			}
             long length=uploadFile.length();
-			String souceid = dao.getBindId(uploadFile);
-		/*	String head = "Content-Length=" + uploadFile.length() + ";filename=" + uploadFile.getName() + ";sourceid=" + (souceid == null ? "" : souceid) + "\r\n";
-			Socket socket = new Socket("192.168.1.78", 7878);
-			OutputStream outStream = socket.getOutputStream();
-			outStream.write(head.getBytes());*/
-
 			URL url=new URL(uploadUrl);
+			
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
-            connection.setUseCaches(false);
-            // 设置允许输出
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-           
-			
-			
-			
-			
-			PushbackInputStream inStream = new PushbackInputStream(connection.getInputStream());
-			String response = StreamTool.readLine(inStream);
-			String[] items = response.split(";");
-			String responseid = items[0].substring(items[0].indexOf("=") + 1);
-			String position = items[1].substring(items[1].indexOf("=") + 1);
-			
-			 // 设置断点开始位置
+            connection.setReadTimeout(TIME_OUT);
+            connection.setConnectTimeout(TIME_OUT);
+            connection.setDoInput(true); // 允许输入流
+            connection.setDoOutput(true); // 允许输出流
+            connection.setUseCaches(false); // 不允许使用缓存
+            connection.setRequestMethod("POST"); // 请求方式
+            connection.setRequestProperty("Charset", CHARSET);
+       	 // 设置断点开始位置
             connection.setRequestProperty("Range", "bytes=" + position);
-			
-			if (souceid == null) {// 代表原来没有上传过此文件，往数据库添加一条绑定记录
-				dao.save(responseid, uploadFile);
-			}
+            // 设置编码
+            connection.setRequestProperty("connection", "keep-alive");
+            connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
+                    + BOUNDARY);
+	
+            Map<String, String> params=new HashMap<String, String>();
+            params.put("position", position+"");
+            params.put("resourceId", resourceId+"");
+            
+            StringBuilder sb = new StringBuilder();    
+            for (Map.Entry<String, String> entry : params.entrySet()) {    
+                sb.append(PREFIX);    
+                sb.append(BOUNDARY);    
+                sb.append(LINE_END);    
+                sb.append("Content-Disposition: form-data; name=\""    
+                        + entry.getKey() + "\"" + LINE_END);    
+                sb.append("Content-Type: text/plain; charset=" + CHARSET + LINE_END);    
+                sb.append("Content-Transfer-Encoding: 8bit" + LINE_END);    
+                sb.append(LINE_END);    
+                sb.append(entry.getValue());    
+                sb.append(LINE_END);    
+            }    
+            sb.append(PREFIX);//开始拼接文件参数
+            sb.append(BOUNDARY); sb.append(LINE_END);
+            
+            sb.append("Content-Disposition: form-data; name=\"file\"; filename=\""
+                    + uploadFile.getName() + "\"" + LINE_END);
+            sb.append("Content-Type: application/octet-stream; charset="
+                    + CHARSET + LINE_END);
+            sb.append(LINE_END);
+            
+            OutputStream outputSteam=connection.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(outputSteam);
+            dos.write(sb.toString().getBytes());
+            
 			RandomAccessFile raf = new RandomAccessFile(uploadFile, "r");
 			raf.seek(Integer.valueOf(position));
+			
 			byte[] buffer = new byte[1024];
 			int len = -1;
 			int progress = Integer.valueOf(position);
+			Log.i("djj", dos.toString());
 			while (!isCancle && (len = raf.read(buffer)) != -1) {
-				outStream.write(buffer, 0, len);
+				dos.write(buffer, 0, len);
 				progress += len;
 		
 				if(upLoadListener!=null){
@@ -93,9 +121,9 @@ public class UpLoadRunnable implements Runnable {
 				}
 			}
 			raf.close();
-			outStream.close();
-			inStream.close();
-			socket.close();
+			dos.close();
+
+			
 			if (length == uploadFile.length()){
 				dao.delete(uploadFile);
 				if(upLoadListener!=null){

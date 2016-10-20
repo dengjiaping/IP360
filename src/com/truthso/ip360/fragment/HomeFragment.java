@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -94,49 +95,26 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
 			//调接口,看是否可以拍照
-			getPort(MyConstants.PHOTOTYPE,0);
-			if (isUseable) {
-				getLocation();
-				photoDir = new File(MyConstants.PHOTO_PATH);
-				if (!photoDir.exists()) {
-					photoDir.mkdirs();
-				}
-				String name = "temp.jpg";
-				photo = new File(photoDir, name);
-				Uri photoUri = Uri.fromFile(photo);
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-				startActivityForResult(intent, CAMERA);
+			//getPort(MyConstants.PHOTOTYPE,0);		
+			getLocation();
+			photoDir = new File(MyConstants.PHOTO_PATH);
+			if (!photoDir.exists()) {
+				photoDir.mkdirs();
 			}
-			
+			String name = "temp.jpg";
+			photo = new File(photoDir, name);
+			Uri photoUri = Uri.fromFile(photo);
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+			startActivityForResult(intent, CAMERA);
 			break;
 		case R.id.ll_take_video:// 录像取证
 			//调接口,看是否可以录像
-			getPort(MyConstants.VIDEOTYPE,0);
-			if (isUseable) {
-				getLocation();
-				Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-				intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-				startActivityForResult(intent1, CASE_VIDEO);
-				SimpleDateFormat formatter = new SimpleDateFormat(
-						"yyyy年MM月dd日    HH:mm:ss     ");
-				Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-				date1 = formatter.format(curDate);
-			}
-			
+			getPort(MyConstants.VIDEOTYPE,0);		
 			break;
 		case R.id.ll_record:// 录音取证
 			//调接口,看是否可以录音
 			getPort(MyConstants.RECORDTYPE,0);
-			if (isUseable) {
-				getLocation();
-				Intent intent2 = new Intent(getActivity(),
-						LiveRecordImplementationActivity.class);
-				intent2.putExtra("loc", loc);
-				addTimeUsed();
-				startActivity(intent2);
-			}
-			
 			break;
 		default:
 			break;
@@ -145,7 +123,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	/**
 	 * 调是否可以拍照的接口
 	 */
-	private void getPort(int type,int count) {
+	private void getPort(final int type,int count) {
 		ApiManager.getInstance().getAccountStatus(type, count, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -154,7 +132,45 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-							isUseable = true;
+							
+							switch (type) {
+							case MyConstants.PHOTOTYPE:
+								getLocation();
+								photoDir = new File(MyConstants.PHOTO_PATH);
+								if (!photoDir.exists()) {
+									photoDir.mkdirs();
+								}
+								String name = "temp.jpg";
+								photo = new File(photoDir, name);
+								Uri photoUri = Uri.fromFile(photo);
+								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivityForResult(intent, CAMERA);
+								break;
+
+							case MyConstants.VIDEOTYPE:
+								getLocation();
+								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivityForResult(intent1, CASE_VIDEO);
+								SimpleDateFormat formatter = new SimpleDateFormat(
+										"yyyy年MM月dd日    HH:mm:ss     ");
+								Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+								date1 = formatter.format(curDate);
+								break;
+
+							case MyConstants.RECORDTYPE:
+								getLocation();
+								Intent intent2 = new Intent(getActivity(),
+										LiveRecordImplementationActivity.class);
+								intent2.putExtra("loc", loc);
+								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								addTimeUsed();
+								startActivity(intent2);
+								break;
+							}
 						}
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
@@ -179,6 +195,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Log.i("djj", requestCode+":"+Activity.RESULT_OK+"");
 		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
 			if (photo.exists()) {
 				
@@ -188,6 +205,9 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				photo.renameTo(newFile);
 				String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
 						.getAbsolutePath());
+
+				long length=newFile.length();
+				
 				String date = new DateFormat().format("yyyy年MM月dd日 HH:mm:ss",
 						Calendar.getInstance(Locale.CHINA)).toString();
 				
@@ -197,6 +217,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				intent.putExtra("size", fileSize);
 				intent.putExtra("date", date);
 				intent.putExtra("loc", loc);
+				intent.putExtra("length", length/8);
 				startActivity(intent);
 			}
 		}

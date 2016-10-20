@@ -28,8 +28,8 @@ public class UpLoadManager {
 		return instance;
 	}
 	
-	public void  startUpload(String upLoadUrl,String filePath){
-		UpLoadRunnable runnable = new UpLoadRunnable(upLoadUrl,filePath);
+	public void  startUpload(String upLoadUrl,String filePath,int position,int resourceId){
+		UpLoadRunnable runnable = new UpLoadRunnable(upLoadUrl,filePath,position,resourceId);
 	    Future<String> future = (Future<String>)es.submit(runnable);
 		info=new UpLoadTashInfo(filePath,future,runnable);		
 		list.add(info);

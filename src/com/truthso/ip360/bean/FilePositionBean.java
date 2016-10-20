@@ -12,6 +12,18 @@ import com.truthso.ip360.net.BaseHttpResponse;
 
 public class FilePositionBean extends BaseHttpResponse{
 	private FilePosition datas;
+	
+	
+	public FilePosition getDatas() {
+		return datas;
+	}
+
+
+	public void setDatas(FilePosition datas) {
+		this.datas = datas;
+	}
+
+
 	public class FilePosition{
 		private int resourceId;//文件的唯一标示
 		private int position;//文件位置

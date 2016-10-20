@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,10 +31,12 @@ import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
@@ -284,7 +287,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			startActivity(intent6);
 			break;
 		case R.id.btn_logout:// 退出登录        
-			showDialog();		
+			showDialog();			
 		default:
 			break;
 		}

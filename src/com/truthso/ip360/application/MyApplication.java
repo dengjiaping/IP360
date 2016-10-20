@@ -107,7 +107,7 @@ public class MyApplication extends Application {
 	}
 	
 	//获取手机的IMEI
-	private String getDeviceImei(){
+	public String getDeviceImei(){
 		String Imei = ((TelephonyManager)getSystemService(TELEPHONY_SERVICE))
 				.getDeviceId();
 		return Imei;
