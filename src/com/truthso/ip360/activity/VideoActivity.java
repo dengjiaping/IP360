@@ -87,6 +87,7 @@ public class VideoActivity extends CommonMediaActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		 long duration=0;
 		if (requestCode == VIDEO && resultCode == Activity.RESULT_OK
 				&& null != data) {
 			Uri uri = data.getData();
@@ -100,6 +101,7 @@ public class VideoActivity extends CommonMediaActivity {
 				if (c != null && c.moveToFirst()) {
 					filePath = c.getString(0);
 				}
+		    duration=c.getLong(c.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION));
 			}
 			SimpleDateFormat formatter = new SimpleDateFormat(
 					"yyyy年MM月dd日    HH:mm:ss     ");
@@ -107,7 +109,7 @@ public class VideoActivity extends CommonMediaActivity {
 			String date = formatter.format(curDate);
 			String name = filePath.substring(filePath.lastIndexOf("/"));
 			String fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
-			saveData(date, fileSize, name, filePath);
+			saveData(date, fileSize, name, filePath,duration+"");
 
 		}
 		mDatas.clear();
@@ -123,7 +125,7 @@ public class VideoActivity extends CommonMediaActivity {
 	/**
 	 * 将数据保存到数据库
 	 */
-	private void saveData(String date, String fileSize, String name, String path) {
+	private void saveData(String date, String fileSize, String name, String path,String recordTime) {
 		SqlDao sqlDao = new SqlDao(this);
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.VIDEO);// 文件类别
@@ -131,6 +133,7 @@ public class VideoActivity extends CommonMediaActivity {
 		dbBean.setFileSize(fileSize);// 文件大小
 		dbBean.setResourceUrl(path);
 		dbBean.setTitle(name);// 名称
+		dbBean.setRecordTime(recordTime);
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
 	}
 

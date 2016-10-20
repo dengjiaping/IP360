@@ -1,6 +1,5 @@
 package com.truthso.ip360.pager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -8,13 +7,14 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.truthso.ip360.adapter.UpLoadAdapter;
+import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.updownload.UpLoadTashInfo;
 
-public class DownLoadListPager extends BasePager {
+public class UpLoadListPager extends BasePager {
 	private ListView listView;
 	private UpLoadAdapter adapter;
-	private List<UpLoadTashInfo> list=new ArrayList<UpLoadTashInfo>();
-	public DownLoadListPager(Context ctx) {
+	private List<UpLoadTashInfo> list;
+	public UpLoadListPager(Context ctx) {
 		super(ctx);
 	}
 
@@ -28,7 +28,7 @@ public class DownLoadListPager extends BasePager {
 
 	@Override
 	public void initData(int position) {
-		
+		list = UpLoadManager.getInstance().getList();
 	}
 
 	public void setChoice(boolean b) {

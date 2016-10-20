@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +25,6 @@ import com.truthso.ip360.activity.BindPhoNumActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.ReBindEmailActivity;
-import com.truthso.ip360.activity.ReBindEmailBindNewActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.bean.PersonalMsgBean;
@@ -36,10 +34,8 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.upload.UpDownLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 

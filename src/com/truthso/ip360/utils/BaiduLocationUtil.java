@@ -98,5 +98,7 @@ public class BaiduLocationUtil {
 	
 	public static void cancelLocation(){
 		mLocationClient.stop();
+		mLocationClient.unRegisterLocationListener(mMyLocationListener);
+		
 	}
 }
