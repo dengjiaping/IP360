@@ -89,6 +89,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private int hor;
 	private int min;
 	private int sec;
+	private int mintime;
 	
 
 
@@ -104,6 +105,12 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		mRecordTime.setText(getHor() + ":" + getMin() + ":" + getSec());
 		// minText.setText(getMin() + ":");
 		// secText.setText(getSec());
+		if (sec > 0) {
+			mintime = hor*60+min+1;
+		}else{
+			mintime = hor*60+min;
+		}
+		
 	}
 
 	public void addTimeUsed() {
@@ -169,6 +176,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
 				fileName = filePath.substring(filePath.indexOf("_") + 1);
 				recTotalTime = mRecordTime.getText().toString().trim();
+				
 				isPause = true;
 				timeUsedInsec = 0;
 				
