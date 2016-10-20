@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 
 import com.truthso.ip360.application.MyApplication;
@@ -47,16 +50,32 @@ public class UpLoadRunnable implements Runnable {
 			}
             long length=uploadFile.length();
 			String souceid = dao.getBindId(uploadFile);
-			String head = "Content-Length=" + uploadFile.length() + ";filename=" + uploadFile.getName() + ";sourceid=" + (souceid == null ? "" : souceid) + "\r\n";
+		/*	String head = "Content-Length=" + uploadFile.length() + ";filename=" + uploadFile.getName() + ";sourceid=" + (souceid == null ? "" : souceid) + "\r\n";
 			Socket socket = new Socket("192.168.1.78", 7878);
 			OutputStream outStream = socket.getOutputStream();
-			outStream.write(head.getBytes());
+			outStream.write(head.getBytes());*/
 
-			PushbackInputStream inStream = new PushbackInputStream(socket.getInputStream());
+			URL url=new URL(uploadUrl);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+            connection.setUseCaches(false);
+            // 设置允许输出
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+           
+			
+			
+			
+			
+			PushbackInputStream inStream = new PushbackInputStream(connection.getInputStream());
 			String response = StreamTool.readLine(inStream);
 			String[] items = response.split(";");
 			String responseid = items[0].substring(items[0].indexOf("=") + 1);
 			String position = items[1].substring(items[1].indexOf("=") + 1);
+			
+			 // 设置断点开始位置
+            connection.setRequestProperty("Range", "bytes=" + position);
+			
 			if (souceid == null) {// 代表原来没有上传过此文件，往数据库添加一条绑定记录
 				dao.save(responseid, uploadFile);
 			}
