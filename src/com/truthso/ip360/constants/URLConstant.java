@@ -10,6 +10,7 @@ package com.truthso.ip360.constants;
 
 public class URLConstant {
 	static String str = "192.168.1.20:8081";
+	static String str1 = "101.201.74.230:9091";
 	/**
 	 * 登录
 	 */
