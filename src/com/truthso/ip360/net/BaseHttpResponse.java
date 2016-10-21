@@ -3,7 +3,6 @@ package com.truthso.ip360.net;
 import java.io.Serializable;
 
  public class BaseHttpResponse implements Serializable {
-//	private static final long serialVersionUID = 1L;
 	private int code;
 	private String msg;
 	
