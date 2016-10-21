@@ -95,11 +95,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
-		if (useType == 1) {// 用户类型1-付费用户（C）；2-合同用户（B）
-			getport();
-		} else if (useType == 2) {
-			tv_account.setText(1 + "次");
-		}
+		
+		getport();
 	}
 
 	// 调接口获取当次交易的金额
@@ -123,9 +120,15 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-								String yue = bean.getDatas().getCount() / 10
-										+ "." + bean.getDatas().getCount() % 10;
-								tv_account.setText("￥" + yue);
+								
+								if (useType == 1) {// 用户类型1-付费用户（C）；2-合同用户（B）
+									String yue = bean.getDatas().getCount() / 10
+											+ "." + bean.getDatas().getCount() % 10;
+									tv_account.setText("￥" + yue);
+								} else if (useType == 2) {
+									tv_account.setText(1 + "次");
+									
+								}
                                 if(bean.getDatas().getStatus()==1){
                                 	isPre = true;
                                 }
@@ -252,7 +255,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			if(isPre){
 				filePre();
 			}
-//			filePre();
+
 			break;
 		default:
 			break;
