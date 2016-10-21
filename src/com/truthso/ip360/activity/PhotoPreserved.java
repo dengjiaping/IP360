@@ -35,6 +35,7 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.ImageLoaderUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -117,7 +118,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-								
+//								LogUtils.e("ssssssssssssssss");
 								String yue = bean.getDatas().getCount() / 10
 										+ "." + bean.getDatas().getCount() % 10;
 								tv_account.setText("￥" + yue);
@@ -158,10 +159,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * @return
 	 */
 	private void filePre() {
-
+		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(path));
 		String imei = MyApplication.getInstance().getDeviceImei();
-		ApiManager.getInstance().uploadPreserveFile(MyConstants.PHOTOTYPE,
+		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
 				length + "", hashCode, date, path, loc, null, imei,
 				new ApiCallback() {
 
@@ -169,20 +170,19 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
 							Throwable error) {
-						// TODO Auto-generated method stub
-                      Log.i("djj", "statusCode"+statusCode);
 					}
 
 					@Override
 					public void onApiResult(int errorCode, String message,
 							BaseHttpResponse response) {
+						hideProgress();
 						UpLoadBean bean = (UpLoadBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								Log.i("djj", "statusCode"+200);
-								getPosition(pkValue);
+								startUpLoad(0, pkValue);
+//								finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -227,6 +227,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	}
 
 	private void startUpLoad(int position, int resourceId) {
+//		showProgress("开始上传文件...");
 		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, path,
 				position, resourceId);
 	}
@@ -245,9 +246,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		case R.id.btn_preserved:
 			saveToDb();
 			if(isPre){
-			
+				filePre();
 			}
-			filePre();
+//			filePre();
 			break;
 		default:
 			break;
@@ -283,7 +284,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	// 保存到云端
 	private void saveToNet() {
-		//
+		
 	}
 
 	@Override

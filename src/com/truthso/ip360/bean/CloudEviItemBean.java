@@ -19,7 +19,7 @@ public class CloudEviItemBean {
 	cardTitle	证书标题	String(30)	证书标题	非空	IP360手机取证数据保全证书
 	fileUrl	文件路径	String(255)	云URL。用于在线播放场景	非空	
 	pkValue	证据记录主键值	Integer	证据记录唯一标识（主键）。修改备注的时候用	非空	*/
-	
+//	count	当次消费数量	Integer	B/C类用户均使用。当前消费量。根据输入参数的count是否大于0确定。	非空	
 	
 	private String fileSize;//文件大小
 	private String fileTitle;//文件名称
@@ -32,6 +32,14 @@ public class CloudEviItemBean {
 	private String cardTitle;//证书标题
 	private String fileUrl;//文件路径
 	private int pkValue;//证据记录主键值
+	private int count;//当次消费量
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public String getFileSize() {
 		return fileSize;
 	}

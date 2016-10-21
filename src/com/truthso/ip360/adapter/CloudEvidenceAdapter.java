@@ -34,6 +34,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	private boolean isChoice=false;
 	protected List<CloudEviItemBean> mDatas;
 	private int pkValue,type;
+	private int count;//当次消费条数
+	private String fileName,format,date,size,mode;
+	
+	
 	public CloudEvidenceAdapter(Context context,List<CloudEviItemBean> mDatas, int type) {
 		super();
 		this.context = context;
@@ -87,8 +91,13 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			vh.tv_filedate.setText(mDatas.get(position).getFileDate());
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.tv_size.setText(mDatas.get(position).getFileSize());
-			
 			pkValue = mDatas.get(position).getPkValue();
+			count = mDatas.get(position).getCount();
+			fileName = mDatas.get(position).getFileTitle();
+			format = mDatas.get(position).getFileFormat();//格式
+			date = mDatas.get(position).getFileDate();
+			size = mDatas.get(position).getFileSize();
+			mode = mDatas.get(position).getFileMode();
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();
@@ -162,6 +171,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 		switch (v.getId()) {
 		case R.id.tv_remark://备注
 			Intent intent = new Intent(context,FileRemarkActivity.class);
+			intent.putExtra("count", count);//当次消费钱数
+			intent.putExtra("fileName", fileName);
+			intent.putExtra("format", format);
+			intent.putExtra("date", date);
+			intent.putExtra("size", size);
+			intent.putExtra("mode", mode);
+			intent.putExtra("type", type);
+			
+			intent.putExtra("pkValue", pkValue);
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download://下载

@@ -43,7 +43,7 @@ public class DownLoadListPager extends BasePager {
 	}
 	
 	public void refresh(){
-		list= UpLoadManager.getInstance().getList();
-		adapter.notifyDataChanged(list);
+		/*list= UpLoadManager.getInstance().getList();
+		adapter.notifyDataChanged(list);*/
 	}
 }

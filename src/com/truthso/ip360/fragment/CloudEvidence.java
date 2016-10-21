@@ -353,7 +353,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						List<CloudEviItemBean> datas = bean.getDatas();
+						
 						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
+							
 							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
 							lv_cloudevidence.setAdapter(adapter);
 						}					

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.bean.AccountStatusBean;
+import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.FilePositionBean;
@@ -473,10 +474,11 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle uploadPreserveFile(int fileType,String fileSize,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
+	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
 		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
 				UpLoadBean.class, this);
 		request.setPath(URLConstant.UploadPreserveFile);
+		request.params().add("fileTitle", fileTitle);
 		request.params().add("fileType", fileType+"");
 		request.params().add("fileSize", fileSize);
 		request.params().add("hashCode", hashCode);
@@ -521,8 +523,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 */
 	public RequestHandle getCertificateInfo(int pkValue,int type,ApiCallback callback){
 		//接口要返回Url，后台改好再换Bean
-		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
-				BaseHttpResponse.class, this);
+		BaseHttpRequest<CertificateInfoBean> request = new BaseHttpRequest<CertificateInfoBean>(
+				CertificateInfoBean.class, this);
 		request.setPath(URLConstant.GetCertificateInfo);
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
@@ -552,7 +554,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			e.printStackTrace();
 		}
 		request.setApiCallback(callback);
-		RequestHandle requestHandle = request.get();
+		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
@@ -569,7 +571,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.setPath(URLConstant.GetFilePosition);
 		request.params().add("resourceId", resourceId+"");
 		request.setApiCallback(callback);
-		RequestHandle requestHandle = request.get();
+		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}

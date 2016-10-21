@@ -94,9 +94,10 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
-			//调接口,看是否可以拍照
-			//getPort(MyConstants.PHOTOTYPE,0);		
 			getLocation();
+			//调接口,看是否可以拍照
+//			getPort(MyConstants.PHOTOTYPE,0);		
+			
 			photoDir = new File(MyConstants.PHOTO_PATH);
 			if (!photoDir.exists()) {
 				photoDir.mkdirs();
@@ -124,6 +125,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	 * 调是否可以拍照的接口
 	 */
 	private void getPort(final int type,int count) {
+		
 		ApiManager.getInstance().getAccountStatus(type, count, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -145,7 +147,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 								Uri photoUri = Uri.fromFile(photo);
 								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 								intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent, CAMERA);
 								break;
 
@@ -195,10 +197,12 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
-			if (!CheckUtil.isEmpty(photo)&&photo.exists()) {
 				
+		Log.i("djj", requestCode+":"+Activity.RESULT_OK+"");
+		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
+
+				 if (!CheckUtil.isEmpty(photo)&&photo.exists()){
+
 				String name = new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".jpg";
 				File newFile = new File(photoDir, name);
@@ -208,7 +212,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 
 				long length=newFile.length();
 				
-				String date = new DateFormat().format("yyyy年MM月dd日 HH:mm:ss",
+				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",
 						Calendar.getInstance(Locale.CHINA)).toString();
 				
 				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
