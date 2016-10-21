@@ -1,8 +1,10 @@
 package com.truthso.ip360.updownload;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
@@ -53,7 +55,7 @@ public class UpLoadRunnable implements Runnable {
 		    String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
 	        String PREFIX = "--", LINE_END = "\r\n";
 	        String CONTENT_TYPE = "multipart/form-data"; // 内容类型
-	        String CHARSET="utf-8";
+	        String CHARSET="UTF-8";
 	        int TIME_OUT=60000;
 		try {
 			File uploadFile = new File(filePath);
@@ -78,10 +80,15 @@ public class UpLoadRunnable implements Runnable {
             connection.setRequestProperty("connection", "keep-alive");
             connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="
                     + BOUNDARY);
-	
+            
+            OutputStream outputSteam=connection.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(outputSteam);
+            
+            
             Map<String, String> params=new HashMap<String, String>();
             params.put("position", position+"");
             params.put("resourceId", resourceId+"");
+            params.put("token", MyApplication.getInstance().getTokenId());
             
             StringBuilder sb = new StringBuilder();    
             for (Map.Entry<String, String> entry : params.entrySet()) {    
@@ -89,33 +96,31 @@ public class UpLoadRunnable implements Runnable {
                 sb.append(BOUNDARY);    
                 sb.append(LINE_END);    
                 sb.append("Content-Disposition: form-data; name=\""    
-                        + entry.getKey() + "\"" + LINE_END);    
-                sb.append("Content-Type: text/plain; charset=" + CHARSET + LINE_END);    
-                sb.append("Content-Transfer-Encoding: 8bit" + LINE_END);    
+                        + entry.getKey() + "\"" + LINE_END);         
                 sb.append(LINE_END);    
-                sb.append(entry.getValue());    
+                sb.append(entry.getValue());   
+                sb.append(LINE_END); 
                 sb.append(LINE_END);    
             }    
+            dos.write(sb.toString().getBytes());
+                        
             sb.append(PREFIX);//开始拼接文件参数
-            sb.append(BOUNDARY); sb.append(LINE_END);
+            sb.append(BOUNDARY); 
+            sb.append(LINE_END);
             
             sb.append("Content-Disposition: form-data; name=\"file\"; filename=\""
                     + uploadFile.getName() + "\"" + LINE_END);
             sb.append("Content-Type: application/octet-stream; charset="
                     + CHARSET + LINE_END);
             sb.append(LINE_END);
-            
-            OutputStream outputSteam=connection.getOutputStream();
-            DataOutputStream dos = new DataOutputStream(outputSteam);
-            dos.write(sb.toString().getBytes());
-            
+       
 			RandomAccessFile raf = new RandomAccessFile(uploadFile, "r");
 			raf.seek(Integer.valueOf(position));
 			
 			byte[] buffer = new byte[1024];
 			int len = -1;
 			int progress = Integer.valueOf(position);
-			Log.i("djj", dos.toString());
+			Log.i("djj",sb.toString());
 			while (!isCancle && (len = raf.read(buffer)) != -1) {
 				isUpLoading=true;
 				dos.write(buffer, 0, len);
@@ -123,18 +128,36 @@ public class UpLoadRunnable implements Runnable {
 				if(upLoadListener!=null){
 					upLoadListener.onProgress((int)(progress/length*100));
 				}
+				Log.i("djj", "progress"+progress+"length"+length);
 			}
-					
-			if (progress == uploadFile.length()){
+			raf.close();
+			
+			
+			byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();  
+			dos.write(endData);  
+            dos.flush();  
+            dos.close();
+          
+            
+         // 读取返回数据    
+            StringBuffer strBuf = new StringBuffer();  
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));  
+            String line = null;  
+            while ((line = reader.readLine()) != null) {  
+                strBuf.append(line).append("\n");  
+            }  
+           String res = strBuf.toString();  
+            reader.close();  
+            reader = null;  
+            
+            Log.i("djj", "res"+res);
+            if (progress == uploadFile.length()){
 				if(upLoadListener!=null){
 					upLoadListener.onUpLoadComplete();
 				}		
 				UpLoadManager.getInstance().removeRunnable(UpLoadRunnable.this);				
 			}
-				
-			dos.flush();
-			raf.close();
-			dos.close();	
+            
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
