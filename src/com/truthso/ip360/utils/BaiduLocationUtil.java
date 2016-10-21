@@ -4,6 +4,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import android.content.Context;
@@ -23,18 +24,15 @@ public class BaiduLocationUtil {
 	private static MyLocationListener mMyLocationListener;
 	private static locationListener mlocationListener;
 
+	
 	public static void getLocation(Context context, locationListener mlocationListener) {
-		BaiduLocationUtil.mlocationListener = mlocationListener;
-		// 百度定位功能
+		BaiduLocationUtil.mlocationListener = mlocationListener;	
 		mLocationClient = new LocationClient(context);
 		mMyLocationListener = new MyLocationListener();
 		mLocationClient.registerLocationListener(mMyLocationListener);
 		initLocation();
+				
 		mLocationClient.start();
-		// mLocationClient.stop();
-		// if(s!= null && s.length() > 0){
-		// mLocationClient.stop();
-		// }
 	}
 
 	private static void initLocation() {
@@ -84,7 +82,9 @@ public class BaiduLocationUtil {
 
 			}
 			s = location.getAddrStr() + location.getLocationDescribe();
-			mlocationListener.location(s);
+			if(CheckUtil.isEmpty(mlocationListener)){
+				mlocationListener.location(s);
+			}			
 			// DebugLog.e("location1",s);
 			// System.out.println(location.getAddrStr()+"");
 

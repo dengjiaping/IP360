@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.RadioButton;
@@ -83,6 +84,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
+	    Log.i("djj", "location");
 		BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
 		
