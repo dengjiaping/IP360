@@ -75,7 +75,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
-		tv_loc.setText(loc);
+		if (!CheckUtil.isEmpty(loc)) {
+			tv_loc.setText(loc);
+		}else{
+			
+		}
+//		tv_loc.setText(loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
@@ -118,7 +123,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-//								LogUtils.e("ssssssssssssssss");
 								String yue = bean.getDatas().getCount() / 10
 										+ "." + bean.getDatas().getCount() % 10;
 								tv_account.setText("￥" + yue);
@@ -195,7 +199,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				});
 	}
 
-	private void getPosition(int pkValue) {
+/*	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
@@ -211,7 +215,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				FilePositionBean bean = (FilePositionBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-						Log.i("djj", "statusCode1"+201);
+//						Log.i("djj", "statusCode1"+201);
 						FilePosition datas = bean.getDatas();
 						startUpLoad(datas.getPosition(), datas.getResourceId());
 						finish();
@@ -225,9 +229,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 		});
 	}
-
+*/
 	private void startUpLoad(int position, int resourceId) {
 //		showProgress("开始上传文件...");
+		 LogUtils.e("ssssssssssssssssssssssssssssss"+"执行了吗");
 		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, path,
 				position, resourceId);
 	}
@@ -263,7 +268,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void location(String s) {
 						loc = s;
-						// LogUtils.e("ssssssssssssssssssssssssssssss"+loc);
+					
 					}
 				});
 	}
