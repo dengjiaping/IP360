@@ -26,6 +26,7 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.pager.BasePager;
 import com.truthso.ip360.pager.DownLoadListPager;
+import com.truthso.ip360.pager.UpLoadListPager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
@@ -82,7 +83,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 		pagerList = new ArrayList<BasePager>();
 		pagerList.add(new DownLoadListPager(getActivity()));
-		pagerList.add(new DownLoadListPager(getActivity()));
+		pagerList.add(new UpLoadListPager(getActivity()));
 	
 		
 		mPageAdapter = new MyPageAdapter();

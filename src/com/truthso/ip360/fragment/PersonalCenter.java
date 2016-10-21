@@ -26,19 +26,19 @@ import com.truthso.ip360.activity.BindPhoNumActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.ReBindEmailActivity;
-import com.truthso.ip360.activity.ReBindEmailBindNewActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -287,7 +287,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			startActivity(intent6);
 			break;
 		case R.id.btn_logout:// 退出登录        
-			showDialog();		
+			showDialog();			
 		default:
 			break;
 		}

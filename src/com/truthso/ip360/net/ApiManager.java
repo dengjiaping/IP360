@@ -399,7 +399,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		//改bean
 		BaseHttpRequest<AccountStatusBean> request = new BaseHttpRequest<AccountStatusBean>(
 				AccountStatusBean.class, this);
-		request.setPath(URLConstant.GetPersonalMsg);
+		request.setPath(URLConstant.GetAccountStatus);
 		request.params().add("type", type+"");
 		request.params().add("count", count+"");
 		request.setApiCallback(callback);

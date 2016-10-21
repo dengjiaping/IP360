@@ -169,6 +169,7 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							byte[] responseBody, Throwable error) {
+						Log.i("params", params.toString());
 						BaseHttpRequest.this.onFailure(statusCode, headers,
 								responseBody, error);
 					}

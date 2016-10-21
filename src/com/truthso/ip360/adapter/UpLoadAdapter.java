@@ -28,7 +28,7 @@ import com.truthso.ip360.updownload.UpLoadTashInfo;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListener{
+public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListener{
 	private LayoutInflater inflater;
 	private Context context;
 	private boolean isAllSelect=false;
@@ -36,7 +36,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 	private List<UpLoadTashInfo> datas=new ArrayList<UpLoadTashInfo>();
 	
-	public DownLoadAdapter(Context context,List<UpLoadTashInfo> list) {
+	public UpLoadAdapter(Context context,List<UpLoadTashInfo> list) {
 		super();
 		this.context = context;
 		inflater=LayoutInflater.from(context);
@@ -114,7 +114,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			public void onUpLoadComplete() {
 				// TODO Auto-generated method stub
 				datas.remove(position);
-				DownLoadAdapter.this.notifyDataSetChanged();
+				UpLoadAdapter.this.notifyDataSetChanged();
 			}
 			
 			@Override
