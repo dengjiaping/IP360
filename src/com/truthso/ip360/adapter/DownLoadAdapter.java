@@ -40,12 +40,12 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		super();
 		this.context = context;
 		inflater=LayoutInflater.from(context);
-		for (int i = 0; i < list.size(); i++) {
+		/*for (int i = 0; i < list.size(); i++) {
 			 UpLoadTashInfo upLoadTashInfo = list.get(i);
 				 if(!upLoadTashInfo.getFuture().isDone()){
 					 datas.add(upLoadTashInfo);
 				 }
-			}
+			}*/
 	}
 
 	public void setChoice(Boolean isChoice){
@@ -136,5 +136,16 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void notifyDataChanged(List<UpLoadTashInfo> list) {
+		   datas.clear();
+			for (int i = 0; i < list.size(); i++) {
+				 UpLoadTashInfo upLoadTashInfo = list.get(i);
+					 if(!upLoadTashInfo.getFuture().isDone()){
+						 datas.add(upLoadTashInfo);
+					 }
+				}
+			this.notifyDataSetChanged();
 	}
 }

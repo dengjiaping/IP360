@@ -197,10 +197,12 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-//		Log.i("djj", requestCode+":"+Activity.RESULT_OK+"");
+				
+		Log.i("djj", requestCode+":"+Activity.RESULT_OK+"");
 		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
-//			if (photo.exists()) {
+
 				 if (!CheckUtil.isEmpty(photo)&&photo.exists()){
+
 				String name = new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".jpg";
 				File newFile = new File(photoDir, name);

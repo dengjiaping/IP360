@@ -1,5 +1,8 @@
 package com.truthso.ip360.application;
 
+import java.util.LinkedHashMap;
+import java.util.concurrent.Future;
+
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -16,6 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.updownload.UpLoadRunnable;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 /**
@@ -52,7 +56,7 @@ public class MyApplication extends Application {
 	private static int mMainTheadId;
 	
 	private static ImageLoader imageLoader;
-
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -137,4 +141,5 @@ public class MyApplication extends Application {
     public String getTokenId (){
 		return (String)SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "token", com.truthso.ip360.utils.SharePreferenceUtil.VALUE_IS_STRING);
 	}
+    
 }
