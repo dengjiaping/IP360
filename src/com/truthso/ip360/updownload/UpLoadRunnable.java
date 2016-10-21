@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import android.database.Observable;
 import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
@@ -19,10 +20,9 @@ import com.truthso.ip360.dao.UpDownLoadDao;
 public class UpLoadRunnable implements Runnable {
 
 	private String uploadUrl, filePath;
-	private boolean isCancle;
+	private boolean isCancle,isUpLoading;
 	private UpLoadListener upLoadListener;
 	private int upLoadProgress,position,resourceId;
-	private UpDownLoadDao dao;
 
 	public UpLoadRunnable(String uploadUrl, String filePath,int position,int resourceId) {
 		super();
@@ -44,6 +44,10 @@ public class UpLoadRunnable implements Runnable {
 		return upLoadProgress;
 	}
 
+	public String getUrl(){
+		return filePath;
+	}
+	
 	@Override
 	public void run() {
 		    String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
@@ -113,24 +117,24 @@ public class UpLoadRunnable implements Runnable {
 			int progress = Integer.valueOf(position);
 			Log.i("djj", dos.toString());
 			while (!isCancle && (len = raf.read(buffer)) != -1) {
+				isUpLoading=true;
 				dos.write(buffer, 0, len);
-				progress += len;
-		
+				progress += len;		
 				if(upLoadListener!=null){
 					upLoadListener.onProgress((int)(progress/length*100));
 				}
 			}
-			raf.close();
-			dos.close();
-
-			
-			if (length == uploadFile.length()){
-				dao.delete(uploadFile);
+					
+			if (progress == uploadFile.length()){
 				if(upLoadListener!=null){
 					upLoadListener.onUpLoadComplete();
-				}
+				}		
+				UpLoadManager.getInstance().removeRunnable(UpLoadRunnable.this);				
 			}
 				
+			dos.flush();
+			raf.close();
+			dos.close();	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -139,5 +143,9 @@ public class UpLoadRunnable implements Runnable {
 
 	public void setOnProgressListener(UpLoadListener listen) {
 		this.upLoadListener = listen;
+	}
+	
+	public boolean isUpLoading(){
+		return isUpLoading;
 	}
 }
