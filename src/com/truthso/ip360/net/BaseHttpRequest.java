@@ -94,36 +94,7 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 		
 		params = new RequestParams();
 		
-		/*String sn = UUID.randomUUID().toString();
-		String hashcode  =CryptoUtils.generateSNHash(sn, this.method,
-				App.platformId);
-		String devicemodel = android.os.Build.MODEL;
-		String osversion = android.os.Build.VERSION.RELEASE;
-		tokenId = (String) SharePreferenceUtil.getAttributeByKey(App.getInstance(), KeyConstant.SP_USER, KeyConstant.tokenId, SharePreferenceUtil.VALUE_IS_STRING);
-		String channel_id = (String) SharePreferenceUtil.getAttributeByKey(App.getInstance(), KeyConstant.SP_USER, KeyConstant.channelId, SharePreferenceUtil.VALUE_IS_STRING);
-		String user_id = (String) SharePreferenceUtil.getAttributeByKey(App.getInstance(), KeyConstant.SP_USER, KeyConstant.userId, SharePreferenceUtil.VALUE_IS_STRING);
-		String appTokenId = "";
-		if(!CheckUtil.isEmpty(channel_id) && !CheckUtil.isEmpty(user_id)){
-			appTokenId = channel_id + "|" + user_id;
-		}else if(!CheckUtil.isEmpty(channel_id) && CheckUtil.isEmpty(user_id)){
-			appTokenId = channel_id ;
-		}
-			
 		
-		params.add("method", method);
-		params.add("sn", sn);
-		params.add("msg_id", sn);
-		//params.add("hashcode", hashcode);
-		params.add("platformId",App.platformId);
-		params.add("mode", "jsonios");
-		params.add("tokenId", tokenId);
-		params.add("deviceType", "Android");
-		params.add("appVersion", App.getInstance().getVersionName());
-		params.add("deviceAppId", App.getInstance().getDeviceAppId());
-		params.add("appChannel", App.getInstance().getAppChannel());
-		params.add("platformSecret", CryptoUtils.getOauthKey());
-		*/
-	
 		params.add("token", (String) SharePreferenceUtil.getAttributeByKey(MyApplication.getInstance(), MyConstants.SP_USER_KEY, "token", SharePreferenceUtil.VALUE_IS_STRING));
 		
 	}

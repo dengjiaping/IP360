@@ -155,10 +155,10 @@ public class HomeFragment extends Fragment implements OnClickListener {
 								getLocation();
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent1, CASE_VIDEO);
 								SimpleDateFormat formatter = new SimpleDateFormat(
-										"yyyy年MM月dd日    HH:mm:ss     ");
+										"yyyy-MM-dd    HH:mm:ss     ");
 								Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 								date1 = formatter.format(curDate);
 								break;

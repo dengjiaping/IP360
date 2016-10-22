@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.bean.UpLoadBean;
+import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
@@ -20,7 +23,9 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
+import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -45,6 +50,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_preserved,btn_cancel;
 	private int minTime;
 	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time,tv_account;
+	private int useType;
+	private boolean isPre;
 	@Override
 	public void initData() {
 		getLocation();
@@ -88,13 +95,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		btn_cancel.setOnClickListener(this);
 		
-	int	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_STRING);
-		  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-			  getport();
-		}else if(useType ==2 ){
-			String str = minTime+"分钟";
-			tv_account.setText(str);
-		}
+	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_STRING);
+	
+		  getport();
 	}
 
 	private void getport() {
@@ -102,6 +105,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		showProgress("正在加载...");
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1, new ApiCallback() {
 			
+			
+
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
@@ -115,12 +120,19 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				AccountStatusBean bean = (AccountStatusBean)response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
-						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-							//可以继续保全
-						}
 						
-							String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
-							tv_account.setText("￥"+yue);
+						  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+							  String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
+								tv_account.setText("￥"+yue);
+						}else if(useType ==2 ){
+							String str = minTime+"分钟";
+							tv_account.setText(str);
+							
+						}
+						  if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+								isPre = true;
+							}
+							
 						
 						
 					}else{
@@ -181,12 +193,75 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.btn_preserved://保全
 			saveToDB();
+			if(isPre){
+				filePre();
+			}
 			break;
 
 		default:
 			break;
 		}
 	}
+	/**
+	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
+	 * 
+	 * @param fileType
+	 *            文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
+	 * @param fileSize
+	 *            文件大小，单位为B
+	 * @param hashCode
+	 *            哈希值 非空
+	 * @param fileDate
+	 *            取证时间
+	 * @param fileLocation
+	 *            取证地点 可空
+	 * @param fileTime
+	 *            取证时长 录像 录音不为空
+	 * @param imei手机的IMEI码
+	 * @param callback
+	 * @return
+	 */
+	private void filePre() {
+	/*showProgress("上传文件信息...");
+	String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
+	String imei = MyApplication.getInstance().getDeviceImei();
+	ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
+			length + "", hashCode, mDate, mVideoPath, loc, null, imei,
+			new ApiCallback() {
+
+				@Override
+				public void onApiResultFailure(int statusCode,
+						Header[] headers, byte[] responseBody,
+						Throwable error) {
+				}
+
+				@Override
+				public void onApiResult(int errorCode, String message,
+						BaseHttpResponse response) {
+					hideProgress();
+					UpLoadBean bean = (UpLoadBean) response;
+					if (!CheckUtil.isEmpty(bean)) {
+						if (bean.getCode() == 200) {
+							Upload datas = bean.getDatas();
+							int pkValue = datas.getPkValue();
+							startUpLoad(0, pkValue);
+//							finish();
+						} else {
+							Toaster.showToast(VideoPreserved.this,
+									bean.getMsg());
+						}
+					} else {
+						Toaster.showToast(VideoPreserved.this, "请求失败");
+					}
+				}
+
+				private void startUpLoad(int i, int pkValue) {
+					
+				}
+
+			});*/
+}
+
 	private void getLocation(){
 		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
 				
