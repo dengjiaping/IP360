@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
@@ -188,8 +189,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								startUpLoad(0, pkValue);
-//								finish();
+								getPosition(pkValue);
+						
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -209,7 +210,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
 				// TODO Auto-generated method stub
-				Log.i("djj", "statusCode1"+statusCode);
 			}
 
 			@Override
@@ -218,7 +218,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				FilePositionBean bean = (FilePositionBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-						Log.i("djj", "statusCode1"+201);
 						FilePosition datas = bean.getDatas();
 						startUpLoad(datas.getPosition(), datas.getResourceId());
 						finish();

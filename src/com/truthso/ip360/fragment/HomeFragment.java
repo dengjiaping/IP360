@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	private int min;
 	private int minTime;
 	private String time;
+	private String title;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -111,7 +112,14 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.ll_take_video:// 录像取证
 			//调接口,看是否可以录像
-			getPort(MyConstants.VIDEOTYPE,0);		
+		//	getPort(MyConstants.VIDEOTYPE,0);		
+			Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+			SimpleDateFormat formatter = new SimpleDateFormat(
+					"yyyy年MM月dd日    HH:mm:ss     ");
+			long currentTimeMillis = System.currentTimeMillis();
+			date1=formatter.format(currentTimeMillis);
+			startActivityForResult(intent1, CASE_VIDEO);
 			break;
 		case R.id.ll_record:// 录音取证
 			//调接口,看是否可以录音
@@ -155,12 +163,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 								getLocation();
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent1, CASE_VIDEO);
-								SimpleDateFormat formatter = new SimpleDateFormat(
-										"yyyy年MM月dd日    HH:mm:ss     ");
-								Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-								date1 = formatter.format(curDate);
 								break;
 
 							case MyConstants.RECORDTYPE:
@@ -198,7 +201,6 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 				
-		Log.i("djj", requestCode+":"+Activity.RESULT_OK+"");
 		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
 
 				 if (!CheckUtil.isEmpty(photo)&&photo.exists()){
@@ -236,14 +238,16 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			
 			Uri uri = data.getData();
 			String filePath = "";
+			String size=null;
 			if (uri == null) {
 				return;
 			} else {
-				Cursor c = getActivity().getContentResolver().query(uri,
-						new String[] { MediaStore.MediaColumns.DATA }, null,
-						null, null);
+				Cursor c = getActivity().getContentResolver().query(uri,null, null,null,null);
 				if (c != null && c.moveToFirst()) {
-					filePath = c.getString(0);
+					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));				
+				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
+				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
+					
 				}
 			}
 
@@ -253,6 +257,8 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			intent.putExtra("loc", loc);
 			intent.putExtra("time", time);
 			intent.putExtra("minTime", minTime);
+			intent.putExtra("size",size);
+			intent.putExtra("title", title);
 			startActivity(intent);
 		}
 	}

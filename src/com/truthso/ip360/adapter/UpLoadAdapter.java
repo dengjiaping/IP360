@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +20,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
-import com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder;
 import com.truthso.ip360.updownload.UpLoadListener;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.updownload.UpLoadRunnable;
-import com.truthso.ip360.updownload.UpLoadTashInfo;
 
 /**
  * @despriction :下载列表的adapter
@@ -110,8 +107,8 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.cb_choice.setVisibility(View.GONE);
 		}
 
-		Future<String> future = datas.get(position);
-		UpLoadRunnable upLoadRunnable = map.get(future);
+		final Future<String> future = datas.get(position);
+		final UpLoadRunnable upLoadRunnable = map.get(future);
 		String filePath = upLoadRunnable.getUrl();
 		String name = filePath.substring(filePath.lastIndexOf("/"), filePath.length());
 		vh.tv_fileName.setText(name);
@@ -136,7 +133,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 			@Override
 			public void onClick(View v) {
-
+				instanse.pauseOrStratUpLoad(future,upLoadRunnable.getResourceId(),upLoadRunnable.getUrl());
 			}
 		});
 

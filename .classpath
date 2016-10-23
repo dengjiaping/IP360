@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="libs/locSDK_6.03.jar"/>
 	<classpathentry kind="lib" path="libs/fastjson-1.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/httpclient-4.3.6.jar"/>
 	<classpathentry kind="lib" path="libs/nineoldandroids-2.4.0.jar"/>
 	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="libs/xUtils-2.6.14.jar"/>
+	<classpathentry kind="lib" path="libs/android-async-http-1.4.9.jar" sourcepath="C:/Users/Administrator/Desktop/Android-async-http请求框架/android-async-http-master/library/src/main/java"/>
+	<classpathentry kind="lib" path="libs/gson-2.4.jar"/>
+	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.3.jar"/>
+	<classpathentry kind="lib" path="libs/livenessdetection_v2.3.7.jar"/>
+	<classpathentry kind="lib" path="libs/livenessdetectionui.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.LIBRARIES"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

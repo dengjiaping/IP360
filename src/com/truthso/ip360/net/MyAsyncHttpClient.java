@@ -1,12 +1,17 @@
 package com.truthso.ip360.net;
 
+import java.io.File;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.BinaryHttpResponseHandler;
+import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
+
+import cz.msebera.android.httpclient.Header;
 
 import android.content.Context;
 
@@ -62,7 +67,7 @@ public class MyAsyncHttpClient {
 
 	// post
 	public static RequestHandle post(String urlString, RequestParams params, ResponseHandlerInterface bHandler) {
-		return httpClient.post(urlString, params, bHandler);
+		return httpClient.post(urlString, params, bHandler);	
 	}
 
 	public static void cancelRequest(RequestHandle handle) {

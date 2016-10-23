@@ -56,7 +56,10 @@ public class MyConstants {
 	 */
 	public final static  String PHOTO_PATH=Environment.getExternalStorageDirectory()+"/ip360/photo";
 	
-
+	/**
+	 * 下载证据路径
+	 */
+	public final static  String DOWNLOAD_PATH=Environment.getExternalStorageDirectory()+"/ip360/download";
 	/**
 	 *录音保存路径
 	 */

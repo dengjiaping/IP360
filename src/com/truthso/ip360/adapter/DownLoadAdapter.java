@@ -1,14 +1,18 @@
 package com.truthso.ip360.adapter;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -16,10 +20,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
-import com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder;
-import com.truthso.ip360.updownload.UpLoadListener;
-import com.truthso.ip360.updownload.UpLoadRunnable;
-import com.truthso.ip360.updownload.UpLoadTashInfo;
+import com.truthso.ip360.updownload.DownLoadListener;
+import com.truthso.ip360.updownload.DownLoadManager;
+import com.truthso.ip360.updownload.DownLoadRunnable;
 /**
  * @despriction :下载列表的adapter
  * 
@@ -33,19 +36,18 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private Context context;
 	private boolean isAllSelect=false;
 	private boolean isChoice=false;
-
-	private List<UpLoadTashInfo> datas=new ArrayList<UpLoadTashInfo>();
-	
-	public DownLoadAdapter(Context context,List<UpLoadTashInfo> list) {
+	private DownLoadManager instance=DownLoadManager.getInstance();
+	private List<DownLoadRunnable> datas=new ArrayList<DownLoadRunnable>();
+	public DownLoadAdapter(Context context) {
 		super();
 		this.context = context;
 		inflater=LayoutInflater.from(context);
-		/*for (int i = 0; i < list.size(); i++) {
-			 UpLoadTashInfo upLoadTashInfo = list.get(i);
-				 if(!upLoadTashInfo.getFuture().isDone()){
-					 datas.add(upLoadTashInfo);
-				 }
-			}*/
+		LinkedHashMap<Future<String>, DownLoadRunnable> map = instance.getMap();
+		for (Map.Entry<Future<String>, DownLoadRunnable> info : map.entrySet()) {
+			if(!info.getKey().isDone()){
+				datas.add(info.getValue());
+			}
+		}
 	}
 
 	public void setChoice(Boolean isChoice){
@@ -83,7 +85,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.tv_fileName=(TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar=(ProgressBar) convertView.findViewById(R.id.probar);
-			
+			vh.btn_upload_download=(Button) convertView.findViewById(R.id.btn_upload_download);
 			
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
@@ -103,26 +105,31 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		vh.cb_choice.setVisibility(View.GONE);
 	   }
 	  
-	    String filePath = datas.get(position).getFilePath();
-		String name=filePath.substring(filePath.lastIndexOf("/"),filePath.length());
-		vh.tv_fileName.setText(name);
-		UpLoadRunnable runnable = datas.get(position).getRunnable();
-		vh.probar.setMax(100);
-		runnable.setOnProgressListener(new UpLoadListener() {
+	  final DownLoadRunnable downLoadRunnable = datas.get(position);
+	  
+	  vh.tv_fileName.setText(downLoadRunnable.getFileName());
+	  vh.probar.setMax(downLoadRunnable.getFileSize());
+	  downLoadRunnable.setOnProgressListener(new DownLoadListener() {
+		
+		@Override
+		public void onProgress(int progress) {
+			vh.probar.setProgress(progress);
+		}
+
+		@Override
+		public void oncomplete() {
+			// TODO Auto-generated method stub
 			
-			@Override
-			public void onUpLoadComplete() {
-				// TODO Auto-generated method stub
-				datas.remove(position);
-				DownLoadAdapter.this.notifyDataSetChanged();
-			}
-			
-			@Override
-			public void onProgress(int progress) {
-				vh.probar.setProgress(progress);
-			}
-		});
-			  
+		}
+	});
+	 
+	  vh.btn_upload_download.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			instance.pauseOrStratUpLoad(downLoadRunnable);
+		}
+	});
 		return convertView;
 	}
 
@@ -130,6 +137,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		private CheckBox cb_choice;	
 		private TextView tv_fileName;
 		private ProgressBar probar;
+		private Button btn_upload_download;
 	}
 
 	@Override
@@ -138,14 +146,14 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		
 	}
 
-	public void notifyDataChanged(List<UpLoadTashInfo> list) {
+	public void notifyDataChanged() {
 		   datas.clear();
-			for (int i = 0; i < list.size(); i++) {
-				 UpLoadTashInfo upLoadTashInfo = list.get(i);
-					 if(!upLoadTashInfo.getFuture().isDone()){
-						 datas.add(upLoadTashInfo);
-					 }
+		   LinkedHashMap<Future<String>, DownLoadRunnable> map = instance.getMap();
+			for (Map.Entry<Future<String>, DownLoadRunnable> info : map.entrySet()) {
+				if(!info.getKey().isDone()){
+					datas.add(info.getValue());
 				}
+			}
 			this.notifyDataSetChanged();
 	}
 }

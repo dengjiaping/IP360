@@ -18,11 +18,16 @@ import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.utils.GsonUtil;
+import com.truthso.ip360.utils.JsonUtil;
 
 public class UpLoadRunnable implements Runnable {
 
 	private String uploadUrl, filePath;
 	private boolean isCancle, isUpLoading;
+	private int status;
+	private int WAIT=0,PAUSE=1,RUNNING=2,ERROR=3;	
 	private UpLoadListener upLoadListener;
 	private int upLoadProgress, position, resourceId;
 
@@ -38,8 +43,9 @@ public class UpLoadRunnable implements Runnable {
 		Log.i("djj", "resourceId" + resourceId);
 	}
 
-	public void cancle() {
+	public void pause() {
 		isCancle = true;
+		status=PAUSE;
 	}
 
 	public int getUpLoadProgress() {
@@ -49,9 +55,15 @@ public class UpLoadRunnable implements Runnable {
 	public String getUrl() {
 		return filePath;
 	}
-
+	public int getResourceId(){
+		return resourceId;
+	}
+    public int  getStatue(){
+    	return status;
+    }
 	@Override
 	public void run() {
+		status=RUNNING;
 		String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
 		String PREFIX = "--", LINE_END = "\r\n";
 		String CONTENT_TYPE = "multipart/form-data"; // 内容类型
@@ -108,16 +120,14 @@ public class UpLoadRunnable implements Runnable {
 			sb.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + uploadFile.getName() + "\"" + LINE_END);
 			sb.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
 			sb.append(LINE_END);
-
+			dos.write(sb.toString().getBytes());
 			RandomAccessFile raf = new RandomAccessFile(uploadFile, "r");
 			raf.seek(Integer.valueOf(position));
-
+		
 			byte[] buffer = new byte[1024];
 			int len = -1;
 			int progress = Integer.valueOf(position);
-			Log.i("djj", sb.toString());
-			while (!isCancle && (len = raf.read(buffer)) != -1) {
-				isUpLoading = true;
+			while (!isCancle && (len = raf.read(buffer)) != -1) {				
 				dos.write(buffer, 0, len);
 				progress += len;
 				if (upLoadListener != null) {
@@ -130,8 +140,8 @@ public class UpLoadRunnable implements Runnable {
 			byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();
 			dos.write(endData);
 			dos.flush();
-			dos.close();
-
+			dos.close();	
+						
 			// 读取返回数据
 			StringBuffer strBuf = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -144,23 +154,26 @@ public class UpLoadRunnable implements Runnable {
 			reader = null;
 
 			Log.i("djj", "res" + res);
-			if (progress == uploadFile.length()) {
-				if (upLoadListener != null) {
-					upLoadListener.onUpLoadComplete();
+			if(res!=null){
+				BaseHttpResponse parseJson = JsonUtil.parseJson(res, BaseHttpResponse.class);
+				if(parseJson.getCode()==200){
+					if (progress == uploadFile.length()) {
+						if (upLoadListener != null) {
+							upLoadListener.onUpLoadComplete();
+						}
+						UpLoadManager.getInstance().removeRunnable(UpLoadRunnable.this);
+					}
 				}
-				UpLoadManager.getInstance().removeRunnable(UpLoadRunnable.this);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			status=ERROR;
 		}
+		
 	}
 
 	public void setOnProgressListener(UpLoadListener listen) {
 		this.upLoadListener = listen;
-	}
-
-	public boolean isUpLoading() {
-		return isUpLoading;
 	}
 }
