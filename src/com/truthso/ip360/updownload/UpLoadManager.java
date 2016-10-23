@@ -50,7 +50,13 @@ public class UpLoadManager {
 	public static UpLoadManager getInstance(){
 		return instance;
 	}
-	
+	/**
+	 * 开始上传文件
+	 * @param upLoadUrl 文件要上传的路径
+	 * @param filePath 文件路径
+	 * @param position 文件传到的位置
+	 * @param resourceId 文件id
+	 */
 	public void  startUpload(String upLoadUrl,String filePath,int position,int resourceId){
 		UpLoadRunnable runnable = new UpLoadRunnable(upLoadUrl,filePath,position,resourceId);
 	    Future<String> future = (Future<String>)es.submit(runnable);
@@ -74,6 +80,7 @@ public class UpLoadManager {
 			}*/
 	}
 	
+
 	public void pauseOrStratUpLoad(Future<String> future,int resourceId,final String url){
 		UpLoadRunnable upLoadRunnable = map.get(future);				
 		if(upLoadRunnable!=null){

@@ -10,9 +10,9 @@ package com.truthso.ip360.constants;
 
 public class URLConstant {
 
+
 	//static String str = "192.168.1.20:8081";
 	static String str = "101.201.74.230:9091";
-
 
 
 	/**
@@ -106,5 +106,8 @@ public class URLConstant {
 	 * 版本更新
 	 */
 	public final static String GetVerUpDate = "http://"+str+"/api/v1/system/getVerUp";
-	
+	/**
+	 * 实名认证
+	 */
+	public final static String RealNameCer = "http://"+str+"/api/v1/security/setRealName";
 }

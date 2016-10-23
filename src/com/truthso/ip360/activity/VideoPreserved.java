@@ -3,7 +3,6 @@ package com.truthso.ip360.activity;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -14,8 +13,8 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.FilePositionBean;
-import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.FilePositionBean.FilePosition;
+import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.constants.URLConstant;
@@ -26,13 +25,12 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
+import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -54,7 +52,12 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_preserved,btn_cancel;
 	private int minTime;
 	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time,tv_account;
+
 	private boolean isPre=false;
+
+	private int useType;
+
+
 	@Override
 	public void initData() {
 		getLocation();
@@ -107,6 +110,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		}else if(useType ==2 ){
 			String str = minTime+"分钟";
 			tv_account.setText(str);
+	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_STRING);
+	
+		  getport();
 		}
 	}
 
@@ -115,6 +121,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		showProgress("正在加载...");
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1, new ApiCallback() {
 			
+			
+
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
@@ -132,9 +140,20 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							//可以继续保全
 							isPre=true;
 						}
+
 						
-							String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
-							tv_account.setText("￥"+yue);
+						  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+							  String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
+								tv_account.setText("￥"+yue);
+						}else if(useType ==2 ){
+							String str = minTime+"分钟";
+							tv_account.setText(str);
+							
+						}
+						  if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+								isPre = true;
+							}
+							
 						
 						
 					}else{
@@ -194,6 +213,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btn_preserved://保全
+
 			if(isPre){
 				filePre();
 				saveToDB();
@@ -226,11 +246,14 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 * @return
 	 */
 	private void filePre() {
+
 		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
 		String imei = MyApplication.getInstance().getDeviceImei();
+	//	String fileTitle,int fileType,String fileSize,String hashCode,
+		//String fileDate,String fileLocation,String fileTime,String imei,ApiCallback callback
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.VIDEOTYPE,
-				size, hashCode, mDate, mVideoPath, loc, null, imei,
+				size, hashCode, mDate, loc, null,imei,
 				new ApiCallback() {
 
 					@Override
@@ -299,7 +322,48 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	
 	
-	
+
+	/*showProgress("上传文件信息...");
+	String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
+	String imei = MyApplication.getInstance().getDeviceImei();
+	ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
+			length + "", hashCode, mDate, mVideoPath, loc, null, imei,
+			new ApiCallback() {
+
+				@Override
+				public void onApiResultFailure(int statusCode,
+						Header[] headers, byte[] responseBody,
+						Throwable error) {
+				}
+
+				@Override
+				public void onApiResult(int errorCode, String message,
+						BaseHttpResponse response) {
+					hideProgress();
+					UpLoadBean bean = (UpLoadBean) response;
+					if (!CheckUtil.isEmpty(bean)) {
+						if (bean.getCode() == 200) {
+							Upload datas = bean.getDatas();
+							int pkValue = datas.getPkValue();
+							startUpLoad(0, pkValue);
+//							finish();
+						} else {
+							Toaster.showToast(VideoPreserved.this,
+									bean.getMsg());
+						}
+					} else {
+						Toaster.showToast(VideoPreserved.this, "请求失败");
+					}
+				}
+
+				private void startUpLoad(int i, int pkValue) {
+					
+				}
+
+			});*/
+
+
+
 	private void getLocation(){
 		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
 				

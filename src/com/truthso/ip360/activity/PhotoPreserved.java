@@ -79,9 +79,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		if (!CheckUtil.isEmpty(loc)) {
 			tv_loc.setText(loc);
 		}else{
-			
+			tv_loc.setText("获取位置信息失败");
 		}
-//		tv_loc.setText(loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
@@ -170,8 +169,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(path));
 		String imei = MyApplication.getInstance().getDeviceImei();
+		
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				length + "", hashCode, date, path, loc, null, imei,
+				length + "", hashCode, date, loc, null, imei,
 				new ApiCallback() {
 
 					@Override
@@ -202,14 +202,17 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 				});
 	}
-
+/**
+ * 获取文件断点的位置
+ * @param pkValue
+ */
 	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
+
 			}
 
 			@Override
@@ -234,6 +237,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	private void startUpLoad(int position, int resourceId) {
 //		showProgress("开始上传文件...");
+		//上传的路径，文件的路径，上传的位置，id
 		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, path,
 				position, resourceId);
 	}
@@ -289,7 +293,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	}
 
 	// 保存到云端
-	private void saveToNet() {
+	private void saveToNet(){
 		
 	}
 

@@ -164,6 +164,13 @@ public class HomeFragment extends Fragment implements OnClickListener {
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 								startActivityForResult(intent1, CASE_VIDEO);
+//								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivityForResult(intent1, CASE_VIDEO);
+								SimpleDateFormat formatter = new SimpleDateFormat(
+										"yyyy-MM-dd    HH:mm:ss     ");
+								Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+								date1 = formatter.format(curDate);
+
 								break;
 
 							case MyConstants.RECORDTYPE:

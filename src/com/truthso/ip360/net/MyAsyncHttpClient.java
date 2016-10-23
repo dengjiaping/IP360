@@ -15,13 +15,6 @@ import cz.msebera.android.httpclient.Header;
 
 import android.content.Context;
 
-/**
- * 
- * @author wsx_summer
- * @date ����ʱ�䣺2016��5��26������12:01:44
- * @version 1.0
- * @Copyright (c) 2016 ��������Ƽ���������.Co.Ltd. All rights reserved.
- */
 public class MyAsyncHttpClient {
 	static private AsyncHttpClient httpClient = new AsyncHttpClient();
 
@@ -78,11 +71,7 @@ public class MyAsyncHttpClient {
 		}
 	}
 
-//	public static void cancelRequest(String requestTag) {
-//		httpClient.cancelRequestsByTAG(requestTag, true);
-//
-//	}
-//
+
 	public static void cancelRequest(Context context) {
 		httpClient.cancelRequests(context, true);
 

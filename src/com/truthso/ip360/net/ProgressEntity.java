@@ -6,13 +6,6 @@ import java.io.OutputStream;
 
 import org.apache.http.entity.ByteArrayEntity;
 
-/**
- * 
- * @author wsx_summer
- * @date 创建时间：2016年5月26日下午3:26:33
- * @version 1.0  
- * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
- */
 public class ProgressEntity extends ByteArrayEntity{
 	private ProgressListener progressListener;
 

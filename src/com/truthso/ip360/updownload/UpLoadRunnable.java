@@ -37,10 +37,7 @@ public class UpLoadRunnable implements Runnable {
 		this.filePath = filePath;
 		this.position = position;
 		this.resourceId = resourceId;
-		Log.i("djj", "uploadUrl" + uploadUrl);
-		Log.i("djj", "filePath" + filePath);
-		Log.i("djj", "position" + position);
-		Log.i("djj", "resourceId" + resourceId);
+
 	}
 
 	public void pause() {
@@ -93,13 +90,13 @@ public class UpLoadRunnable implements Runnable {
 			connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
 
 			OutputStream outputSteam = connection.getOutputStream();
+			
 			DataOutputStream dos = new DataOutputStream(outputSteam);
 
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("position", position + "");
 			params.put("resourceId", resourceId + "");
 			params.put("token", MyApplication.getInstance().getTokenId().trim());
-
 			StringBuilder sb = new StringBuilder();
 			for (Map.Entry<String, String> entry : params.entrySet()) {
 				sb.append(PREFIX);

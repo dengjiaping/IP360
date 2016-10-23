@@ -422,9 +422,10 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		//得返回认证是否成功
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
-		request.setPath(URLConstant.GetPersonalMsg);
+		request.setPath(URLConstant.RealNameCer);
 		request.params().add("idCardNum", idCardNum);
 		request.params().add("userRealName", userRealName);
+	
 		try {
 			request.params().put("file", file);
 		} catch (Exception e) {
@@ -466,15 +467,15 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param fileType 文件类型   文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
 	 * @param fileSize 文件大小，单位为B
 	 * @param hashCode 哈希值 非空
-	 * @param fileDate 取证时间
-	 * @param fileUrl 上传oss的文件路径
+	 * @param fileDate 取证时间	
 	 * @param fileLocation 取证地点 可空
 	 * @param fileTime 取证时长 录像 录音不为空
+	 * @param  
 	 * @param imei手机的IMEI码
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileUrl,String fileLocation,String fileTime,String imei,ApiCallback callback){
+	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileLocation,String fileTime,String imei, ApiCallback callback){
 		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
 				UpLoadBean.class, this);
 		request.setPath(URLConstant.UploadPreserveFile);
@@ -483,7 +484,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("fileSize", fileSize);
 		request.params().add("hashCode", hashCode);
 		request.params().add("fileDate", fileDate);
-		request.params().add("fileUrl", fileUrl);
+//		request.params().add("fileUrl", fileUrl);
 		request.params().add("fileLocation", fileLocation);
 		request.params().add("fileTime", fileTime);
 		request.params().add("imei", imei);
