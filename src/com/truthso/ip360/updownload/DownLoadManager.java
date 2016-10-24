@@ -6,17 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import com.truthso.ip360.application.MyApplication;
-import com.truthso.ip360.bean.FilePositionBean;
-import com.truthso.ip360.constants.URLConstant;
+import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.dao.UpDownLoadDao;
-import com.truthso.ip360.net.ApiCallback;
-import com.truthso.ip360.net.ApiManager;
-import com.truthso.ip360.net.BaseHttpResponse;
-import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.utils.CheckUtil;
-
-import cz.msebera.android.httpclient.Header;
 
 public class DownLoadManager {
 
@@ -41,7 +32,6 @@ public class DownLoadManager {
 		DownLoadRunnable runnable = new DownLoadRunnable(dwonLoadUrl,filePath,position,resourceId);
 	    Future<String> future = (Future<String>)es.submit(runnable);
 		map.put(future, runnable);
-		UpDownLoadDao.getDao().saveDownLoadUrl(dwonLoadUrl);
 	}
 	
 	
@@ -61,18 +51,24 @@ public class DownLoadManager {
 			}*/
 	}
 	
-	public void pauseOrStratUpLoad(DownLoadRunnable downLoadRunnable){
-			
-		if(map.containsValue(downLoadRunnable)){
-			downLoadRunnable.pause();
+	public void pauseOrStratUpLoad(String  url){
+		DownLoadRunnable downLoadRunnable = findDownLoadRunnableByUrl(url);
+		if(downLoadRunnable!=null){
 			Future<String> findFuture = findFuture(downLoadRunnable);
-			findFuture.cancel(true);
-			map.remove(findFuture);
+			if(downLoadRunnable.getStatue()==0||downLoadRunnable.getStatue()==2){
+				downLoadRunnable.pause();			
+				findFuture.cancel(true);
+				map.remove(findFuture);
+			}else{
+				map.remove(findFuture);
+				Future<String> future = (Future<String>)es.submit(downLoadRunnable);
+				map.put(future, downLoadRunnable);
+			}			
 		}else{
 			//重新下载
-			/*DownLoadRunnable runnable = new DownLoadRunnable(dwonLoadUrl,filePath,position,resourceId);
+			DownLoadRunnable runnable = createDownLoadRunnableByUrl(url);
 		    Future<String> future = (Future<String>)es.submit(runnable);
-			map.put(future, runnable);*/
+			map.put(future, runnable);
 		}	
 	}		
 	
@@ -80,6 +76,30 @@ public class DownLoadManager {
 		for (Map.Entry<Future<String>, DownLoadRunnable>  info: map.entrySet()) {
 			if(info.getValue().equals(downLoadRunnable)){
 				return info.getKey();
+			}
+		}
+		return null;
+	}
+	
+	public void setOnDownLoadProgressListener(String downLoadUrl,DownLoadListener listener){
+		DownLoadRunnable runnable = findDownLoadRunnableByUrl(downLoadUrl);
+		if(runnable==null){
+			runnable=createDownLoadRunnableByUrl(downLoadUrl);
+		}
+		runnable.setOnProgressListener(listener);
+	}
+	
+	private DownLoadRunnable createDownLoadRunnableByUrl(String url){
+		DownLoadInfo info = UpDownLoadDao.getDao().queryDownLoadInfoByUrl(url);
+		
+		return  new DownLoadRunnable(url,info.getFileName(),info.getPosition(),info.getResourceId());
+
+	}
+	
+	private DownLoadRunnable findDownLoadRunnableByUrl(String url){
+		for (Map.Entry<Future<String>, DownLoadRunnable>  info: map.entrySet()) {
+			if(info.getValue().getUrl().equals(url)){
+				return info.getValue();
 			}
 		}
 		return null;

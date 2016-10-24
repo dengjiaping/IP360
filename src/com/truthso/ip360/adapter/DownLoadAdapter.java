@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.bean.DownLoadInfo;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.DownLoadListener;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.DownLoadRunnable;
@@ -36,18 +38,15 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private Context context;
 	private boolean isAllSelect=false;
 	private boolean isChoice=false;
-	private DownLoadManager instance=DownLoadManager.getInstance();
+	private DownLoadManager downLoadManager=DownLoadManager.getInstance();
 	private List<DownLoadRunnable> datas=new ArrayList<DownLoadRunnable>();
+	private List<DownLoadInfo> queryDownLoadList;
 	public DownLoadAdapter(Context context) {
 		super();
 		this.context = context;
 		inflater=LayoutInflater.from(context);
-		LinkedHashMap<Future<String>, DownLoadRunnable> map = instance.getMap();
-		for (Map.Entry<Future<String>, DownLoadRunnable> info : map.entrySet()) {
-			if(!info.getKey().isDone()){
-				datas.add(info.getValue());
-			}
-		}
+		queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
+		
 	}
 
 	public void setChoice(Boolean isChoice){
@@ -61,7 +60,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	
 	@Override
 	public int getCount() {
-		return datas.size();
+		return queryDownLoadList.size();
 	}
 
 	@Override
@@ -106,19 +105,21 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	   }
 	  
 	  final DownLoadRunnable downLoadRunnable = datas.get(position);
-	  
-	  vh.tv_fileName.setText(downLoadRunnable.getFileName());
-	  vh.probar.setMax(downLoadRunnable.getFileSize());
-	  downLoadRunnable.setOnProgressListener(new DownLoadListener() {
+	  DownLoadInfo downLoadInfo = queryDownLoadList.get(position);
+	  vh.tv_fileName.setText(downLoadInfo.getFileName());
+	  vh.probar.setMax(Integer.parseInt(downLoadInfo.getFileSize()));
+	  final String url=downLoadInfo.getDownLoadUrl();
+	  downLoadManager.setOnDownLoadProgressListener(url, new DownLoadListener() {
+		
+		@Override
+		public void oncomplete() {
+			// TODO Auto-generated method stub
+			
+		}
 		
 		@Override
 		public void onProgress(int progress) {
 			vh.probar.setProgress(progress);
-		}
-
-		@Override
-		public void oncomplete() {
-			// TODO Auto-generated method stub
 			
 		}
 	});
@@ -127,7 +128,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		
 		@Override
 		public void onClick(View v) {
-			instance.pauseOrStratUpLoad(downLoadRunnable);
+			downLoadManager.pauseOrStratUpLoad(url);
 		}
 	});
 		return convertView;
@@ -148,7 +149,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 	public void notifyDataChanged() {
 		   datas.clear();
-		   LinkedHashMap<Future<String>, DownLoadRunnable> map = instance.getMap();
+		   LinkedHashMap<Future<String>, DownLoadRunnable> map = downLoadManager.getMap();
 			for (Map.Entry<Future<String>, DownLoadRunnable> info : map.entrySet()) {
 				if(!info.getKey().isDone()){
 					datas.add(info.getValue());

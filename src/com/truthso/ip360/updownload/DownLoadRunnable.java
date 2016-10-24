@@ -109,10 +109,10 @@ public class DownLoadRunnable implements Runnable {
 				}
                if(progress==fileSize){
             	   if(downLoadListener!=null){
-						downLoadListener.oncomplete();				
+						downLoadListener.oncomplete();	
+						dao.deleteByUrl(downloadUrl);
 					}	
-				}
-				
+				}			
 			}		
 		} catch (IOException e) {
 			e.printStackTrace();

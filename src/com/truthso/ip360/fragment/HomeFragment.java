@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
@@ -49,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
-public class HomeFragment extends Fragment implements OnClickListener {
+public class HomeFragment extends BaseFragment implements OnClickListener {
 	private static final int CAMERA = 0;
 	private static final int CASE_VIDEO = 1;
 	private String timeUsed;
@@ -71,18 +72,9 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	private int minTime;
 	private String time;
 	private String title;
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View homeView = inflater.inflate(R.layout.fragment_home, container,
-				false);
-		// 初始化控件
-		initView(homeView);
-		getLocation();
-		return homeView;
-	}
-
-	private void initView(View view) {
+	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mTakePhoto = (LinearLayout) view.findViewById(R.id.ll_take_photo);
 		mTakePhoto.setOnClickListener(this);
 		mTakeVideo = (LinearLayout) view.findViewById(R.id.ll_take_video);
@@ -91,6 +83,18 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		mRecord.setOnClickListener(this);
 	}
 
+	@Override
+	public int setViewId() {
+		// TODO Auto-generated method stub
+		return R.layout.fragment_home;
+	}
+
+	@Override
+	protected void initData() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -133,11 +137,12 @@ public class HomeFragment extends Fragment implements OnClickListener {
 	 * 调是否可以拍照的接口
 	 */
 	private void getPort(final int type,int count) {
-		
-		ApiManager.getInstance().getAccountStatus(type, count, new ApiCallback() {
+		showProgress("加载中...");
+		 requestHandle = ApiManager.getInstance().getAccountStatus(type, count, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
+				hideProgress();
 				AccountStatusBean bean = (AccountStatusBean)response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
@@ -254,7 +259,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));				
 				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
 				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
-					
+					Log.i("djj", "size"+size+"title"+title);
 				}
 			}
 
@@ -301,5 +306,6 @@ public class HomeFragment extends Fragment implements OnClickListener {
 		
 		return sec < 10 ? "0" + sec : String.valueOf(sec);
 	}
+
 
 }

@@ -1,5 +1,6 @@
 package com.truthso.ip360.fragment;
 
+import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.net.MyAsyncHttpClient;
@@ -32,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
 	protected View mLayout;
 	protected FragmentManager fragmentManager;
 	private Dialog pDialog;
+	protected RequestHandle requestHandle;
 	private static final int NET_FIAL = 0;
 	
 	@Override
@@ -131,7 +133,12 @@ public abstract class BaseFragment extends Fragment {
 
 	public void hideProgress() {
 		if (null != pDialog && pDialog.isShowing())
+		{
 			pDialog.dismiss();
+		}
+		if(requestHandle!=null){
+			requestHandle.cancel(true);
+		}
 	}
 
 

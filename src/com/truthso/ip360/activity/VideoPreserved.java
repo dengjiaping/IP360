@@ -253,7 +253,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	//	String fileTitle,int fileType,String fileSize,String hashCode,
 		//String fileDate,String fileLocation,String fileTime,String imei,ApiCallback callback
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.VIDEOTYPE,
-				size, hashCode, mDate, loc, null,imei,
+				size, hashCode, mDate, loc, time,imei,
 				new ApiCallback() {
 
 					@Override
