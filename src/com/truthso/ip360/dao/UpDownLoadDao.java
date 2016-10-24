@@ -7,6 +7,7 @@ import java.util.List;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
+import com.truthso.ip360.updownload.UpLoadInfo;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,8 +19,7 @@ public class UpDownLoadDao {
     private static UpDownLoadDao dao =new UpDownLoadDao(MyApplication.getApplication());
     private UpDownLoadDao(Context context){  
         this.dbOpenHelper = new MySQLiteOpenHelper(context);  
-    }  
-      
+    }      
     public static UpDownLoadDao getDao(){
     	
     	return dao;
@@ -69,6 +69,8 @@ public class UpDownLoadDao {
   	  db.execSQL("insert into updownloadlog(downloadurl) values(?)",  
             new Object[]{url});  
     }
+    
+    
    public void updateProgress(String url,int position){
 	   SQLiteDatabase db = dbOpenHelper.getReadableDatabase();  
 	  	  db.execSQL("update updownloadlog position=? where downloadurl =?",  
@@ -95,10 +97,29 @@ public class UpDownLoadDao {
    }
    
    
+   public List<UpLoadInfo> queryUpLoadList(){
+	   SQLiteDatabase db = dbOpenHelper.getReadableDatabase();  
+	   Cursor cursor= db.rawQuery("select * from updownloadlog where downorupload=?",  
+	            new String[]{"1"}); 
+	  List<UpLoadInfo> list=new ArrayList<UpLoadInfo>();
+	   while(cursor.moveToFirst()){ 
+		   UpLoadInfo info=new UpLoadInfo();
+		   info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
+		   info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
+		   info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
+		   info.setFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
+		   info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+		   list.add(info);
+           return list;  
+       }  
+	   return null;
+   }
+   
+   
    public DownLoadInfo queryDownLoadInfoByUrl(String url){
 	   SQLiteDatabase db = dbOpenHelper.getReadableDatabase();  
-	   Cursor cursor= db.rawQuery("select * from updownloadlog where downorupload=? and downloadurl=?",  
-	            new String[]{"0",url}); 
+	   Cursor cursor= db.rawQuery("select * from updownloadlog where downloadurl=?",  
+	            new String[]{url}); 
 	 
 	   while(cursor.moveToFirst()){ 
 		   DownLoadInfo info=new DownLoadInfo();
@@ -112,6 +133,25 @@ public class UpDownLoadDao {
        }  
 	   return null;
    }
+   
+   public UpLoadInfo queryUpLoadInfoByUrl(String filePath){
+	   SQLiteDatabase db = dbOpenHelper.getReadableDatabase();  
+	   Cursor cursor= db.rawQuery("select * from updownloadlog where uploadfilepath=?",  
+	            new String[]{filePath}); 
+	 
+	   while(cursor.moveToFirst()){ 
+		   UpLoadInfo info=new UpLoadInfo();
+		   info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
+		   info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
+		   info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
+		   info.setFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
+		   info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+		  
+           return info;  
+       }  
+	   return null;
+   }
+   
    
    public void deleteByUrl(String url){
 	   SQLiteDatabase db = dbOpenHelper.getWritableDatabase();  

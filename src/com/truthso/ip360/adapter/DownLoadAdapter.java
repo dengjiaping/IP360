@@ -40,12 +40,13 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private boolean isChoice=false;
 	private DownLoadManager downLoadManager=DownLoadManager.getInstance();
 	private List<DownLoadRunnable> datas=new ArrayList<DownLoadRunnable>();
-	private List<DownLoadInfo> queryDownLoadList;
-	public DownLoadAdapter(Context context) {
+	private List<DownLoadInfo> list;
+	public DownLoadAdapter(Context context,List<DownLoadInfo> list) {
 		super();
 		this.context = context;
+		this.list=list;
 		inflater=LayoutInflater.from(context);
-		queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
+	
 		
 	}
 
@@ -60,7 +61,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	
 	@Override
 	public int getCount() {
-		return queryDownLoadList.size();
+		return list.size();
 	}
 
 	@Override
@@ -104,8 +105,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		vh.cb_choice.setVisibility(View.GONE);
 	   }
 	  
-	  final DownLoadRunnable downLoadRunnable = datas.get(position);
-	  DownLoadInfo downLoadInfo = queryDownLoadList.get(position);
+	  DownLoadInfo downLoadInfo = list.get(position);
 	  vh.tv_fileName.setText(downLoadInfo.getFileName());
 	  vh.probar.setMax(Integer.parseInt(downLoadInfo.getFileSize()));
 	  final String url=downLoadInfo.getDownLoadUrl();

@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.updownload.UpLoadInfo;
 import com.truthso.ip360.updownload.UpLoadListener;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.updownload.UpLoadRunnable;
@@ -40,17 +41,12 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private List<Future<String>> datas = new ArrayList<Future<String>>();
 	private UpLoadManager instanse = UpLoadManager.getInstance();
 	private LinkedHashMap<Future<String>, UpLoadRunnable> map;
-
-	public UpLoadAdapter(Context context) {
+	private List<UpLoadInfo> list;
+	public UpLoadAdapter(Context context, List<UpLoadInfo> list) {
 		super();
 		this.context = context;
 		inflater = LayoutInflater.from(context);
-		map = instanse.getMap();
-		for (Map.Entry<Future<String>, UpLoadRunnable> info : map.entrySet()) {
-			if (!info.getKey().isDone()) {
-				datas.add(info.getKey());
-			}
-		}
+		this.list=list;
 	}
 
 	public void setChoice(Boolean isChoice) {
@@ -65,7 +61,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 	@Override
 	public int getCount() {
-		return datas.size();
+		return list.size();
 	}
 
 	@Override
@@ -107,14 +103,10 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.cb_choice.setVisibility(View.GONE);
 		}
 
-		final Future<String> future = datas.get(position);
-		final UpLoadRunnable upLoadRunnable = map.get(future);
-		String filePath = upLoadRunnable.getUrl();
-		String name = filePath.substring(filePath.lastIndexOf("/")+1, filePath.length());
-		vh.tv_fileName.setText(name);
-
-		vh.probar.setMax(100);
-		upLoadRunnable.setOnProgressListener(new UpLoadListener() {
+		UpLoadInfo upLoadInfo = list.get(position);
+		vh.tv_fileName.setText(upLoadInfo.getFileName());
+		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
+		instanse.setOnUpLoadProgressListener(upLoadInfo.getFilePath(),new UpLoadListener() {
 
 			@Override
 			public void onUpLoadComplete() {
@@ -133,7 +125,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 			@Override
 			public void onClick(View v) {
-				instanse.pauseOrStratUpLoad(future,upLoadRunnable.getResourceId(),upLoadRunnable.getUrl());
+			 instanse.pauseOrStratUpLoad(future,upLoadRunnable.getResourceId(),upLoadRunnable.getUrl());
 			}
 		});
 

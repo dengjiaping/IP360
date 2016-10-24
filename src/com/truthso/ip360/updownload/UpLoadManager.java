@@ -63,7 +63,30 @@ public class UpLoadManager {
 		map.put(future, runnable);
 	}
 	
+	public void setOnUpLoadProgressListener(String filePath,UpLoadListener listener){
+		UpLoadRunnable runnable = findUpLoadRunnableByUrl(filePath);
+		if(runnable==null){
+			runnable=createUpLoadRunnableByUrl(filePath);
+		}
+		runnable.setOnProgressListener(listener);
+	}
 	
+
+	
+	private UpLoadRunnable createUpLoadRunnableByUrl(String filePath) {
+	UpLoadInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByUrl(filePath);
+	
+		return new UpLoadRunnable(URLConstant.UploadFile, filePath, info.getPosition(), info.getResourceId());
+	}
+
+
+	
+	private UpLoadRunnable findUpLoadRunnableByUrl(String filePath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	public void removeRunnable(UpLoadRunnable runnable){
 
 		for (Map.Entry<Future<String>, UpLoadRunnable>  info: map.entrySet()) {

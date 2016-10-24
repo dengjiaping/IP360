@@ -90,7 +90,7 @@ public class MyApplication extends Application {
 		return theInstance;
 	}
 	public static MyApplication getApplication() {
-		return mContext;
+		return theInstance;
 	}
 
 		
