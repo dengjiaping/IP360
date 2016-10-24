@@ -120,8 +120,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
-
+				
 			}
 		});
 		initAnimation();

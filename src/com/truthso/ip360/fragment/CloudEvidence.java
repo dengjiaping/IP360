@@ -348,7 +348,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
+				//停止刷新
+				xRefresh.stopRefresh();
 				hideProgress();
+				
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {

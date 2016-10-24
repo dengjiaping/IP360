@@ -57,7 +57,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_account;
 	private int useType;
 	private boolean isPre;
-
+	private double fileSize_B;
+	private long ll;
 	@Override
 	public void initData() {
 		path = getIntent().getStringExtra("path");
@@ -65,7 +66,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		size = getIntent().getStringExtra("size");
 		date = getIntent().getStringExtra("date");
 		loc = getIntent().getStringExtra("loc");
-		length = getIntent().getLongExtra("length", 0);
+//		length = getIntent().getLongExtra("length", 0);
+		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
+		ll = Math.round(fileSize_B);
+		LogUtils.e(ll+"wsx");
 		getLocation();
 	}
 
@@ -171,7 +175,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		String imei = MyApplication.getInstance().getDeviceImei();
 		
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				length + "", hashCode, date, loc, null, imei,
+				ll + "", hashCode, date, loc, null, imei,
 				new ApiCallback() {
 
 					@Override
@@ -189,7 +193,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								getPosition(pkValue);
+								startUpLoad(0, pkValue);
+								finish();
+//								getPosition(pkValue);
 						
 							} else {
 								Toaster.showToast(PhotoPreserved.this,

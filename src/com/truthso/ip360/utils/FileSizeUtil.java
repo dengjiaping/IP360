@@ -159,6 +159,7 @@ public class FileSizeUtil {
 	 */
 	public static double FormetFileSize(long fileS, int sizeType) {
 		DecimalFormat df = new DecimalFormat("#.00");
+//		long l = 0;
 		double fileSizeLong = 0;
 		switch (sizeType) {
 		case SIZETYPE_B:
@@ -176,6 +177,7 @@ public class FileSizeUtil {
 		default:
 			break;
 		}
+//	l= Math.round(fileSizeLong);
 		return fileSizeLong;
 	}
 	

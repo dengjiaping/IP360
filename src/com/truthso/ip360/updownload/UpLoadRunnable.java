@@ -106,9 +106,9 @@ public class UpLoadRunnable implements Runnable {
 				sb.append(LINE_END);
 				sb.append(entry.getValue());
 				sb.append(LINE_END);
-				sb.append(LINE_END);
+//				sb.append(LINE_END);
 			}
-			dos.write(sb.toString().getBytes());
+//			dos.write(sb.toString().getBytes());
 
 			sb.append(PREFIX);// 开始拼接文件参数
 			sb.append(BOUNDARY);

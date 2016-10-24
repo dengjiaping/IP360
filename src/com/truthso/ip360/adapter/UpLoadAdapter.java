@@ -110,7 +110,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		final Future<String> future = datas.get(position);
 		final UpLoadRunnable upLoadRunnable = map.get(future);
 		String filePath = upLoadRunnable.getUrl();
-		String name = filePath.substring(filePath.lastIndexOf("/"), filePath.length());
+		String name = filePath.substring(filePath.lastIndexOf("/")+1, filePath.length());
 		vh.tv_fileName.setText(name);
 
 		vh.probar.setMax(100);

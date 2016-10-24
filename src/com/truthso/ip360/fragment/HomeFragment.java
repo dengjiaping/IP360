@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
 			Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 			SimpleDateFormat formatter = new SimpleDateFormat(
-					"yyyy年MM月dd日    HH:mm:ss     ");
+					"yyyy-MM-dd    HH:mm:ss     ");
 			long currentTimeMillis = System.currentTimeMillis();
 			date1=formatter.format(currentTimeMillis);
 			startActivityForResult(intent1, CASE_VIDEO);
@@ -218,9 +218,10 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				photo.renameTo(newFile);
 				String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
 						.getAbsolutePath());
+				
 
 				long length=newFile.length();
-				
+				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",
 						Calendar.getInstance(Locale.CHINA)).toString();
 				
@@ -230,7 +231,8 @@ public class HomeFragment extends Fragment implements OnClickListener {
 				intent.putExtra("size", fileSize);
 				intent.putExtra("date", date);
 				intent.putExtra("loc", loc);
-				intent.putExtra("length", length/8);
+//				intent.putExtra("length", length/8);
+				intent.putExtra("fileSize_B", fileSize_B);
 				startActivity(intent);
 			}
 		}
