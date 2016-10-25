@@ -20,6 +20,7 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.UpLoadInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
@@ -214,8 +215,13 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	private void startUpLoad(int position, int resourceId) {
 //		showProgress("开始上传文件...");
-		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, filePath,
-				position, resourceId);
+		UpLoadInfo info=new UpLoadInfo();
+		info.setFileName(fileName);
+		info.setFilePath(filePath);
+		info.setFileSize(fileSize);
+		info.setPosition(position);
+		info.setResourceId(resourceId);
+		UpLoadManager.getInstance().startUpload(info);
 	}
 
 }

@@ -28,10 +28,11 @@ public class DownLoadManager {
 		return instance;
 	}
 	
-	public void  startDownload(String dwonLoadUrl,String filePath,int position,int resourceId){
-		DownLoadRunnable runnable = new DownLoadRunnable(dwonLoadUrl,filePath,position,resourceId);
+	public void  startDownload(String dwonLoadUrl,String fileName,String filesize,int position,int resourceId){
+		DownLoadRunnable runnable = new DownLoadRunnable(dwonLoadUrl,fileName,position,resourceId);
 	    Future<String> future = (Future<String>)es.submit(runnable);
 		map.put(future, runnable);
+		UpDownLoadDao.getDao().saveDownLoadInfo(dwonLoadUrl,fileName,filesize,position,resourceId);
 	}
 	
 	
@@ -51,7 +52,7 @@ public class DownLoadManager {
 			}*/
 	}
 	
-	public void pauseOrStratUpLoad(String  url){
+	public void pauseOrStratDownLoad(String  url){
 		DownLoadRunnable downLoadRunnable = findDownLoadRunnableByUrl(url);
 		if(downLoadRunnable!=null){
 			Future<String> findFuture = findFuture(downLoadRunnable);

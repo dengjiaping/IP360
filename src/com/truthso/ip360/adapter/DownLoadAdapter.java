@@ -128,7 +128,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		
 		@Override
 		public void onClick(View v) {
-			downLoadManager.pauseOrStratUpLoad(url);
+			downLoadManager.pauseOrStratDownLoad(url);
 		}
 	});
 		return convertView;

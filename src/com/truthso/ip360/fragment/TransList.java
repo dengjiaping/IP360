@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -136,13 +137,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 		moveRight.setFillAfter(true);
 	}
 
-	@Override
-	public void onResume() {
-		downLoadListPager.refresh();
-		upLoadListPager.refresh();
-		super.onResume();
-
-	}
 
 	@Override
 	public int setViewId() {
@@ -170,12 +164,23 @@ public class TransList extends BaseFragment implements OnClickListener {
 		case R.id.rl_right:
 			viewPager.setCurrentItem(1);
 			break;
+		case R.id.btn_delete:
+			Log.i("djj", "delete");
+			break;
+		case R.id.btn_start:
+			Log.i("djj", "start");
+			break;
+		case R.id.btn_stop:
+			Log.i("djj", "stop");
+
+			break;
+			
 		}
 	}
 
 	// 点击多选按钮
 	private void choice() {
-		currentPager = (DownLoadListPager) pagerList.get(position);
+		currentPager = (BasePager) pagerList.get(position);
 		actionBar.setLeftText("全选");
 		actionBar.setRightText("取消");
 		actionBar.setActionBarOnClickListener(new OnClickListener() {
@@ -214,7 +219,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 	private PopupWindow downLoadwindow;
 	private View contentView;
-	private DownLoadListPager currentPager;
+	private BasePager currentPager;
 	private DownLoadListPager downLoadListPager;
 	private UpLoadListPager upLoadListPager;
 
@@ -226,6 +231,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 		}
 		// 进入退出的动画
 		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+	Button btn_delete=	(Button) contentView.findViewById(R.id.btn_delete);	
+	Button btn_start=	(Button) contentView.findViewById(R.id.btn_start);	
+	Button btn_stop=	(Button) contentView.findViewById(R.id.btn_stop);	
+	btn_delete.setOnClickListener(this);
+	btn_start.setOnClickListener(this);
+	btn_stop.setOnClickListener(this);
+	
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
 	}
 

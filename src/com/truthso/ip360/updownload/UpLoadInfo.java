@@ -37,6 +37,10 @@ public class UpLoadInfo {
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
 	}
+	@Override
+	public String toString() {
+		return "UpLoadInfo [filePath=" + filePath + ", fileName=" + fileName + ", fileSize=" + fileSize + ", position=" + position + ", resourceId=" + resourceId + "]";
+	}
 
 	
 }
