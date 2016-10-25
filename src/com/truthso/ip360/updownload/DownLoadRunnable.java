@@ -110,7 +110,7 @@ public class DownLoadRunnable implements Runnable {
                if(progress==fileSize){
             	   if(downLoadListener!=null){
 						downLoadListener.oncomplete();	
-						dao.deleteByUrl(downloadUrl);
+						dao.deleteByResourceId(resourceId);
 					}	
 				}			
 			}		
@@ -118,7 +118,6 @@ public class DownLoadRunnable implements Runnable {
 			e.printStackTrace();
 			status=ERROR;
 		}finally{
-			dao.updateProgress(downloadUrl,progress);
 			try {
 				if(!CheckUtil.isEmpty(raf)&&!CheckUtil.isEmpty(inputStream)){
 					raf.close();

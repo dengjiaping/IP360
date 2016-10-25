@@ -17,6 +17,7 @@ import android.database.Observable;
 import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.utils.GsonUtil;
@@ -24,16 +25,16 @@ import com.truthso.ip360.utils.JsonUtil;
 
 public class UpLoadRunnable implements Runnable {
 
-	private String uploadUrl, filePath;
+	private String  filePath;
+	private String uploadUrl=URLConstant.UploadFile;
 	private boolean isCancle, isUpLoading;
 	private int status;
 	private int WAIT=0,PAUSE=1,RUNNING=2,ERROR=3;	
 	private UpLoadListener upLoadListener;
 	private int upLoadProgress, position, resourceId;
-
-	public UpLoadRunnable(String uploadUrl, String filePath, int position, int resourceId) {
+    private UpDownLoadDao  dao= UpDownLoadDao.getDao();
+	public UpLoadRunnable(String filePath, int position, int resourceId) {
 		super();
-		this.uploadUrl = uploadUrl;
 		this.filePath = filePath;
 		this.position = position;
 		this.resourceId = resourceId;
@@ -128,9 +129,16 @@ public class UpLoadRunnable implements Runnable {
 				dos.write(buffer, 0, len);
 				progress += len;
 				if (upLoadListener != null) {
-					upLoadListener.onProgress((int) (progress / length * 100));
+					upLoadListener.onProgress((int) (progress));
+					dao.updateUpLoadProgress(resourceId, progress);
 				}
 				Log.i("djj", "progress" + progress + "length" + length);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			raf.close();
 
@@ -138,7 +146,14 @@ public class UpLoadRunnable implements Runnable {
 			dos.write(endData);
 			dos.flush();
 			dos.close();	
-						
+			
+			if (progress == uploadFile.length()) {
+				if (upLoadListener != null) {
+					upLoadListener.onUpLoadComplete();
+				}
+				UpDownLoadDao.getDao().deleteByResourceId(resourceId);
+			}
+			
 			// 读取返回数据
 			StringBuffer strBuf = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -154,12 +169,7 @@ public class UpLoadRunnable implements Runnable {
 			if(res!=null){
 				BaseHttpResponse parseJson = JsonUtil.parseJson(res, BaseHttpResponse.class);
 				if(parseJson.getCode()==200){
-					if (progress == uploadFile.length()) {
-						if (upLoadListener != null) {
-							upLoadListener.onUpLoadComplete();
-						}
-						UpLoadManager.getInstance().removeRunnable(UpLoadRunnable.this);
-					}
+					
 				}
 			}
 

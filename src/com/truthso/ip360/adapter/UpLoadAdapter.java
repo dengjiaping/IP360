@@ -132,9 +132,6 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 			@Override
 			public void onClick(View v) {
-<<<<<<< HEAD
-//			 instanse.pauseOrStratUpLoad(future,upLoadRunnable.getResourceId(),upLoadRunnable.getUrl());
-=======
 			instanse.pauseOrStratUpLoad(upLoadInfo.getResourceId());
 			 int result = instanse.getCurrentStatus(upLoadInfo.getResourceId());
 			 if(result==1){
@@ -143,7 +140,6 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 				 //获取实时网速或者正在等待中
 				 vh.tv_status.setText("230b/s");
 			 }
->>>>>>> 7af251c8e28ee24f47c2c7ecf10ec9ffaa43646d
 			}
 		});
 		

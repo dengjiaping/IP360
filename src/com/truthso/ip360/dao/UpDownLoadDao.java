@@ -81,9 +81,9 @@ public class UpDownLoadDao {
 		db.execSQL("update updownloadlog set position=? where downloadurl =?", new Object[] { position, url });
 	}
 
-	public void updateUpLoadProgress(String url, int position) {
+	public void updateUpLoadProgress(int resourceId , int position) {
 
-		db.execSQL("update updownloadlog set position=? where uploadfilepath =?", new Object[] { position, url });
+		db.execSQL("update updownloadlog set position=? where sourceid =?", new Object[] { position, resourceId });
 	}
 
 	public List<DownLoadInfo> queryDownLoadList() {

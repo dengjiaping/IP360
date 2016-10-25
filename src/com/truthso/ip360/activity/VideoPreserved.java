@@ -82,8 +82,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-	
-		
+			
 		iv_video = (ImageView) findViewById(R.id.iv_video);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		
@@ -157,7 +156,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							}else if(useType ==2 ){//2-合同用户（B）
 							//上传文件信息，及存到数据库	
 								filePre();
-								saveToDB();
+								
 							}
 							
 						}else if(bean.getDatas().getStatus()== 0){//不能用
@@ -328,11 +327,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 * @param resourceId
 	 */
 	private void startUpLoad(int position, int resourceId) {
-<<<<<<< HEAD
 
-		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, mVideoPath,
-				position, resourceId);
-=======
 //		showProgress("开始上传文件...");
 		UpLoadInfo info=new UpLoadInfo();
 		info.setFileName(title);
@@ -341,7 +336,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		info.setPosition(position);
 		info.setResourceId(resourceId);
 		UpLoadManager.getInstance().startUpload(info);
->>>>>>> 7af251c8e28ee24f47c2c7ecf10ec9ffaa43646d
+		
+		saveToDB();
 	}
 	/**
 	 * 定位

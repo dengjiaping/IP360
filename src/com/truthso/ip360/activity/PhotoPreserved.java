@@ -139,8 +139,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 										  showDialog(str);
 									}else if(useType ==2 ){//2-合同用户（B）
 									//上传文件信息，及存到数据库	
-										filePre();
-										saveToDb();
+										isPre=true;
 									}
 									
 								}else if(bean.getDatas().getStatus()== 0){//不能用
@@ -289,6 +288,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			saveToDb();
 			if(isPre){
 				filePre();
+				saveToDb();
 			}
 
 			break;
