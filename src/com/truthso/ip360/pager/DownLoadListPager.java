@@ -37,13 +37,13 @@ public class DownLoadListPager extends BasePager {
 		adapter.setChoice(b);
 		listView.invalidateViews();
 	}
-	public void setAllSelect(Boolean isAllSelect){
+	
+
+	@Override
+	public void setAllSelect(boolean isAllSelect) {
+		// TODO Auto-generated method stub
 		adapter.setAllSelect(isAllSelect);
 		listView.invalidateViews();
 	}
 	
-	public void refresh(){
-		/*list= UpLoadManager.getInstance().getList();
-		adapter.notifyDataChanged(list);*/
-	}
 }

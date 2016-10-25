@@ -23,6 +23,7 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.UpLoadInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
@@ -316,8 +317,13 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	private void startUpLoad(int position, int resourceId) {
 //		showProgress("开始上传文件...");
-		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, mVideoPath,
-				position, resourceId);
+		UpLoadInfo info=new UpLoadInfo();
+		info.setFileName(title);
+		info.setFilePath(mVideoPath);
+		info.setFileSize(size);
+		info.setPosition(position);
+		info.setResourceId(resourceId);
+		UpLoadManager.getInstance().startUpload(info);
 	}
 
 	

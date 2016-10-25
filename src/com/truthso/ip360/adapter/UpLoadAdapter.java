@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,12 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		this.isChoice = isChoice;
 	}
 
+	public void notifyChange(List<UpLoadInfo> datas){
+		list.clear();
+		list.addAll(datas);
+		this.notifyDataSetChanged();
+	}
+	
 	public void setAllSelect(Boolean isAllSelect) {
 		this.isChoice = true;
 		this.isAllSelect = isAllSelect;
@@ -84,7 +91,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
-
+			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
 		} else {
@@ -103,16 +110,16 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.cb_choice.setVisibility(View.GONE);
 		}
 
-		UpLoadInfo upLoadInfo = list.get(position);
+		final UpLoadInfo upLoadInfo = list.get(position);
 		vh.tv_fileName.setText(upLoadInfo.getFileName());
 		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
-		instanse.setOnUpLoadProgressListener(upLoadInfo.getFilePath(),new UpLoadListener() {
+		vh.probar.setProgress(upLoadInfo.getPosition());
+		instanse.setOnUpLoadProgressListener(upLoadInfo.getResourceId(),new UpLoadListener() {
 
 			@Override
 			public void onUpLoadComplete() {
 				// TODO Auto-generated method stub
-				datas.remove(position);
-				UpLoadAdapter.this.notifyDataSetChanged();
+				Log.i("progress", "complete");
 			}
 
 			@Override
@@ -125,34 +132,42 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 			@Override
 			public void onClick(View v) {
-			 instanse.pauseOrStratUpLoad(future,upLoadRunnable.getResourceId(),upLoadRunnable.getUrl());
+			instanse.pauseOrStratUpLoad(upLoadInfo.getResourceId());
+			 int result = instanse.getCurrentStatus(upLoadInfo.getResourceId());
+			 if(result==1){
+				 vh.tv_status.setText("暂停中");
+			 }else{
+				 //获取实时网速或者正在等待中
+				 vh.tv_status.setText("230b/s");
+			 }
 			}
 		});
-
+		
+		int currentStatus = instanse.getCurrentStatus(upLoadInfo.getResourceId());
+		 if(currentStatus==1){
+			 vh.tv_status.setText("暂停中");
+		 }else if(currentStatus==0){
+			 //获取实时网速或者正在等待中
+			 vh.tv_status.setText("等待中");
+		 }else if(currentStatus==2){
+			 vh.tv_status.setText("230b/s");
+		 }else{
+			 vh.tv_status.setText("上传失败");
+		 }
 		return convertView;
 	}
 
 	class ViewHolder {
 		private CheckBox cb_choice;
-		private TextView tv_fileName;
+		private TextView tv_fileName,tv_status;
 		private ProgressBar probar;
 		private Button btn_upload_download;
 	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void notifyDataChanged() {
-		datas.clear();
-		map = instanse.getMap();
-		for (Map.Entry<Future<String>, UpLoadRunnable> info : map.entrySet()) {
-			if (!info.getKey().isDone()) {
-				datas.add(info.getKey());
-			}
-		}
-		this.notifyDataSetChanged();
+		
+		
+		
 	}
 }

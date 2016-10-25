@@ -82,4 +82,8 @@ public abstract class BasePager {
 		error.printStackTrace();
 	}
 	
+	
+	public abstract void setAllSelect(boolean b);
+	public abstract void setChoice(boolean b);
+
 }
