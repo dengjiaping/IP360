@@ -97,7 +97,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="中国北京市朝阳区s50(北五环路)在启样路路路路路路路路路"
+                android:text="获取位置信息失败"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -213,7 +213,7 @@
                 android:layout_marginRight="@dimen/layout_marginRight"
                  />
         </RelativeLayout>
-        <RelativeLayout
+        <!-- <RelativeLayout
             android:id="@+id/rl_money"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -249,7 +249,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:text="￥5.00" />
-        </RelativeLayout>
+        </RelativeLayout> -->
 
         <RelativeLayout
             android:layout_width="match_parent"

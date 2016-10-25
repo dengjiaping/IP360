@@ -23,35 +23,39 @@
         android:id="@+id/ll_take_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:layout_weight="1"
+        android:background="@drawable/paizhao"
         android:orientation="horizontal" >
 
-        <ImageView
+ <!--        <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/ww" />
-
-        <ImageView
+ -->
+       <!--  <ImageView
             android:layout_width="160dp"
             android:layout_height="80dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/pz"
             android:gravity="center_horizontal"
-            android:textSize="30sp" />
+            android:textSize="30sp" /> -->
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_take_video"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:background="@drawable/shipin"
         android:layout_weight="1"
         android:orientation="horizontal" >
 
-        <ImageView
+       <!--  <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/ww" />
@@ -62,19 +66,20 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/lx"
             android:gravity="center_horizontal"
-            android:textSize="30sp" />
+            android:textSize="30sp" /> -->
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/luyin"
         android:layout_weight="1"
         android:orientation="horizontal" >
 
-        <ImageView
+       <!--  <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/ww" />
@@ -85,7 +90,7 @@
             android:layout_marginLeft="20dp"
             android:background="@drawable/ly"
             android:gravity="center_horizontal"
-            android:textSize="30sp" />
+            android:textSize="30sp" /> -->
     </LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,8 @@
 package com.truthso.ip360.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
@@ -31,6 +34,7 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -44,6 +48,7 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class VideoPreserved extends BaseActivity implements OnClickListener {
+	private Dialog alertDialog;
 	private String mVideoPath;
 	private String mVideoName;
 	private ImageView iv_video;
@@ -56,6 +61,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private boolean isPre=false;
 
 	private int useType;
+	private double video_fileSize_B;
+	private long ll;
 
 
 	@Override
@@ -67,8 +74,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		time = getIntent().getStringExtra("time");
 		minTime = getIntent().getIntExtra("minTime", 0);
 		size=getIntent().getStringExtra("size");
-		title=getIntent().getStringExtra("title");
-		
+//		title=getIntent().getStringExtra("title");
+		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B",0);
+    	ll = Math.round(video_fileSize_B);
 	}
 
 	@Override
@@ -86,7 +94,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		
-		tv_account = (TextView) findViewById(R.id.tv_account);
+//		tv_account = (TextView) findViewById(R.id.tv_account);
 	
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
 		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
@@ -94,34 +102,37 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
 		
 		tv_filename.setText(mVideoName);
-		tv_loc.setText(loc);
+		if (!CheckUtil.isEmpty(loc)) {
+			tv_loc.setText(loc);
+		}else{
+			tv_loc.setText("获取位置信息失败");
+		}
+		
 		tv_date.setText(mDate);
 		tv_filesize.setText(mVideoSize);
 		tv_time.setText(time);
+//		LogUtils.e(time+"1111111111111111111111111");
 		
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		btn_preserved.setOnClickListener(this);
 		btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		btn_cancel.setOnClickListener(this);
 		
-	int	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_INT);
-		  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-			  getport();
-		}else if(useType ==2 ){
-			String str = minTime+"分钟";
-			tv_account.setText(str);
-	useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_STRING);
+		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType",SharePreferenceUtil.VALUE_IS_INT);
+		
 	
-		  getport();
-		}
 	}
-
+	/**
+	 * 调接口，看是否可用，和当次消费
+	 */
 	private void getport() {
 
 		showProgress("正在加载...");
-		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1, new ApiCallback() {
+		ApiManager.getInstance().getAccountStatus(MyConstants.VIDEOTYPE, 1, new ApiCallback() {
 			
 			
+
+			private String yue;
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
@@ -137,24 +148,29 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-							//可以继续保全
-							isPre=true;
-						}
-
-						
-						  if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-							  String yue = bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10;
-								tv_account.setText("￥"+yue);
-						}else if(useType ==2 ){
-							String str = minTime+"分钟";
-							tv_account.setText(str);
+							yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
 							
-						}
-						  if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-								isPre = true;
+							if (useType ==1 ) {//用户类型1-付费用户（C）；
+								 String str = "此文件保存价格为："+yue+"是否确认支付？";
+								  showDialog(str);
+							}else if(useType ==2 ){//2-合同用户（B）
+							//上传文件信息，及存到数据库	
+								filePre();
+								saveToDB();
 							}
 							
-						
+						}else if(bean.getDatas().getStatus()== 0){//不能用
+							
+							if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+								 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
+								  showDialog(str1);
+							}else if(useType ==2 ){
+								Toaster.showToast(VideoPreserved.this, "您已不能使用该项业务");
+								
+							}
+						}
+						  
+						 
 						
 					}else{
 						Toaster.showToast(VideoPreserved.this, bean.getMsg());
@@ -213,11 +229,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btn_preserved://保全
+			getport();
 
-			if(isPre){
-				filePre();
-				saveToDB();
-			}
 			break;
 
 		default:
@@ -226,34 +239,23 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	}
 	/**
 	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
-	 * 
-	 * @param fileType
-	 *            文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
-	 * @param fileSize
-	 *            文件大小，单位为B
-	 * @param hashCode
-	 *            哈希值 非空
-	 * @param fileDate
-	 *            取证时间
-	 * @param fileUrl
-	 *            上传oss的文件路径
-	 * @param fileLocation
-	 *            取证地点 可空
-	 * @param fileTime
-	 *            取证时长 录像 录音不为空
+	 * @param fileType 文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
+	 * @param fileSize 文件大小，单位为B
+	 * @param hashCode  哈希值 非空
+	 * @param fileDate取证时间
+	 * @param fileLocation  取证地点 可空
+	 * @param fileTime  取证时长 录像 录音不为空
 	 * @param imei手机的IMEI码
 	 * @param callback
 	 * @return
 	 */
 	private void filePre() {
 
-		showProgress("上传文件信息...");
+		showProgress("正在上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
 		String imei = MyApplication.getInstance().getDeviceImei();
-	//	String fileTitle,int fileType,String fileSize,String hashCode,
-		//String fileDate,String fileLocation,String fileTime,String imei,ApiCallback callback
-		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.VIDEOTYPE,
-				size, hashCode, mDate, loc, time,imei,
+		ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
+				ll+"", hashCode, mDate, loc, minTime+"",imei,
 				new ApiCallback() {
 
 					@Override
@@ -271,7 +273,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								getPosition(pkValue);
+//								getPosition(pkValue);
+								//上传
+								startUpLoad(0, pkValue);
+								finish();
 						
 							} else {
 								Toaster.showToast(VideoPreserved.this,
@@ -284,8 +289,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 				});
 	}
-
-	private void getPosition(int pkValue) {
+	/**
+	 * 获取文件上传到的位置
+	 * @param pkValue
+	 */
+/*	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
@@ -312,61 +320,22 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			}
 
 		});
-	}
-
+	}*/
+	/**
+	 * 上传文件的接口
+	 * @param position
+	 * @param resourceId
+	 */
 	private void startUpLoad(int position, int resourceId) {
-//		showProgress("开始上传文件...");
+
 		UpLoadManager.getInstance().startUpload(URLConstant.UploadFile, mVideoPath,
 				position, resourceId);
 	}
-
-	
-	
-
-	/*showProgress("上传文件信息...");
-	String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
-	String imei = MyApplication.getInstance().getDeviceImei();
-	ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
-			length + "", hashCode, mDate, mVideoPath, loc, null, imei,
-			new ApiCallback() {
-
-				@Override
-				public void onApiResultFailure(int statusCode,
-						Header[] headers, byte[] responseBody,
-						Throwable error) {
-				}
-
-				@Override
-				public void onApiResult(int errorCode, String message,
-						BaseHttpResponse response) {
-					hideProgress();
-					UpLoadBean bean = (UpLoadBean) response;
-					if (!CheckUtil.isEmpty(bean)) {
-						if (bean.getCode() == 200) {
-							Upload datas = bean.getDatas();
-							int pkValue = datas.getPkValue();
-							startUpLoad(0, pkValue);
-//							finish();
-						} else {
-							Toaster.showToast(VideoPreserved.this,
-									bean.getMsg());
-						}
-					} else {
-						Toaster.showToast(VideoPreserved.this, "请求失败");
-					}
-				}
-
-				private void startUpLoad(int i, int pkValue) {
-					
-				}
-
-			});*/
-
-
-
+	/**
+	 * 定位
+	 */
 	private void getLocation(){
 		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
-				
 				@Override
 				public void location(String s) {
 					loc = s;
@@ -383,7 +352,32 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			dbBean.setType(MyConstants.VIDEO);
 			dbBean.setFileSize(mVideoSize);
 			dbBean.setLocation(loc);
+			dbBean.setRecordTime(time);
 			SqlDao.getSQLiteOpenHelper(this).save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 		
+	}
+	/**
+	 * 弹出框
+	 */
+	private void showDialog(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//上传文件信息
+						filePre();
+						saveToDB();//保存到数据库
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
 	}
 }

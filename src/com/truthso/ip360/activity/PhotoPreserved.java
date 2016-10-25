@@ -3,6 +3,9 @@ package com.truthso.ip360.activity;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -59,6 +62,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private boolean isPre;
 	private double fileSize_B;
 	private long ll;
+	private Dialog alertDialog;
 	@Override
 	public void initData() {
 		path = getIntent().getStringExtra("path");
@@ -110,6 +114,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1,
 				new ApiCallback() {
 
+					private String yue;
+
 					@Override
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
@@ -124,18 +130,31 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-								
-								if (useType == 1) {// 用户类型1-付费用户（C）；2-合同用户（B）
-									String yue = bean.getDatas().getCount() / 10
-											+ "." + bean.getDatas().getCount() % 10;
-									tv_account.setText("￥" + yue);
-								} else if (useType == 2) {
-									tv_account.setText(1 + "次");
+								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+								yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
 									
+									if (useType ==1 ) {//用户类型1-付费用户（C）；
+										 String str = "此文件保存价格为："+yue+"是否确认支付？";
+										  showDialog(str);
+									}else if(useType ==2 ){//2-合同用户（B）
+									//上传文件信息，及存到数据库	
+										filePre();
+										saveToDb();
+									}
+									
+								}else if(bean.getDatas().getStatus()== 0){//不能用
+									
+									if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
+										  showDialog(str1);
+									}else if(useType ==2 ){
+										Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
+										
+									}
 								}
-                                if(bean.getDatas().getStatus()==1){
-                                	isPre = true;
-                                }
+								  
+								 
+								
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -307,5 +326,28 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	public String setTitle() {
 		return "拍照完成";
 	}
+	/**
+	 * 弹出框
+	 */
+	private void showDialog(String msg) {
+	alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//上传文件信息
+						filePre();
+						saveToDb();//保存到数据库
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
+	}
 }

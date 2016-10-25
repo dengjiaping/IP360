@@ -29,32 +29,36 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+            android:background="@drawable/home_selector"
             android:gravity="center"
-            android:text="现在取证" />
+             />
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+             android:background="@drawable/cloudevidence_selector"
             android:gravity="center"
-            android:text="云端证据" />
+             />
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+             android:background="@drawable/native_selector"
             android:gravity="center"
-            android:text="本地证据" />
+            />
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+            android:background="@drawable/translist_selector"
             android:gravity="center"
-            android:text="传输列表" />
+            />
 
         <RadioButton
             android:id="@+id/rb_pc"
@@ -62,8 +66,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+            android:background="@drawable/personcenter_selector"
             android:gravity="center"
-            android:text="个人中心" />
+            />
     </RadioGroup>
 
 </LinearLayout>

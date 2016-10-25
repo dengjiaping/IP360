@@ -20,8 +20,18 @@ public class DbBean {
 	private String lable;// 文件标签
 	private String resourceUrl;// 资源路径
 	private String recordTime;// 录音专用录音时长
+	private String videoTime;//录像时长
     private String remark;//备注
     private String location;
+    
+	public String getVideoTime() {
+		return videoTime;
+	}
+
+	public void setVideoTime(String videoTime) {
+		this.videoTime = videoTime;
+	}
+
 	public String getLocation() {
 		return location;
 	}

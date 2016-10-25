@@ -12,16 +12,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
@@ -72,6 +69,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private int minTime;
 	private String time;
 	private String title;
+	private String size;
+	private double video_fileSize_B;
+	private long duration;
 	
 	@Override
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,7 +85,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public int setViewId() {
-		// TODO Auto-generated method stub
 		return R.layout.fragment_home;
 	}
 
@@ -184,7 +183,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										LiveRecordImplementationActivity.class);
 								intent2.putExtra("loc", loc);
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-								addTimeUsed();
+//								addTimeUsed();
 								startActivity(intent2);
 								break;
 							}
@@ -236,23 +235,17 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				intent.putExtra("size", fileSize);
 				intent.putExtra("date", date);
 				intent.putExtra("loc", loc);
-//				intent.putExtra("length", length/8);
 				intent.putExtra("fileSize_B", fileSize_B);
 				startActivity(intent);
 			}
 		}
 		if (requestCode == CASE_VIDEO && resultCode == Activity.RESULT_OK
 				&& null != data) {
-			time = getHor() + ":" + getMin() + ":" + getSec();
-			if (sec> 0) {
-				minTime = hor*60 +min+1;
-			}else{
-				 minTime= hor*60 +min;
-			}
+		
 			
 			Uri uri = data.getData();
 			String filePath = "";
-			String size=null;
+			
 			if (uri == null) {
 				return;
 			} else {
@@ -261,7 +254,19 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));				
 				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
 				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
-					Log.i("djj", "size"+size+"title"+title);
+				    //总时长 ms
+				    duration = c.getLong(c.getColumnIndex(MediaStore.Video.Media.DURATION));
+				    timeUsedInsec = (int) (duration/1000);//秒
+					time = getHor() + ":" + getMin() + ":" + getSec();
+					if (sec> 0) {
+						minTime = hor*60 +min+1;
+					}else{
+						 minTime= hor*60 +min;
+					}
+				LogUtils.e(duration+"录像时长"+"总分钟"+minTime+"time"+time);
+				File file = new File(filePath);
+				long length = file.length();
+				video_fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				}
 			}
 
@@ -272,7 +277,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			intent.putExtra("time", time);
 			intent.putExtra("minTime", minTime);
 			intent.putExtra("size",size);
-			intent.putExtra("title", title);
+			intent.putExtra("video_fileSize_B", video_fileSize_B);
+//			intent.putExtra("title", title);
 			startActivity(intent);
 		}
 	}
