@@ -47,7 +47,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private Button btn_cancel, btn_save;
 	private boolean isPre=false;
 	private int useType;
-	private String mintime;
+	private int mintime;
 	private double fileSize_B;
 	private long ll;
 	private Dialog alertDialog;
@@ -64,7 +64,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
 		tv_time = (TextView) findViewById(R.id.tv_time);
-		mintime = getIntent().getStringExtra("mintime");
+		mintime = getIntent().getIntExtra("mintime", 0);
 		fileName = getIntent().getStringExtra("fileName");
 		date = getIntent().getStringExtra("date");
 		fileSize = getIntent().getStringExtra("fileSize");
@@ -149,7 +149,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	 */
 	private void getport() {
 		showProgress("正在加载...");
-		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1,
+		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, mintime,
 				new ApiCallback() {
 
 					private String yue;
@@ -229,7 +229,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(filePath));
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(fileName,MyConstants.RECORDTYPE,
-				ll+"", hashCode, date, loc, mintime,imei,
+				ll+"", hashCode, date, loc,time,imei,
 				new ApiCallback() {
 
 					@Override
@@ -292,6 +292,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		});
 	}*/
 	/**
+	 * 开始上传文件
 	 * 
 	 * @param position
 	 * @param resourceId

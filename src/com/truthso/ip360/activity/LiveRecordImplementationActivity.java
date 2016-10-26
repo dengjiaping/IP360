@@ -180,7 +180,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 					mintime = timeUsedInsec/60;
 				}
 				
-				LogUtils.e("mintime"+mintime);
+//				LogUtils.e("mintime"+mintime);
 				isPause = true;
 				timeUsedInsec = 0;
 				

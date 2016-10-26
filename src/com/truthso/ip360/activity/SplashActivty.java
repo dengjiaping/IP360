@@ -75,12 +75,13 @@ public class SplashActivty extends Activity {
 				MyConstants.APP_ISFIRST_IN,
 				SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		token = MyApplication.getInstance().getTokenId();
-		// 渐变动画 从0到1
+//		// 渐变动画 从0到1
 		AlphaAnimation alphaAnimation = new AlphaAnimation(0.f, 1.f);
 		RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_root);
 		alphaAnimation.setDuration(500);
 		relativeLayout.startAnimation(alphaAnimation);
 		//是否跳转到首页
+
 	//	enterHome();
 //		// 检查联网更新
 //		checkUpdate();
@@ -88,6 +89,15 @@ public class SplashActivty extends Activity {
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 99:
+				enterHome();
+				break;
+
+			default:
+				break;
+			}
+			/*
 			switch (msg.what) {
 			case UPDATA_NONEED:
 				Toaster.showToast(ctx, "不需要更新");
@@ -107,7 +117,7 @@ public class SplashActivty extends Activity {
 				enterHome();
 				break;
 			}
-		};
+		*/};
 
 	};
 
@@ -139,23 +149,23 @@ public class SplashActivty extends Activity {
 						downloadUrl = bean.getDatas().getApkURl();
 						iVersion = bean.getDatas().getiVersionCode();
 						if ("version".equals(iVersion)) {// 不需要更新
-							Message msg = new Message();
-							msg.what = UPDATA_NONEED;
-							handler.sendMessage(msg);
+//							Message msg = new Message();
+//							msg.what = UPDATA_NONEED;
+//							handler.sendMessage(msg);
 
 							enterHome();
 						} else {// 需要更新
-							Message msg = new Message();
-							msg.what = UPDATA_CLIENT;
-							handler.sendMessage(msg);
+//							Message msg = new Message();
+//							msg.what = UPDATA_CLIENT;
+//							handler.sendMessage(msg);
 						}
 					} else {
 						Toaster.showToast(ctx, bean.getMsg());
 					}
 				} else {
-					Message msg = new Message();
-					msg.what = UPDATA_NONEED;
-					handler.sendMessage(msg);
+//					Message msg = new Message();
+//					msg.what = UPDATA_NONEED;
+//					handler.sendMessage(msg);
 				}
 
 			}
@@ -216,9 +226,9 @@ public class SplashActivty extends Activity {
 					pd.dismiss(); // 结束掉进度条对话框
 				} catch (Exception e) {
 					Message msg = new Message();
-					msg.what = DOWN_ERROR;
-					handler.sendMessage(msg);
-					e.printStackTrace();
+//					msg.what = DOWN_ERROR;
+//					handler.sendMessage(msg);
+//					e.printStackTrace();
 				}
 			}
 		}.start();
