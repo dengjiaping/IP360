@@ -113,14 +113,14 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 		FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
+		//带格式的
 		vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 		final int resourceId = info.getResourceId();
 		downLoadManager.setOnDownLoadProgressListener(resourceId, new ProgressListener() {
 
 			@Override
 			public void onComplete() {
-				// TODO Auto-generated method stub
-				Log.i("djj", "downLoadComplete");
+				
 			}
 
 			@Override

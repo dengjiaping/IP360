@@ -110,6 +110,7 @@ public class DownLoadManager {
 		DownLoadRunnable runnable = findDownLoadRunnableByResourceId(resourceId);
 		if(runnable==null){
 			listenerMap.put(resourceId, listener);
+			return;
 		}
 		runnable.setOnProgressListener(listener);
 	}
