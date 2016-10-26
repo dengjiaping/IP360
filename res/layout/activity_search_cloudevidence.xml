@@ -7,11 +7,11 @@
      >
 
     <LinearLayout
+        android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_marginTop="53dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
+ 
         android:background="@drawable/shape_search" >
 
         <ImageView
@@ -36,4 +36,12 @@
             android:textSize="15sp" />
     </LinearLayout>
 
+    <ListView 
+        android:id="@+id/lv_content"
+        android:layout_below="@id/ll_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" 
+        android:visibility="gone"      
+        ></ListView>
 </RelativeLayout>

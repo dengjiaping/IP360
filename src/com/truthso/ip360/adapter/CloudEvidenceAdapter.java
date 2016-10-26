@@ -70,6 +70,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
 	}
+	public void clearData() {
+		mDatas.clear();
+		notifyDataSetChanged();
+	}
 
 	public void setAllSelect(Boolean isAllSelect) {
 		this.isChoice = true;
@@ -168,6 +172,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
+<<<<<<< HEAD
+=======
+		
+>>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -269,9 +277,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
+<<<<<<< HEAD
 	public void notifyDataChange(List<CloudEviItemBean> list) {
 		if (!CheckUtil.isEmpty(list) && list.size() > 0) {
 			this.mDatas = list;
+=======
+	public void notifyDataChange(List<CloudEviItemBean> list){
+		if(list!=null){
+			this.mDatas=list;
+			Log.i("djj",mDatas.size()+"");
+>>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
 			notifyDataSetChanged();
 		}
 	}
