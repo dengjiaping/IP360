@@ -31,7 +31,7 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.updownload.UpLoadInfo;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
@@ -262,7 +262,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	private void startUpLoad(int position, int resourceId) {
 //		showProgress("开始上传文件...");
-		UpLoadInfo info=new UpLoadInfo();
+		FileInfo info=new FileInfo();
 		info.setFileName(title);
 		info.setFilePath(path);
 		info.setFileSize(ll+"");

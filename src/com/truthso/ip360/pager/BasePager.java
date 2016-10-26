@@ -1,6 +1,8 @@
 package com.truthso.ip360.pager;
 
 
+import java.util.List;
+
 import com.truthso.ip360.activity.MainActivity;
 
 import android.content.Context;
@@ -36,7 +38,9 @@ public abstract class BasePager {
 	 */
 	public abstract void initData(int position);
 	
-	
+	public  abstract void deleteAll(); 
+	public  abstract void pauseAll(); 
+	public  abstract void startAll(); 
 	/**
 	 * 联接网络请求
 	 * @param method GET 或 post 请求方式

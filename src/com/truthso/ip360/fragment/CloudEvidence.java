@@ -301,7 +301,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void onRefresh() {
-		
+		pagerNumber=1;
+		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
 	private PopupWindow window;
@@ -320,7 +321,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void onRelease(float direction) {
-
+		
 	}
 
 	@Override
@@ -359,7 +360,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						
 						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
 							
-							CloudEvidenceAdapter adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
+						    adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
 							lv_cloudevidence.setAdapter(adapter);
 						}					
 					}else{

@@ -30,7 +30,7 @@ public class UpLoadRunnable implements Runnable {
 	private boolean isCancle, isUpLoading;
 	private int status;
 	private int WAIT=0,PAUSE=1,RUNNING=2,ERROR=3;	
-	private UpLoadListener upLoadListener;
+	private ProgressListener upLoadListener;
 	private int upLoadProgress, position, resourceId;
     private UpDownLoadDao  dao= UpDownLoadDao.getDao();
 	public UpLoadRunnable(String filePath, int position, int resourceId) {
@@ -149,7 +149,7 @@ public class UpLoadRunnable implements Runnable {
 			
 			if (progress == uploadFile.length()) {
 				if (upLoadListener != null) {
-					upLoadListener.onUpLoadComplete();
+					upLoadListener.onComplete();
 				}
 				UpDownLoadDao.getDao().deleteByResourceId(resourceId);
 			}
@@ -180,7 +180,7 @@ public class UpLoadRunnable implements Runnable {
 		
 	}
 
-	public void setOnProgressListener(UpLoadListener listen) {
+	public void setOnProgressListener(ProgressListener listen) {
 		this.upLoadListener = listen;
 	}
 }

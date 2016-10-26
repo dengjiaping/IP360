@@ -21,8 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
-import com.truthso.ip360.updownload.UpLoadInfo;
-import com.truthso.ip360.updownload.UpLoadListener;
+import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.updownload.ProgressListener;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.updownload.UpLoadRunnable;
 
@@ -39,11 +39,10 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private Context context;
 	private boolean isAllSelect = false;
 	private boolean isChoice = false;
-	private List<Future<String>> datas = new ArrayList<Future<String>>();
 	private UpLoadManager instanse = UpLoadManager.getInstance();
-	private LinkedHashMap<Future<String>, UpLoadRunnable> map;
-	private List<UpLoadInfo> list;
-	public UpLoadAdapter(Context context, List<UpLoadInfo> list) {
+	private List<FileInfo> list;
+	private List<Integer> selectedList=new ArrayList<Integer>();
+	public UpLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
 		inflater = LayoutInflater.from(context);
@@ -55,7 +54,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		this.isChoice = isChoice;
 	}
 
-	public void notifyChange(List<UpLoadInfo> datas){
+	public void notifyChange(List<FileInfo> datas){
 		list.clear();
 		list.addAll(datas);
 		this.notifyDataSetChanged();
@@ -92,11 +91,11 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
 			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
+			vh.cb_choice.setTag(position);
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
-
 		}
 
 		if (isChoice) {
@@ -110,14 +109,14 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.cb_choice.setVisibility(View.GONE);
 		}
 
-		final UpLoadInfo upLoadInfo = list.get(position);
+		final FileInfo upLoadInfo = list.get(position);
 		vh.tv_fileName.setText(upLoadInfo.getFileName());
 		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
 		vh.probar.setProgress(upLoadInfo.getPosition());
-		instanse.setOnUpLoadProgressListener(upLoadInfo.getResourceId(),new UpLoadListener() {
+		instanse.setOnUpLoadProgressListener(upLoadInfo.getResourceId(),new ProgressListener() {
 
 			@Override
-			public void onUpLoadComplete() {
+			public void onComplete() {
 				// TODO Auto-generated method stub
 				Log.i("progress", "complete");
 			}
@@ -164,10 +163,17 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		private Button btn_upload_download;
 	}
 
+	public List<Integer> getSelected(){
+		return selectedList;
+	}
+	
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-		
-		
-		
+		int position = (Integer) arg0.getTag();
+		if(arg1){
+			selectedList.add(list.get(position).getResourceId());
+		}else{
+			selectedList.remove((Integer)list.get(position).getResourceId());
+		}	 
 	}
 }

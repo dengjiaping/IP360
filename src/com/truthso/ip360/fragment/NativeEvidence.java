@@ -79,7 +79,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		listView.addHeaderView(headView);
 		listView.setOnItemClickListener(this);		
         getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
-
 	}
 
 	private ContentObserver MyObserver=new ContentObserver(new Handler()) {
@@ -227,8 +226,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			});
 		}
 
-		window.showAsDropDown(mActivity.findViewById(
-				R.id.actionbar_cloudevidence));
+		window.showAsDropDown(actionBar);
 	}
 
 	// 显示底部下载按钮

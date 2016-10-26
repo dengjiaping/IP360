@@ -28,6 +28,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.pager.BasePager;
 import com.truthso.ip360.pager.DownLoadListPager;
 import com.truthso.ip360.pager.UpLoadListPager;
+import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
@@ -165,14 +166,25 @@ public class TransList extends BaseFragment implements OnClickListener {
 			viewPager.setCurrentItem(1);
 			break;
 		case R.id.btn_delete:
-			Log.i("djj", "delete");
+			currentPager = (BasePager) pagerList.get(position);
+			currentPager.deleteAll();			
+			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
+				cancelChoose();
+			}
 			break;
 		case R.id.btn_start:
-			Log.i("djj", "start");
+			currentPager = (BasePager) pagerList.get(position);
+			currentPager.startAll();
+			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
+				cancelChoose();
+			}
 			break;
 		case R.id.btn_stop:
-			Log.i("djj", "stop");
-
+			currentPager = (BasePager) pagerList.get(position);
+			currentPager.pauseAll();
+			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
+				cancelChoose();
+			}
 			break;
 			
 		}
@@ -189,7 +201,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 			public void onClick(View v) {
 				switch (v.getId()) {
 				case R.id.acition_bar_right:// 取消
-
 					cancelChoose();
 					break;
 				case R.id.acition_bar_left:// 全选

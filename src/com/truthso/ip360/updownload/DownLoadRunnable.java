@@ -31,17 +31,17 @@ public class DownLoadRunnable implements Runnable {
 	private boolean isCancle;
 	private int status,fileSize;
 	private int WAIT=0,PAUSE=1,RUNNING=2,ERROR=3;	
-	private DownLoadListener downLoadListener;
+	private ProgressListener progressListener;
 	private int upLoadProgress, position, resourceId;
 	private UpDownLoadDao dao=UpDownLoadDao.getDao();
 
-	public DownLoadRunnable(String downloadUrl, String fileName, int position, int resourceId) {
+	public DownLoadRunnable(String downloadUrl, String fileName,String fileSize, int position, int resourceId) {
 		super();
 		this.downloadUrl = downloadUrl;
 		this.fileName = fileName;
 		this.position = position;
 		this.resourceId = resourceId;
-		this.fileSize=fileSize;
+		this.fileSize=Integer.parseInt(fileSize);
 		Log.i("djj", "uploadUrl" + downloadUrl);
 		Log.i("djj", "fileName" + fileName);
 		Log.i("djj", "position" + position);
@@ -103,13 +103,14 @@ public class DownLoadRunnable implements Runnable {
 				while (isCancle&&(length=(inputStream.read(b)))!=-1) {
 					raf.write(b,0,length);	
 					progress+=length;
-					if(downLoadListener!=null){
-						downLoadListener.onProgress(progress);						
-					}					
+					if(progressListener!=null){
+						progressListener.onProgress(progress);						
+					}		
+					Log.i("progress", progress+":"+fileSize);
 				}
                if(progress==fileSize){
-            	   if(downLoadListener!=null){
-						downLoadListener.oncomplete();	
+            	   if(progressListener!=null){
+            		   progressListener.onComplete();
 						dao.deleteByResourceId(resourceId);
 					}	
 				}			
@@ -132,8 +133,8 @@ public class DownLoadRunnable implements Runnable {
 		
 	}
 
-	public void setOnProgressListener(DownLoadListener listen) {
-		this.downLoadListener = listen;
+	public void setOnProgressListener(ProgressListener listen) {
+		this.progressListener = listen;
 	}
 
 	public int getFileSize() {

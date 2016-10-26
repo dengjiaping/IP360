@@ -26,13 +26,13 @@ public class UpLoadManager {
 	private ExecutorService es;
 	private static UpLoadManager instance = new UpLoadManager();
 	private LinkedHashMap<Future<String>, UpLoadRunnable> map;
-	private LinkedHashMap<Integer, UpLoadListener> listenerMap;
+	private LinkedHashMap<Integer, ProgressListener> listenerMap;
 
 	private UpLoadManager() {
 		int size = Runtime.getRuntime().availableProcessors() * 2 + 1;
 		es = Executors.newFixedThreadPool(3);
 		map = new LinkedHashMap<Future<String>, UpLoadRunnable>();
-		listenerMap = new LinkedHashMap<Integer, UpLoadListener>();
+		listenerMap = new LinkedHashMap<Integer, ProgressListener>();
 	}
 
 	public LinkedHashMap<Future<String>, UpLoadRunnable> getMap() {
@@ -55,7 +55,7 @@ public class UpLoadManager {
 	 * @param resourceId
 	 *            文件id
 	 */
-	public void startUpload(UpLoadInfo info) {
+	public void startUpload(FileInfo info) {
 		UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 		Future<String> future = (Future<String>) es.submit(runnable);
 		map.put(future, runnable);
@@ -63,7 +63,7 @@ public class UpLoadManager {
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId());
 	}
 
-	public void setOnUpLoadProgressListener(int resourceId, UpLoadListener listener) {
+	public void setOnUpLoadProgressListener(int resourceId, ProgressListener listener) {
 		UpLoadRunnable runnable = findUpLoadRunnableByResourceId(resourceId);
 		if (runnable == null) {
 			listenerMap.put(resourceId, listener);
@@ -100,12 +100,12 @@ public class UpLoadManager {
 
 		} else {
 			
-			UpLoadInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+			FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
 			UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 			Future<String> future = (Future<String>) es.submit(runnable);
 			map.put(future, runnable);
 			runnable.setOnProgressListener(listenerMap.get(resourceId));
-			MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog"), null);
+			MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 			
 			/*// 重新上传
 			ApiManager.getInstance().getFilePosition(resourceId, new ApiCallback() {
@@ -154,17 +154,18 @@ public class UpLoadManager {
 	
 	
 	public void deleteAll(List<Integer> list){
-		
-		for (int i = 0; i < list.size(); i++) {
-			Integer integer = list.get(i);
-			UpLoadRunnable upLoadRunnable = findUpLoadRunnableByResourceId(integer);
-			if (upLoadRunnable != null) {
-				Future<String> findFuture = findFuture(integer);				
-					upLoadRunnable.pause();
-					findFuture.cancel(true);
-					map.remove(findFuture);
-				}
-			UpDownLoadDao.getDao().deleteByResourceId(integer);
+		if(list!=null&&list.size()>0){
+			for (int i = 0; i < list.size(); i++) {
+				Integer integer = list.get(i);
+				UpLoadRunnable upLoadRunnable = findUpLoadRunnableByResourceId(integer);
+				if (upLoadRunnable != null) {
+					Future<String> findFuture = findFuture(integer);				
+						upLoadRunnable.pause();
+						findFuture.cancel(true);
+						map.remove(findFuture);
+					}
+				UpDownLoadDao.getDao().deleteByResourceId(integer);
+			}		
 		}		
 	}
 	
@@ -181,7 +182,7 @@ public class UpLoadManager {
 					findFuture.cancel(true);
 					map.remove(findFuture);
 				 }
-				}
+			}
 		}
 	}
 	
@@ -202,7 +203,6 @@ public class UpLoadManager {
 
 					@Override
 					public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
 					}
 
 					@Override
@@ -210,7 +210,7 @@ public class UpLoadManager {
 						FilePositionBean bean = (FilePositionBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-								UpLoadInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(integer);
+								FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(integer);
 								UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 								Future<String> future = (Future<String>) es.submit(runnable);
 								map.put(future, runnable);

@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.sax.StartElementListener;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +25,18 @@ import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.DownLoadManager;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
+
+import cz.msebera.android.httpclient.Header;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements
 		OnCheckedChangeListener, OnClickListener {
@@ -147,6 +157,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					.findViewById(R.id.tv_certificate_preview);
 			tv_remark.setOnClickListener(this);
 			tv_certificate_preview.setOnClickListener(this);
+			tv_download.setTag(position);
+			tv_download.setOnClickListener(this);
+			
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -193,9 +206,42 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
-			Toast toast = new Toast(context);
-			toast.makeText(context, "文件开始下载到本地证据", 1).show();
-			toast.setGravity(Gravity.CENTER, 0, 0);
+			
+		
+			final CloudEviItemBean data = mDatas.get((Integer)v.getTag());
+	
+			ApiManager.getInstance().downloadFile(data.getPkValue(), type, new ApiCallback() {
+				
+				@Override
+				public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+					// TODO Auto-generated method stub
+					Toaster.toast(context, "获取数据失败", 1);
+				}
+				
+				@Override
+				public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+					DownLoadFileBean bean=(DownLoadFileBean) response;
+					if(!CheckUtil.isEmpty(bean)){
+						if(bean.getCode()==200){
+							FileInfo  info=new FileInfo();
+							info.setFilePath(bean.getDatas().getFileUrl());
+							info.setFileName(data.getFileTitle());
+							info.setFileSize(data.getFileSize());
+							info.setPosition(0);
+							info.setResourceId(data.getPkValue());
+							DownLoadManager.getInstance().startDownload(info);	
+							Toast toast = new Toast(context);
+							toast.makeText(context, "文件开始下载到本地证据", 1).show();
+							toast.setGravity(Gravity.CENTER, 0, 0);
+						}else{
+							Toaster.toast(context, bean.getMsg(), 1);
+						}
+					}else{
+						Toaster.toast(context, "获取数据失败", 1);
+					}
+				}
+			});
+			
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
 			Intent intent1 = new Intent(context, CertificationActivity.class);

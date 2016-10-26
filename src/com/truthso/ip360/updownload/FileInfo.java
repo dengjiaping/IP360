@@ -1,6 +1,6 @@
 package com.truthso.ip360.updownload;
 
-public class UpLoadInfo {
+public class FileInfo {
 
 	private String filePath;
 	private String fileName;

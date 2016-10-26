@@ -14,14 +14,15 @@ import android.widget.ListView;
 
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
-import com.truthso.ip360.updownload.UpLoadInfo;
+import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 
 public class UpLoadListPager extends BasePager {
 	private ListView listView;
 	private UpLoadAdapter adapter;
 	private UpDownLoadDao dao;
-	private List<UpLoadInfo> list;
+	private List<FileInfo> list;
 	
 	public UpLoadListPager(Context ctx) {		
 		super(ctx);
@@ -35,8 +36,8 @@ public class UpLoadListPager extends BasePager {
 	@Override
 	public View initView() {
 		dao=UpDownLoadDao.getDao();
-		list=new ArrayList<UpLoadInfo>();
-		List<UpLoadInfo> queryUpLoadList = dao.queryUpLoadList();
+		list=new ArrayList<FileInfo>();
+		List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
 		if(queryUpLoadList!=null){
 			list.addAll(queryUpLoadList); 			
 		}        
@@ -45,7 +46,7 @@ public class UpLoadListPager extends BasePager {
 		adapter=new UpLoadAdapter(ctx,list);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
-		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog"), true, new MyContentObserver(new Handler()));
+		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), true, new MyContentObserver(new Handler()));
 				
 		return listView;
 	}
@@ -61,9 +62,8 @@ public class UpLoadListPager extends BasePager {
 		public void onChange(boolean selfChange) {
 			// TODO Auto-generated method stub
 			super.onChange(selfChange);
-			List<UpLoadInfo> queryUpLoadList = dao.queryUpLoadList();
-			Log.i("progress", "queryUpLoadList"+queryUpLoadList.size());
-			adapter.notifyChange(dao.queryUpLoadList());
+			List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
+			adapter.notifyChange(queryUpLoadList);
 		}
 	}
 	
@@ -79,5 +79,24 @@ public class UpLoadListPager extends BasePager {
 		// TODO Auto-generated method stub
 		adapter.setAllSelect(isAllSelect);
 		listView.invalidateViews();
+	}
+
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		UpLoadManager.getInstance().deleteAll( adapter.getSelected());
+	}
+
+	@Override
+	public void pauseAll() {
+		// TODO Auto-generated method stub
+		UpLoadManager.getInstance().pauseAll(adapter.getSelected());
+	}
+
+	@Override
+	public void startAll() {
+		// TODO Auto-generated method stub
+		UpLoadManager.getInstance().startAll(adapter.getSelected());
 	}
 }
