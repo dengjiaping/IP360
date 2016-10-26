@@ -111,7 +111,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		tv_date.setText(mDate);
 		tv_filesize.setText(mVideoSize);
 		tv_time.setText(time);
-//		LogUtils.e(time+"1111111111111111111111111");
+
 		
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		btn_preserved.setOnClickListener(this);
@@ -128,7 +128,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private void getport() {
 
 		showProgress("正在加载...");
-		ApiManager.getInstance().getAccountStatus(MyConstants.VIDEOTYPE, 1, new ApiCallback() {
+		ApiManager.getInstance().getAccountStatus(MyConstants.VIDEOTYPE, minTime, new ApiCallback() {
 			
 			
 
@@ -155,7 +155,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 								  showDialog(str);
 							}else if(useType ==2 ){//2-合同用户（B）
 							//上传文件信息，及存到数据库	
-								filePre();
+								isPre=true;
 								
 							}
 							
@@ -230,7 +230,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			break;
 		case R.id.btn_preserved://保全
 			getport();
-
+			if(isPre){
+				filePre();
+				saveToDB();
+			}
 			break;
 
 		default:
@@ -255,7 +258,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(mVideoPath));
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
-				ll+"", hashCode, mDate, loc, minTime+"",imei,
+				ll+"", hashCode, mDate, loc,time ,imei,
 				new ApiCallback() {
 
 					@Override
@@ -337,7 +340,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		info.setResourceId(resourceId);
 		UpLoadManager.getInstance().startUpload(info);
 		
-		saveToDB();
+		
 	}
 	/**
 	 * 定位

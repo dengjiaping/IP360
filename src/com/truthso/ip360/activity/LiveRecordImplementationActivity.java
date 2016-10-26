@@ -23,6 +23,7 @@ import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.view.VoiceLineView;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 /**
  * 
@@ -90,7 +91,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private int min;
 	private int sec;
 	private int mintime;
-	
+	private int i;
 
 
 
@@ -103,14 +104,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	 */
 	private void updateClockUI() {
 		mRecordTime.setText(getHor() + ":" + getMin() + ":" + getSec());
-		// minText.setText(getMin() + ":");
-		// secText.setText(getSec());
-		if (sec > 0) {
-			mintime = hor*60+min+1;
-		}else{
-			mintime = hor*60+min;
-		}
-		
+	
 	}
 
 	public void addTimeUsed() {
@@ -170,13 +164,23 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				mButton.setVisibility(View.GONE);
 				stoprecordVoice();
 
-				formatter = new SimpleDateFormat("yyyy年MM月dd日    HH:mm:ss");
+				formatter = new SimpleDateFormat("yyyy-MM-dd   HH:mm:ss");
 				curDate = new Date(System.currentTimeMillis());
 				date = formatter.format(curDate);
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
-				fileName = filePath.substring(filePath.indexOf("_") + 1);
+				File file = new File(filePath);
+				   long length = file.length();
+				   double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
+				   fileName = filePath.substring(filePath.indexOf("_") + 1);
 				recTotalTime = mRecordTime.getText().toString().trim();
+				i = timeUsedInsec%60;
+				if (i > 0) {
+					mintime = timeUsedInsec/60+1;
+				}else{
+					mintime = timeUsedInsec/60;
+				}
 				
+				LogUtils.e("mintime"+mintime);
 				isPause = true;
 				timeUsedInsec = 0;
 				
@@ -184,33 +188,20 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				intent.putExtra("fileTime", recTotalTime);
 				intent.putExtra("date", date);
 				intent.putExtra("fileSize", fileSize);
+				intent.putExtra("fileSize_B", fileSize_B);
 				intent.putExtra("fileName", fileName);
 				intent.putExtra("filePath", filePath);
+				intent.putExtra("mintime", mintime);
 				intent.putExtra("loc", loc);
 				startActivity(intent);
 				
 				finish();
-//				btn_cancle.setVisibility(View.VISIBLE);
-//				btn_save.setVisibility(View.VISIBLE);
 				
 				
 
 			}
 			break;
-//		case R.id.btn_cancle:
-////			btn_cancle.setVisibility(View.GONE);
-////			btn_save.setVisibility(View.GONE);
-////			mButton.setVisibility(View.VISIBLE);
-////			mRecordTime.setText("00:00:00");
-//			break;
-//		case R.id.btn_save:
-//			/*btn_cancle.setVisibility(View.GONE);
-//			btn_save.setVisibility(View.GONE);
-//			mButton.setVisibility(View.VISIBLE);
-//			mRecordTime.setText("00:00:00");*/
-//			saveData(date, fileSize, fileName, filePath, recTotalTime);
-//			finish();
-//			break;
+
 		default:
 			break;
 		}
@@ -257,21 +248,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		super.onResume();
 	}
 
-	/**
-	 * 将数据保存到数据库
-	 *//*
-	private void saveData(String date, String fileSize, String name,
-			String path, String recordTime) {
-		SqlDao sqlDao = new SqlDao(this);
-		DbBean dbBean = new DbBean();
-		dbBean.setType(MyConstants.RECORD);// 文件类别
-		dbBean.setCreateTime(date);// 生成时间
-		dbBean.setFileSize(fileSize);// 文件大小
-		dbBean.setResourceUrl(path);
-		dbBean.setTitle(name);// 名称
-		dbBean.setRecordTime(recordTime);
-		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
-	}*/
+	
 
 	@Override
 	public void initData() {
@@ -286,16 +263,11 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	@Override
 	public void initView() {
 		getLocation();
-//		loc = getIntent().getStringExtra("loc");
 				
 
 		mButton = (Button) findViewById(R.id.btn_record);
-//		btn_cancle = (Button) findViewById(R.id.btn_cancle);
-//		btn_save = (Button) findViewById(R.id.btn_save);
 		voiceLineView = (VoiceLineView) findViewById(R.id.voicLine);
 		mButton.setOnClickListener(this);
-//		btn_cancle.setOnClickListener(this);
-//		btn_save.setOnClickListener(this);
 
 		mRecordTime = (TextView) findViewById(R.id.tv_record_time);
 

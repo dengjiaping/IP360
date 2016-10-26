@@ -105,7 +105,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
 		
-		getport();
+		
 	}
 
 	// 调接口获取当次交易的金额
@@ -285,7 +285,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btn_preserved:
-			saveToDb();
+			getport();
 			if(isPre){
 				filePre();
 				saveToDb();
@@ -305,7 +305,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void location(String s) {
 						loc = s;
-						// LogUtils.e("ssssssssssssssssssssssssssssss"+loc);
+						
 					}
 				});
 	}

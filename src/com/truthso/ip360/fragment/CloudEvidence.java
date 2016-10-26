@@ -85,6 +85,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);
 		lv_cloudevidence.setOnItemClickListener(this);
+//		进来显示第一个
+		type = 2;//现场取证
+		mobileType = 50001;
+		getDatas(keywork,type,mobileType,pagerNumber);
 	}
 
 	@Override

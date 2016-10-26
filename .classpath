@@ -12,6 +12,7 @@
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.3.jar"/>
 	<classpathentry kind="lib" path="libs/livenessdetection_v2.3.7.jar"/>
 	<classpathentry kind="lib" path="libs/livenessdetectionui.jar"/>
+	<classpathentry kind="lib" path="libs/afinal_0.5_bin.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.LIBRARIES"/>
