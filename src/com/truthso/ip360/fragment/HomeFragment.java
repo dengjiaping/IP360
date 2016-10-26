@@ -90,7 +90,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initData() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -167,7 +166,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								getLocation();
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-								startActivityForResult(intent1, CASE_VIDEO);
+//								startActivityForResult(intent1, CASE_VIDEO);
 //								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent1, CASE_VIDEO);
 								SimpleDateFormat formatter = new SimpleDateFormat(
@@ -263,7 +262,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					}else{
 						 minTime= hor*60 +min;
 					}
-				LogUtils.e(duration+"录像时长"+"总分钟"+minTime+"time"+time);
 				File file = new File(filePath);
 				long length = file.length();
 				video_fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
@@ -288,7 +286,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				@Override
 				public void location(String s) {
 					loc = s;
-//					LogUtils.e("位置位置位置位置位置位置切换"+loc);
 				}
 			});
 	}
