@@ -163,7 +163,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-
+                list.clear();
 				type = 2;//现场取证
 				mobileType = 50001;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -179,7 +179,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-		
+				 list.clear();
 			    type = 2;//现场取证
 				mobileType = 50003;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -194,7 +194,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-			
+				 list.clear();
 				type = 2;//现场取证
 				mobileType = 50002;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -208,7 +208,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-
+				 list.clear();
 				type = 3;//线上取证
    			    mobileType = 0;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -222,7 +222,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-
+				 list.clear();
 				type = 1;//确权文件
 				mobileType = 0;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -300,12 +300,23 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == 0) {
-			startActivityForResult(new Intent(getActivity(),
-					SearchCloudEvidenceActivity.class), CODE_SEARCH);
+			Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
+			intent.putExtra("type", type);
+			intent.putExtra("mobileType", mobileType);
+			intent.putExtra("from", "cloud");
+			startActivityForResult(intent, CODE_SEARCH);
 		}
 
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode==CODE_SEARCH){
+			
+		}
+	}
+	
+	
 	@Override
 	public void onRefresh() {
 		pagerNumber=1;
@@ -324,7 +335,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onLoadMore() {
 		pagerNumber++;
-		Log.i("djj",pagerNumber+"" );
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
@@ -368,10 +378,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					if (bean.getCode() == 200) {
 						List<CloudEviItemBean> datas = bean.getDatas();
 						
-						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
-							list.addAll(datas);
-						    adapter.notifyDataChange(list);
-						}					
+						if(!CheckUtil.isEmpty(datas)){
+							list.addAll(datas);					   
+						}			
+						 adapter.notifyDataChange(list);
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}

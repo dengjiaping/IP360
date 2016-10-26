@@ -66,10 +66,10 @@ public class UpLoadManager {
 	public void setOnUpLoadProgressListener(int resourceId, ProgressListener listener) {
 		UpLoadRunnable runnable = findUpLoadRunnableByResourceId(resourceId);
 		if (runnable == null) {
-			listenerMap.put(resourceId, listener);
-			return;
+			listenerMap.put(resourceId, listener);		
+		}else{
+			runnable.setOnProgressListener(listener);			
 		}
-		runnable.setOnProgressListener(listener);
 	}
 
 	private UpLoadRunnable findUpLoadRunnableByResourceId(int resourceId) {

@@ -70,6 +70,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
 	}
+	public void clearData() {
+		mDatas.clear();
+		notifyDataSetChanged();
+	}
 
 	public void setAllSelect(Boolean isAllSelect) {
 		this.isChoice = true;
@@ -159,11 +163,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
-			
-			
-			
-			
-			
+		
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -263,8 +263,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	}
 
 	public void notifyDataChange(List<CloudEviItemBean> list){
-		if(!CheckUtil.isEmpty(list)&&list.size()>0){
+		if(list!=null){
 			this.mDatas=list;
+			Log.i("djj",mDatas.size()+"");
 			notifyDataSetChanged();
 		}		
 	}

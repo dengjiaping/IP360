@@ -163,8 +163,11 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == 0) {
-			startActivityForResult(new Intent(getActivity(),
-					SearchCloudEvidenceActivity.class), CODE_SEARCH);
+			Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
+			intent.putExtra("type", 1);
+			intent.putExtra("mobileType", 50001);
+			intent.putExtra("from", "native");
+			startActivityForResult(intent, CODE_SEARCH);
 		}else {
 	       DbBean dbBean = mDatas.get(position-1);
 			if (dbBean.getType()==MyConstants.PHOTO) {//条目类型照片

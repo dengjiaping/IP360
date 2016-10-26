@@ -54,7 +54,6 @@ public class DownLoadManager {
 	    Future<String> future = (Future<String>)es.submit(runnable);
 		map.put(future, runnable);
 		UpDownLoadDao.getDao().saveDownLoadInfo(info.getFilePath(),info.getFileName(),info.getFileSize(),info.getPosition(),info.getResourceId());
-
 	}
 	
 	
@@ -110,8 +109,9 @@ public class DownLoadManager {
 		DownLoadRunnable runnable = findDownLoadRunnableByResourceId(resourceId);
 		if(runnable==null){
 			listenerMap.put(resourceId, listener);
-		}
-		runnable.setOnProgressListener(listener);
+		}else{
+			runnable.setOnProgressListener(listener);
+		}	
 	}
 	
 	private DownLoadRunnable createDownLoadRunnableByResourceId(int resourceId){
