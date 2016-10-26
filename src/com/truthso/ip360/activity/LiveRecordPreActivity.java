@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
-import com.truthso.ip360.bean.FilePositionBean;
-import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
@@ -22,14 +20,14 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.updownload.UpLoadInfo;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
+import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -300,7 +298,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	 */
 	private void startUpLoad(int position, int resourceId) {
 		Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传，请在传输列表查看");
-		UpLoadInfo info=new UpLoadInfo();
+		FileInfo info=new FileInfo();
 		info.setFileName(fileName);
 		info.setFilePath(filePath);
 		info.setFileSize(fileSize);

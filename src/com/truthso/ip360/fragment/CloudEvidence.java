@@ -1,12 +1,12 @@
 package com.truthso.ip360.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
@@ -61,6 +60,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private String keywork;//搜索框里的搜索内容
 	private int type,mobileType;//类型，取证类型
 	private String searchText;
+	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh = (XRefreshView) view
 				.findViewById(R.id.xrefresh_cloudevidence);
 		xRefresh.setPullRefreshEnable(true);
-		xRefresh.setPullLoadEnable(false);
+		xRefresh.setPullLoadEnable(true);
 		xRefresh.setAutoRefresh(false);
 		xRefresh.setXRefreshViewListener(this);
 
@@ -85,6 +85,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);
 		lv_cloudevidence.setOnItemClickListener(this);
+		 adapter=new CloudEvidenceAdapter(getActivity(),list,type);
+			lv_cloudevidence.setAdapter(adapter);
+		
 //		进来显示第一个
 		type = 2;//现场取证
 		mobileType = 50001;
@@ -306,6 +309,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onRefresh() {
 		pagerNumber=1;
+		list.clear();
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
@@ -320,6 +324,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onLoadMore() {
 		pagerNumber++;
+		Log.i("djj",pagerNumber+"" );
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
@@ -355,6 +360,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					BaseHttpResponse response) {
 				//停止刷新
 				xRefresh.stopRefresh();
+				xRefresh.stopLoadMore();
 				hideProgress();
 				
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
@@ -363,9 +369,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						List<CloudEviItemBean> datas = bean.getDatas();
 						
 						if(!CheckUtil.isEmpty(datas)&&datas.size()>0){
-							
-						    adapter=new CloudEvidenceAdapter(getActivity(), bean.getDatas(),type);
-							lv_cloudevidence.setAdapter(adapter);
+							list.addAll(datas);
+						    adapter.notifyDataChange(list);
 						}					
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());

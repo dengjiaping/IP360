@@ -100,12 +100,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
-			vh.tv_filename.setText(mDatas.get(position).getFileTitle());
-
-			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
-			vh.tv_filedate.setText(mDatas.get(position).getFileDate());
+			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);		
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
-			vh.tv_size.setText(mDatas.get(position).getFileSize());
+		
 			pkValue = mDatas.get(position).getPkValue();
 			count = mDatas.get(position).getCount();
 			fileName = mDatas.get(position).getFileTitle();
@@ -113,15 +110,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size=Long.parseLong(size);
-			  size1 = FileSizeUtil.FormetFileSize(l_size);
-			
+			  size1 = FileSizeUtil.FormetFileSize(l_size);			
 			mode = mDatas.get(position).getFileMode();
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();
 			
 		}
-	
+			
+		vh.tv_filename.setText(mDatas.get(position).getFileTitle());
+		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
+		vh.tv_size.setText(mDatas.get(position).getFileSize());
+		
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
 		
 		
@@ -160,6 +160,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
 			
+			
+			
+			
+			
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -181,6 +185,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
+	
+	
+	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
@@ -255,4 +262,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
+	public void notifyDataChange(List<CloudEviItemBean> list){
+		if(!CheckUtil.isEmpty(list)&&list.size()>0){
+			this.mDatas=list;
+			notifyDataSetChanged();
+		}		
+	}
 }

@@ -1,4 +1,4 @@
-package com.truthso.ip360.activity;
+﻿package com.truthso.ip360.activity;
 
 import java.io.File;
 
@@ -35,6 +35,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.DownLoadApkUtli;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
@@ -80,7 +81,7 @@ public class SplashActivty extends Activity {
 		alphaAnimation.setDuration(500);
 		relativeLayout.startAnimation(alphaAnimation);
 		//是否跳转到首页
-		enterHome();
+	//	enterHome();
 //		// 检查联网更新
 //		checkUpdate();
 	}
@@ -101,6 +102,9 @@ public class SplashActivty extends Activity {
 			case DOWN_ERROR:
 				// 下载apk失败
 				Toaster.showToast(ctx, "下载新版本失败");
+				break;
+            case    99:
+				enterHome();
 				break;
 			}
 		};
@@ -205,7 +209,7 @@ public class SplashActivty extends Activity {
 			@Override
 			public void run() {
 				try {
-					File file = DownLoadManager.getFileFromServer(downloadUrl,
+					File file = DownLoadApkUtli.getFileFromServer(downloadUrl,
 							pd);
 					sleep(3000);
 					installApk(file);
