@@ -61,6 +61,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private String keywork;//搜索框里的搜索内容
 	private int type,mobileType;//类型，取证类型
 	private String searchText;
+	private boolean tag = true;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -85,10 +86,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);
 		lv_cloudevidence.setOnItemClickListener(this);
-//		进来显示第一个
-		type = 2;//现场取证
-		mobileType = 50001;
-		getDatas(keywork,type,mobileType,pagerNumber);
+		if (tag) {
+//			进来显示第一个
+			type = 2;//现场取证
+			mobileType = 50001;
+			getDatas(keywork,type,mobileType,pagerNumber);
+		}
+
 	}
 
 	@Override
@@ -176,7 +180,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-		
+				tag = false;
 			    type = 2;//现场取证
 				mobileType = 50003;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -191,7 +195,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-			
+				tag = false;
 				type = 2;//现场取证
 				mobileType = 50002;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -205,7 +209,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-
+				tag = false;
 				type = 3;//线上取证
    			    mobileType = 0;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -219,7 +223,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					window.dismiss();
 				}
-
+				tag = false;
 				type = 1;//确权文件
 				mobileType = 0;
 				getDatas(keywork,type,mobileType,pagerNumber);
