@@ -18,6 +18,7 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -59,7 +60,6 @@ public class UpLoadManager {
 		UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 		Future<String> future = (Future<String>) es.submit(runnable);
 		map.put(future, runnable);
-		Log.i("uploadinfo", info.toString() + "mapsize" + map.size());
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId());
 	}
 
@@ -121,7 +121,9 @@ public class UpLoadManager {
 					if (!CheckUtil.isEmpty(bean)) {
 						if (bean.getCode() == 200) {
 							FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+							info.setPosition(bean.getDatas().getPosition());
 							UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
+							LogUtils.e(info.getPosition()+"info.getPosition()");
 							Future<String> future = (Future<String>) es.submit(runnable);
 							map.put(future, runnable);
 							runnable.setOnProgressListener(listenerMap.get(resourceId));
@@ -136,7 +138,7 @@ public class UpLoadManager {
 			});
 		}
 	}
-
+ 
 	private Future<String> findFuture(int resourceId) {
 		for (Map.Entry<Future<String>, UpLoadRunnable> info : map.entrySet()) {
 			if (info.getValue().getResourceId() == resourceId) {
