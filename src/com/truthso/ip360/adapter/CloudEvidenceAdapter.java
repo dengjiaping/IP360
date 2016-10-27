@@ -114,7 +114,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size=Long.parseLong(size);
-			  size1 = FileSizeUtil.FormetFileSize(l_size);			
+			size1 = FileSizeUtil.FormetFileSize(l_size);			
 			mode = mDatas.get(position).getFileMode();
 			convertView.setTag(vh);
 		}else{
