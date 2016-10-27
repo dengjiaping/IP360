@@ -100,14 +100,14 @@ public class UpLoadManager {
 
 		} else {
 			
-			FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+			/*FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
 			UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 			Future<String> future = (Future<String>) es.submit(runnable);
 			map.put(future, runnable);
 			runnable.setOnProgressListener(listenerMap.get(resourceId));
-			MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
+			MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);*/
 			
-			/*// 重新上传
+			// 重新上传
 			ApiManager.getInstance().getFilePosition(resourceId, new ApiCallback() {
 
 				@Override
@@ -120,12 +120,12 @@ public class UpLoadManager {
 					FilePositionBean bean = (FilePositionBean) response;
 					if (!CheckUtil.isEmpty(bean)) {
 						if (bean.getCode() == 200) {
-							UpLoadInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+							FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
 							UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 							Future<String> future = (Future<String>) es.submit(runnable);
 							map.put(future, runnable);
 							runnable.setOnProgressListener(listenerMap.get(resourceId));
-							MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog"), null);
+							MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 						} else {
 							Toaster.showToast(MyApplication.getApplication(), "获取数据失败");
 						}
@@ -133,7 +133,7 @@ public class UpLoadManager {
 						Toaster.showToast(MyApplication.getApplication(), "获取数据失败");
 					}
 				}
-			});*/
+			});
 		}
 	}
 

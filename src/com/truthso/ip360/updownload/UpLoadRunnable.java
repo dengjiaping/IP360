@@ -147,12 +147,7 @@ public class UpLoadRunnable implements Runnable {
 			dos.flush();
 			dos.close();	
 			
-			if (progress == uploadFile.length()) {
-				if (upLoadListener != null) {
-					upLoadListener.onComplete();
-				}
-				UpDownLoadDao.getDao().deleteByResourceId(resourceId);
-			}
+			
 			
 			// 读取返回数据
 			StringBuffer strBuf = new StringBuffer();
@@ -169,7 +164,12 @@ public class UpLoadRunnable implements Runnable {
 			if(res!=null){
 				BaseHttpResponse parseJson = JsonUtil.parseJson(res, BaseHttpResponse.class);
 				if(parseJson.getCode()==200){
-					
+					if (progress == uploadFile.length()) {
+						if (upLoadListener != null) {
+							upLoadListener.onComplete();
+						}
+						UpDownLoadDao.getDao().deleteByResourceId(resourceId);
+					}
 				}
 			}
 
