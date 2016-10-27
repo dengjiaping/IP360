@@ -212,9 +212,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								startUpLoad(0, pkValue);
-								finish();
-//								getPosition(pkValue);
+								
+						    	getPosition(pkValue);
 						
 							} else {
 								Toaster.showToast(PhotoPreserved.this,

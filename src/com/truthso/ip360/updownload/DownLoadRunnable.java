@@ -86,7 +86,7 @@ public class DownLoadRunnable implements Runnable {
 			
 			//long length = downloadFile.length();
 			
-			URL url = new URL(downloadUrl);
+			URL url = new URL("http://"+downloadUrl);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setConnectTimeout(6000);
