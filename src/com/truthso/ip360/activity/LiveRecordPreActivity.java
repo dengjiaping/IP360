@@ -302,7 +302,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		FileInfo info=new FileInfo();
 		info.setFileName(fileName);
 		info.setFilePath(filePath);
-		info.setFileSize(fileSize);
+		info.setFileSize(ll+"");
 		info.setPosition(position);
 		info.setResourceId(resourceId);
 		UpLoadManager.getInstance().startUpload(info);

@@ -70,6 +70,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
 	}
+
 	public void clearData() {
 		mDatas.clear();
 		notifyDataSetChanged();
@@ -96,39 +97,40 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	}
 
 	@Override
-	public View getView(int position, View convertView , ViewGroup parent) {
-		ViewHolder vh=null;
-		if(convertView==null){		
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder vh = null;
+		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
-			vh=new ViewHolder();
-			vh.cb_choice= (CheckBox) convertView.findViewById(R.id.cb_choice);
-			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
-			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
-			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);		
+			vh = new ViewHolder();
+			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
+			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
+			vh.tv_filename = (TextView) convertView
+					.findViewById(R.id.tv_filename);
+			vh.tv_filedate = (TextView) convertView
+					.findViewById(R.id.tv_filedate);
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
-		
+
 			pkValue = mDatas.get(position).getPkValue();
 			count = mDatas.get(position).getCount();
 			fileName = mDatas.get(position).getFileTitle();
-			format = fileName.substring(fileName.indexOf("."));//格式
+			format = fileName.substring(fileName.indexOf("."));// 格式
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
-			long l_size=Long.parseLong(size);
-			size1 = FileSizeUtil.FormetFileSize(l_size);			
+			long l_size = Long.parseLong(size);
+			size1 = FileSizeUtil.FormetFileSize(l_size);
 			mode = mDatas.get(position).getFileMode();
 			convertView.setTag(vh);
-		}else{
-			vh=	(ViewHolder) convertView.getTag();
-			
+		} else {
+			vh = (ViewHolder) convertView.getTag();
+
 		}
-			
+
 		vh.tv_filename.setText(mDatas.get(position).getFileTitle());
 		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
 		vh.tv_size.setText(mDatas.get(position).getFileSize());
-		
-		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
-		
-		
+
+		changeState(position, convertView, vh.cb_choice, vh.cb_option);
+
 		return convertView;
 	}
 
@@ -163,11 +165,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> f26be7491571ea9b0c673c966d904cc3b5b58a5f
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -189,9 +187,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
-	
-	
-	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (isChecked) {
@@ -200,7 +195,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.tv_remark:// 备注
 			Intent intent = new Intent(context, FileRemarkActivity.class);
@@ -215,10 +210,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
-<<<<<<< HEAD
 
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
-//			final CloudEviItemBean data = mDatas.get(v.getId());
+			// final CloudEviItemBean data = mDatas.get(v.getId());
 
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
@@ -242,7 +236,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 											.getFileUrl());
 									info.setFileName(data.getFileTitle());
 									info.setFileSize(data.getFileSize());
-//									info.setFileSize(size);
+									// info.setFileSize(size);
 									info.setPosition(0);
 									info.setResourceId(data.getPkValue());
 									DownLoadManager.getInstance()
@@ -257,45 +251,65 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							} else {
 								Toaster.toast(context, "获取数据失败", 1);
 							}
-=======
-			
-		
-			final CloudEviItemBean data = mDatas.get((Integer)v.getTag());
-	
-			ApiManager.getInstance().downloadFile(data.getPkValue(), type, new ApiCallback() {
-				
-				@Override
-				public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-					// TODO Auto-generated method stub
-					Toaster.toast(context, "获取数据失败", 1);
-				}
-				
-				@Override
-				public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-					DownLoadFileBean bean=(DownLoadFileBean) response;
-					if(!CheckUtil.isEmpty(bean)){
-						if(bean.getCode()==200){
-							FileInfo  info=new FileInfo();
-							info.setFilePath(bean.getDatas().getFileUrl());
-							info.setFileName(data.getFileTitle());
-							info.setFileSize(data.getFileSize());
-							info.setPosition(0);
-							info.setResourceId(data.getPkValue());
-							DownLoadManager.getInstance().startDownload(info);	
-							Toast toast = new Toast(context);
-							toast.makeText(context, "文件开始下载到本地证据", 1).show();
-							toast.setGravity(Gravity.CENTER, 0, 0);
-						}else{
-							Toaster.toast(context, bean.getMsg(), 1);
->>>>>>> f26be7491571ea9b0c673c966d904cc3b5b58a5f
+
+							final CloudEviItemBean data = mDatas
+									.get((Integer) v.getTag());
+
+							ApiManager.getInstance().downloadFile(
+									data.getPkValue(), type, new ApiCallback() {
+
+										@Override
+										public void onApiResultFailure(
+												int statusCode,
+												Header[] headers,
+												byte[] responseBody,
+												Throwable error) {
+											// TODO Auto-generated method stub
+											Toaster.toast(context, "获取数据失败", 1);
+										}
+
+										@Override
+										public void onApiResult(int errorCode,
+												String message,
+												BaseHttpResponse response) {
+											DownLoadFileBean bean = (DownLoadFileBean) response;
+											if (!CheckUtil.isEmpty(bean)) {
+												if (bean.getCode() == 200) {
+													FileInfo info = new FileInfo();
+													info.setFilePath(bean
+															.getDatas()
+															.getFileUrl());
+													info.setFileName(data
+															.getFileTitle());
+													info.setFileSize(data
+															.getFileSize());
+													info.setPosition(0);
+													info.setResourceId(data
+															.getPkValue());
+													DownLoadManager
+															.getInstance()
+															.startDownload(info);
+													Toast toast = new Toast(
+															context);
+													toast.makeText(context,
+															"文件开始下载到本地证据", 1)
+															.show();
+													toast.setGravity(
+															Gravity.CENTER, 0,
+															0);
+												} else {
+													Toaster.toast(context,
+															bean.getMsg(), 1);
+
+												}
+											} else {
+												Toaster.toast(context,
+														"获取数据失败", 1);
+											}
+										}
+									});
 						}
-					}else{
-						Toaster.toast(context, "获取数据失败", 1);
-					}
-				}
-			});
-			
-			break;
+					});
 		case R.id.tv_certificate_preview:// 证书预览
 			Intent intent1 = new Intent(context, CertificationActivity.class);
 			intent1.putExtra("pkValue", pkValue);// 唯一标识
@@ -307,18 +321,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		}
 	}
-<<<<<<< HEAD
-	public void notifyDataChange(List<CloudEviItemBean> list){
-		if(list!=null){
-			this.mDatas=list;
-=======
 
-	public void notifyDataChange(List<CloudEviItemBean> list){
-		if(list!=null){
-			this.mDatas=list;
-			Log.i("djj",mDatas.size()+"");
->>>>>>> f26be7491571ea9b0c673c966d904cc3b5b58a5f
+	public void notifyDataChange(List<CloudEviItemBean> list) {
+		if (list != null) {
+			this.mDatas = list;
+
 			notifyDataSetChanged();
-		}		
+		}
 	}
 }
