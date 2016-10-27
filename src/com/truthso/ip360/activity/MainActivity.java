@@ -82,8 +82,6 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
-	    Log.i("djj", "location");
 		BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
 		

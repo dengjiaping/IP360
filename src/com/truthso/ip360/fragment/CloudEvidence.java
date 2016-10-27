@@ -104,6 +104,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		type = 2;//现场取证
 		mobileType = 50001;
 		getDatas(keywork,type,mobileType,pagerNumber);
+<<<<<<< HEAD
+
+=======
+>>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
 	}
 
 	@Override
