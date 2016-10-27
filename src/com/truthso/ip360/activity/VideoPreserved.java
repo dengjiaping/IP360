@@ -331,11 +331,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 */
 	private void startUpLoad(int position, int resourceId) {
 
-//		showProgress("开始上传文件...");
 		FileInfo info=new FileInfo();
-		info.setFileName(title);
+		info.setFileName(mVideoName);
 		info.setFilePath(mVideoPath);
-		info.setFileSize(size);
+		info.setFileSize(ll+"");
 		info.setPosition(position);
 		info.setResourceId(resourceId);
 		UpLoadManager.getInstance().startUpload(info);
