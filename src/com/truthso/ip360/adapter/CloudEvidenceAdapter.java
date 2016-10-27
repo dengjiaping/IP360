@@ -172,10 +172,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
-<<<<<<< HEAD
-=======
-		
->>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
+
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -210,20 +207,19 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		case R.id.tv_remark:// 备注
 			Intent intent = new Intent(context, FileRemarkActivity.class);
 			intent.putExtra("count", count); // 当次消费钱数
-
 			intent.putExtra("fileName", fileName);
 			intent.putExtra("format", format);
 			intent.putExtra("date", date);
 			intent.putExtra("size", size1);
 			intent.putExtra("mode", mode);
 			intent.putExtra("type", type);
-
 			intent.putExtra("pkValue", pkValue);
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
 
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
+//			final CloudEviItemBean data = mDatas.get(v.getId());
 
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
@@ -247,6 +243,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 											.getFileUrl());
 									info.setFileName(data.getFileTitle());
 									info.setFileSize(data.getFileSize());
+//									info.setFileSize(size);
 									info.setPosition(0);
 									info.setResourceId(data.getPkValue());
 									DownLoadManager.getInstance()
@@ -276,17 +273,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		}
 	}
-
-<<<<<<< HEAD
-	public void notifyDataChange(List<CloudEviItemBean> list) {
-		if (!CheckUtil.isEmpty(list) && list.size() > 0) {
-			this.mDatas = list;
-=======
 	public void notifyDataChange(List<CloudEviItemBean> list){
 		if(list!=null){
 			this.mDatas=list;
-			Log.i("djj",mDatas.size()+"");
->>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
 			notifyDataSetChanged();
 		}
 	}

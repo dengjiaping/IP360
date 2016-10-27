@@ -82,14 +82,14 @@ public class SplashActivty extends Activity {
 		relativeLayout.startAnimation(alphaAnimation);
 		//是否跳转到首页
 
-<<<<<<< HEAD
+
 //		enterHome();
 
 	//	enterHome();
 
-=======
+
 	//	enterHome();
->>>>>>> b2a1b62a6f5410a3c1cd0d8bc4a8717c5a97f5f1
+
 //		// 检查联网更新
 //		checkUpdate();
 	}
