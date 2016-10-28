@@ -153,7 +153,7 @@ public class UpDownLoadDao {
 
 	public void deleteDownInfoByResourceId(int resourceId) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		db.execSQL("delete from updownloadlog where resourceid=?", new Object[] { resourceId });
+		db.execSQL("delete from updownloadlog where sourceid=?", new Object[] {resourceId });
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), null);
 	}
 

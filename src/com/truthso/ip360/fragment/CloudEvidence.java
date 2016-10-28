@@ -2,25 +2,35 @@ package com.truthso.ip360.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
@@ -61,6 +71,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private int type,mobileType;//类型，取证类型
 	private String searchText;
 	private boolean tag = true;
+	private EditText et_find_service;
 
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 
@@ -82,11 +93,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh.setAutoRefresh(false);
 		xRefresh.setXRefreshViewListener(this);
 
+		
+		
 		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
 	
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);
+		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
+		
 		lv_cloudevidence.setOnItemClickListener(this);
 
 		if (tag) {
@@ -99,9 +114,69 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		 adapter=new CloudEvidenceAdapter(getActivity(),list,type);
 		 lv_cloudevidence.setAdapter(adapter);
-		
+		 setSearchMode();
 	}
 
+	private void setSearchMode() {
+		// 自动弹出软键盘
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				InputMethodManager inputManager = (InputMethodManager) et_find_service.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(et_find_service, 0);
+			}
+		  }, 300);
+		et_find_service.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (CheckUtil.isEmpty(s.toString())) {
+					
+					list.clear();
+					getDatas(null,type,mobileType,1);
+					
+				} else {
+					mHandler.removeMessages(101);
+					if (!CheckUtil.isEmpty(requestHandle)) {
+						requestHandle.cancel(true);
+					}
+					Message msg = new Message();
+					msg.what = 101;
+					msg.obj = s.toString();
+					mHandler.sendMessageDelayed(msg, 500);
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+
+	private Handler mHandler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+		
+				Log.i("djj", (String)(msg.obj)+type+mobileType);
+				list.clear();
+				getDatas((String)(msg.obj),type,mobileType,1);
+			}
+		};
+
+   private RequestHandle requestHandle;
+	
+	
+	
 	@Override
 	public int setViewId() {
 		return R.layout.fragment_clouddevidence;
@@ -323,11 +398,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == 0) {
-			Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
+			/*Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
 			intent.putExtra("type", type);
 			intent.putExtra("mobileType", mobileType);
 			intent.putExtra("from", "cloud");
-			startActivityForResult(intent, CODE_SEARCH);
+			startActivityForResult(intent, CODE_SEARCH);*/
 		}
 
 	}

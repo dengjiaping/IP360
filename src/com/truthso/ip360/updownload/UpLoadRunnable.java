@@ -38,7 +38,6 @@ public class UpLoadRunnable implements Runnable {
 		this.filePath = filePath;
 		this.position = position;
 		this.resourceId = resourceId;
-
 	}
 
 	public void pause() {
@@ -84,15 +83,12 @@ public class UpLoadRunnable implements Runnable {
 			connection.setUseCaches(false); // 不允许使用缓存
 			connection.setRequestMethod("POST"); // 请求方式
 			connection.setRequestProperty("Charset", CHARSET);
-			// 设置断点开始位置
 			connection.setRequestProperty("Range", "bytes=" + position);
-			// 设置编码
-			connection.setRequestProperty("connection", "keep-alive");
-			connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
+			connection.setRequestProperty("Cache-Control", "no-cache"); 
+			connection.setRequestProperty("Connection", "Keep-Alive");
+			connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);			
 
-			OutputStream outputSteam = connection.getOutputStream();
-			
-			DataOutputStream dos = new DataOutputStream(outputSteam);
+			DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
 
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("position", position + "");
@@ -107,9 +103,7 @@ public class UpLoadRunnable implements Runnable {
 				sb.append(LINE_END);
 				sb.append(entry.getValue());
 				sb.append(LINE_END);
-//				sb.append(LINE_END);
 			}
-//			dos.write(sb.toString().getBytes());
 
 			sb.append(PREFIX);// 开始拼接文件参数
 			sb.append(BOUNDARY);
@@ -132,12 +126,21 @@ public class UpLoadRunnable implements Runnable {
 					upLoadListener.onProgress((int) (progress));
 					dao.updateUpLoadProgress(resourceId, progress);
 				}
+<<<<<<< HEAD
 //				Log.i("djj", "progress" + progress + "length" + length);
 //				try {
 //					Thread.sleep(100);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
+=======
+				Log.i("djj", "progress" + progress + "length" + length);
+				/*try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}*/
+>>>>>>> f62a0047d2b6850f49664b112bd2c0479934f420
 			}
 			raf.close();
 
@@ -145,31 +148,28 @@ public class UpLoadRunnable implements Runnable {
 			dos.write(endData);
 			dos.flush();
 			dos.close();	
-			
-			
-			
-			// 读取返回数据
-			StringBuffer strBuf = new StringBuffer();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				strBuf.append(line).append("\n");
-			}
-			String res = strBuf.toString();
-			reader.close();
-			reader = null;
-
-			Log.i("djj", "res" + res);
-			if(res!=null){
-				BaseHttpResponse parseJson = JsonUtil.parseJson(res, BaseHttpResponse.class);
-				if(parseJson.getCode()==200){
-					if (progress == uploadFile.length()) {
-						if (upLoadListener != null) {
-							upLoadListener.onComplete();
-						}
-						UpDownLoadDao.getDao().deleteByResourceId(resourceId);
-					}
+			Log.i("djj", connection.getResponseCode()+"");
+			// 读取返回数据			
+			if(connection.getResponseCode()==200){
+				StringBuffer strBuf = new StringBuffer();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					strBuf.append(line).append("\n");
 				}
+				String res = strBuf.toString();
+				reader.close();
+				reader = null;
+				
+				Log.i("djj", "res" + res);
+				if (progress == uploadFile.length()) {
+					if (upLoadListener != null) {
+						upLoadListener.onComplete();
+					}
+					UpDownLoadDao.getDao().deleteByResourceId(resourceId);
+				}
+			}else{
+				Log.i("djj", "上传失败");
 			}
 
 		} catch (IOException e) {

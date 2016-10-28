@@ -95,6 +95,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
 			vh.tv_status = (TextView) convertView.findViewById(R.id.tv_status);
 			vh.cb_choice.setOnCheckedChangeListener(this);
+			vh.cb_choice.setTag(position);
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -120,7 +121,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 			@Override
 			public void onComplete() {
-				
+				Log.i("djj", "downComplete");
 			}
 
 			@Override
@@ -174,6 +175,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	@Override
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 		int position = (Integer) arg0.getTag();
+		Log.i("djj", position+"");
 		if(arg1){
 			selectedList.add(list.get(position).getResourceId());
 		}else{
