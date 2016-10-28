@@ -74,7 +74,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-		LogUtils.e(ll+"wsx");
+//		LogUtils.e(ll+"wsx");
 		getLocation();
 	}
 
