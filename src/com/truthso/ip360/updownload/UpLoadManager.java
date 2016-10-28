@@ -120,7 +120,9 @@ public class UpLoadManager {
 					FilePositionBean bean = (FilePositionBean) response;
 					if (!CheckUtil.isEmpty(bean)) {
 						if (bean.getCode() == 200) {
-							FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+							FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);		
+							info.setPosition(bean.getDatas().getPosition());
+							Log.i("djj", info.toString());
 							UpLoadRunnable runnable = new UpLoadRunnable(info.getFilePath(), info.getPosition(), info.getResourceId());
 							Future<String> future = (Future<String>) es.submit(runnable);
 							map.put(future, runnable);

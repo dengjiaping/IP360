@@ -91,8 +91,8 @@ public class DownLoadRunnable implements Runnable {
 			connection.setRequestMethod("GET");
 			connection.setConnectTimeout(6000);
 			connection.setRequestProperty("Range", "bytes="+position);
-			int responseCode = connection.getResponseCode();
-			if(responseCode==206){			
+		//	int responseCode = connection.getResponseCode();
+		//	if(responseCode==206){			
 				raf = new RandomAccessFile(file, "rwd");
 			//	raf.setLength(fileSize);
 				raf.seek(position);	
@@ -114,7 +114,7 @@ public class DownLoadRunnable implements Runnable {
 						dao.deleteByResourceId(resourceId);
 					}	
 				}			
-			}		
+		//	}		
 		} catch (IOException e) {
 			e.printStackTrace();
 			status=ERROR;

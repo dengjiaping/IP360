@@ -16,6 +16,7 @@ import android.net.Uri;
 import com.truthso.ip360.application.MyApplication;
 import android.app.ProgressDialog;
 import android.os.Environment;
+import android.util.Log;
 
 import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.bean.FilePositionBean;
@@ -158,6 +159,7 @@ public class DownLoadManager {
 						findFuture.cancel(true);
 						map.remove(findFuture);
 					}
+				Log.i("djj", ""+integer);
 				UpDownLoadDao.getDao().deleteDownInfoByResourceId(integer);
 			}		
 		}		
