@@ -126,21 +126,15 @@ public class UpLoadRunnable implements Runnable {
 					upLoadListener.onProgress((int) (progress));
 					dao.updateUpLoadProgress(resourceId, progress);
 				}
-<<<<<<< HEAD
+
 //				Log.i("djj", "progress" + progress + "length" + length);
 //				try {
 //					Thread.sleep(100);
 //				} catch (InterruptedException e) {
 //					e.printStackTrace();
 //				}
-=======
-				Log.i("djj", "progress" + progress + "length" + length);
-				/*try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}*/
->>>>>>> f62a0047d2b6850f49664b112bd2c0479934f420
+
+
 			}
 			raf.close();
 

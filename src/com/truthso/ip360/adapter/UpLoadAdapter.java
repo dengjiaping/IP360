@@ -139,6 +139,11 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 				 //获取实时网速或者正在等待中
 				 vh.tv_status.setText("230b/s");
 			 }
+				if(vh.btn_upload_download.isSelected()){
+					vh.btn_upload_download.setSelected(false);
+				}else{
+					vh.btn_upload_download.setSelected(true);
+				}
 			}
 		});
 		

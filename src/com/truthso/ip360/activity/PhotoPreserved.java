@@ -258,7 +258,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	}
 
 	private void startUpLoad(int position, int resourceId) {
-//		showProgress("开始上传文件...");
+		Toaster.showToast(PhotoPreserved.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
 		info.setFileName(title);
 		info.setFilePath(path);

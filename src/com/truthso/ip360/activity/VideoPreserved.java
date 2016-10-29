@@ -276,9 +276,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-//								getPosition(pkValue);
+								getPosition(pkValue);
 								//上传
-								startUpLoad(0, pkValue);
+//								startUpLoad(0, pkValue);
 								finish();
 						
 							} else {
@@ -296,7 +296,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 * 获取文件上传到的位置
 	 * @param pkValue
 	 */
-/*	private void getPosition(int pkValue) {
+	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
@@ -323,14 +323,14 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			}
 
 		});
-	}*/
+	}
 	/**
 	 * 上传文件的接口
 	 * @param position
 	 * @param resourceId
 	 */
 	private void startUpLoad(int position, int resourceId) {
-
+		Toaster.showToast(VideoPreserved.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
 		info.setFileName(mVideoName);
 		info.setFilePath(mVideoPath);
