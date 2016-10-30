@@ -112,6 +112,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		}
 
 		FileInfo info = list.get(position);
+		vh.probar.setProgress(info.getPosition());
 		vh.tv_fileName.setText(info.getFileName());
 		//带格式的
 		vh.probar.setMax(Integer.parseInt(info.getFileSize()));
