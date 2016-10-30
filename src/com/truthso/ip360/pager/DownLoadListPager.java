@@ -31,9 +31,9 @@ public class DownLoadListPager extends BasePager {
 	@Override
 	public View initView() {
 		list=new ArrayList<FileInfo>();
-		List<FileInfo> queryUpLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-		if(queryUpLoadList!=null){
-			list.addAll(queryUpLoadList); 			
+		List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
+		if(queryDownLoadList!=null){
+			list.addAll(queryDownLoadList); 			
 		}        
 		
 		listView = new ListView(ctx);	

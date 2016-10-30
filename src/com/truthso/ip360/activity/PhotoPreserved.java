@@ -74,7 +74,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-		LogUtils.e(ll+"wsx");
+//		LogUtils.e(ll+"wsx");
 		getLocation();
 	}
 
@@ -212,7 +212,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								
+                               								
 						    	getPosition(pkValue);
 						
 							} else {
@@ -236,9 +236,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-
 			}
-
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -260,14 +258,14 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	}
 
 	private void startUpLoad(int position, int resourceId) {
-//		showProgress("开始上传文件...");
+		Toaster.showToast(PhotoPreserved.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
 		info.setFileName(title);
 		info.setFilePath(path);
 		info.setFileSize(ll+"");
 		info.setPosition(position);
 		info.setResourceId(resourceId);
-		
+		Log.i("djj", info.toString());
 		//上传的路径，文件的路径，上传的位置，id
 		UpLoadManager.getInstance().startUpload(info);
 	}
@@ -289,7 +287,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				filePre();
 				saveToDb();
 			}
-
 			break;
 		default:
 			break;

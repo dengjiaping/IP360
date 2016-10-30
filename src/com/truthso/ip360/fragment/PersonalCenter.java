@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -350,21 +351,20 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		//调接口  因为调的是同一个接口，所以就不需要再判断resultCode是哪个码
 		getPersonalMsg();
-//		switch (resultCode) {
-//		case 1:
-//
-//			
-//			break;
-//
-//		default:
-//			break;
-//		}
+
 	}
 	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
-	
+/**
+ * 禁用返回键
+ */
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	        if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            return true;
+	        }
+	        return false;
+	    }
 }

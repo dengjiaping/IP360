@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.bean.FilePositionBean;
+import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
@@ -247,8 +249,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-//								getPosition(pkValue);
-								startUpLoad(0,pkValue);
+								getPosition(pkValue);
+//								startUpLoad(0,pkValue);
 								finish();
 						
 							} else {
@@ -262,14 +264,13 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 				});
 	}
-/*
+
 	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
@@ -290,7 +291,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			}
 
 		});
-	}*/
+	}
 	/**
 	 * 开始上传文件
 	 * 

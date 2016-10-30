@@ -33,13 +33,11 @@ public class UpLoadRunnable implements Runnable {
 	private ProgressListener upLoadListener;
 	private int upLoadProgress, position, resourceId;
     private UpDownLoadDao  dao= UpDownLoadDao.getDao();
-	private int progress;
 	public UpLoadRunnable(String filePath, int position, int resourceId) {
 		super();
 		this.filePath = filePath;
 		this.position = position;
 		this.resourceId = resourceId;
-
 	}
 
 	public void pause() {
@@ -67,7 +65,7 @@ public class UpLoadRunnable implements Runnable {
 		String PREFIX = "--", LINE_END = "\r\n";
 		String CONTENT_TYPE = "multipart/form-data"; // 内容类型
 		String CHARSET = "UTF-8";
-		int TIME_OUT = 5*1000;
+		int TIME_OUT = 60000;
 		try {
 			File uploadFile = new File(filePath);
 			if (!uploadFile.exists()) {
@@ -85,16 +83,12 @@ public class UpLoadRunnable implements Runnable {
 			connection.setUseCaches(false); // 不允许使用缓存
 			connection.setRequestMethod("POST"); // 请求方式
 			connection.setRequestProperty("Charset", CHARSET);
-
-			// 设置断点开始位置
 			connection.setRequestProperty("Range", "bytes=" + position);
-			// 设置编码
-			connection.setRequestProperty("connection", "keep-alive");
-			connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
+			connection.setRequestProperty("Cache-Control", "no-cache"); 
+			connection.setRequestProperty("Connection", "Keep-Alive");
+			connection.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);			
 
-			OutputStream outputSteam = connection.getOutputStream();
-			
-			DataOutputStream dos = new DataOutputStream(outputSteam);
+			DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
 
 			Map<String, String> params = new HashMap<String, String>();
 			params.put("position", position + "");
@@ -109,9 +103,7 @@ public class UpLoadRunnable implements Runnable {
 				sb.append(LINE_END);
 				sb.append(entry.getValue());
 				sb.append(LINE_END);
-//				sb.append(LINE_END);
 			}
-//			dos.write(sb.toString().getBytes());
 
 			sb.append(PREFIX);// 开始拼接文件参数
 			sb.append(BOUNDARY);
@@ -126,20 +118,23 @@ public class UpLoadRunnable implements Runnable {
 		
 			byte[] buffer = new byte[1024];
 			int len = -1;
-			progress = Integer.valueOf(position);
+			int progress = Integer.valueOf(position);
 			while (!isCancle && (len = raf.read(buffer)) != -1) {				
 				dos.write(buffer, 0, len);
 				progress += len;
 				if (upLoadListener != null) {
 					upLoadListener.onProgress((int) (progress));
+					dao.updateUpLoadProgress(resourceId, progress);
 				}
-				Log.i("djj", "progress" + progress + "length" + length);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
+//				Log.i("djj", "progress" + progress + "length" + length);
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+
+
 			}
 			raf.close();
 
@@ -147,20 +142,9 @@ public class UpLoadRunnable implements Runnable {
 			dos.write(endData);
 			dos.flush();
 			dos.close();	
-			
-			if(isCancle = true&&status==PAUSE){
-				dao.updateUpLoadProgress(resourceId, progress);
-			}
-			
 			Log.i("djj", connection.getResponseCode()+"");
-			if(connection.getResponseCode()==200){				
-				if (progress == uploadFile.length()) {
-					if (upLoadListener != null) {
-						upLoadListener.onComplete();
-					}
-					UpDownLoadDao.getDao().deleteByResourceId(resourceId);
-				}
-				// 读取返回数据
+			// 读取返回数据			
+			if(connection.getResponseCode()==200){
 				StringBuffer strBuf = new StringBuffer();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line = null;
@@ -170,14 +154,21 @@ public class UpLoadRunnable implements Runnable {
 				String res = strBuf.toString();
 				reader.close();
 				reader = null;
+				
 				Log.i("djj", "res" + res);
-			}	
+				if (progress == uploadFile.length()) {
+					if (upLoadListener != null) {
+						upLoadListener.onComplete();
+					}
+					UpDownLoadDao.getDao().deleteByResourceId(resourceId);
+				}
+			}else{
+				Log.i("djj", "上传失败");
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 			status=ERROR;
-			Log.i("djj", "Exception");
-			dao.updateUpLoadProgress(resourceId, progress);
 		}
 		
 	}

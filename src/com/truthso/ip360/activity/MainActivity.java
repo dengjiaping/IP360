@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -43,13 +44,13 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	// 初始化控件
 	private void initView() {
 		List<Fragment> fragmentList = new ArrayList<Fragment>();
-
 		fragmentList.add(new HomeFragment());// 首页（现在取证）
 		fragmentList.add(new CloudEvidence());// 云端证据
 		fragmentList.add(new NativeEvidence());// 本地证据
 		fragmentList.add(new TransList());// 传输列表
 		fragmentList.add(new PersonalCenter());// 个人中心
 		radioGroup = (RadioGroup) findViewById(R.id.main_RadioGroup);
+		((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
 		FragmentTabUtils fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(), fragmentList, R.id.main_fragment, radioGroup);
 
 	}
@@ -75,7 +76,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// super.onSaveInstanceState(outState);
+		
 	
 		
 	}
