@@ -3,9 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/white"
+        ></LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="@color/white"
         android:orientation="horizontal" >
 
@@ -14,62 +20,62 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/paizhaoyuan"
             android:gravity="center"
             android:text="拍照取证"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_video"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/luxiangyuan"
             android:gravity="center"
             android:text="录像取证"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/luyinyuan"
             android:gravity="center"
             android:text="录音取证"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:background="@color/white"
         android:orientation="horizontal" >
-
+<!--  android:layout_weight="17.33" -->
         <TextView
             android:id="@+id/tv_pc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/xianshangyuan"
             android:gravity="center"
             android:text="线上取证"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_file"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/quequanyuan"
             android:gravity="center"
             android:text="确权文件"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_all"
@@ -81,9 +87,10 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-    <FrameLayout 
+    <FrameLayout
         android:id="@+id/fl_empty"
         android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        />
+        android:layout_height="318dp" >
+    </FrameLayout>
+
 </LinearLayout>

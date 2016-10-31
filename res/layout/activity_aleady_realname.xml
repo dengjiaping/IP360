@@ -32,12 +32,12 @@
 
         <ImageView
             android:id="@+id/iv_jiupsd"
-            android:layout_width="@dimen/image_edit_head"
-            android:layout_height="@dimen/image_edit_head"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/xm" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/sfzh" />
 
         <TextView
             android:layout_width="wrap_content"

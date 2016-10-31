@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/yx" />
 
         <TextView
             android:id="@+id/tv_psw"
@@ -60,7 +60,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/yanzheng" />
 
         <TextView
             android:id="@+id/tv_psw"
@@ -110,12 +110,12 @@
         <Button
             android:id="@+id/btn_send_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/title_color"
+            android:background="@drawable/round_corner_bg"
             android:text="发送验证码"
-            android:textColor="@color/title_text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size" />
     </LinearLayout>
 	<TextView 
@@ -131,7 +131,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="下一步"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />

@@ -6,7 +6,7 @@
     android:background="@color/activity_bg"
     android:orientation="vertical" >
 
-    <include layout="@layout/top_title" />
+    <!-- <include layout="@layout/top_title" /> -->
     <!--
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,8 +22,8 @@
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
-    -->
 
+    -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
@@ -36,9 +36,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/tv_psw"
-            android:inputType="phone"
             android:background="@null"
             android:hint="请输入您的手机号"
+            android:inputType="phone"
             android:textSize="@dimen/text_size" />
 
         <RelativeLayout
@@ -71,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
             android:background="@null"
             android:hint="请输入密码"
             android:inputType="textPassword"
@@ -125,7 +125,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="登录"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />

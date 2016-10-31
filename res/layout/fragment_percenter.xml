@@ -60,7 +60,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_hight"
         android:background="@color/item_bg"
-        
          >
 
         <ImageView
@@ -70,17 +69,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
-            android:text="账户余额"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
+            android:background="@drawable/zhye" />
 
         <ImageView
             android:id="@+id/iv_next_yue"
@@ -102,6 +91,17 @@
             android:text=""
             android:textColor="@color/title_text_hint"
             android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/iv_account_message"
+            android:text="账号余额"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/zhcz" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/smrz" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -213,7 +213,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/bdsj" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -258,15 +258,6 @@
         android:layout_height="@dimen/item_hight"
         android:background="@color/item_bg" >
 
-        <ImageView
-            android:id="@+id/iv_account_message"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -296,6 +287,16 @@
             android:text=""
             android:textColor="@color/title_text_hint"
             android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/iv_account_message"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bdyx" />
+
     </RelativeLayout>
 
     <View
@@ -315,7 +316,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/xgmm" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -385,7 +386,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/gyw" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -417,7 +418,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="退出登录"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />

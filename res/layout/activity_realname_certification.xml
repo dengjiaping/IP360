@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/sfzh" />
 
         <TextView
             android:id="@+id/tv_psw"
@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_card"
-            android:text="身份证号"
+            android:text="身份证号:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
@@ -60,7 +60,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/name" />
 
         <TextView
             android:id="@+id/tv_realname"
@@ -69,7 +69,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_card"
-            android:text="真实姓名"
+            android:text="真实姓名:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
@@ -100,7 +100,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/rlsb" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="面部识别"
+            android:text="点击下图采集照片:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
@@ -119,7 +119,7 @@
         android:layout_height="@dimen/image_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_top_20"
-        android:background="@drawable/clickme" />
+        android:background="@drawable/sb" />
 
     <Button
         android:id="@+id/btn_ver"
@@ -127,7 +127,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_margiontop_40"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="认证"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />
