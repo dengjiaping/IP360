@@ -30,6 +30,7 @@ import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.DownLoadHelper;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
@@ -226,7 +227,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 							// info.setFileSize(size);
 							info.setPosition(0);
 							info.setResourceId(data.getPkValue());
-							DownLoadManager.getInstance().startDownload(info);
+							//DownLoadManager.getInstance().startDownload(info);
+						 DownLoadHelper.getInstance().downloadFile("13项目架构.avi", 0);
 							Toast toast = new Toast(context);
 							toast.makeText(context, "文件开始下载到本地证据", 1).show();
 							toast.setGravity(Gravity.CENTER, 0, 0);

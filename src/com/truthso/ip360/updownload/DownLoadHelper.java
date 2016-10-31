@@ -1,5 +1,8 @@
 package com.truthso.ip360.updownload;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -19,27 +22,37 @@ import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
 import com.alibaba.sdk.android.oss.model.Range;
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
 
 public class DownLoadHelper {
 
-	private String endpoint = "http://oss-cn-beijing.aliyuncs.com";
+	private String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 	private OSS oss;
-    private DownLoadHelper helper=new DownLoadHelper();
+	private File downloadFile;
+    private static DownLoadHelper helper=new DownLoadHelper();
     private Map<String, OSSAsyncTask> taskMap=new ArrayMap<String, OSSAsyncTask>();
+    
+    
 	private  DownLoadHelper() {
-		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");
+		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAI6yfPjL9ik3xj", "KgVwREkNPxbfTbxSTV6ERDatCzRKsV");
 		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider);
+		downloadFile=new File(MyConstants.DOWNLOAD_PATH);
+		if(!downloadFile.exists()){
+			downloadFile.mkdirs();
+		}
 	}
 
-	public  DownLoadHelper  getInstance(){
+	public static DownLoadHelper  getInstance(){
 		return helper;
 	}
 		
 	// 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的`访问控制`章节
 
 	public void downloadFile(final String objectKey,long position) {
-		GetObjectRequest get = new GetObjectRequest("ip360-test",objectKey);
+		final File file=new File(downloadFile, objectKey);
+				
+		final GetObjectRequest get = new GetObjectRequest("djj-test",objectKey);
 		// 设置范围
 		get.setRange(new Range(position, Range.INFINITE)); // 下载0到99字节共100个字节，文件范围从0开始计算
 
@@ -51,14 +64,19 @@ public class DownLoadHelper {
 				InputStream inputStream = result.getObjectContent();
 				byte[] buffer = new byte[2048];
 				int len;
-				int total = 0;
+				int total = 0;			
+				
 				try {
+					FileOutputStream fos=new FileOutputStream(file);
 					while ((len = inputStream.read(buffer)) != -1) {
 						// 处理下载的数据
 						total+=len;
+						fos.write(buffer, 0, len);
+						Log.i("djj", "progress"+total);
 						
 					}
-					
+					fos.close();
+					inputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 					
@@ -74,6 +92,7 @@ public class DownLoadHelper {
 				if (clientExcepion != null) {
 					// 本地异常如网络异常等
 					clientExcepion.printStackTrace();
+					Log.i("djj", "faile");
 				}
 				if (serviceException != null) {
 					// 服务异常
@@ -81,6 +100,7 @@ public class DownLoadHelper {
 					Log.e("RequestId", serviceException.getRequestId());
 					Log.e("HostId", serviceException.getHostId());
 					Log.e("RawMessage", serviceException.getRawMessage());
+					Log.i("djj", "faile1");
 				}
 			}	
 	
