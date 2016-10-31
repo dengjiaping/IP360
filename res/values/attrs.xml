@@ -44,20 +44,6 @@
             <flag name="flip" value="0x1" />
         </attr>
     </declare-styleable>
-     <string-array name="bind_card_spingarr">
-     	<item>身份证</item>  
-    	<item>护照</item>  
-    	<item>港澳居民来往内地通行证</item>  
-    	<item>户口簿</item>  
-    	<item>军官证</item>  
-    	<item>士兵证</item>  
-    	<item>驾照</item>  
-    	<item>出生证明</item>  
-    	<item>台湾居民来往大陆通行证</item>  
-    	<item>其他</item>  
-    	<item>异常身份证</item>  
-    	<item>临时身份证</item>  
-    </string-array>
 
     <declare-styleable name="HorizontalProgressBarWithNumber">
         <attr name="progress_unreached_color" format="color" />
@@ -166,5 +152,14 @@
             <enum name="three" value="3" />
         </attr>
     </declare-styleable>
+        <declare-styleable name="ViewPagerIndicator">
+        <!-- Style of the tab indicator's tabs. -->
+        <attr name="vpiTabPageIndicatorStyle" format="reference" />
+    </declare-styleable>
     
+          <declare-styleable name="LockPatternView">
+        <!-- Aspect to use when drawing LockPatternView. Choices are "square"(default), "lock_width"
+             or "lock_height" -->
+        <attr name="aspect" format="string" />
+    </declare-styleable>
 </resources>

@@ -52,9 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
-            android:background="@color/title_color"
+            android:background="@drawable/round_corner_bg"
             android:text="发送验证码"
-            android:textColor="@color/title_text_color"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size" />
     </LinearLayout>
     <Button
@@ -63,7 +63,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="下一步"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />

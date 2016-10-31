@@ -138,7 +138,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@color/title_color"
+        android:background="@drawable/round_corner_bg"
         android:text="确认修改"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />
