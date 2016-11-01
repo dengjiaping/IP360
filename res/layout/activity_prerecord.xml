@@ -154,7 +154,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:background="@drawable/sc" />
+                android:background="@drawable/fsc" />
 
             <TextView
                 android:layout_width="wrap_content"

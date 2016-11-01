@@ -28,7 +28,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/ww" />
+                android:background="@drawable/wj" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -44,18 +44,16 @@
                     android:layout_height="wrap_content"
                     android:text="文件名称"
                     android:textColor="#666666"
-                    android:textSize="15sp"
-                     />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_filedate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="2016.7.25\t11:09:23" 
+                    android:text="2016.7.25\t11:09:23"
                     android:textColor="#666666"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -67,7 +65,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:background="@drawable/bg_option"
-            android:button="@null"/>
+            android:button="@null" />
 
         <TextView
             android:id="@+id/tv_size"
@@ -76,10 +74,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:text="1.24M" 
+            android:text="1.24M"
             android:textColor="#666666"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <View
@@ -95,14 +92,14 @@
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/tv_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/xz"
             android:gravity="center"
             android:text="下载" />
 
@@ -111,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/bz"
             android:gravity="center"
             android:text="备注" />
 
@@ -120,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/remark"
+            android:drawableTop="@drawable/ck"
             android:gravity="center"
             android:text="证书预览" />
     </LinearLayout>
