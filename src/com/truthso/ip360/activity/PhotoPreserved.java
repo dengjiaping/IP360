@@ -30,6 +30,7 @@ import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.UpDownLoadManager;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
@@ -213,8 +214,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
                                								
-						    	getPosition(pkValue);
-						
+						    	//getPosition(pkValue);
+							   //UpDownLoadManager.getInstance().resuambleUpload(uploadFilePath,String token);
+							  //获取token
+						           
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());

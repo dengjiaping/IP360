@@ -9,6 +9,8 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSFederationCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSFederationToken;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.truthso.ip360.application.MyApplication;
 
@@ -30,8 +32,8 @@ public class UpDownLoadManager {
 	
 	private UpDownLoadManager(){
 
-		  OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
-
+		 OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider(accessKeyId, accessKeySecret);
+    
 	        ClientConfiguration conf = new ClientConfiguration();
 	        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
 	        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒

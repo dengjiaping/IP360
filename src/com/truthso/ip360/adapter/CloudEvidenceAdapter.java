@@ -228,7 +228,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 							info.setPosition(0);
 							info.setResourceId(data.getPkValue());
 							//DownLoadManager.getInstance().startDownload(info);
-						 DownLoadHelper.getInstance().downloadFile("13项目架构.avi", 0);
+						    String url =bean.getDatas().getFileUrl();
+						    url=url.substring(url.indexOf("/")+1);
+						    DownLoadHelper.getInstance().downloadFile(url, 0);
 							Toast toast = new Toast(context);
 							toast.makeText(context, "文件开始下载到本地证据", 1).show();
 							toast.setGravity(Gravity.CENTER, 0, 0);
