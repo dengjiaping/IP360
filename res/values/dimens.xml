@@ -16,7 +16,7 @@
     <dimen name="layout_marginLeft">10dp</dimen>
     <dimen name="layout_marginRight">10dp</dimen>
     <dimen name="image_size">50dp</dimen>
-    <dimen name="text_size">13sp</dimen>
+    <dimen name="text_size">15sp</dimen>
     <dimen name="item_hight">50dp</dimen>
     <dimen name="item_height_40">40dp</dimen>
     
@@ -38,5 +38,5 @@
     <!--登录页面  -->
     <dimen name="text_login_size">12sp</dimen>
     <!-- 本地证据条目 -->
-    <dimen name="text_date_size">10dp</dimen>
+    <dimen name="text_date_size">12sp</dimen>
 </resources>

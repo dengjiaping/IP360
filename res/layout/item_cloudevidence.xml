@@ -42,14 +42,20 @@
                     android:id="@+id/tv_filename"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="文件名称" />
+                    android:text="文件名称"
+                    android:textColor="#666666"
+                    android:textSize="15sp"
+                     />
 
                 <TextView
                     android:id="@+id/tv_filedate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="2016.7.25\t11:09:23" />
+                    android:text="2016.7.25\t11:09:23" 
+                    android:textColor="#666666"
+                    android:textSize="12sp"
+                    />
             </LinearLayout>
         </LinearLayout>
 
@@ -70,7 +76,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:text="1.24M" />
+            android:text="1.24M" 
+            android:textColor="#666666"
+            android:textSize="12sp"
+            />
     </RelativeLayout>
 
     <View

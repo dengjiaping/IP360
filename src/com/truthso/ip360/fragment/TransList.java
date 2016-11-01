@@ -73,7 +73,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 		tv_left_text = (TextView) view.findViewById(R.id.tv_left_text);
 
 		// line.startAnimation(moveLeft);
-		rl_left.setBackgroundColor(getResources().getColor(R.color.title_bg_color));
+		rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
 		tv_left_text.setTextColor(getResources().getColor(R.color.white));
 		rl_right.setBackgroundColor(getResources().getColor(R.color.white));
 
@@ -102,13 +102,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 				pagerList.get(position).initData(position);
 				if (position == 0) {
 					line.startAnimation(moveLeft);
-					rl_left.setBackgroundColor(getResources().getColor(R.color.title_bg_color));
+					rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_left_text.setTextColor(getResources().getColor(R.color.white));
 					rl_right.setBackgroundColor(getResources().getColor(R.color.white));
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
 				} else {
 					line.startAnimation(moveRight);
-					rl_right.setBackgroundColor(getResources().getColor(R.color.title_bg_color));
+					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.white));
 					rl_left.setBackgroundColor(getResources().getColor(R.color.white));
 					tv_left_text.setTextColor(getResources().getColor(R.color.black));

@@ -184,6 +184,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //								addTimeUsed();
 								startActivity(intent2);
+								
 								break;
 							}
 						}

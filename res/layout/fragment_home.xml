@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/o"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <!-- <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/title_bg_color" >
@@ -17,57 +18,192 @@
             android:text="IP360"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_text_size" />
-    </RelativeLayout>
+    </RelativeLayout> -->
 
-    <LinearLayout
-        android:id="@+id/ll_take_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:layout_marginTop="60dp"
+    android:layout_gravity="center"
+    android:layout_marginBottom="30dp"
+    android:background="#33080808"
+    android:orientation="vertical" >
+	<TextView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="60dp"
+	    android:layout_marginLeft="10dp"
+	    android:gravity="center_vertical"
+	    android:text="Truth hurt but, but lies are worse."
+	    android:textStyle="italic"
+	    android:textSize="15sp"
+	    android:textColor="@color/white"
+	    />
+	<View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:background="@color/white"
+	    />
+    <LinearLayout 
+    android:id="@+id/ll_take_photo"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:layout_weight="1"
+     android:layout_gravity="center"
+    android:orientation="horizontal"
+    >
         <ImageView
-            android:layout_width="60dp"
+            android:layout_width="75dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
             android:background="@drawable/pai" 
             />
 
-        <ImageView
+     <!--    <ImageView
             android:layout_width="160dp"
             android:layout_height="80dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/pz"
             android:gravity="center_horizontal"
-            android:textSize="30sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_take_video"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
+            android:textSize="30sp" /> -->
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="拍照取证"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                
+                />
+   </LinearLayout>
+   <View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+	    android:background="@color/white"
+	    />
+   <LinearLayout 
+     android:id="@+id/ll_take_video"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:layout_weight="1"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    >
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="53dp"
-            android:background="@drawable/lu" />
+            android:layout_width="75dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/lu" 
+            />
 
-        <ImageView
+     <!--    <ImageView
             android:layout_width="160dp"
             android:layout_height="80dp"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/lx"
+            android:background="@drawable/pz"
             android:gravity="center_horizontal"
-            android:textSize="30sp" />
-    </LinearLayout>
+            android:textSize="30sp" /> -->
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="录像取证"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                
+                />
+   </LinearLayout>
+     <View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:layout_marginLeft="15dp"
+	    android:layout_marginRight="15dp"
+	    android:background="@color/white"
+	    />
+   <LinearLayout 
+       android:id="@+id/ll_record"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:layout_weight="1"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    >
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/yin" 
+            />
 
+     <!--    <ImageView
+            android:layout_width="160dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/pz"
+            android:gravity="center_horizontal"
+            android:textSize="30sp" /> -->
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="录音取证"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                
+                />
+   </LinearLayout>
+</LinearLayout>
+    
+<!--    <LinearLayout
+        android:id="@+id/ll_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+</LinearLayout>
+    
+<LinearLayout
+        android:id="@+id/ll_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+</LinearLayout>
+    
     <LinearLayout
         android:id="@+id/ll_record"
         android:layout_width="wrap_content"
@@ -90,5 +226,5 @@
             android:gravity="center_horizontal"
             android:textSize="30sp" />
     </LinearLayout>
-
+ -->
 </LinearLayout>

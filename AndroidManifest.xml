@@ -18,34 +18,42 @@
     <!-- 录音的权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- 这个权限用于进行网络定位-->
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-<!-- 这个权限用于访问GPS定位-->
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-<!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-<!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-<!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
-<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-<!-- 用于读取手机当前的状态-->
-<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-<!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据-->
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-<!-- 访问网络，网络定位需要上网-->
-<uses-permission android:name="android.permission.INTERNET" />
-<!-- SD卡读取权限，用户写入离线定位数据-->
-<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
-<uses-permission android:name="android.permission.WRITE_SETTINGS" />
-<!--获取手机的IMEI码要的权限  -->
-<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
+    </uses-permission>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
+    </uses-permission>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 获取手机的IMEI码要的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name="com.truthso.ip360.application.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/tubiao"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.truthso.ip360.activity.SplashActivty"
             android:label="@string/app_name"
@@ -68,7 +76,7 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
 
         </activity>
@@ -76,203 +84,234 @@
         <activity
             android:name="com.truthso.ip360.activity.CommonMediaActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 引导页 -->
         <activity
             android:name="com.truthso.ip360.activity.GuideActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 登录 -->
         <activity
             android:name="com.truthso.ip360.activity.LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 拍照 -->
         <activity
             android:name="com.truthso.ip360.activity.CameraActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 录像 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 现场录音保全 -->
         <activity
             android:name="com.truthso.ip360.activity.LiveRecordPreActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 现场录音的执行页面 -->
         <activity
             android:name="com.truthso.ip360.activity.LiveRecordImplementationActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 照片保全页面 -->
         <activity
             android:name="com.truthso.ip360.activity.PhotoPreserved"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 录像保全页面 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoPreserved"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 账户充值页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AccountPayActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 实名认证页面 -->
         <activity
             android:name="com.truthso.ip360.activity.RealNameCertification"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 绑定手机号码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.BindPhoNumActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-          <!-- 更改绑定手机号码页面 -->
+        <!-- 更改绑定手机号码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindPhoNumActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-              <!-- 更改绑定手机号码页面2 -->
+        <!-- 更改绑定手机号码页面2 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindPhonumBindNewActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.BindEmialActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-           <!-- 更改绑定邮箱页面 -->
+        <!-- 更改绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindEmailActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-              <!-- 更改绑定邮箱页面2 -->
+        <!-- 更改绑定邮箱页面2 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindEmailBindNewActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 修改密码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AemndPsdActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 关于我们页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AboutUsAcctivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-            </activity>
-             <!-- 合同用户的账号信息 -->
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!-- 合同用户的账号信息 -->
         <activity
             android:name="com.truthso.ip360.activity.AccountMagActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 注册 -->
         <activity
             android:name="com.truthso.ip360.activity.RegisterActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 忘记密码 -->
         <activity
             android:name="com.truthso.ip360.activity.findPwdActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 注册设置密码界面 -->
         <activity
             android:name="com.truthso.ip360.activity.RegisterSetPwd"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 忘记密码设置新密码界面 -->
         <activity
             android:name="com.truthso.ip360.activity.FindpwdSetNewPwd"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 搜索页面 -->
         <activity
             android:name="com.truthso.ip360.activity.SearchCloudEvidenceActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <!-- 类别 -->
         <activity
             android:name="com.truthso.ip360.activity.CategoryCloudEvidenceActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-           <!-- 照片详情-->
+        <!-- 照片详情 -->
         <activity
             android:name="com.truthso.ip360.activity.PhotoDetailActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-              <!-- 录像详情-->
+        <!-- 录像详情 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoDetailActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-                <!-- 录音详情-->
+        <!-- 录音详情 -->
         <activity
             android:name="com.truthso.ip360.activity.RecordDetailActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-       <!-- 备注 -->
+        <!-- 备注 -->
         <activity
             android:name="com.truthso.ip360.activity.FileRemarkActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-           <!-- 查看保全证书 -->
+        <!-- 查看保全证书 -->
         <activity
             android:name="com.truthso.ip360.activity.CertificationActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
-      
-		<!--定位  -->
+
+        <!-- 定位 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" >
         </service>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="6hjNTqBPR05KcO8OKefEG30ZuC2ageCH" />    
-            
-        <!--活体检查-->
-         <activity android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
-                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"/>
+            android:value="6hjNTqBPR05KcO8OKefEG30ZuC2ageCH" />
+
+        <!-- 活体检查 -->
+        <activity
+            android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>

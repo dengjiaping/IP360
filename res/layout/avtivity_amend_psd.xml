@@ -12,14 +12,14 @@
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/iv_jiupsd"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/ww" /> -->
 
         <TextView
             android:id="@+id/tv_psw"
@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="旧密码"
+            android:text="旧密码:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
@@ -55,14 +55,14 @@
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/iv_jiupsd"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/ww" /> -->
 
         <TextView
             android:id="@+id/tv_psw"
@@ -71,7 +71,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="新密码"
+            android:text="新密码:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
@@ -98,14 +98,14 @@
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
 
-        <ImageView
+        <!-- <ImageView
             android:id="@+id/iv_jiupsd"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/ww" />
+            android:background="@drawable/ww" /> -->
 
         <TextView
             android:id="@+id/tv_psw"
@@ -114,7 +114,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="再次输入"
+            android:text="再次输入:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 

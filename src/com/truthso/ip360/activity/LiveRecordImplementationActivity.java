@@ -194,7 +194,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				intent.putExtra("mintime", mintime);
 				intent.putExtra("loc", loc);
 				startActivity(intent);
-				
 				finish();
 				
 				
