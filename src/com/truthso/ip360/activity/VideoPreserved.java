@@ -83,7 +83,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void initView() {
 			
-		iv_video = (ImageView) findViewById(R.id.iv_video);
+//		iv_video = (ImageView) findViewById(R.id.iv_video);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
@@ -97,8 +97,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 	
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
-				MediaStore.Images.Thumbnails.MICRO_KIND));
+//		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
+//				MediaStore.Images.Thumbnails.MICRO_KIND));
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
 		
 		tv_filename.setText(mVideoName);
