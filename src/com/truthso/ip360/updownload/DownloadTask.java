@@ -39,9 +39,18 @@ public class DownloadTask {
 	}
 	
 	public OSSAsyncTask start(){
-		final File file=new File(downloadFile, objectKey);
-		
-		 GetObjectRequest get = new GetObjectRequest("djj-test",objectKey);
+	
+		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
+		 final File file=new File(downloadFile, fileName);
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		 GetObjectRequest get = new GetObjectRequest("ip360-test",objectKey);
 		// 设置范围
 		get.setRange(new Range(position, Range.INFINITE)); // 下载0到99字节共100个字节，文件范围从0开始计算
 		
