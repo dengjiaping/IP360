@@ -33,7 +33,7 @@ import com.truthso.ip360.net.DownLoaderTask;
 
 public class DownLoadHelper {
 
-	private String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
+	private String endpoint = "http://oss-cn-beijing.aliyuncs.com";
 	private OSS oss;
 	private File downloadFile;
     private static DownLoadHelper helper=new DownLoadHelper();
@@ -41,7 +41,7 @@ public class DownLoadHelper {
     
     
 	private  DownLoadHelper() {
-		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAI6yfPjL9ik3xj", "KgVwREkNPxbfTbxSTV6ERDatCzRKsV");
+		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");
 	
 		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider);
 	
