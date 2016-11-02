@@ -211,7 +211,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 
 				@Override
 				public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-					// TODO Auto-generated method stub
 					Toaster.toast(context, "获取数据失败", 1);
 				}
 
@@ -229,9 +228,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 							info.setResourceId(data.getPkValue());
 							//DownLoadManager.getInstance().startDownload(info);
 						    String url =bean.getDatas().getFileUrl();
-						    url=url.substring(url.indexOf("/")+1);
-						    DownLoadHelper.getInstance().downloadFile(url, 0);
-							Toast toast = new Toast(context);
+						  String  objectKey=url.substring(url.indexOf("/")+1);
+						    //下载
+						    DownLoadHelper.getInstance().downloadFile(objectKey, 0);
+							
+						    Toast toast = new Toast(context);
 							toast.makeText(context, "文件开始下载到本地证据", 1).show();
 							toast.setGravity(Gravity.CENTER, 0, 0);
 						} else {

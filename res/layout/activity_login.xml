@@ -6,7 +6,7 @@
     android:background="@color/activity_bg"
     android:orientation="vertical" >
 
-    <!-- <include layout="@layout/top_title" /> -->
+    <include layout="@layout/top_title" />
     <!--
     <RelativeLayout
         android:layout_width="match_parent"
