@@ -54,7 +54,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private NativeAdapter adapter;
 	private PopupWindow window, downLoadwindow;
 	private List<DbBean> mDatas;
-
 	private LayoutInflater inflater;
 	private Activity mActivity;
 
@@ -67,7 +66,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setTitle("本地证据");
 		actionBar.setRightText("多选");
 		actionBar.setActionBarOnClickListener(this);
-
 		listView = (ListView) view.findViewById(R.id.lv_nativeevidence);
 		mDatas = GroupDao.getInstance(getActivity()).queryAll();
 
@@ -124,7 +122,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				window.dismiss();
 			} else {
 				actionBar.setRightDisEnable();
-				showPop();
+				showPop(v);
 			}
 			break;
 		default:
@@ -202,7 +200,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	}
 
 	// 显示类别popwindow
-	private void showPop() {
+	private void showPop(View v) {
 		if (CheckUtil.isEmpty(window)) {
 			View view = inflater.inflate(
 					R.layout.activity_category_cloudcvidence, null);
@@ -228,8 +226,8 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				}
 			});
 		}
-
-		window.showAsDropDown(actionBar);
+		window.setAnimationStyle(R.style.mypopwindow_anim_style);
+		window.showAsDropDown(v);
 	}
 
 	// 显示底部下载按钮
@@ -241,7 +239,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 		// 进入退出的动画
-		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+//		 downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
 	}
 

@@ -19,6 +19,15 @@ public class UpLoadBean  extends BaseHttpResponse{
 
 	public class Upload{
 		private int pkValue;//证据记录唯一标识（主键）。mobileRight id
+		private String fileUrl;//上传文件到阿里云的objectKey
+		
+		public String getFileUrl() {
+			return fileUrl;
+		}
+
+		public void setFileUrl(String fileUrl) {
+			this.fileUrl = fileUrl;
+		}
 
 		public int getPkValue() {
 			return pkValue;

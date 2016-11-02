@@ -33,28 +33,15 @@ public class DownloadTask {
 		this.objectKey = objectKey;
 		this.oss = oss;
 		this.position = position;
-		String root = Environment.getExternalStorageDirectory().toString();
-		downloadFile = new File(root+MyConstants.DOWNLOAD_PATH);
+//		String root = Environment.getExternalStorageDirectory().toString();
+		downloadFile = new File(MyConstants.DOWNLOAD_PATH);
 		if (!downloadFile.exists()) {
 			downloadFile.mkdirs();
 		}
 	}
-<<<<<<< HEAD
 
-	public OSSAsyncTask start() {
-		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
-		 final File file=new File(downloadFile, fileName);
 
-		try {
-			if (!file.exists()) {
-				file.mkdir();
-			}
-		} catch (Exception e) {
 
-		}
-
-		GetObjectRequest get = new GetObjectRequest("ip360-test", objectKey);
-=======
 	
 	public OSSAsyncTask start(){
 	
@@ -69,7 +56,7 @@ public class DownloadTask {
 			}
 		}
 		 GetObjectRequest get = new GetObjectRequest("ip360-test",objectKey);
->>>>>>> 09d5b403ab7e1c1b8c1125ad480e1581df60d2a3
+
 		// 设置范围
 		get.setRange(new Range(position, Range.INFINITE)); // 下载0到99字节共100个字节，文件范围从0开始计算
 

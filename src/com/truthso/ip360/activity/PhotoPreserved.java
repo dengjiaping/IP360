@@ -212,11 +212,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
-								int pkValue = datas.getPkValue();
-                               								
+//								int pkValue = datas.getPkValue();
+                               	String fileUrl = datas.getFileUrl();//文件上传的objectKey					
 						    	//getPosition(pkValue);
-							   //UpDownLoadManager.getInstance().resuambleUpload(uploadFilePath,String token);
-							  //获取token
+								//上传文件
+							   UpDownLoadManager.getInstance().resuambleUpload(fileUrl);
+							
 						           
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
@@ -232,7 +233,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 /**
  * 获取文件断点的位置
  * @param pkValue
- */
+ *//*
 	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
@@ -258,9 +259,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			}
 
 		});
-	}
+	}*/
 
-	private void startUpLoad(int position, int resourceId) {
+/*	private void startUpLoad(int position, int resourceId) {
 		Toaster.showToast(PhotoPreserved.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
 		info.setFileName(title);
@@ -271,7 +272,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		Log.i("djj", info.toString());
 		//上传的路径，文件的路径，上传的位置，id
 		UpLoadManager.getInstance().startUpload(info);
-	}
+	}*/
 
 	@Override
 	public int setLayout() {

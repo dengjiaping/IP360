@@ -336,6 +336,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				}
 			}
 		});
+		window.setAnimationStyle(R.style.mypopwindow_anim_style);
 		window.showAsDropDown(getActivity().findViewById(
 				R.id.actionbar_cloudevidence));
 	}
