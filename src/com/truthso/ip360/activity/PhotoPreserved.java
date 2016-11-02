@@ -213,12 +213,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 //								int pkValue = datas.getPkValue();
-                               	String fileUrl = datas.getFileUrl();//文件上传的objectKey					
+                               	String objectkey = datas.getFileUrl();//文件上传的objectKey					
+                               	Log.i("djj", "objectkey"+objectkey);
 						    	//getPosition(pkValue);
 								//上传文件
-							   UpDownLoadManager.getInstance().resuambleUpload(fileUrl);
-							
-						           
+							   UpDownLoadManager.getInstance().resuambleUpload(path,objectkey);
+						           finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());

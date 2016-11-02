@@ -24,11 +24,9 @@ public class UpDownLoadManager {
     private static final String endpoint =  "http://oss-cn-beijing.aliyuncs.com";
     private static final String accessKeyId ="LTAIIHLk9eURcRim";
     private static final String accessKeySecret = "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj";
-    private static final String uploadFilePath = "<upload_file_path>";
+
 
     private static final String testBucket =  "ip360-test";
-    private static final String uploadObject = "123456";
-    private static final String downloadObject = "sampleObject";
 	
 	private UpDownLoadManager(){
 
@@ -50,8 +48,8 @@ public class UpDownLoadManager {
 		return instance;
 	}
 	
-	public void resuambleUpload(String uploadFilePath){
-		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, uploadObject, uploadFilePath);
+	public void resuambleUpload(String uploadFilePath,String objectkey){
+		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, objectkey, uploadFilePath);
 		resuambleUpload.resumableUploadWithRecordPathSetting();
 		upLoadTaskMap.put(uploadFilePath, resuambleUpload);
 	}
@@ -60,11 +58,11 @@ public class UpDownLoadManager {
 		return upLoadTaskMap;
 	}
 	
-	public void putObject(String uploadFilePath ){
+	/*public void putObject(String uploadFilePath ){
 		PutObjectSamples putObject=new PutObjectSamples(oss, testBucket, uploadObject, uploadFilePath);
 		putObject.asyncPutObjectFromLocalFile();
 		
-	}
+	}*/
 	
 	public void  listObjects( ){
 		ListObjectsSamples listObjects=new ListObjectsSamples(oss, testBucket);
