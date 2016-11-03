@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,14 +19,13 @@ import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
@@ -35,7 +33,6 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -276,9 +273,18 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								getPosition(pkValue);
+								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
+							String url=	datas.getFileUrl();
+								FileInfo info=new FileInfo();
+                               	info.setFileName(title);
+                               	info.setFilePath(mVideoPath);
+                               	info.setFileSize(ll+"");
+                               	info.setResourceId(pkValue);
+                               	info.setObjectKey(url);
+                              //上传文件
+ 							   UpLoadManager.getInstance().resuambleUpload(info);
 								finish();
 						
 							} else {
@@ -337,7 +343,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		info.setFileSize(ll+"");
 		info.setPosition(position);
 		info.setResourceId(resourceId);
-		UpLoadManager.getInstance().startUpload(info);
+	//	UpLoadManager.getInstance().startUpload(info);
 		
 		
 	}
