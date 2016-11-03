@@ -39,7 +39,8 @@ import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
-public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChangeListener, OnClickListener {
+public class CloudEvidenceAdapter extends BaseAdapter implements
+		OnCheckedChangeListener, OnClickListener {
 
 	private Context context;
 	private LayoutInflater inflater;
@@ -51,7 +52,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 	private String fileName, format, date, size, mode;
 	private String size1;
 
-	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas, int type) {
+	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
+			int type) {
 		super();
 		this.context = context;
 		this.mDatas = mDatas;
@@ -103,8 +105,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			vh = new ViewHolder();
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
-			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
-			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
+			vh.tv_filename = (TextView) convertView
+					.findViewById(R.id.tv_filename);
+			vh.tv_filedate = (TextView) convertView
+					.findViewById(R.id.tv_filedate);
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 
 			pkValue = mDatas.get(position).getPkValue();
@@ -124,7 +128,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 
 		vh.tv_filename.setText(mDatas.get(position).getFileTitle());
 		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
-		vh.tv_size.setText(mDatas.get(position).getFileSize());
+		long l_size = Long.parseLong(mDatas.get(position).getFileSize());
+		String s_size = FileSizeUtil.setFileSize(l_size);
+		
+		vh.tv_size.setText(s_size);
 
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
 
@@ -136,7 +143,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 		private TextView tv_filename, tv_filedate, tv_size;
 	}
 
-	private void changeState(int position, View view, CheckBox cb_choice, CheckBox cb_option) {
+	private void changeState(int position, View view, CheckBox cb_choice,
+			CheckBox cb_option) {
 		if (isChoice) {
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
@@ -150,10 +158,13 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 		} else {
 			cb_choice.setVisibility(View.GONE);
 			cb_option.setVisibility(View.VISIBLE);
-			final LinearLayout ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
+			final LinearLayout ll_option = (LinearLayout) view
+					.findViewById(R.id.ll_option);
 			TextView tv_remark = (TextView) view.findViewById(R.id.tv_remark);
-			TextView tv_download = (TextView) view.findViewById(R.id.tv_download);
-			TextView tv_certificate_preview = (TextView) view.findViewById(R.id.tv_certificate_preview);
+			TextView tv_download = (TextView) view
+					.findViewById(R.id.tv_download);
+			TextView tv_certificate_preview = (TextView) view
+					.findViewById(R.id.tv_certificate_preview);
 			tv_remark.setOnClickListener(this);
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
@@ -207,42 +218,50 @@ public class CloudEvidenceAdapter extends BaseAdapter implements OnCheckedChange
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			// final CloudEviItemBean data = mDatas.get(v.getId());
 
-			ApiManager.getInstance().downloadFile(data.getPkValue(), type, new ApiCallback() {
+			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
+					new ApiCallback() {
 
-				@Override
-				public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-					Toaster.toast(context, "获取数据失败", 1);
-				}
-
-				@Override
-				public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-					DownLoadFileBean bean = (DownLoadFileBean) response;
-					if (!CheckUtil.isEmpty(bean)) {
-						if (bean.getCode() == 200) {
-							FileInfo info = new FileInfo();
-							info.setFilePath(bean.getDatas().getFileUrl());
-							info.setFileName(data.getFileTitle());
-							info.setFileSize(data.getFileSize());
-							// info.setFileSize(size);
-							info.setPosition(0);
-							info.setResourceId(data.getPkValue());
-							//DownLoadManager.getInstance().startDownload(info);
-						    String url =bean.getDatas().getFileUrl();
-//						  String  objectKey=url.substring(url.indexOf("/")+1);
-						    //下载
-						    DownLoadHelper.getInstance().downloadFile(url, 0);
-							
-						    Toast toast = new Toast(context);
-							toast.makeText(context, "文件开始下载到本地证据", 1).show();
-							toast.setGravity(Gravity.CENTER, 0, 0);
-						} else {
-							Toaster.toast(context, bean.getMsg(), 1);
+						@Override
+						public void onApiResultFailure(int statusCode,
+								Header[] headers, byte[] responseBody,
+								Throwable error) {
+							Toaster.toast(context, "获取数据失败", 1);
 						}
-					} else {
-						Toaster.toast(context, "获取数据失败", 1);
-					}
-				}
-			});
+
+						@Override
+						public void onApiResult(int errorCode, String message,
+								BaseHttpResponse response) {
+							DownLoadFileBean bean = (DownLoadFileBean) response;
+							if (!CheckUtil.isEmpty(bean)) {
+								if (bean.getCode() == 200) {
+									FileInfo info = new FileInfo();
+									info.setFilePath(bean.getDatas()
+											.getFileUrl());
+									info.setFileName(data.getFileTitle());
+									info.setFileSize(data.getFileSize());
+									// info.setFileSize(size);
+									info.setPosition(0);
+									info.setResourceId(data.getPkValue());
+									// DownLoadManager.getInstance().startDownload(info);
+									String url = bean.getDatas().getFileUrl();
+									// String
+									// objectKey=url.substring(url.indexOf("/")+1);
+									// 下载
+									DownLoadHelper.getInstance().downloadFile(
+											url, 0);
+
+									Toast toast = new Toast(context);
+									toast.makeText(context, "文件开始下载到本地证据", 1)
+											.show();
+									toast.setGravity(Gravity.CENTER, 0, 0);
+								} else {
+									Toaster.toast(context, bean.getMsg(), 1);
+								}
+							} else {
+								Toaster.toast(context, "获取数据失败", 1);
+							}
+						}
+					});
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
 			Intent intent1 = new Intent(context, CertificationActivity.class);

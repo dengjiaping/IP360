@@ -610,5 +610,22 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+	/**
+	 * 文件上传到oss后用，返回码200该文件存在，404未找到
+	 * @param resourceId 保全文件接口返回的keyValue
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle uploadFileOssStatus(int resourceId,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
+		request.setPath(URLConstant.UploadFileOssStatus);
+		request.params().add("resourceId", resourceId+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		
+		return requestHandle;
+		
+	}
 
 }

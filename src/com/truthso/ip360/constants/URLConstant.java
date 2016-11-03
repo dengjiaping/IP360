@@ -110,4 +110,8 @@ public class URLConstant {
 	 * 实名认证
 	 */
 	public final static String RealNameCer = "http://"+str+"/api/v1/security/setRealName";
+	/**
+	 * 上传文件到OSS后调用
+	 */
+	public final static String UploadFileOssStatus = "http://"+str+"/api/v1/file/uploadFileOssStatus";
 }

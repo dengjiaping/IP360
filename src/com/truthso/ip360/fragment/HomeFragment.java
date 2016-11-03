@@ -99,9 +99,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		case R.id.ll_take_photo:// 拍照取证
 			getLocation();
 			//调接口,看是否可以拍照
-//			getPort(MyConstants.PHOTOTYPE,0);		
+			getPort(MyConstants.PHOTOTYPE,0);		
 			
-			photoDir = new File(MyConstants.PHOTO_PATH);
+			/*photoDir = new File(MyConstants.PHOTO_PATH);
 			if (!photoDir.exists()) {
 				photoDir.mkdirs();
 			}
@@ -110,18 +110,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			Uri photoUri = Uri.fromFile(photo);
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-			startActivityForResult(intent, CAMERA);
+			startActivityForResult(intent, CAMERA);*/
 			break;
 		case R.id.ll_take_video:// 录像取证
 			//调接口,看是否可以录像
-		//	getPort(MyConstants.VIDEOTYPE,0);		
-			Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+			getPort(MyConstants.VIDEOTYPE,0);		
+			/*Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 			SimpleDateFormat formatter = new SimpleDateFormat(
 					"yyyy-MM-dd    HH:mm:ss     ");
 			long currentTimeMillis = System.currentTimeMillis();
 			date1=formatter.format(currentTimeMillis);
-			startActivityForResult(intent1, CASE_VIDEO);
+			startActivityForResult(intent1, CASE_VIDEO);*/
 			break;
 		case R.id.ll_record:// 录音取证
 			//调接口,看是否可以录音
@@ -169,11 +169,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 //								startActivityForResult(intent1, CASE_VIDEO);
 //								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent1, CASE_VIDEO);
-								SimpleDateFormat formatter = new SimpleDateFormat(
-										"yyyy-MM-dd    HH:mm:ss     ");
+								SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 								date1 = formatter.format(curDate);
-
 								break;
 
 							case MyConstants.RECORDTYPE:
