@@ -110,7 +110,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		
 		tv_date.setText(mDate);
 		tv_filesize.setText(mVideoSize);
-		tv_time.setText(time);
+		tv_time.setText(time.toString().trim());
 
 		
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);

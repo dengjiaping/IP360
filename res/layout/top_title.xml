@@ -34,7 +34,7 @@
         android:visibility="invisible"
         android:background="@null"
         android:text="按钮"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size" />
 
 </RelativeLayout>

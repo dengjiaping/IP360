@@ -48,7 +48,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
                 android:layout_toRightOf="@id/iv_account_message"
-                android:text="文件名称"
+                android:text="文件名称:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -59,7 +59,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="我的第一个现场取证.mp3" />
+                android:text="我的第一个现场取证.mp3"
+                android:textColor="@color/text_color"
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -72,7 +74,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/message"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -85,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="取证地点"
+                android:layout_toRightOf="@id/message"
+                android:text="取证地点:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -98,7 +100,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:text="获取位置信息失败"
-                android:textSize="10sp" />
+                android:textSize="12sp" 
+                android:textColor="@color/text_color"
+               />
         </RelativeLayout>
 
         <RelativeLayout
@@ -111,7 +115,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/iv_account"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -124,8 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="取证时间"
+                android:layout_toRightOf="@id/iv_account"
+                android:text="取证时间:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -136,7 +140,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="2016.9.19 18:11:25" />
+                android:text="2016.9.19 18:11:25" 
+                 android:textColor="@color/text_color"
+                android:textSize="13sp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -149,7 +155,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -162,8 +168,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="文件大小"
+                android:layout_toRightOf="@id/iv"
+                android:text="文件大小:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -174,7 +180,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="1.3M" />
+                android:text="1.3M"
+                 android:textColor="@color/text_color"
+                android:textSize="13sp"
+                 />
         </RelativeLayout>
 
         <!-- <RelativeLayout

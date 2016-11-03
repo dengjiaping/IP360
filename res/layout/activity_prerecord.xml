@@ -8,8 +8,6 @@
         android:id="@+id/include1"
         layout="@layout/top_title" />
 
- 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -47,7 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
                 android:layout_toRightOf="@id/iv_account_message"
-                android:text="文件名称"
+                android:text="文件名称:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -58,7 +56,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/text_color"
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,7 +71,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/iv"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -84,8 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="取证地点"
+                android:layout_toRightOf="@id/iv"
+                android:text="取证地点:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -97,7 +97,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:text="获取位置信息失败"
-                android:textSize="10sp" />
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -110,7 +111,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/message"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -123,8 +124,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="取证时间"
+                android:layout_toRightOf="@id/message"
+                android:text="取证时间:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -135,7 +136,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="2016.9.19 18:11:25" />
+                android:text="" 
+                android:textColor="@color/text_color"
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -148,7 +151,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/iv_account"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_alignParentLeft="true"
@@ -161,8 +164,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="录音时长"
+                android:layout_toRightOf="@id/iv_account"
+                android:text="录音时长:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -173,10 +176,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="" />
+                android:text="" 
+                android:textColor="@color/text_color"
+                android:textSize="13sp" />
         </RelativeLayout>
-<RelativeLayout
-            android:id="@+id/rl_filesize"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_below="@id/rl_date"
@@ -185,7 +190,7 @@
             android:background="@color/item_bg" >
 
             <ImageView
-                android:id="@+id/iv_account_message"
+                android:id="@+id/i"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
@@ -198,8 +203,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="文件大小"
+                android:layout_toRightOf="@id/i"
+                android:text="文件大小:"
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/text_size" />
 
@@ -210,9 +215,12 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="1.3M" />
+                android:text="" 
+                android:textColor="@color/text_color"
+                android:textSize="13sp" />
         </RelativeLayout>
-        <!-- <RelativeLayout
+        <!--
+        <RelativeLayout
             android:id="@+id/rl_money"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -248,7 +256,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:text="￥5.00" />
-        </RelativeLayout> -->
+        </RelativeLayout>
+        -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -257,41 +266,44 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
-			<LinearLayout 
-			    android:layout_width="match_parent"
-			    android:layout_height="fill_parent"
-			    android:orientation="horizontal"
-			    >
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:background="@drawable/round_corner_bg"
-                android:text="放弃"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size" />
 
-            <Button
-                android:id="@+id/btn_preserved"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:background="@drawable/round_corner_bg"
-                android:text="保全"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size" />
-</LinearLayout>
-            <!-- <TextView
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_corner_bg"
+                    android:text="放弃"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size" />
+
+                <Button
+                    android:id="@+id/btn_preserved"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_corner_bg"
+                    android:text="保全"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+            <!--
+                 <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/btn_cancel"
                 android:layout_centerHorizontal="true"
                 android:text="30秒后自动放弃"
                 android:textColor="@color/title_bg_color"
-                android:textSize="@dimen/text_size" /> -->
+                android:textSize="@dimen/text_size" />
+            -->
         </RelativeLayout>
     </LinearLayout>
 

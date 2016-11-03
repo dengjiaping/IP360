@@ -34,9 +34,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 
 	@Override
 	public void initData() {
-
 	}
-
 	@Override
 	public void initView() {
 		pkValue = getIntent().getIntExtra("pkValue", 0);
