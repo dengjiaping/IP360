@@ -77,14 +77,14 @@ public class UpDownLoadDao {
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 	}
 
-	public void updateDownLoadProgress(String url, int position) {
-	
+	public void updateDownLoadProgress(String url, long position) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.execSQL("update updownloadlog set position=? where downloadurl =?", new Object[] { position, url });
 	}
 
-	public void updateUpLoadProgress(int resourceId , int position) {
-
-		db.execSQL("update updownloadlog set position=? where sourceid =?", new Object[] { position, resourceId });
+	public void updateUpLoadProgress(String uploadfilepath , long position) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("update updownloadlog set position=? where uploadfilepath =?", new Object[] { position, uploadfilepath });
 	}
 
 	public List<FileInfo> queryDownLoadList() {

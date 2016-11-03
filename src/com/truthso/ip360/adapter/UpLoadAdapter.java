@@ -21,9 +21,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.ossupload.ProgressListener;
+import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.ProgressListener;
-import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.updownload.UpLoadRunnable;
 
 /**
@@ -113,6 +113,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		vh.tv_fileName.setText(upLoadInfo.getFileName());
 		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
 		vh.probar.setProgress(upLoadInfo.getPosition());
+		final int resourceId = upLoadInfo.getResourceId();
 		instanse.setOnUpLoadProgressListener(upLoadInfo.getResourceId(),new ProgressListener() {
 
 			@Override
@@ -122,42 +123,41 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}
 
 			@Override
-			public void onProgress(int progress) {
-				vh.probar.setProgress(progress);
+			public void onProgress(long progress) {
+				vh.probar.setProgress((int)progress);
 			}
 		});
 
+		
+		int currentStatus = instanse.getCurrentStatus(resourceId);
+		 if(currentStatus==1){
+			 vh.tv_status.setText("暂停中");
+			 vh.btn_upload_download.setSelected(true);
+		 }else if(currentStatus==0){
+			 //获取实时网速或者正在等待中
+			 vh.tv_status.setText("230b/s");
+			 vh.btn_upload_download.setSelected(false);
+		 }else{
+			 vh.tv_status.setText("上传失败");
+			 vh.btn_upload_download.setSelected(true);
+		 }
+		
 		vh.btn_upload_download.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-			instanse.pauseOrStratUpLoad(upLoadInfo.getResourceId());
-			 int result = instanse.getCurrentStatus(upLoadInfo.getResourceId());
-			 if(result==1){
-				 vh.tv_status.setText("暂停中");
-			 }else{
-				 //获取实时网速或者正在等待中
-				 vh.tv_status.setText("230b/s");
-			 }
-				if(vh.btn_upload_download.isSelected()){
+			public void onClick(View v) {				
+			
+				if(vh.btn_upload_download.isSelected()){					
 					vh.btn_upload_download.setSelected(false);
+					instanse.restart(resourceId);
 				}else{
 					vh.btn_upload_download.setSelected(true);
+					instanse.pause(resourceId);
 				}
 			}
 		});
 		
-		int currentStatus = instanse.getCurrentStatus(upLoadInfo.getResourceId());
-		 if(currentStatus==1){
-			 vh.tv_status.setText("暂停中");
-		 }else if(currentStatus==0){
-			 //获取实时网速或者正在等待中
-			 vh.tv_status.setText("等待中");
-		 }else if(currentStatus==2){
-			 vh.tv_status.setText("230b/s");
-		 }else{
-			 vh.tv_status.setText("上传失败");
-		 }
+		
 		return convertView;
 	}
 

@@ -42,7 +42,7 @@ public class PutObjectSamples {
     public void putObjectFromLocalFile() {
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
-
+        
         try {
             PutObjectResult putResult = oss.putObject(put);
 

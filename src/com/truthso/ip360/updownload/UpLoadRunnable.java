@@ -124,7 +124,7 @@ public class UpLoadRunnable implements Runnable {
 				progress += len;
 				if (upLoadListener != null) {
 					upLoadListener.onProgress((int) (progress));
-					dao.updateUpLoadProgress(resourceId, progress);
+					//dao.updateUpLoadProgress(resourceId, progress);
 				}
 
 //				Log.i("djj", "progress" + progress + "length" + length);
