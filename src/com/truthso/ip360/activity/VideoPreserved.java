@@ -72,7 +72,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		time = getIntent().getStringExtra("time");
 		minTime = getIntent().getIntExtra("minTime", 0);
 		size=getIntent().getStringExtra("size");
-//		title=getIntent().getStringExtra("title");
+		title=getIntent().getStringExtra("title");
 		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B",0);
     	ll = Math.round(video_fileSize_B);
 	}
@@ -278,7 +278,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 //								startUpLoad(0, pkValue);
 							String url=	datas.getFileUrl();
 								FileInfo info=new FileInfo();
-                               	info.setFileName(title);
+                               	info.setFileName(mVideoName);
                                	info.setFilePath(mVideoPath);
                                	info.setFileSize(ll+"");
                                	info.setResourceId(pkValue);

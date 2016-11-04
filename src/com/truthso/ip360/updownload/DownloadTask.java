@@ -40,9 +40,6 @@ public class DownloadTask {
 		}
 	}
 
-
-
-	
 	public OSSAsyncTask start(){
 	
 		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
