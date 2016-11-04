@@ -132,14 +132,14 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		int currentStatus = instanse.getCurrentStatus(resourceId);
 		 if(currentStatus==1){
 			 vh.tv_status.setText("暂停中");
-			 vh.btn_upload_download.setSelected(true);
+			// vh.btn_upload_download.setSelected(true);
 		 }else if(currentStatus==0){
 			 //获取实时网速或者正在等待中
 			 vh.tv_status.setText("230b/s");
-			 vh.btn_upload_download.setSelected(false);
+			// vh.btn_upload_download.setSelected(false);
 		 }else{
 			 vh.tv_status.setText("上传失败");
-			 vh.btn_upload_download.setSelected(true);
+			 //vh.btn_upload_download.setSelected(true);
 		 }
 		
 		vh.btn_upload_download.setOnClickListener(new OnClickListener() {
@@ -148,11 +148,11 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			public void onClick(View v) {				
 			
 				if(vh.btn_upload_download.isSelected()){					
-					vh.btn_upload_download.setSelected(false);
-					instanse.restart(resourceId);
+					//vh.btn_upload_download.setSelected(false);
+					//instanse.restart(resourceId);
 				}else{
-					vh.btn_upload_download.setSelected(true);
-					instanse.pause(resourceId);
+					//vh.btn_upload_download.setSelected(true);
+					//instanse.pause(resourceId);
 				}
 			}
 		});

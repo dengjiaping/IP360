@@ -69,7 +69,7 @@ public class ResuambleUpload {
             }
             
         });
-      
+   
  
         resumableTask = oss.asyncResumableUpload(request, new OSSCompletedCallback<ResumableUploadRequest, ResumableUploadResult>() {
                    	

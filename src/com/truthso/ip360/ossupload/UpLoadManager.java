@@ -81,7 +81,7 @@ public class UpLoadManager {
 	}
 
 	public int getCurrentStatus(int resourceId) {
-		int status=1;
+		int status=0;
 		ResuambleUpload resuambleUpload = upLoadTaskMap.get(resourceId);
 		if(resuambleUpload!=null){
 			status=resuambleUpload.getStatus();

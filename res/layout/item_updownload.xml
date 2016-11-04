@@ -84,7 +84,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:background="@drawable/selector_btn_upload_download"
-            android:button="@null" />
+            android:button="@null" 
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/tv_size"
