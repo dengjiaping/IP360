@@ -70,10 +70,10 @@ public class UpDownLoadDao {
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), null);
 	}
 
-	public void saveUpLoadInfo(String url, String fileName, String fileSize, int position, int resourceId) {
+	public void saveUpLoadInfo(String url, String fileName, String fileSize, int position, int resourceId,String objectkey) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-		db.execSQL("insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload) values(?,?,?,?,?,?)",
-				new Object[] { url, fileName, fileSize, position, resourceId, "1" });
+		db.execSQL("insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey) values(?,?,?,?,?,?,?)",
+				new Object[] { url, fileName, fileSize, position, resourceId, "1",objectkey });
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 	}
 
@@ -147,7 +147,7 @@ public class UpDownLoadDao {
 		info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
 		info.setFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
 		info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
-
+		info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 		return info;
 	}
 
@@ -163,4 +163,9 @@ public class UpDownLoadDao {
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 	}
 
+	public void deleteUploadInfoByUrl(String url) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("delete from updownloadlog where uploadfilepath=?", new Object[] { url });
+		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
+	}
 }

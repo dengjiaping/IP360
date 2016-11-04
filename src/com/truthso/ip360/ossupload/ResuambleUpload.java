@@ -1,6 +1,7 @@
 package com.truthso.ip360.ossupload;
 
-import android.content.res.Resources.Theme;
+import java.io.File;
+
 import android.os.Environment;
 import android.util.Log;
 
@@ -13,12 +14,6 @@ import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.ResumableUploadRequest;
 import com.alibaba.sdk.android.oss.model.ResumableUploadResult;
 import com.truthso.ip360.dao.UpDownLoadDao;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * Created by zhouzhuo on 12/3/15.
@@ -45,7 +40,7 @@ public class ResuambleUpload {
 
     // 异步断点上传，设置记录保存路径，即使任务失败，下次启动仍能继续
     public void resumableUploadWithRecordPathSetting() {
-
+       Log.i("djj","testBucket"+testBucket+":testObject"+testObject);
         String recordDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/oss_record/";
 
         File recordDir = new File(recordDirectory);
@@ -79,6 +74,7 @@ public class ResuambleUpload {
                 isDone=true;
                 if(progressListener!=null){
                 	progressListener.onComplete();
+                	UpDownLoadDao.getDao().deleteUploadInfoByUrl(uploadFilePath);
                 }
             }
 
@@ -97,16 +93,13 @@ public class ResuambleUpload {
                     Log.e("HostId", serviceException.getHostId());
                     Log.e("RawMessage", serviceException.getRawMessage());
                 }
-                
-               
+   
             }
         });
-        resumableTask.waitUntilFinished();
-  
     	
    
        
-    
+   /* 
     new Thread(new Runnable() {
 		
 		@Override
@@ -145,7 +138,7 @@ public class ResuambleUpload {
 					e.printStackTrace();
 				}
 		}
-	}).start();
+	}).start();*/
     
     }
     
@@ -162,8 +155,8 @@ public class ResuambleUpload {
     }
     
     public void pause(){   	
-    	//resumableTask.cancel();
-    	iscancel=false;
+    	resumableTask.cancel();
+   
     	status=PAUSE;
     	UpDownLoadDao.getDao().updateUpLoadProgress(uploadFilePath, progress);
     }

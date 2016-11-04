@@ -1,20 +1,19 @@
 package com.truthso.ip360.ossupload;
 
-
-
 import java.util.HashMap;
+
+import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSFederationCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSFederationToken;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.CheckUtil;
 
 public class UpLoadManager {
 
@@ -55,20 +54,26 @@ public class UpLoadManager {
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath());
 		resuambleUpload.resumableUploadWithRecordPathSetting();
 		upLoadTaskMap.put(resourceId, resuambleUpload);
-		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId);
+		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
 	}
 	
 	public void pause(int resourceId){
-		upLoadTaskMap.remove(resourceId).pause();
+		//upLoadTaskMap.remove(resourceId).pause();
+		upLoadTaskMap.get(resourceId).pause();
+		
 	}
 	
 	public void restart(int resourceId){
-		FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
+		/*FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath());
 		ProgressListener progressListener = progressListenerMap.get(resourceId);
-		resuambleUpload.setProgressListener(progressListener);	
+		Log.i("djj", CheckUtil.isEmpty(progressListener)+"");
+		if(progressListener!=null){
+			resuambleUpload.setProgressListener(progressListener);	
+		}*/
+		ResuambleUpload resuambleUpload = upLoadTaskMap.get(resourceId);
 		resuambleUpload.resumableUploadWithRecordPathSetting();
-		upLoadTaskMap.put(resourceId, resuambleUpload);
+	//	upLoadTaskMap.put(resourceId, resuambleUpload);
 	}
 	
 	public void setOnUpLoadProgressListener(int resourceId,ProgressListener progressListener){
