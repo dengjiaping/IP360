@@ -62,12 +62,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private Button btn_logout;
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
-			tv_bindemail,tv_title;
+			tv_bindemail, tv_title;
 
 	private List<product> list;// 业务余量的集合
 	private String contractStart;
 	private String contractEnd;
-	
+	private boolean isOk;
+
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
-	
+
 		getPersonalMsg();
 
 	}
@@ -121,7 +122,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						// list = bean.getProductBalance();//业务余量
-						
+						isOk = true;
 						// 账户余额
 						if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
 							int i = bean.getDatas().getAccountBalance();
@@ -133,8 +134,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 							contractStart = bean.getDatas().getContractStart();
 							contractEnd = bean.getDatas().getContractEnd();
 							contractEnd = contractEnd.replace("-", ".");
-							tv_account_balance.setText("合同用户" + contractEnd+ "到期");
-							
+							tv_account_balance.setText("合同用户" + contractEnd
+									+ "到期");
 
 							list = bean.getDatas().getProductBalance();
 							for (int i = 0; i < list.size(); i++) {
@@ -168,7 +169,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean.getDatas()
 								.getBindedMobile())) {// 为空时，是未绑定手机号
 							tv_title.setText(bean.getDatas().getBindedMobile());
-							tv_bindphonenum.setText(bean.getDatas().getBindedMobile());
+							tv_bindphonenum.setText(bean.getDatas()
+									.getBindedMobile());
 						} else {
 							tv_title.setText("IP360");
 							tv_bindphonenum.setText("未绑定");
@@ -193,9 +195,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			}
 
 			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+			public void onApiResultFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
@@ -214,81 +217,109 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.rl_account:// 账户余额，合同用户需跳转
+			if (isOk) {
+				Intent intent = new Intent(getActivity(),
+						AccountMagActivity.class);
+				// 传参
+				intent.putExtra("contractStart", contractStart);
+				intent.putExtra("contractEnd", contractEnd);
+				intent.putExtra("usedCount_photo", usedCount_photo + "");
+				intent.putExtra("usedCount_video", usedCount_video + "");
+				intent.putExtra("usedCount_record", usedCount_record + "");
+				startActivity(intent);
+			} else {
+				getPersonalMsg();
+			}
 
-			Intent intent = new Intent(getActivity(), AccountMagActivity.class);
-			// 传参
-			intent.putExtra("contractStart", contractStart);
-			intent.putExtra("contractEnd", contractEnd);
-			intent.putExtra("usedCount_photo", usedCount_photo + "");
-			intent.putExtra("usedCount_video", usedCount_video + "");
-			intent.putExtra("usedCount_record", usedCount_record + "");
-			startActivity(intent);
 			break;
 		case R.id.rl_count_pay:// 用户充值
-			// 合同用户不能充值
-			if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
-				Intent intent1 = new Intent(getActivity(),
-						AccountPayActivity.class);
-				startActivityForResult(intent1, MyConstants.ACCOUNT_YUE);
-			} else {
-				Toaster.showToast(getActivity(), "合同用户请联系商务人员或客服电话010-84716996");
+			if (isOk) {
+				// 合同用户不能充值
+				if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
+					Intent intent1 = new Intent(getActivity(),
+							AccountPayActivity.class);
+					startActivityForResult(intent1, MyConstants.ACCOUNT_YUE);
+				} else {
+					Toaster.showToast(getActivity(),
+							"合同用户请联系商务人员或客服电话010-84716996");
 
+				}
+			} else {
+				getPersonalMsg();
 			}
 
 			break;
 		case R.id.rl_Certification:// 实名认证
-			if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
-				Intent intent2 = new Intent(getActivity(),RealNameCertification.class);
-				 startActivityForResult(intent2, MyConstants.REALNAME_VERTIFICATION);
-				
+			if (isOk) {
+				if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
+					Intent intent2 = new Intent(getActivity(),
+							RealNameCertification.class);
+					startActivityForResult(intent2,
+							MyConstants.REALNAME_VERTIFICATION);
+
+				} else {
+					Toaster.showToast(getActivity(),
+							"企业用户请登录www.ip360.net.cn进行实名认证");
+				}
 			} else {
-				Toaster.showToast(getActivity(),
-						"企业用户请登录www.ip360.net.cn进行实名认证");
+				getPersonalMsg();
 			}
 
 			break;
 
 		case R.id.rl_bind_phonum:// 绑定手机
-			if (CheckUtil.isEmpty(bean.getDatas().getBindedMobile())) {// 为空是未绑定
-				Intent intent3 = new Intent(getActivity(),
-						BindPhoNumActivity.class);
-				startActivityForResult(intent3, MyConstants.BINDNEWEMOBILE);
-			} else {// 已绑定跳转到更改绑定
-				String bindedMonile = bean.getDatas().getBindedMobile();
-				Intent intent4 = new Intent(getActivity(),
-						ReBindPhoNumActivity.class);
-				intent4.putExtra("bindedMonile", bindedMonile);
-				startActivityForResult(intent4, MyConstants.OFFBIND_BINDNEWEMOBILE);
-				// startActivity(intent4);
+			if (isOk) {
+				if (CheckUtil.isEmpty(bean.getDatas().getBindedMobile())) {// 为空是未绑定
+					Intent intent3 = new Intent(getActivity(),
+							BindPhoNumActivity.class);
+					startActivityForResult(intent3, MyConstants.BINDNEWEMOBILE);
+				} else {// 已绑定跳转到更改绑定
+					String bindedMonile = bean.getDatas().getBindedMobile();
+					Intent intent4 = new Intent(getActivity(),
+							ReBindPhoNumActivity.class);
+					intent4.putExtra("bindedMonile", bindedMonile);
+					startActivityForResult(intent4,
+							MyConstants.OFFBIND_BINDNEWEMOBILE);
+					// startActivity(intent4);
+				}
+			} else {
+				getPersonalMsg();
 			}
 
 			break;
 
 		case R.id.rl_bind_mail:// 绑定邮箱
-			if (CheckUtil.isEmpty(bean.getDatas().getBindedEmail())) {// 为空是未绑定
-				Intent intent4 = new Intent(getActivity(),
-						BindEmialActivity.class);
-				startActivityForResult(intent4, MyConstants.BINDNEWEMAIL);
-			} else {// 已绑定跳转到更改绑定
-				String bindedEmail = bean.getDatas().getBindedEmail();
-				Intent intent5 = new Intent(getActivity(),
-						ReBindEmailActivity.class);
-				intent5.putExtra("bindedEmail", bindedEmail);
-				startActivityForResult(intent5, MyConstants.OFFBIND_BINDNEWEMAIL);
+			if (isOk) {
+				if (CheckUtil.isEmpty(bean.getDatas().getBindedEmail())) {// 为空是未绑定
+					Intent intent4 = new Intent(getActivity(),
+							BindEmialActivity.class);
+					startActivityForResult(intent4, MyConstants.BINDNEWEMAIL);
+				} else {// 已绑定跳转到更改绑定
+					String bindedEmail = bean.getDatas().getBindedEmail();
+					Intent intent5 = new Intent(getActivity(),
+							ReBindEmailActivity.class);
+					intent5.putExtra("bindedEmail", bindedEmail);
+					startActivityForResult(intent5,
+							MyConstants.OFFBIND_BINDNEWEMAIL);
+				}
+			} else {
+				getPersonalMsg();
 			}
 
 			break;
 
 		case R.id.rl_amend_psd:// 修改密码
+
 			Intent intent5 = new Intent(getActivity(), AemndPsdActivity.class);
 			startActivity(intent5);
 			break;
 		case R.id.rl_about_us:// 关于我们
+
 			Intent intent6 = new Intent(getActivity(), AboutUsAcctivity.class);
 			startActivity(intent6);
 			break;
-		case R.id.btn_logout:// 退出登录        
-			showDialog();			
+		case R.id.btn_logout:// 退出登录
+			showDialog();
 		default:
 			break;
 		}
@@ -329,8 +360,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 								LoginActivity.class);
 						startActivity(intent);
 						getActivity().finish();
-						//清空登录的token
-						SharePreferenceUtil.saveOrUpdateAttribute(getActivity(), MyConstants.SP_USER_KEY, "token", null);
+						// 清空登录的token
+						SharePreferenceUtil.saveOrUpdateAttribute(
+								getActivity(), MyConstants.SP_USER_KEY,
+								"token", null);
 					} else {
 						Toaster.showToast(getActivity(), response.getMsg());
 					}
@@ -340,31 +373,34 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 			}
 
 			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+			public void onApiResultFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		//调接口  因为调的是同一个接口，所以就不需要再判断resultCode是哪个码
+		// 调接口 因为调的是同一个接口，所以就不需要再判断resultCode是哪个码
 		getPersonalMsg();
 
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 	}
-/**
- * 禁用返回键
- */
+
+	/**
+	 * 禁用返回键
+	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	        if (keyCode == KeyEvent.KEYCODE_BACK) {
-	            return true;
-	        }
-	        return false;
-	    }
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return true;
+		}
+		return false;
+	}
 }
