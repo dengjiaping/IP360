@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientException;
@@ -15,7 +14,6 @@ import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
-import com.alibaba.sdk.android.oss.model.Range;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
 
@@ -24,11 +22,10 @@ public class DownloadTask {
 	private OSS oss;
 	private String objectKey;
 	private long position;
-	private ProgressListener listener;
 	private File downloadFile;
 	private OSSAsyncTask task;
 	private int progress = 0;
-
+    private ProgressListener listener ;
 	public DownloadTask(OSS oss, String objectKey, long position) {
 		this.objectKey = objectKey;
 		this.oss = oss;
@@ -40,11 +37,8 @@ public class DownloadTask {
 		}
 	}
 
-
-
-	
 	public OSSAsyncTask start(){
-	
+	Log.i("djj", "objectKey"+objectKey);
 		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		 final File file=new File(downloadFile, fileName);
 		if(!file.exists()){
@@ -58,7 +52,7 @@ public class DownloadTask {
 		 GetObjectRequest get = new GetObjectRequest("ip360-test",objectKey);
 
 		// 设置范围
-		get.setRange(new Range(position, Range.INFINITE)); // 下载0到99字节共100个字节，文件范围从0开始计算
+		//get.setRange(new Range(100,10000)); // 下载0到99字节共100个字节，文件范围从0开始计算
 
 		task = oss.asyncGetObject(get,
 				new OSSCompletedCallback<GetObjectRequest, GetObjectResult>() {
@@ -68,6 +62,7 @@ public class DownloadTask {
 							GetObjectResult result) {
 						// 请求成功
 						InputStream inputStream = result.getObjectContent();
+						long contentLength = result.getContentLength();
 						byte[] buffer = new byte[2048];
 						int len;
 
@@ -81,6 +76,11 @@ public class DownloadTask {
 								if (listener != null) {
 									listener.onProgress(progress);
 								}
+							}
+							if(contentLength==progress){
+								//下载完成
+								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
+								
 							}
 							fos.close();
 							inputStream.close();
@@ -118,7 +118,7 @@ public class DownloadTask {
 		return task;
 	}
 
-	public void setProgressListener(ProgressListener listener) {
+	public void setProgressListener(ProgressListener listener ) {
 		this.listener = listener;
 	}
 

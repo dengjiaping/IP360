@@ -31,6 +31,7 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.net.DownLoaderTask;
 
+
 public class DownLoadHelper {
 
 	private String endpoint = "http://oss-cn-beijing.aliyuncs.com";
@@ -38,13 +39,10 @@ public class DownLoadHelper {
 	private File downloadFile;
     private static DownLoadHelper helper=new DownLoadHelper();
     private Map<String, DownloadTask> taskMap=new ArrayMap<String, DownloadTask>();
-    
-    
+    private Map<String ,ProgressListener> listenerMap=new ArrayMap<String, ProgressListener>();
 	private  DownLoadHelper() {
-		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");
-	
-		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider);
-	
+		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");	
+		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider);	
 	}
 
 	public static DownLoadHelper  getInstance(){
@@ -53,10 +51,12 @@ public class DownLoadHelper {
 		
 	// 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的`访问控制`章节
 
-	public void downloadFile(final String objectKey,long position) {
-		DownloadTask task=new DownloadTask(oss,objectKey,position);
+	public void downloadFile(FileInfo fileinfo) {
+		DownloadTask task=new DownloadTask(oss,fileinfo.getObjectKey(),fileinfo.getPosition());
 		task.start();
-		taskMap.put(objectKey, task);
+		taskMap.put(fileinfo.getObjectKey(), task);
+		Log.i("djj", fileinfo.toString());
+		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey());
 	}
 	
 	public void pauseDownload(String objectKey){
@@ -65,6 +65,15 @@ public class DownLoadHelper {
 		if(downloadTask!=null){
 			downloadTask.pause();
 		}
+	}
+	
+	
+	public  void setOnprogressListener(String objectkey,ProgressListener listener){
+		DownloadTask downloadTask = taskMap.get(objectkey);
+		if(downloadTask!=null){
+			downloadTask.setProgressListener(listener);
+		}
+		listenerMap.put(objectkey, listener);
 	}
 	
 

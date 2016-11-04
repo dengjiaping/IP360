@@ -54,7 +54,7 @@ public class DownLoadManager {
 		DownLoadRunnable runnable = new DownLoadRunnable(info.getFilePath(),info.getFileName(),info.getFileSize(),info.getPosition(),info.getResourceId());
 	    Future<String> future = (Future<String>)es.submit(runnable);
 		map.put(future, runnable);
-		UpDownLoadDao.getDao().saveDownLoadInfo(info.getFilePath(),info.getFileName(),info.getFileSize(),info.getPosition(),info.getResourceId());
+		//UpDownLoadDao.getDao().saveDownLoadInfo(info.getFilePath(),info.getFileName(),info.getFileSize(),info.getPosition(),info.getResourceId());
 	}
 	
 	

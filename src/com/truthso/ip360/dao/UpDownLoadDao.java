@@ -64,27 +64,27 @@ public class UpDownLoadDao {
 		return null;
 	}
 
-	public void saveDownLoadInfo(String url, String fileName, String fileSize, int position, int resourceId) {
+	public void saveDownLoadInfo(String url, String fileName, String fileSize, int position, int resourceId,String objectkey) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-		db.execSQL("insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload) values(?,?,?,?,?,?)", new Object[] { url, fileName, fileSize, position, resourceId, "0" });
+		db.execSQL("insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey) values(?,?,?,?,?,?,?)", new Object[] { url, fileName, fileSize, position, resourceId, "0" ,objectkey});
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), null);
 	}
 
-	public void saveUpLoadInfo(String url, String fileName, String fileSize, int position, int resourceId) {
+	public void saveUpLoadInfo(String url, String fileName, String fileSize, int position, int resourceId,String objectkey) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-		db.execSQL("insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload) values(?,?,?,?,?,?)",
-				new Object[] { url, fileName, fileSize, position, resourceId, "1" });
+		db.execSQL("insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey) values(?,?,?,?,?,?,?)",
+				new Object[] { url, fileName, fileSize, position, resourceId, "1",objectkey });
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 	}
 
-	public void updateDownLoadProgress(String url, int position) {
-	
-		db.execSQL("update updownloadlog set position=? where downloadurl =?", new Object[] { position, url });
+	public void updateDownLoadProgress(String objectkey, long position) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("update updownloadlog set position=? where objectkey =?", new Object[] { position, objectkey });
 	}
 
-	public void updateUpLoadProgress(int resourceId , int position) {
-
-		db.execSQL("update updownloadlog set position=? where sourceid =?", new Object[] { position, resourceId });
+	public void updateUpLoadProgress(String uploadfilepath , long position) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("update updownloadlog set position=? where uploadfilepath =?", new Object[] { position, uploadfilepath });
 	}
 
 	public List<FileInfo> queryDownLoadList() {
@@ -98,6 +98,7 @@ public class UpDownLoadDao {
 			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
 			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 			list.add(info);
 		}
 		return list;
@@ -147,7 +148,7 @@ public class UpDownLoadDao {
 		info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
 		info.setFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
 		info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
-
+		info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 		return info;
 	}
 
@@ -157,10 +158,21 @@ public class UpDownLoadDao {
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), null);
 	}
 
+	public void deleteDownInfoByObjectkey(String objectkey) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("delete from updownloadlog where objectkey=?", new Object[] {objectkey});
+		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), null);
+	}
+	
 	public void deleteByResourceId(int resourceId) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.execSQL("delete from updownloadlog where sourceid=?", new Object[] { resourceId });
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
 	}
 
+	public void deleteUploadInfoByUrl(String url) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("delete from updownloadlog where uploadfilepath=?", new Object[] { url });
+		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), null);
+	}
 }

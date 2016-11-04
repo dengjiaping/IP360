@@ -246,9 +246,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									String url = bean.getDatas().getFileUrl();
 									// String
 									// objectKey=url.substring(url.indexOf("/")+1);
+									info.setObjectKey(url);
 									// 下载
 									DownLoadHelper.getInstance().downloadFile(
-											url, 0);
+											info);
 
 									Toast toast = new Toast(context);
 									toast.makeText(context, "文件开始下载到本地证据", 1)

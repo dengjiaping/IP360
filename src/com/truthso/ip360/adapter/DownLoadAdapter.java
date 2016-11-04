@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.DownLoadInfo;
+import com.truthso.ip360.updownload.DownLoadHelper;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.DownLoadRunnable;
 import com.truthso.ip360.updownload.FileInfo;
@@ -40,7 +41,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private Context context;
 	private boolean isAllSelect = false;
 	private boolean isChoice = false;
-	private DownLoadManager downLoadManager = DownLoadManager.getInstance();
+    private DownLoadHelper helper=DownLoadHelper.getInstance();
 	private List<Integer> selectedList=new ArrayList<Integer>();
 	private List<FileInfo> list;
 
@@ -118,8 +119,8 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		vh.tv_fileName.setText(info.getFileName());
 		//带格式的
 		vh.probar.setMax(Integer.parseInt(info.getFileSize()));
-		final int resourceId = info.getResourceId();
-		downLoadManager.setOnDownLoadProgressListener(resourceId, new ProgressListener() {
+	
+		helper.setOnprogressListener(info.getObjectKey(), new ProgressListener() {
 
 			@Override
 			public void onComplete() {
@@ -129,11 +130,10 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			@Override
 			public void onProgress(int progress) {
 				vh.probar.setProgress(progress);
-
 			}
 		});
 
-		vh.btn_upload_download.setOnClickListener(new OnClickListener() {
+		/*vh.btn_upload_download.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -152,8 +152,8 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 				}
 			}
 		});
-
-		int currentStatus = downLoadManager.getCurrentStatus(resourceId);
+*/
+		/*int currentStatus = downLoadManager.getCurrentStatus(resourceId);
 		if (currentStatus == 1) {
 			vh.tv_status.setText("暂停中");
 		} else if (currentStatus == 0) {
@@ -163,7 +163,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh.tv_status.setText("230b/s");
 		} else {
 			vh.tv_status.setText("上传失败");
-		}
+		}*/
 		return convertView;
 	}
 

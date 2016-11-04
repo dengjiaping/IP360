@@ -60,7 +60,7 @@ public class UpLoadManager {
 		Future<String> future = (Future<String>) es.submit(runnable);
 		map.put(future, runnable);
 		Log.i("uploadinfo", info.toString() + "mapsize" + map.size());
-		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId());
+		//UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId());
 	}
 
 	public void setOnUpLoadProgressListener(int resourceId, ProgressListener listener) {

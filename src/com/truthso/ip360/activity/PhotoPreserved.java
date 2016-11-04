@@ -1,8 +1,5 @@
 package com.truthso.ip360.activity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,26 +11,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
-import com.truthso.ip360.bean.FilePositionBean;
-import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
-import com.truthso.ip360.ossupload.UpDownLoadManager;
+import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
@@ -41,7 +32,6 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.ImageLoaderUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -214,10 +204,18 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 								Upload datas = bean.getDatas();
 //								int pkValue = datas.getPkValue();
                                	String objectkey = datas.getFileUrl();//文件上传的objectKey					
+                               	int resourceId=datas.getPkValue();
                                	Log.i("djj", "objectkey"+objectkey);
 						    	//getPosition(pkValue);
+                               	FileInfo info=new FileInfo();
+                               	info.setFileName(title);
+                               	info.setFilePath(path);
+                               	info.setFileSize(ll+"");
+                               	info.setResourceId(resourceId);
+                               	info.setObjectKey(objectkey);
+                               	
 								//上传文件
-							   UpDownLoadManager.getInstance().resuambleUpload(path,objectkey);
+							   UpLoadManager.getInstance().resuambleUpload(info);
 						           finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
