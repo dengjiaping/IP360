@@ -1,6 +1,7 @@
 package com.truthso.ip360.ossupload;
 
 import java.io.File;
+import java.util.HashMap;
 
 import android.os.Environment;
 import android.util.Log;
@@ -31,10 +32,12 @@ public class ResuambleUpload {
     private boolean iscancel=true;
     private int status;
     private int RUNNING=0,PAUSE=1,ERROR=2;
-    public ResuambleUpload(OSS client, String testBucket, String testObject, String uploadFilePath) {
+    private int resourceid;
+    public ResuambleUpload(OSS client, String testBucket, String testObject, String uploadFilePath,int resourceid) {
         this.oss = client;
         this.testBucket = testBucket;
         this.testObject = testObject;
+        this.resourceid=resourceid;
         this.uploadFilePath=uploadFilePath;
     }
 
@@ -52,6 +55,21 @@ public class ResuambleUpload {
 
         // 创建断点上传请求，参数中给出断点记录文件的保存位置，需是一个文件夹的绝对路径
         ResumableUploadRequest request = new ResumableUploadRequest(testBucket, testObject, uploadFilePath, recordDirectory);
+        
+        request.setCallbackParam(new HashMap<String, String>(){
+        	{
+        	put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus"); 
+        	put("callbackBody", "resourceid=${resourceid}"); 
+        	}
+        	
+        });
+        
+        request.setCallbackVars(new HashMap<String, String>() {
+            {
+                put("resourceid", resourceid+"");
+            }
+       });
+        
         // 设置上传过程回调
         request.setProgressCallback(new OSSProgressCallback<ResumableUploadRequest>() {
             @Override

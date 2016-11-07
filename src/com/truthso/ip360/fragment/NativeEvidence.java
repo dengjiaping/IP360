@@ -35,6 +35,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
@@ -97,7 +98,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
 			super.onChange(selfChange, uri);
-			mDatas = UpDownLoadDao.getDao().queryDownLoadList();
 			adapter.addData(mDatas);
 		}
 		

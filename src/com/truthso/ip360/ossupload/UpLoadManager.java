@@ -51,7 +51,7 @@ public class UpLoadManager {
 	}
 	
 	public void resuambleUpload(FileInfo info){
-		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath());
+		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath(),info.getResourceId());
 		resuambleUpload.resumableUploadWithRecordPathSetting();
 		upLoadTaskMap.put(resourceId, resuambleUpload);
 		

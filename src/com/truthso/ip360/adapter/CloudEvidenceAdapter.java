@@ -242,6 +242,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									// info.setFileSize(size);
 									info.setPosition(0);
 									info.setResourceId(data.getPkValue());
+									info.setFileLoc(data.getFileLocation());
+									info.setFileCreatetime(data.getFileTime());
 									// DownLoadManager.getInstance().startDownload(info);
 									String url = bean.getDatas().getFileUrl();
 									// String

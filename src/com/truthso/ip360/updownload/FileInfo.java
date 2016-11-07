@@ -5,8 +5,23 @@ public class FileInfo {
 	private String filePath;
 	private String fileName;
 	private String fileSize;
+	private String fileLoc;
+	private String fileCreatetime;
+	public String getFileLoc() {
+		return fileLoc;
+	}
+	public void setFileLoc(String fileLoc) {
+		this.fileLoc = fileLoc;
+	}
+	public String getFileCreatetime() {
+		return fileCreatetime;
+	}
+	public void setFileCreatetime(String fileCreatetime) {
+		this.fileCreatetime = fileCreatetime;
+	}
 	private int position;
 	private int resourceId;
+
 	private String objectKey;
 	public String getObjectKey() {
 		return objectKey;

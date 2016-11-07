@@ -14,7 +14,11 @@ import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
+import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 
 public class DownloadTask {
@@ -26,10 +30,12 @@ public class DownloadTask {
 	private OSSAsyncTask task;
 	private int progress = 0;
     private ProgressListener listener ;
-	public DownloadTask(OSS oss, String objectKey, long position) {
-		this.objectKey = objectKey;
+    private FileInfo info;
+	public DownloadTask(OSS oss, FileInfo info) {
+		this.objectKey = info.getObjectKey();
 		this.oss = oss;
-		this.position = position;
+		this.position = info.getPosition();
+		this.info=info;
 //		String root = Environment.getExternalStorageDirectory().toString();
 		downloadFile = new File(MyConstants.DOWNLOAD_PATH);
 		if (!downloadFile.exists()) {
@@ -79,7 +85,14 @@ public class DownloadTask {
 							}
 							if(contentLength==progress){
 								//下载完成
-								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
+								DbBean dbBean = new DbBean();
+								dbBean.setTitle(info.getFileName());
+								dbBean.setCreateTime(info.getFileCreatetime());
+								dbBean.setResourceUrl(info.getFilePath());
+								dbBean.setType(MyConstants.PHOTO);
+								dbBean.setFileSize(info.getFileSize());
+								dbBean.setLocation(info.getFileLoc());
+								SqlDao.getSQLiteOpenHelper(MyApplication.getApplication()).save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								
 							}
 							fos.close();

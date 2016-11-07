@@ -52,7 +52,7 @@ public class DownLoadHelper {
 	// 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的`访问控制`章节
 
 	public void downloadFile(FileInfo fileinfo) {
-		DownloadTask task=new DownloadTask(oss,fileinfo.getObjectKey(),fileinfo.getPosition());
+		DownloadTask task=new DownloadTask(oss,fileinfo);
 		task.start();
 		taskMap.put(fileinfo.getObjectKey(), task);
 		Log.i("djj", fileinfo.toString());
