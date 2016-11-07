@@ -34,6 +34,7 @@ import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
@@ -77,6 +78,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		listView.addHeaderView(headView);
 		listView.setOnItemClickListener(this);		
         getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
+        getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
 	}
 
 	private ContentObserver MyObserver=new ContentObserver(new Handler()) {
@@ -85,6 +87,17 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		public void onChange(boolean selfChange, Uri uri) {
 			super.onChange(selfChange, uri);
 			mDatas = GroupDao.getInstance(getActivity()).queryAll();
+			adapter.addData(mDatas);
+		}
+		
+	};
+	
+	private ContentObserver MyObserver1=new ContentObserver(new Handler()) {
+		@SuppressLint("NewApi")
+		@Override
+		public void onChange(boolean selfChange, Uri uri) {
+			super.onChange(selfChange, uri);
+			mDatas = UpDownLoadDao.getDao().queryDownLoadList();
 			adapter.addData(mDatas);
 		}
 		
