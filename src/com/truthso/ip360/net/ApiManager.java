@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
-import android.content.Intent;
-
 import com.loopj.android.http.RequestHandle;
-import com.truthso.ip360.activity.LoginActivity;
-import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
@@ -44,7 +40,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public void onRequestResult(RequestHandle requestHandle, int errorCode,
 			String message, BaseHttpResponse response) {
 
-		if (response.getCode() == 405) {
+		if (response.getCode() == 92) {
 			/*SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
 					KeyConstant.SP_USER, KeyConstant.isTokenFail, true);
 			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
@@ -68,11 +64,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			Intent intent = new Intent(App.getInstance(), LoginActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			App.getInstance().startActivity(intent);*/
-			
-			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			MyApplication.getInstance().startActivity(intent);
-			
 			return;
 		}
 

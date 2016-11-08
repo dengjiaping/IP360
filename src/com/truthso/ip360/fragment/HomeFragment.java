@@ -180,9 +180,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 										LiveRecordImplementationActivity.class);
 								intent2.putExtra("loc", loc);
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//								addTimeUsed();
+ //								addTimeUsed();
 								startActivity(intent2);
-								
 								break;
 							}
 						}
