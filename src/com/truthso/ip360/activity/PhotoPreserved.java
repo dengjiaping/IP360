@@ -217,7 +217,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                                	Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
 								//上传文件
 							   UpLoadManager.getInstance().resuambleUpload(info);
-								saveToDb();
+//								saveToDb();
 						           finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
@@ -289,7 +289,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			getport();
 			if(isPre){
 				filePre();
-			
+				saveToDb();
 			}
 			break;
 		default:
