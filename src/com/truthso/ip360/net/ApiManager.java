@@ -18,7 +18,9 @@ import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.VerUpDateBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.constants.URLConstant;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -47,8 +49,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		if (response.getCode() == 405) {
 			/*SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
 					KeyConstant.SP_USER, KeyConstant.isTokenFail, true);
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.tokenId, null);
+			
 			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
 					KeyConstant.SP_USER, KeyConstant.imgSmallUrl, null);
 			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
@@ -68,7 +69,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			Intent intent = new Intent(App.getInstance(), LoginActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			App.getInstance().startActivity(intent);*/
-			
+		
 			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			MyApplication.getInstance().startActivity(intent);

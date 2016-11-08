@@ -1,5 +1,8 @@
 package com.truthso.ip360.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
 
@@ -45,6 +48,7 @@ public class SqlDao {
 		values.put("resourceUrl", dbBean.getResourceUrl());
 		values.put("remark", dbBean.getRemark());
 		values.put("location", dbBean.getLocation());
+		values.put("status", "0");//状态 0：正在上传  1上传完成  2上传失败
 		db.insert(table, null, values);
 		db.close();
 		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -106,5 +110,59 @@ public class SqlDao {
 		return dbBean;
 	}
 	
+	
+	public DbBean searchByKey(String key) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		//Cursor cursor = db.query("IP360_media_detail", null, "id like ?", new String[] { key }, null, null, null);
+		Cursor cursor = db.rawQuery("select * from IP360_media_detail where title like ?", new String[]{"%"+key+"%"});
+		DbBean  dbBean= new DbBean();
+		if (cursor.moveToNext()) {
+			dbBean.setLable(cursor.getString(cursor.getColumnIndex("lable")));//标签
+			dbBean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));//生成日期
+			dbBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));//标题
+			dbBean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));//文件大小
+			dbBean.setType(cursor.getInt(cursor.getColumnIndex("type")));//1 照片2视频3录音
+			dbBean.setJsonObject(cursor.getString(cursor.getColumnIndex("jsonObject")));//详细信息
+			dbBean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));//录制时长
+			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
+			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
+			
+		}
+		db.close();
+		return dbBean;
+	}
 
+	//更改状态
+	public void updateStatus(String name,String status) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("status", status);
+		db.update("user", values, "title=?", new String[] { name });
+		db.close();		
+		Uri uri=Uri.parse("content://com.truthso.ip360/IP360_media_detail");
+		ctx.getContentResolver().notifyChange(uri,null);
+	}
+	
+	//查询所有
+	public List<DbBean> queryAll() {
+		List<DbBean> list = new ArrayList<DbBean>();
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
+		while (cursor.moveToNext()) {
+			DbBean bean = new DbBean();
+			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
+			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
+			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
+			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
+			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+			list.add(bean);
+
+		}
+		 cursor.close();
+		return list;
+	}
+	
 }
