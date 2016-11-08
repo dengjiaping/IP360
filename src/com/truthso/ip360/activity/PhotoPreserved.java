@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
@@ -205,7 +206,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //								int pkValue = datas.getPkValue();
                                	String objectkey = datas.getFileUrl();//文件上传的objectKey					
                                	int resourceId=datas.getPkValue();
-                               	Log.i("djj", "objectkey"+objectkey);
+                               	LogUtils.e(resourceId+"resourceId");
 						    	//getPosition(pkValue);
                                	FileInfo info=new FileInfo();
                                	info.setFileName(title);

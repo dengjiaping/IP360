@@ -55,12 +55,10 @@ public class UpLoadListPager extends BasePager {
 
 		public MyContentObserver(Handler handler) {
 			super(handler);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public void onChange(boolean selfChange) {
-			// TODO Auto-generated method stub
 			super.onChange(selfChange);
 			List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
 			adapter.notifyChange(queryUpLoadList);
@@ -76,7 +74,6 @@ public class UpLoadListPager extends BasePager {
 
 	@Override
 	public void setAllSelect(boolean isAllSelect) {
-		// TODO Auto-generated method stub
 		adapter.setAllSelect(isAllSelect);
 		listView.invalidateViews();
 	}
@@ -84,19 +81,16 @@ public class UpLoadListPager extends BasePager {
 
 	@Override
 	public void deleteAll() {
-		// TODO Auto-generated method stub
 		UpLoadManager.getInstance().deleteAll( adapter.getSelected());
 	}
 
 	@Override
 	public void pauseAll() {
-		// TODO Auto-generated method stub
 		UpLoadManager.getInstance().pauseAll(adapter.getSelected());
 	}
 
 	@Override
 	public void startAll() {
-		// TODO Auto-generated method stub
 		UpLoadManager.getInstance().startAll(adapter.getSelected());
 	}
 }
