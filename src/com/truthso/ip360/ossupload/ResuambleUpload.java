@@ -22,6 +22,7 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 /**
@@ -31,8 +32,7 @@ public class ResuambleUpload {
 
     private OSS oss;
     private String testBucket;
-    private String testObject;
-    private String uploadFilePath;
+   
     private boolean isDone;
     private ProgressListener progressListener;
     private OSSAsyncTask resumableTask;
@@ -41,20 +41,19 @@ public class ResuambleUpload {
     private int status;
     private int RUNNING=0,PAUSE=1,ERROR=2;
     private int resourceId;
+
     private FileInfo info;
     private String token;
     public ResuambleUpload(OSS client, String testBucket, FileInfo info) {
         this.oss = client;
         this.testBucket = testBucket;
-        this.testObject = info.getObjectKey();
-        this.resourceId=info.getResourceId();
-        this.uploadFilePath=info.getFilePath();
+        this.info=info;
         token=(String) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "token", SharePreferenceUtil.VALUE_IS_STRING);
     }
 
     // 异步断点上传，设置记录保存路径，即使任务失败，下次启动仍能继续
     public void resumableUploadWithRecordPathSetting() {
-       Log.i("djj","testBucket"+testBucket+":testObject"+testObject);
+
         String recordDirectory = Environment.getExternalStorageDirectory().getAbsolutePath() + "/oss_record/";
 
         File recordDir = new File(recordDirectory);
@@ -65,7 +64,7 @@ public class ResuambleUpload {
         }
 
         // 创建断点上传请求，参数中给出断点记录文件的保存位置，需是一个文件夹的绝对路径
-        ResumableUploadRequest request = new ResumableUploadRequest(testBucket, testObject, uploadFilePath, recordDirectory);
+        ResumableUploadRequest request = new ResumableUploadRequest(testBucket, info.getObjectKey(), info.getFilePath(), recordDirectory);
         
         
       /*  ObjectMetadata metadata = new ObjectMetadata();
@@ -110,8 +109,9 @@ public class ResuambleUpload {
                 if(progressListener!=null){
                 	progressListener.onComplete();               	
                 }
-                UpDownLoadDao.getDao().deleteUploadInfoByUrl(uploadFilePath);
-                SqlDao.getSQLiteOpenHelper(MyApplication.getApplication()).updateStatus(info.getFileName(), "1");
+                SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "1");
+                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
+             
             }
 
             @Override
@@ -137,7 +137,7 @@ public class ResuambleUpload {
     
     //上传
     public void putObject(){
-    	PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
+    	PutObjectRequest put = new PutObjectRequest(testBucket, info.getObjectKey(), info.getFilePath());
     	
     	ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
@@ -152,7 +152,7 @@ public class ResuambleUpload {
         
         put.setCallbackVars(new HashMap<String, String>() {
             {
-            	put("x:resourceId", resourceId+"");
+                put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
             }
        });
@@ -180,10 +180,15 @@ public class ResuambleUpload {
 				 Log.i("djj", arg1.getStatusCode()+"");
 	                isDone=true;
 	                if(progressListener!=null){
-	                	progressListener.onComplete();               	
+	                	progressListener.onComplete(); 
+	                	
 	                }
-	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(uploadFilePath);
-	                SqlDao.getSQLiteOpenHelper(MyApplication.getApplication()).updateStatus(info.getFileName(), "1");
+	                SqlDao dao = SqlDao.getSQLiteOpenHelper();
+	             
+	                Log.i("djj", CheckUtil.isEmpty(info)+"");	             
+	                dao.updateStatus(info.getFileName(), "1");
+	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
+	               
 			}
 			
 			@Override
@@ -192,12 +197,12 @@ public class ResuambleUpload {
 				 Log.i("djj", "failure");
 	                // 请求异常
 	                if (clientExcepion != null) {
-	                	Log.i("djj", "failure");
+	                	Log.i("djj", "failure1");
 	                    // 本地异常如网络异常等
 	                    clientExcepion.printStackTrace();
 	                }
 	                if (serviceException != null) {
-	                	Log.i("djj", "failure1");
+	                	Log.i("djj", "failure2");
 	                    // 服务异常
 	                    Log.e("ErrorCode", serviceException.getErrorCode());
 	                    Log.e("RequestId", serviceException.getRequestId());
@@ -226,7 +231,7 @@ public class ResuambleUpload {
     	resumableTask.cancel();
    
     	status=PAUSE;
-    	UpDownLoadDao.getDao().updateUpLoadProgress(uploadFilePath, progress);
+    	UpDownLoadDao.getDao().updateUpLoadProgress(info.getFilePath(), progress);
     }
      
 }

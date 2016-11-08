@@ -80,8 +80,8 @@ public class GroupDao {
 			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			list.add(bean);
-
 		}
 		 cursor.close();
 		return list;

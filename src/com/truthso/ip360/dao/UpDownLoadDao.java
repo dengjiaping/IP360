@@ -19,14 +19,12 @@ public class UpDownLoadDao {
 
 	private static MySQLiteOpenHelper dbOpenHelper;
 	private static UpDownLoadDao dao = new UpDownLoadDao(MyApplication.getApplication());
-	private static SQLiteDatabase db;
 
 	private UpDownLoadDao(Context context) {
 		this.dbOpenHelper = new MySQLiteOpenHelper(context);
 	}
 
 	public static UpDownLoadDao getDao() {
-		db = dbOpenHelper.getReadableDatabase();
 		return dao;
 	}
 

@@ -115,7 +115,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			String path, String recordTime
 	 */
 	private void saveData() {
-		SqlDao sqlDao = new SqlDao(this);
+		SqlDao sqlDao = SqlDao.getSQLiteOpenHelper();
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.RECORD);// 文件类别
 		dbBean.setCreateTime(date);// 生成时间

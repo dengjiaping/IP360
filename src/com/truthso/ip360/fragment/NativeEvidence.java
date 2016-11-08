@@ -90,7 +90,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		listView.addHeaderView(headView);
 		listView.setOnItemClickListener(this);		
         getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
-       // getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
+       //getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
         setSearchMode();
 	}
 
@@ -143,10 +143,9 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private Handler mHandler = new Handler() {
 
 		public void handleMessage(android.os.Message msg) {
-				Log.i("djj", (String)(msg.obj));
-				mDatas.clear();
-				DbBean searchByKey = SqlDao.getSQLiteOpenHelper(getActivity()).searchByKey((String)(msg.obj));
-				mDatas.add(searchByKey);
+				List<DbBean> searchByKey = SqlDao.getSQLiteOpenHelper().searchByKey((String)(msg.obj));
+				
+				adapter.addData(searchByKey);
 			}
 		};
 		
@@ -155,7 +154,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
 			super.onChange(selfChange, uri);
-			mDatas = SqlDao.getSQLiteOpenHelper(getActivity()).queryAll();
+			mDatas = SqlDao.getSQLiteOpenHelper().queryAll();
 			adapter.addData(mDatas);
 		}
 		
@@ -177,7 +176,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	public void onDestroy() {
 		super.onDestroy();
 		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
-		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
+		  // getActivity().getContentResolver().unregisterContentObserver(MyObserver);
 	}
 	
 	@Override
@@ -208,9 +207,22 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				showPop(v);
 			}
 			break;
+		case R.id.btn_download:
+			deleteAll();
+			break;
+			
 		default:
 			break;
 		}
+	}
+
+	private void deleteAll() {
+		List<Integer> selected = adapter.getSelected();
+		for (int i = 0; i < selected.size(); i++) {
+			SqlDao.getSQLiteOpenHelper().delete(MyConstants.TABLE_MEDIA_DETAIL, selected.get(i));
+		}
+		adapter.setChoice(false);
+		adapter.notifyDataSetChanged();
 	}
 
 	// 点击多选按钮
@@ -318,6 +330,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		View contentView = inflater.inflate(R.layout.pop_download, null);
 		Button btn_delete= (Button) contentView.findViewById(R.id.btn_download);
 		btn_delete.setText("删除");
+		btn_delete.setOnClickListener(this);
 		downLoadwindow = new PopupWindow(contentView,
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
