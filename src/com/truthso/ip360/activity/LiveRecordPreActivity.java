@@ -228,7 +228,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private void filePre() {
 
 		showProgress("上传文件信息...");
-		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(filePath));
+		String hashCode = SecurityUtil.SHA512(filePath);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(fileName,MyConstants.RECORDTYPE,
 				ll+"", hashCode, date, loc,time,imei,
@@ -259,6 +259,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
                                	info.setFileSize(ll+"");
                                	info.setResourceId(pkValue);
                                	info.setObjectKey(url);
+                               	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
                               //上传文件
  							   UpLoadManager.getInstance().resuambleUpload(info);
 								finish();

@@ -182,7 +182,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 */
 	private void filePre() {
 		showProgress("上传文件信息...");
-		String hashCode = SecurityUtil.SHA512(FileUtil.File2byte(path));
+		String hashCode = SecurityUtil.SHA512(path);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
@@ -214,7 +214,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                                	info.setFileSize(ll+"");
                                	info.setResourceId(resourceId);
                                	info.setObjectKey(objectkey);
-                               	
+                               	Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
 								//上传文件
 							   UpLoadManager.getInstance().resuambleUpload(info);
 								saveToDb();
