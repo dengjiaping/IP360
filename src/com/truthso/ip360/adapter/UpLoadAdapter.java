@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Future;
 
 import android.content.Context;
@@ -42,6 +44,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private UpLoadManager instanse = UpLoadManager.getInstance();
 	private List<FileInfo> list;
 	private List<Integer> selectedList=new ArrayList<Integer>();
+	private long progress,lastProgress;
 	public UpLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
@@ -125,9 +128,27 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			@Override
 			public void onProgress(long progress) {
 				vh.probar.setProgress((int)progress);
+				UpLoadAdapter.this.progress=progress;
 			}
 		});
-
+        TimerTask task=new TimerTask() {
+			
+			@Override
+			public void run() {
+			final long speed=(progress-lastProgress)/1024;
+			UpLoadAdapter.this.lastProgress=progress;
+			vh.tv_status.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					vh.tv_status.setText(speed+"k/s");
+				}
+			});
+			}
+		};
+		Timer timer=new Timer();
+		timer.schedule(task,0,1000);
+		
 		
 		int currentStatus = instanse.getCurrentStatus(resourceId);
 		 if(currentStatus==1){

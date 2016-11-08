@@ -126,7 +126,7 @@ public class VideoActivity extends CommonMediaActivity {
 	 * 将数据保存到数据库
 	 */
 	private void saveData(String date, String fileSize, String name, String path,String recordTime) {
-		SqlDao sqlDao = new SqlDao(this);
+		SqlDao sqlDao = SqlDao.getSQLiteOpenHelper();
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.VIDEO);// 文件类别
 		dbBean.setCreateTime(date);// 生成时间

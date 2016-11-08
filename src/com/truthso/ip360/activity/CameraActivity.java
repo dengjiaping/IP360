@@ -153,7 +153,7 @@ public class CameraActivity extends CommonMediaActivity implements OnClickListen
 	 * 将数据保存到数据库
 	 */
 	private void saveData(String date, String fileSize, String name, String path) {
-		SqlDao sqlDao = new SqlDao(this);
+		SqlDao sqlDao = SqlDao.getSQLiteOpenHelper();
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.PHOTO);// 文件类别
 		dbBean.setCreateTime(date);// 生成时间

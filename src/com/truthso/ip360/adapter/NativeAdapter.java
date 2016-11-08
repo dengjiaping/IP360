@@ -1,5 +1,6 @@
 package com.truthso.ip360.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.truthso.ip360.activity.CertificationActivity;
@@ -37,6 +38,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private boolean isChoice=false;
 	protected List<DbBean> mDatas;
 	private DbBean dbBean;
+	private List<Integer> selectedList=new ArrayList<Integer>();
 	public NativeAdapter(Context context,List<DbBean> mDatas) {
 		super();
 		this.context = context;
@@ -44,9 +46,9 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		inflater=LayoutInflater.from(context);
 	}
 	
-	public void addData(List<DbBean> mDatas){
+	public void addData(List<DbBean> list){
 		this.mDatas.clear();
-		this.mDatas.addAll(mDatas);
+		this.mDatas.addAll(list);
 		notifyDataSetChanged();
 	}
 	
@@ -86,6 +88,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.tv_filesize=(TextView) convertView.findViewById(R.id.tv_filesize);
 			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
 			vh.tv_date=(TextView) convertView.findViewById(R.id.tv_date);
+			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
 		}else{
 			vh=	(ViewHolder) convertView.getTag();		
@@ -152,14 +155,19 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		int positon = (Integer) buttonView.getTag();
-		if(isChecked){	
-			System.out.println("positon+"+positon);
+		int position = (Integer) buttonView.getTag();;
+		if(isChecked){
+			selectedList.add(mDatas.get(position).getId());
 		}else{
-			System.out.println("positon-"+positon);
-		}
+			selectedList.remove((Integer)mDatas.get(position).getId());
+		}	 
 	}
 
+	public List<Integer> getSelected(){
+		return selectedList;
+	}
+	
+	
 	@Override
 	public void onClick( View v) {
 		switch (v.getId()) {
@@ -185,9 +193,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
         	    setPositiveButton("确定", new DialogInterface.OnClickListener() {
         	     @Override
         	     public void onClick(DialogInterface dialog, int which) {
-        	    	 
-        	    		
-        	   	     new SqlDao(context).delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
+        	    	        	    		
+        	    	 SqlDao.getSQLiteOpenHelper().delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
         	    	
         	     }
         	    }).

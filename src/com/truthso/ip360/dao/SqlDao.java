@@ -3,6 +3,7 @@ package com.truthso.ip360.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
 
@@ -11,23 +12,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 public class SqlDao {
 
+	private static SqlDao dao=new SqlDao(MyApplication.getApplication());
 	private MySQLiteOpenHelper helper;
+	
 	@SuppressWarnings("unused")
-	private Context ctx;
-	public SqlDao(Context context) {
-		ctx = context;
-		helper = new MySQLiteOpenHelper(context);
+	public SqlDao(Context ctx) {
+
+		this.helper = new MySQLiteOpenHelper(ctx);
 	}
-
-	private static SqlDao dao;
-
-	public static  synchronized SqlDao getSQLiteOpenHelper(Context context) {
-		if (dao == null) {
-			dao = new SqlDao(context);
-		}
+	
+	public static  SqlDao getSQLiteOpenHelper() {
 		return dao;
 	}
 
@@ -51,7 +49,7 @@ public class SqlDao {
 		values.put("status", "0");//状态 0：正在上传  1上传完成  2上传失败
 		db.insert(table, null, values);
 		db.close();
-		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
+		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
 	}
 
 	/**
@@ -66,7 +64,7 @@ public class SqlDao {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		db.delete(table, "id=?", new String[] { id + "" });
 		db.close();
-		ctx.getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
+		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
 	}
 
 	/**
@@ -111,12 +109,14 @@ public class SqlDao {
 	}
 	
 	
-	public DbBean searchByKey(String key) {
+	public List<DbBean> searchByKey(String key) {
 		SQLiteDatabase db = helper.getWritableDatabase();
+		List<DbBean> list=new ArrayList<DbBean>();
 		//Cursor cursor = db.query("IP360_media_detail", null, "id like ?", new String[] { key }, null, null, null);
 		Cursor cursor = db.rawQuery("select * from IP360_media_detail where title like ?", new String[]{"%"+key+"%"});
-		DbBean  dbBean= new DbBean();
-		if (cursor.moveToNext()) {
+		
+		while (cursor.moveToNext()) {
+			DbBean  dbBean= new DbBean();
 			dbBean.setLable(cursor.getString(cursor.getColumnIndex("lable")));//标签
 			dbBean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));//生成日期
 			dbBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));//标题
@@ -126,21 +126,24 @@ public class SqlDao {
 			dbBean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));//录制时长
 			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
 			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
-			
+			dbBean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			list.add(dbBean);
 		}
+		
 		db.close();
-		return dbBean;
+		return list;
 	}
 
 	//更改状态
 	public void updateStatus(String name,String status) {
+		Log.i("djj", "1234567");
 		SQLiteDatabase db = helper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("status", status);
-		db.update("user", values, "title=?", new String[] { name });
-		db.close();		
+		db.update("IP360_media_detail", values, "title=?", new String[] { name });
+		db.close();			
 		Uri uri=Uri.parse("content://com.truthso.ip360/IP360_media_detail");
-		ctx.getContentResolver().notifyChange(uri,null);
+		MyApplication.getApplication().getContentResolver().notifyChange(uri,null);
 	}
 	
 	//查询所有
@@ -158,6 +161,7 @@ public class SqlDao {
 			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			list.add(bean);
 
 		}
