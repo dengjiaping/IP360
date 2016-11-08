@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -207,7 +208,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				showPop();
 			}
 
-
+			
+		case R.id.btn_download:
+		   
+			break;
 		default:
 			break;
 		}
@@ -386,6 +390,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private void showDownLoadPop() {
 		if (CheckUtil.isEmpty(downLoadwindow)) {
 			contentView = inflater.inflate(R.layout.pop_download, null);
+			btn_download = (Button) contentView.findViewById(R.id.btn_download);
+			btn_download.setOnClickListener(this);
 			downLoadwindow = new PopupWindow(contentView,
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -427,6 +433,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
+	private Button btn_download;
 	
 	/**
 	 *底部加载更多

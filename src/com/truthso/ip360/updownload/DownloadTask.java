@@ -92,7 +92,9 @@ public class DownloadTask {
 								dbBean.setType(MyConstants.PHOTO);
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
-							//	SqlDao.getSQLiteOpenHelper(MyApplication.getApplication()).save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
+								dbBean.setStatus("2");
+								Log.i("djj", info.toString());
+								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
 								
 							}
