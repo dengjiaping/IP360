@@ -288,12 +288,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		case R.id.btn_preserved:
 			getport();
 			if(isPre){
-<<<<<<< HEAD
+
 				filePre();
 				saveToDb();
-=======
-				filePre();			
->>>>>>> a5d85dddf56b8e6e43d664d20cf888a153b5f07b
+
 			}
 			break;
 		default:
@@ -322,6 +320,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setResourceUrl(path);
 		dbBean.setType(MyConstants.PHOTO);
 		dbBean.setFileSize(size);
+		dbBean.setLlsize(ll+"");
 		dbBean.setLocation(loc);
 		SqlDao.getSQLiteOpenHelper().save(dbBean,
 				MyConstants.TABLE_MEDIA_DETAIL);

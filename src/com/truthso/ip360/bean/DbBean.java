@@ -24,6 +24,16 @@ public class DbBean {
     private String remark;//备注
     private String location;
     private String status;
+    private String llsize;
+    
+	public String getLlsize() {
+		return llsize;
+	}
+
+	public void setLlsize(String llsize) {
+		this.llsize = llsize;
+	}
+
 	public String getStatus() {
 		return status;
 	}

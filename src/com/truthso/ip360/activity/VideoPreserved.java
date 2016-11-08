@@ -369,6 +369,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			dbBean.setType(MyConstants.VIDEO);
 			dbBean.setFileSize(mVideoSize);
 			dbBean.setLocation(loc);
+			dbBean.setLlsize(ll+"");
 			dbBean.setRecordTime(time);
 			SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 		
