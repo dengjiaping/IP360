@@ -1,25 +1,34 @@
 package com.truthso.ip360.fragment;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -34,6 +43,7 @@ import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
@@ -76,24 +86,83 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
+		et_find_service = (EditText) headView.findViewById(R.id.et_find_service);
 		listView.addHeaderView(headView);
 		listView.setOnItemClickListener(this);		
         getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
-        getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
+       // getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
+        setSearchMode();
 	}
 
+	private void setSearchMode() {
+		// 自动弹出软键盘
+		/*Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				InputMethodManager inputManager = (InputMethodManager) et_find_service.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(et_find_service, 0);
+			}
+		  }, 300);*/
+		et_find_service.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (CheckUtil.isEmpty(s.toString())) {
+					
+					mDatas.clear();
+					adapter.addData(mDatas);
+					
+				} else {
+					mHandler.removeMessages(101);
+					if (!CheckUtil.isEmpty(requestHandle)) {
+						requestHandle.cancel(true);
+					}
+					Message msg = new Message();
+					msg.what = 101;
+					msg.obj = s.toString();
+					mHandler.sendMessageDelayed(msg, 500);
+				}
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+
+	private Handler mHandler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+				Log.i("djj", (String)(msg.obj));
+				mDatas.clear();
+				DbBean searchByKey = SqlDao.getSQLiteOpenHelper(getActivity()).searchByKey((String)(msg.obj));
+				mDatas.add(searchByKey);
+			}
+		};
+		
 	private ContentObserver MyObserver=new ContentObserver(new Handler()) {
 		@SuppressLint("NewApi")
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
 			super.onChange(selfChange, uri);
-			mDatas = GroupDao.getInstance(getActivity()).queryAll();
+			mDatas = SqlDao.getSQLiteOpenHelper(getActivity()).queryAll();
 			adapter.addData(mDatas);
 		}
 		
 	};
+	private EditText et_find_service;
 	
-	private ContentObserver MyObserver1=new ContentObserver(new Handler()) {
+	/*private ContentObserver MyObserver1=new ContentObserver(new Handler()) {
 		@SuppressLint("NewApi")
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
@@ -101,12 +170,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			adapter.addData(mDatas);
 		}
 		
-	};
+	};*/
 	
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
 		   getActivity().getContentResolver().unregisterContentObserver(MyObserver);
 	}
 	

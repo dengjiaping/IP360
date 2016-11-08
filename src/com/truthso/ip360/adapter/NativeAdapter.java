@@ -84,23 +84,29 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.cb_option= (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.tv_filename=(TextView) convertView.findViewById(R.id.tv_filename);
 			vh.tv_filesize=(TextView) convertView.findViewById(R.id.tv_filesize);
+			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
 			vh.tv_date=(TextView) convertView.findViewById(R.id.tv_date);
 			convertView.setTag(vh);
 		}else{
-			vh=	(ViewHolder) convertView.getTag();
-			
-		}
-	
+			vh=	(ViewHolder) convertView.getTag();		
+		}	
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
 		vh.tv_filename.setText(mDatas.get(position).getTitle());
 		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
 		vh.tv_date.setText(mDatas.get(position).getCreateTime());
+		if(mDatas.get(position).getStatus().equals("0")){
+			vh.tv_status.setText("正在上传");
+		}else if(mDatas.get(position).getStatus().equals("1")){
+			vh.tv_status.setText("已上传");
+		}else{
+			vh.tv_status.setText("上传失败");
+		}
 		return convertView;
 	}
 
 	class ViewHolder{
 		private CheckBox cb_choice,cb_option;	
-		private TextView tv_filename,tv_date,tv_filesize;
+		private TextView tv_filename,tv_date,tv_filesize,tv_status;
 	}
 	
 	

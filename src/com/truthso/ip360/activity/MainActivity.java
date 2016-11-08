@@ -68,7 +68,8 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
-		if(!CheckUtil.isEmpty(baseFragment)&&  baseFragment.onKeyDown(keyCode, event)){
+		if(!CheckUtil.isEmpty(baseFragment)&& baseFragment.onKeyDown(keyCode, event)){
+			Log.i("djj", "back");
 			return true;
 		} 
 		return super.onKeyDown(keyCode, event);

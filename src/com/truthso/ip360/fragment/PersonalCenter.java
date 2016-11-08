@@ -396,11 +396,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 
 	/**
 	 * 禁用返回键
-	 */
+	 *//*
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return true;
 		}
 		return false;
-	}
+	}*/
 }

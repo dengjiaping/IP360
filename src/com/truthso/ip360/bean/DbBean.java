@@ -23,7 +23,15 @@ public class DbBean {
 	private String videoTime;//录像时长
     private String remark;//备注
     private String location;
-    
+    private String status;
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public String getVideoTime() {
 		return videoTime;
 	}

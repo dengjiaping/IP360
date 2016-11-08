@@ -26,8 +26,6 @@ public class UpLoadManager {
     private static final String endpoint =  "http://oss-cn-beijing.aliyuncs.com";
     private static final String accessKeyId ="LTAIIHLk9eURcRim";
     private static final String accessKeySecret = "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj";
-
-
     private static final String testBucket =  "ip360-test";
 	
 	private UpLoadManager(){
@@ -51,10 +49,11 @@ public class UpLoadManager {
 	}
 	
 	public void resuambleUpload(FileInfo info){
-		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath(),info.getResourceId());
-		resuambleUpload.resumableUploadWithRecordPathSetting();
-		upLoadTaskMap.put(resourceId, resuambleUpload);
+		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 		
+		//resuambleUpload.resumableUploadWithRecordPathSetting();
+		resuambleUpload.putObject();
+		upLoadTaskMap.put(resourceId, resuambleUpload);		
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
 	}
 	
