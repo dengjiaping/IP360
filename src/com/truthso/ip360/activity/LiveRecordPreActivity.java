@@ -16,6 +16,7 @@ import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
+import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
@@ -23,7 +24,6 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
@@ -249,9 +249,20 @@ public class LiveRecordPreActivity extends BaseActivity implements
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								int pkValue = datas.getPkValue();
-								getPosition(pkValue);
-//								startUpLoad(0,pkValue);
+								//getPosition(pkValue);
+								//上传
+//								startUpLoad(0, pkValue);
+							String url=	datas.getFileUrl();
+								FileInfo info=new FileInfo();
+								info.setFileName(fileName);
+								info.setFilePath(filePath);
+                               	info.setFileSize(ll+"");
+                               	info.setResourceId(pkValue);
+                               	info.setObjectKey(url);
+                              //上传文件
+ 							   UpLoadManager.getInstance().resuambleUpload(info);
 								finish();
+						
 						
 							} else {
 								Toaster.showToast(LiveRecordPreActivity.this,
@@ -265,7 +276,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				});
 	}
 
-	private void getPosition(int pkValue) {
+	/*private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
 			@Override
@@ -291,13 +302,13 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			}
 
 		});
-	}
-	/**
+	}*/
+/*	*//**
 	 * 开始上传文件
 	 * 
 	 * @param position
 	 * @param resourceId
-	 */
+	 *//*
 	private void startUpLoad(int position, int resourceId) {
 		Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
@@ -307,7 +318,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		info.setPosition(position);
 		info.setResourceId(resourceId);
 		UpLoadManager.getInstance().startUpload(info);
-	}
+	}*/
 	/**
 	 * 弹出框
 	 */

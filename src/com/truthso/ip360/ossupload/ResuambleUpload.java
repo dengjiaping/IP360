@@ -40,6 +40,8 @@ public class ResuambleUpload {
     private boolean iscancel=true;
     private int status;
     private int RUNNING=0,PAUSE=1,ERROR=2;
+    private int resourceId;
+
     private FileInfo info;
     private String token;
     public ResuambleUpload(OSS client, String testBucket, FileInfo info) {
@@ -144,13 +146,13 @@ public class ResuambleUpload {
         put.setCallbackParam(new HashMap<String, String>(){
         	{
         	put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus"); 
-        	put("callbackBody", "resourceid=${x:resourceid}&token=${x:token}"); 
+        	put("callbackBody", "resourceId=${x:resourceId}&token=${x:token}"); 
         	}        	
         });
         
         put.setCallbackVars(new HashMap<String, String>() {
             {
-                put("x:resourceid", info.getResourceId()+"");
+                put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
             }
        });

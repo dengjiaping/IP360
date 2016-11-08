@@ -90,6 +90,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_updownload, null);
 			vh = new ViewHolder();
+			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
@@ -117,6 +118,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		FileInfo info = list.get(position);
 		vh.probar.setProgress(info.getPosition());
 		vh.tv_fileName.setText(info.getFileName());
+		vh.tv_size.setText(info.getFileSize());
 		//带格式的
 		vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 	
@@ -169,7 +171,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 	class ViewHolder {
 		private CheckBox cb_choice;
-		private TextView tv_fileName, tv_status;
+		private TextView tv_fileName, tv_status,tv_size;
 		private ProgressBar probar;
 		private Button btn_upload_download;
 	}

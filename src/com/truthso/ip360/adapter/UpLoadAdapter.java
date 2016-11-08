@@ -27,6 +27,7 @@ import com.truthso.ip360.ossupload.ProgressListener;
 import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadRunnable;
+import com.truthso.ip360.utils.FileSizeUtil;
 
 /**
  * @despriction :下载列表的adapter
@@ -89,6 +90,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_updownload, null);
 			vh = new ViewHolder();
+			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
@@ -114,6 +116,10 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 		final FileInfo upLoadInfo = list.get(position);
 		vh.tv_fileName.setText(upLoadInfo.getFileName());
+		long l_size = Long.parseLong(upLoadInfo.getFileSize());
+		String s_size = FileSizeUtil.setFileSize(l_size);
+		vh.tv_size.setText(s_size);
+		
 		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
 		vh.probar.setProgress(upLoadInfo.getPosition());
 		final int resourceId = upLoadInfo.getResourceId();
@@ -184,7 +190,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 	class ViewHolder {
 		private CheckBox cb_choice;
-		private TextView tv_fileName,tv_status;
+		private TextView tv_fileName,tv_status,tv_size;
 		private ProgressBar probar;
 		private Button btn_upload_download;
 	}
