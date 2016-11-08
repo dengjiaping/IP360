@@ -95,12 +95,16 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		}	
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
 		vh.tv_filename.setText(mDatas.get(position).getTitle());
+		
 		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
+		
 		vh.tv_date.setText(mDatas.get(position).getCreateTime());
 		if(mDatas.get(position).getStatus().equals("0")){
 			vh.tv_status.setText("正在上传");
 		}else if(mDatas.get(position).getStatus().equals("1")){
 			vh.tv_status.setText("已上传");
+		}else if(mDatas.get(position).getStatus().equals("2")){
+			vh.tv_status.setText("已下载");
 		}else{
 			vh.tv_status.setText("上传失败");
 		}

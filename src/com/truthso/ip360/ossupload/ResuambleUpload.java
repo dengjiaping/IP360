@@ -185,7 +185,7 @@ public class ResuambleUpload {
 	                }
 	                SqlDao dao = SqlDao.getSQLiteOpenHelper();
 	             
-	                Log.i("djj", CheckUtil.isEmpty(info)+"");	             
+	                    
 	                dao.updateStatus(info.getFileName(), "1");
 	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
 	               

@@ -288,8 +288,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		case R.id.btn_preserved:
 			getport();
 			if(isPre){
-				filePre();
-			
+				filePre();			
 			}
 			break;
 		default:

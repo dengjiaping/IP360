@@ -46,7 +46,7 @@ public class SqlDao {
 		values.put("resourceUrl", dbBean.getResourceUrl());
 		values.put("remark", dbBean.getRemark());
 		values.put("location", dbBean.getLocation());
-		values.put("status", "0");//状态 0：正在上传  1上传完成  2上传失败
+		values.put("status", dbBean.getStatus());//状态 0：正在上传  1上传完成  2上传失败
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -136,7 +136,6 @@ public class SqlDao {
 
 	//更改状态
 	public void updateStatus(String name,String status) {
-		Log.i("djj", "1234567");
 		SQLiteDatabase db = helper.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("status", status);
