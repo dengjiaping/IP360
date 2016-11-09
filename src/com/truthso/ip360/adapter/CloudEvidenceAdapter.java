@@ -5,8 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.sax.StartElementListener;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,19 +22,16 @@ import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
-import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.updownload.DownLoadHelper;
-import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -52,7 +47,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private int count;// 当次消费条数
 	private String fileName, format, date, size, mode;
 	private String size1;
-
+	private List<CloudEviItemBean> selectedList=new ArrayList<CloudEviItemBean>();
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
 			int type,int mobileType) {
 		super();
@@ -193,11 +188,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
+	public List<CloudEviItemBean> getSelected(){
+		return selectedList;
+	}
+	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			int positon = (Integer) buttonView.getTag();
-		}
+		int position = (Integer) buttonView.getTag();;
+		if(isChecked){
+			selectedList.add(mDatas.get(position));
+		}else{
+			selectedList.remove(mDatas.get(position));
+		}	 
 	}
 
 	@Override
@@ -284,10 +286,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
-	public void notifyDataChange(List<CloudEviItemBean> list) {
+	public void notifyDataChange(List<CloudEviItemBean> list,int mobileType) {
 		if (list != null) {
 			this.mDatas = list;
-
+            this.mobileType=mobileType;
 			notifyDataSetChanged();
 		}
 	}

@@ -148,7 +148,7 @@ private String from;//类型，取证类型
 	/**
 	 * 调接口获取数据
 	 */
-	private void getDatas(String keywork,final int type,int mobileType,int pagerNumber) {
+	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -163,7 +163,7 @@ private String from;//类型，取证类型
 							Log.i("djj", datas.size()+"");
 							list.addAll(datas);					   
 						}			
-						 adapter.notifyDataChange(list);
+						 adapter.notifyDataChange(list,mobileType);
 					}else{
 						Toaster.showToast(SearchCloudEvidenceActivity.this, bean.getMsg());
 					}

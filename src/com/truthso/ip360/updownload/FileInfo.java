@@ -90,8 +90,14 @@ public class FileInfo {
 	}
 	@Override
 	public String toString() {
-		return "UpLoadInfo [filePath=" + filePath + ", fileName=" + fileName + ", fileSize=" + fileSize + ", position=" + position + ", resourceId=" + resourceId + "]";
+		return "FileInfo [filePath=" + filePath + ", fileName=" + fileName
+				+ ", fileSize=" + fileSize + ", fileLoc=" + fileLoc
+				+ ", llsize=" + llsize + ", type=" + type + ", mobiletype="
+				+ mobiletype + ", fileCreatetime=" + fileCreatetime
+				+ ", fileTime=" + fileTime + ", position=" + position
+				+ ", resourceId=" + resourceId + ", objectKey=" + objectKey
+				+ "]";
 	}
-
+	
 	
 }

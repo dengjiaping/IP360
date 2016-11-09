@@ -137,4 +137,15 @@ public class DbBean {
 		this.lable = lable;
 	}
 
+	@Override
+	public String toString() {
+		return "DbBean [id=" + id + ", title=" + title + ", createTime="
+				+ createTime + ", fileSize=" + fileSize + ", jsonObject="
+				+ jsonObject + ", type=" + type + ", lable=" + lable
+				+ ", resourceUrl=" + resourceUrl + ", recordTime=" + recordTime
+				+ ", videoTime=" + videoTime + ", remark=" + remark
+				+ ", location=" + location + ", status=" + status + ", llsize="
+				+ llsize + "]";
+	}
+
 }

@@ -30,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.R;
@@ -37,11 +38,17 @@ import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
+import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
 import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
@@ -73,7 +80,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private String searchText;
 	private boolean tag = true;
 	private EditText et_find_service;
-
+	private PopupWindow cloudWindow;
+	private PopupWindow downLoadwindow;
+	private View contentView;
+	private View popview;
+	private Button btn_download;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 
 	@Override
@@ -198,17 +209,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			 * startActivityForResult(new Intent(getActivity(),
 			 * CategoryCloudEvidenceActivity.class), CODE_SEARCH);
 			 */
-			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
+			if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
 				actionBar.setRightEnable();
-				window.dismiss();
+				cloudWindow.dismiss();
 			} else {
 				actionBar.setRightDisEnable();
 				showPop();
 			}
-
-			
+			break;
 		case R.id.btn_download:
-		   
+			downloadAll();
 			break;
 		default:
 			break;
@@ -216,6 +226,81 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	}
 
+	private void downloadAll() {
+		List<CloudEviItemBean> selected = adapter.getSelected();
+		for (int i = 0; i < selected.size(); i++) {
+			download(selected.get(i));
+		}
+		adapter.setChoice(false);
+		adapter.notifyDataSetChanged();
+		
+		if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
+			actionBar.setRightEnable();
+			cloudWindow.dismiss();
+		}
+		if (!CheckUtil.isEmpty(downLoadwindow)
+				&& downLoadwindow.isShowing()) {
+			cancelChoose();
+		}
+	}
+
+	private void download(final CloudEviItemBean data){
+
+		ApiManager.getInstance().downloadFile(data.getPkValue(), type,
+				new ApiCallback() {
+
+					@Override
+					public void onApiResultFailure(int statusCode,
+							Header[] headers, byte[] responseBody,
+							Throwable error) {
+						Toaster.toast(getActivity(), "获取数据失败", 1);
+					}
+
+					@Override
+					public void onApiResult(int errorCode, String message,
+							BaseHttpResponse response) {
+						DownLoadFileBean bean = (DownLoadFileBean) response;
+						if (!CheckUtil.isEmpty(bean)) {
+							if (bean.getCode() == 200) {
+								FileInfo info = new FileInfo();
+								String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
+								info.setFilePath(nativePath);//在本地的路径
+								info.setFileName(data.getFileTitle());
+								info.setType(type);//取证类型
+								info.setMobiletype(mobileType);//现场取证的类型
+								long l_size = Long.parseLong(data.getFileSize());
+								String s_size = FileSizeUtil.setFileSize(l_size);
+								info.setFileSize(s_size);
+								info.setLlsize(data.getFileSize());
+								info.setPosition(0);
+								info.setFileTime(data.getFileTime());
+								info.setResourceId(data.getPkValue());
+								info.setFileLoc(data.getFileLocation());
+								info.setFileCreatetime(data.getFileDate());
+								String url = bean.getDatas().getFileUrl();
+								// String
+								// objectKey=url.substring(url.indexOf("/")+1);
+								info.setObjectKey(url);
+								// 下载
+								DownLoadHelper.getInstance().downloadFile(
+										info);
+
+								Toast toast = new Toast(getActivity());
+								toast.makeText(getActivity(), "文件开始下载到本地证据", 1)
+										.show();
+								toast.setGravity(Gravity.CENTER, 0, 0);
+							} else {
+								Toaster.toast(getActivity(), bean.getMsg(), 1);
+							}
+						} else {
+							Toaster.toast(getActivity(), "获取数据失败", 1);
+						}
+					}
+				});
+	}
+	
+	
+	
 	// 显示类别popwindow
 	private void showPop() {
 
@@ -232,21 +317,21 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		 tv_file = (TextView) popview.findViewById(R.id.tv_file);
 		
 		FrameLayout fl_empty = (FrameLayout) popview.findViewById(R.id.fl_empty);
-		window = new PopupWindow(popview, WindowManager.LayoutParams.MATCH_PARENT,
+		cloudWindow = new PopupWindow(popview, WindowManager.LayoutParams.MATCH_PARENT,
 				WindowManager.LayoutParams.MATCH_PARENT);
 		// 实例化一个ColorDrawable颜色为半透明
 		ColorDrawable dw = new ColorDrawable(0xb0000000);
 		// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
-		window.setBackgroundDrawable(dw);
-		window.setTouchable(true);
+		cloudWindow.setBackgroundDrawable(dw);
+		cloudWindow.setTouchable(true);
 		
 		tv_photo.setOnClickListener(new OnClickListener() {//拍照
 			
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
                 list.clear();
 				type = 2;//现场取证
@@ -260,9 +345,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		tv_video.setOnClickListener(new OnClickListener() {//录像			
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
 
 				 list.clear();
@@ -279,9 +364,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
 
 				 list.clear();
@@ -297,9 +382,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
 
 				 list.clear();
@@ -315,9 +400,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
 		 list.clear();
 
@@ -332,14 +417,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onClick(View arg0) {
-				if (window.isShowing()) {
+				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
-					window.dismiss();
+					cloudWindow.dismiss();
 				}
 			}
 		});
-		window.setAnimationStyle(R.style.mypopwindow_anim_style);
-		window.showAsDropDown(getActivity().findViewById(
+		cloudWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+		cloudWindow.showAsDropDown(getActivity().findViewById(
 				R.id.actionbar_cloudevidence));
 	}
 
@@ -427,11 +512,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
-	private PopupWindow window;
-	private PopupWindow downLoadwindow;
-	private View contentView;
-	private View popview;
-	private Button btn_download;
+
 	
 	/**
 	 *底部加载更多
@@ -449,10 +530,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.i("djj", "123");
 		if (keyCode == event.KEYCODE_BACK) {
-			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
+			Log.i("djj", CheckUtil.isEmpty(cloudWindow)+"");
+			
+			if (cloudWindow!=null && cloudWindow.isShowing()) {
+				Log.i("djj", "cloud");
 				actionBar.setRightEnable();
-				window.dismiss();
+				cloudWindow.dismiss();
 				return true;
 			}
 			if (!CheckUtil.isEmpty(downLoadwindow)
@@ -466,7 +551,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	/**
 	 * 调接口获取数据
 	 */
-	private void getDatas(String keywork,final int type,int mobileType,int pagerNumber) {
+	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
 			@Override
@@ -485,7 +570,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if(!CheckUtil.isEmpty(datas)){
 							list.addAll(datas);					   
 						}			
-						 adapter.notifyDataChange(list);
+						 adapter.notifyDataChange(list,mobileType);
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}

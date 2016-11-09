@@ -1,35 +1,18 @@
-package com.truthso.ip360.updownload;
+package com.truthso.ip360.ossupload;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
-import com.alibaba.sdk.android.common.auth.FederationCredentialProvider;
-import com.alibaba.sdk.android.common.auth.FederationToken;
-import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
-import com.alibaba.sdk.android.oss.ServiceException;
-import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSFederationCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSFederationToken;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
-import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
-import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
-import com.alibaba.sdk.android.oss.model.GetObjectRequest;
-import com.alibaba.sdk.android.oss.model.GetObjectResult;
-import com.alibaba.sdk.android.oss.model.Range;
 import com.truthso.ip360.application.MyApplication;
-import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
-import com.truthso.ip360.net.DownLoaderTask;
+import com.truthso.ip360.updownload.FileInfo;
 
 
 public class DownLoadHelper {
@@ -55,8 +38,7 @@ public class DownLoadHelper {
 		DownloadTask task=new DownloadTask(oss,fileinfo);
 		task.start();
 		taskMap.put(fileinfo.getObjectKey(), task);
-		Log.i("djj", fileinfo.toString());
-		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey());
+		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize());
 	}
 	
 	public void pauseDownload(String objectKey){

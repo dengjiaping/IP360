@@ -1,16 +1,14 @@
 package com.truthso.ip360.adapter;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -21,10 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
-import com.truthso.ip360.bean.DownLoadInfo;
-import com.truthso.ip360.updownload.DownLoadHelper;
-import com.truthso.ip360.updownload.DownLoadManager;
-import com.truthso.ip360.updownload.DownLoadRunnable;
+import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.ProgressListener;
 
@@ -44,7 +39,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
     private DownLoadHelper helper=DownLoadHelper.getInstance();
 	private List<Integer> selectedList=new ArrayList<Integer>();
 	private List<FileInfo> list;
-
+	private long progress,lastProgress;
 	public DownLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
@@ -120,21 +115,44 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		vh.tv_fileName.setText(info.getFileName());
 		vh.tv_size.setText(info.getFileSize());
 		//带格式的
-		vh.probar.setMax(Integer.parseInt(info.getLlsize()));
-	
-		helper.setOnprogressListener(info.getObjectKey(), new ProgressListener() {
-
+		vh.probar.setMax(Integer.parseInt(info.getLlsize()));		
+		
+		helper.setOnprogressListener(info.getObjectKey(), new com.truthso.ip360.ossupload.ProgressListener() {
+			
+			@Override
+			public void onProgress(long progress) {
+				Log.i("djj", "progress"+progress);
+				vh.probar.setProgress((int)progress);
+				DownLoadAdapter.this.progress=progress;
+			}
+			
 			@Override
 			public void onComplete() {
 				Log.i("djj", "downComplete");
-			}
-
-			@Override
-			public void onProgress(int progress) {
-				vh.probar.setProgress(progress);
+				
 			}
 		});
-
+ 
+       TimerTask task=new TimerTask() {
+			
+			@Override
+			public void run() {
+			final long speed=(progress-lastProgress)/1024;
+			DownLoadAdapter.this.lastProgress=progress;
+			vh.tv_status.post(new Runnable() {
+				
+				@Override
+				public void run() {
+					vh.tv_status.setText(speed+"k/s");
+				}
+			});
+			}
+		};
+		Timer timer=new Timer();
+		timer.schedule(task,0,1000);
+		
+		
+		
 		/*vh.btn_upload_download.setOnClickListener(new OnClickListener() {
 
 			@Override

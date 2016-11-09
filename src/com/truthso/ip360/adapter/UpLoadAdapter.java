@@ -154,8 +154,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		};
 		Timer timer=new Timer();
 		timer.schedule(task,0,1000);
-		
-		
+
 		int currentStatus = instanse.getCurrentStatus(resourceId);
 		 if(currentStatus==1){
 			 vh.tv_status.setText("暂停中");

@@ -14,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 public class UpDownLoadDao {
 
@@ -73,12 +74,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey) {
+			int position, int resourceId, String objectkey,String llsize) {
+		
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey) values(?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize) values(?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"0", objectkey });
+						"0", objectkey ,llsize});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -121,7 +123,9 @@ public class UpDownLoadDao {
 				"select * from updownloadlog where downorupload=?",
 				new String[] { "0" });
 		List<FileInfo> list = new ArrayList<FileInfo>();
+	
 		while (cursor.moveToNext()) {
+			Log.i("djj", "count"+cursor.getColumnCount());
 			FileInfo info = new FileInfo();
 			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
 			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
