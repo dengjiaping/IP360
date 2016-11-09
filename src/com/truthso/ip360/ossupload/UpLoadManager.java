@@ -55,6 +55,7 @@ public class UpLoadManager {
 		resuambleUpload.putObject();
 		upLoadTaskMap.put(resourceId, resuambleUpload);		
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
+//		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), resourceId,info.getObjectKey());
 	}
 	
 	public void pause(int resourceId){

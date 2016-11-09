@@ -22,7 +22,6 @@ import com.truthso.ip360.utils.CheckUtil;
 import cz.msebera.android.httpclient.Header;
 
 public class UpLoadManager {
-
 	private ExecutorService es;
 	private static UpLoadManager instance = new UpLoadManager();
 	private LinkedHashMap<Future<String>, UpLoadRunnable> map;
