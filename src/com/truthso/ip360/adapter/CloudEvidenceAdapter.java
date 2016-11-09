@@ -26,6 +26,7 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -47,17 +48,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private boolean isAllSelect = false;
 	private boolean isChoice = false;
 	protected List<CloudEviItemBean> mDatas;
-	private int pkValue, type;
+	private int pkValue, type,mobileType;
 	private int count;// 当次消费条数
 	private String fileName, format, date, size, mode;
 	private String size1;
 
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
-			int type) {
+			int type,int mobileType) {
 		super();
 		this.context = context;
 		this.mDatas = mDatas;
 		this.type = type;
+		this.mobileType = mobileType;
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -235,18 +237,20 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							if (!CheckUtil.isEmpty(bean)) {
 								if (bean.getCode() == 200) {
 									FileInfo info = new FileInfo();
-									info.setFilePath(bean.getDatas()
-											.getFileUrl());
+									String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
+									info.setFilePath(nativePath);//在本地的路径
 									info.setFileName(data.getFileTitle());
+									info.setType(type);//取证类型
+									info.setMobiletype(mobileType);//现场取证的类型
 									long l_size = Long.parseLong(data.getFileSize());
 									String s_size = FileSizeUtil.setFileSize(l_size);
 									info.setFileSize(s_size);
-									// info.setFileSize(size);
+									info.setLlsize(data.getFileSize());
 									info.setPosition(0);
+									info.setFileTime(data.getFileTime());
 									info.setResourceId(data.getPkValue());
 									info.setFileLoc(data.getFileLocation());
 									info.setFileCreatetime(data.getFileDate());
-									// DownLoadManager.getInstance().startDownload(info);
 									String url = bean.getDatas().getFileUrl();
 									// String
 									// objectKey=url.substring(url.indexOf("/")+1);

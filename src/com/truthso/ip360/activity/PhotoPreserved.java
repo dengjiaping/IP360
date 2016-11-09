@@ -206,7 +206,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //								int pkValue = datas.getPkValue();
                                	String objectkey = datas.getFileUrl();//文件上传的objectKey					
                                	int resourceId=datas.getPkValue();
-                               	LogUtils.e(resourceId+"resourceId");
 						    	//getPosition(pkValue);
                                	FileInfo info=new FileInfo();
                                	info.setFileName(title);

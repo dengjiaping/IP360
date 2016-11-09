@@ -113,7 +113,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 
-		 adapter=new CloudEvidenceAdapter(getActivity(),list,type);
+		 adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
 		 lv_cloudevidence.setAdapter(adapter);
 		 setSearchMode();
 	}
@@ -152,13 +152,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				// TODO Auto-generated method stub
 				
 			}
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
 				
 			}
 		});

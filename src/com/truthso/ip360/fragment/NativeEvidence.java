@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
@@ -261,21 +262,22 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			startActivityForResult(intent, CODE_SEARCH);
 		}else {
 	       DbBean dbBean = mDatas.get(position-1);
-			if (dbBean.getType()==MyConstants.PHOTO) {//条目类型照片
+			if (dbBean.getType()==MyConstants.PHOTO||dbBean.getType() == MyConstants.CLOUD_PHOTO) {//条目类型照片
 				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
 				intent.putExtra("url", dbBean.getResourceUrl());
 				startActivity(intent);
-			}else if (dbBean.getType()==MyConstants.VIDEO) {//条目类型录像
+			}else if (dbBean.getType()==MyConstants.VIDEO||dbBean.getType() == MyConstants.CLOUD_VIDEO) {//条目类型录像
 				Intent videoIntent = new Intent(getActivity(),VideoDetailActivity.class);
 				videoIntent.putExtra("url",dbBean.getResourceUrl() );
+				LogUtils.e(dbBean.getResourceUrl()+"录像跳转时候的路径");
 				startActivity(videoIntent);
-			}else if (dbBean.getType()==MyConstants.RECORD) {//条目类型录音
+			}else if (dbBean.getType()==MyConstants.RECORD||dbBean.getType() == MyConstants.CLOUD_RECORD) {//条目类型录音
 				Intent recordIntent = new Intent(getActivity(),RecordDetailActivity.class);
 				recordIntent.putExtra("url", dbBean.getResourceUrl());
 				recordIntent.putExtra("recordTime", dbBean.getRecordTime());
-				
+				LogUtils.e(dbBean.getResourceUrl()+"录音跳转时候的路径"+dbBean.getRecordTime()+"录音时长");
 				startActivity(recordIntent);
-			}
+			}	
 		}	
 		
 	}

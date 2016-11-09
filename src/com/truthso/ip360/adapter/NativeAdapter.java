@@ -10,6 +10,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.utils.CheckUtil;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -99,15 +100,19 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
 		
 		vh.tv_date.setText(mDatas.get(position).getCreateTime());
-		if(mDatas.get(position).getStatus().equals("0")){
-			vh.tv_status.setText("正在上传");
-		}else if(mDatas.get(position).getStatus().equals("1")){
-			vh.tv_status.setText("已上传");
-		}else if(mDatas.get(position).getStatus().equals("2")){
-			vh.tv_status.setText("已下载");
-		}else{
-			vh.tv_status.setText("上传失败");
+		String str = mDatas.get(position).getStatus();
+		if (!CheckUtil.isEmpty(str)) {
+			if(str.equals("0")){
+				vh.tv_status.setText("正在上传");
+			}else if(str.equals("1")){
+				vh.tv_status.setText("已上传");
+			}else if(str.equals("2")){
+				vh.tv_status.setText("已下载");
+			}else{
+				vh.tv_status.setText("上传失败");
+			}
 		}
+	
 		return convertView;
 	}
 

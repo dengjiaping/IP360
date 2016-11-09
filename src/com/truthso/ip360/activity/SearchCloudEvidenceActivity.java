@@ -58,7 +58,8 @@ private String from;//类型，取证类型
 	
 		lv_content=(ListView) findViewById(R.id.lv_content);
 		//adapter=new SearchCloudAdapter(this,list);
-		adapter=new CloudEvidenceAdapter(this, list, mobileType);
+		//加了type
+		adapter=new CloudEvidenceAdapter(this, list, mobileType,type);
 		lv_content.setAdapter(adapter);
 		lv_content.setOnItemClickListener(this);
 		setSearchMode();

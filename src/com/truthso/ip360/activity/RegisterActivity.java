@@ -129,7 +129,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 				
 				if (!CheckUtil.isEmpty(response)) {
-						Toaster.showToast(RegisterActivity.this,response.getMsg());
+//						Toaster.showToast(RegisterActivity.this,response.getMsg());
 				}else{
 					Toaster.showToast(RegisterActivity.this,"获取失败");
 				}
@@ -137,7 +137,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 				
 			}
 		});

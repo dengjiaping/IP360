@@ -44,7 +44,7 @@ public class DownloadTask {
 	}
 
 	public OSSAsyncTask start(){
-	Log.i("djj", "objectKey"+objectKey);
+//	Log.i("djj", "objectKey"+objectKey);
 		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		 final File file=new File(downloadFile, fileName);
 		if(!file.exists()){
@@ -71,7 +71,6 @@ public class DownloadTask {
 						long contentLength = result.getContentLength();
 						byte[] buffer = new byte[2048];
 						int len;
-
 						try {
 							FileOutputStream fos = new FileOutputStream(file);
 							while ((len = inputStream.read(buffer)) != -1) {
@@ -89,11 +88,30 @@ public class DownloadTask {
 								dbBean.setTitle(info.getFileName());
 								dbBean.setCreateTime(info.getFileCreatetime());
 								dbBean.setResourceUrl(info.getFilePath());
-								dbBean.setType(MyConstants.PHOTO);
+								dbBean.setRecordTime(info.getFileTime());
+//								dbBean.setType(MyConstants.PHOTO);
+								int type = info.getType();//类型 1确权文件 2现场取证 3 线上取证
+								int mobileType = info.getMobiletype();//现场取证的类型 5001拍照 5002录音 5003录像
+//								文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音
+								if (type == 2) {//现场取证
+									if (mobileType == 5001) {
+										dbBean.setType(MyConstants.CLOUD_PHOTO);
+									}else if (mobileType == 5002) {
+										dbBean.setType(MyConstants.CLOUD_RECORD);
+									}else if (mobileType == 5003){
+										dbBean.setType(MyConstants.CLOUD_VIDEO);
+									}
+								}else if (type == 1) {//确权文件
+									dbBean.setType(MyConstants.QUEQUAN);
+								}else if(type == 3){//现场取证
+									dbBean.setType(MyConstants.XSQZ);
+								}
+								
+								
+								
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setStatus("2");
-								Log.i("djj", info.toString());
 								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
 								

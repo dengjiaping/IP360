@@ -54,16 +54,12 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
       			mp.setDataSource(url);
       			mp.prepare();
       		} catch (IllegalArgumentException e) {
-      			// TODO Auto-generated catch block
       			e.printStackTrace();
       		} catch (SecurityException e) {
-      			// TODO Auto-generated catch block
       			e.printStackTrace();
       		} catch (IllegalStateException e) {
-      			// TODO Auto-generated catch block
       			e.printStackTrace();
       		} catch (IOException e) {
-      			// TODO Auto-generated catch block
       			e.printStackTrace();
       		}
 }
