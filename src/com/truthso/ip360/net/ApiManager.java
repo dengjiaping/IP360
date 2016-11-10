@@ -46,7 +46,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public void onRequestResult(RequestHandle requestHandle, int errorCode,
 			String message, BaseHttpResponse response) {
 
-		if (response.getCode() == 92) {
+		if (response.getCode() == 504) {
 			/*SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
 					KeyConstant.SP_USER, KeyConstant.isTokenFail, true);
 			

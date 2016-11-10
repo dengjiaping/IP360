@@ -28,6 +28,7 @@ import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadRunnable;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.view.SpeedView;
 
 /**
  * @despriction :下载列表的adapter
@@ -95,7 +96,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
-			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
+			vh.tv_status=(SpeedView) convertView.findViewById(R.id.tv_status);
 			vh.cb_choice.setTag(position);
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
@@ -134,10 +135,11 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			@Override
 			public void onProgress(long progress) {
 				vh.probar.setProgress((int)progress);
-				UpLoadAdapter.this.progress=progress;
+			//	UpLoadAdapter.this.progress=progress;
+				vh.tv_status.setProgress(progress);
 			}
 		});
-        TimerTask task=new TimerTask() {
+      /*  TimerTask task=new TimerTask() {
 			
 			@Override
 			public void run() {
@@ -153,7 +155,7 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}
 		};
 		Timer timer=new Timer();
-		timer.schedule(task,0,1000);
+		timer.schedule(task,0,1000);*/
 
 		int currentStatus = instanse.getCurrentStatus(resourceId);
 		 if(currentStatus==1){
@@ -189,7 +191,8 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 	class ViewHolder {
 		private CheckBox cb_choice;
-		private TextView tv_fileName,tv_status,tv_size;
+		private TextView tv_fileName,tv_size;
+		private SpeedView tv_status;
 		private ProgressBar probar;
 		private Button btn_upload_download;
 	}

@@ -61,7 +61,7 @@
                         android:layout_centerVertical="true"
                         />
 
-                    <TextView
+                    <com.truthso.ip360.view.SpeedView
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" 

@@ -22,6 +22,7 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.ProgressListener;
+import com.truthso.ip360.view.SpeedView;
 
 /**
  * @despriction :下载列表的adapter
@@ -90,7 +91,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
-			vh.tv_status = (TextView) convertView.findViewById(R.id.tv_status);
+			vh.tv_status = (SpeedView) convertView.findViewById(R.id.tv_status);
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			vh.cb_choice.setTag(position);
 			
@@ -123,7 +124,8 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			public void onProgress(long progress) {
 				Log.i("djj", "progress"+progress);
 				vh.probar.setProgress((int)progress);
-				DownLoadAdapter.this.progress=progress;
+				//DownLoadAdapter.this.progress=progress;
+				vh.tv_status.setProgress(progress);
 			}
 			
 			@Override
@@ -133,7 +135,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			}
 		});
  
-       TimerTask task=new TimerTask() {
+      /* TimerTask task=new TimerTask() {
 			
 			@Override
 			public void run() {
@@ -149,7 +151,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			}
 		};
 		Timer timer=new Timer();
-		timer.schedule(task,0,1000);
+		timer.schedule(task,0,1000);*/
 		
 		
 		
@@ -189,7 +191,8 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 
 	class ViewHolder {
 		private CheckBox cb_choice;
-		private TextView tv_fileName, tv_status,tv_size;
+		private TextView tv_fileName ,tv_size;
+		private SpeedView tv_status;
 		private ProgressBar probar;
 		private Button btn_upload_download;
 	}

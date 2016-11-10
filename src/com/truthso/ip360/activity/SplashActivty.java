@@ -1,4 +1,4 @@
-﻿package com.truthso.ip360.activity;
+package com.truthso.ip360.activity;
 
 import java.io.File;
 
@@ -88,7 +88,7 @@ public class SplashActivty extends Activity {
 	}
 
 	private Handler handler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
+		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case 99:
 				enterHome();
@@ -185,16 +185,16 @@ public class SplashActivty extends Activity {
 	 * 3.通过builder 创建一个对话框 4.对话框show()出来
 	 */
 	protected void showUpdataDialog() {
-		AlertDialog.Builder builer = new Builder(this);
+		Builder builer = new Builder(this);
 		builer.setTitle("版本升级");
 		builer.setMessage("检测到最新版本，是否立即更新？");
 		// 当点确定按钮时从服务器上下载 新的apk 然后
-		builer.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+		builer.setPositiveButton("确定", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				downLoadApk();
 			}
 		});
-		builer.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+		builer.setNegativeButton("取消", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				enterHome();
 				

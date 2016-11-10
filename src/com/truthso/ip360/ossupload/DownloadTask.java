@@ -106,9 +106,7 @@ public class DownloadTask {
 								}else if(type == 3){//现场取证
 									dbBean.setType(MyConstants.XSQZ);
 								}
-								
-								
-								
+
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setStatus("2");
