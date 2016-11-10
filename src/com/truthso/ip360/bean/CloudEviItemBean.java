@@ -33,7 +33,13 @@ public class CloudEviItemBean {
 	private String fileUrl;//文件路径
 	private int pkValue;//证据记录主键值
 	private int count;//当次消费量
-	
+	private String ossUrl;
+	public String getOssUrl() {
+		return ossUrl;
+	}
+	public void setOssUrl(String ossUrl) {
+		this.ossUrl = ossUrl;
+	}
 	public int getCount() {
 		return count;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +16,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -100,6 +103,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
+		RelativeLayout	rl_item=(RelativeLayout) convertView.findViewById(R.id.rl_item);
+		rl_item.setTag(position);
+		rl_item.setOnClickListener(this);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.tv_filename = (TextView) convertView
@@ -280,7 +286,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
 			context.startActivity(intent1);
 			break;
-
+		case R.id.rl_item:
+			final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
+			Log.i("djj", data1.getOssUrl());
+			Intent intent2 = new Intent(context, VideoDetailActivity.class);
+			intent2.putExtra("url", data1.getOssUrl());
+			context.startActivity(intent2);
 		default:
 			break;
 		}

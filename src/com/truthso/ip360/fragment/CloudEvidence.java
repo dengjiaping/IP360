@@ -86,7 +86,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private View popview;
 	private Button btn_download;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
-
+	private List<CloudEviItemBean> datas;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -226,6 +226,24 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		if (position == 0) {
+			/*Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
+			intent.putExtra("type", type);
+			intent.putExtra("mobileType", mobileType);
+			intent.putExtra("from", "cloud");
+			startActivityForResult(intent, CODE_SEARCH);*/
+			Log.i("djj", "123456");
+		}else{
+			Log.i("djj", "7890");
+			CloudEviItemBean cloudEviItemBean2 = datas.get(position-1);
+			Log.i("djj", cloudEviItemBean2.getOssUrl());
+		}
+
+	}
+	
 	private void downloadAll() {
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		for (int i = 0; i < selected.size(); i++) {
@@ -484,18 +502,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		if (position == 0) {
-			/*Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
-			intent.putExtra("type", type);
-			intent.putExtra("mobileType", mobileType);
-			intent.putExtra("from", "cloud");
-			startActivityForResult(intent, CODE_SEARCH);*/
-		}
-
-	}
+	
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -530,12 +537,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("djj", "123");
+
 		if (keyCode == event.KEYCODE_BACK) {
-			Log.i("djj", CheckUtil.isEmpty(cloudWindow)+"");
 			
 			if (cloudWindow!=null && cloudWindow.isShowing()) {
-				Log.i("djj", "cloud");
 				actionBar.setRightEnable();
 				cloudWindow.dismiss();
 				return true;
@@ -554,6 +559,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
+
+
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -565,7 +572,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-						List<CloudEviItemBean> datas = bean.getDatas();
+						datas = bean.getDatas();
 						
 						if(!CheckUtil.isEmpty(datas)){
 							list.addAll(datas);					   

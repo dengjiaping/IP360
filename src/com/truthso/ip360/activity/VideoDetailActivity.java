@@ -1,5 +1,6 @@
 package com.truthso.ip360.activity;
 
+import android.net.Uri;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -34,6 +35,8 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 		mController = new MediaController(this);
 		viv.setMediaController(mController);
 		viv.setVideoPath(path);
+		//Uri uri=Uri.parse(path);
+		//viv.setVideoURI(uri);
 		viv.requestFocus();
 		viv.start();
 	}
