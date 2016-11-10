@@ -1,4 +1,4 @@
-package com.truthso.ip360.updownload;
+package com.truthso.ip360.ossupload;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,12 +14,11 @@ import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
-import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.updownload.FileInfo;
 
 public class DownloadTask {
 
@@ -77,7 +76,7 @@ public class DownloadTask {
 								// 处理下载的数据
 								progress += len;
 								fos.write(buffer, 0, len);
-								Log.i("djj", "progress" + progress);
+								//Log.i("djj", "progress" + progress);
 								if (listener != null) {
 									listener.onProgress(progress);
 								}
@@ -93,12 +92,13 @@ public class DownloadTask {
 								int type = info.getType();//类型 1确权文件 2现场取证 3 线上取证
 								int mobileType = info.getMobiletype();//现场取证的类型 5001拍照 5002录音 5003录像
 //								文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音
+							
 								if (type == 2) {//现场取证
-									if (mobileType == 5001) {
+									if (mobileType == 50001) {
 										dbBean.setType(MyConstants.CLOUD_PHOTO);
-									}else if (mobileType == 5002) {
+									}else if (mobileType == 50002) {
 										dbBean.setType(MyConstants.CLOUD_RECORD);
-									}else if (mobileType == 5003){
+									}else if (mobileType == 50003){
 										dbBean.setType(MyConstants.CLOUD_VIDEO);
 									}
 								}else if (type == 1) {//确权文件
@@ -112,6 +112,7 @@ public class DownloadTask {
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setStatus("2");
+								Log.i("djj", "down"+dbBean.toString());
 								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
 								

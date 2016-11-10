@@ -22,11 +22,16 @@ public class MyConstants {
 	
 	
 	
-	// 0照片，1视频，2录音
+	// 文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音6确权文件 7线上取证
 
 	public static final int PHOTO = 0;
 	public static final int VIDEO = 1;
 	public static final int RECORD = 2;
+	public static final int CLOUD_PHOTO = 3;
+	public static final int CLOUD_VIDEO = 4;
+	public static final int CLOUD_RECORD = 5;
+	public static final int QUEQUAN = 6;
+	public static final int XSQZ = 7;
 	
 	//1-注册；2-找回密码；3-绑定手机号；4-解绑旧手机号5-绑定新手机号6-绑定邮箱7-解绑旧邮箱8-绑定新邮箱
 	public static final String REGISTER = "1";

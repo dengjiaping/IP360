@@ -16,7 +16,7 @@ public class DbBean {
 	private String createTime;// 创建时间
 	private String fileSize;// 文件大小
 	private String jsonObject;// 详细信息
-	private int type;// 文件类型 0照片，1视频，2录音
+	private int type;// 文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音
 	private String lable;// 文件标签
 	private String resourceUrl;// 资源路径
 	private String recordTime;// 录音专用录音时长
@@ -135,6 +135,17 @@ public class DbBean {
 
 	public void setLable(String lable) {
 		this.lable = lable;
+	}
+
+	@Override
+	public String toString() {
+		return "DbBean [id=" + id + ", title=" + title + ", createTime="
+				+ createTime + ", fileSize=" + fileSize + ", jsonObject="
+				+ jsonObject + ", type=" + type + ", lable=" + lable
+				+ ", resourceUrl=" + resourceUrl + ", recordTime=" + recordTime
+				+ ", videoTime=" + videoTime + ", remark=" + remark
+				+ ", location=" + location + ", status=" + status + ", llsize="
+				+ llsize + "]";
 	}
 
 }

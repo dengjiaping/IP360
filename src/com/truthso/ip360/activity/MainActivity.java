@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	private SharedPreferences sp;
 	private PersonalCenter personalCenter;
 	private RadioButton rb_pc;
+	private FragmentTabUtils fragmentTabUtils;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 		fragmentList.add(new PersonalCenter());// 个人中心
 		radioGroup = (RadioGroup) findViewById(R.id.main_RadioGroup);
 		((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
-		FragmentTabUtils fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(), fragmentList, R.id.main_fragment, radioGroup);
+		fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(), fragmentList, R.id.main_fragment, radioGroup);
 
 	}
 
@@ -67,8 +68,10 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
-		if(!CheckUtil.isEmpty(baseFragment)&& baseFragment.onKeyDown(keyCode, event)){
+		//BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
+		BaseFragment currentFragment = (BaseFragment) fragmentTabUtils.getCurrentFragment();
+		Log.i("djj", CheckUtil.isEmpty(currentFragment)+"2");
+		if(!CheckUtil.isEmpty(currentFragment)&& currentFragment.onKeyDown(keyCode, event)){
 			Log.i("djj", "back");
 			return true;
 		} 

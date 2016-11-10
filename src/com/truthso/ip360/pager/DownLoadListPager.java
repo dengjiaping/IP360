@@ -35,7 +35,6 @@ public class DownLoadListPager extends BasePager {
 		if(queryDownLoadList!=null){
 			list.addAll(queryDownLoadList); 			
 		}        
-		
 		listView = new ListView(ctx);	
 		adapter=new DownLoadAdapter(ctx,list);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
@@ -56,7 +55,7 @@ public class DownLoadListPager extends BasePager {
 		public void onChange(boolean selfChange) {
 			// TODO Auto-generated method stub
 			super.onChange(selfChange);
-			List<FileInfo> queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadList();
+			List<FileInfo> queryUpLoadList = UpDownLoadDao.getDao().queryDownLoadList();
 			
 			adapter.notifyChange(queryUpLoadList);
 		}

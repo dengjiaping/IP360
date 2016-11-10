@@ -64,8 +64,6 @@ protected void onCreate(Bundle savedInstanceState) {
 		if(!CheckUtil.isEmpty(pwd)){			
 			et_userpwd.setText(pwd);
 		}
-		
-		
 		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
 		cb_checkbox.setChecked(true);
 		
@@ -159,7 +157,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -183,7 +180,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
 	@Override
 	public int setLayout() {
-		// TODO Auto-generated method stub
 		return R.layout.activity_login;
 	}
 

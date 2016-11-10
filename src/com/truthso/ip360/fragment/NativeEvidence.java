@@ -34,6 +34,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
@@ -64,7 +65,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private ListView listView;
 	private int CODE_SEARCH = 101;
 	private NativeAdapter adapter;
-	private PopupWindow window, downLoadwindow;
+	private PopupWindow nativeWindow, downLoadwindow;
 	private List<DbBean> mDatas;
 	private LayoutInflater inflater;
 	private Activity mActivity;
@@ -197,9 +198,9 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		case R.id.acition_bar_left:
 			// startActivityForResult(new Intent(getActivity(),
 			// CategoryCloudEvidenceActivity.class), CODE_SEARCH);
-			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
+			if (!CheckUtil.isEmpty(nativeWindow) && nativeWindow.isShowing()) {
 				actionBar.setRightEnable();
-				window.dismiss();
+				nativeWindow.dismiss();
 			} else {
 				actionBar.setRightDisEnable();
 				showPop(v);
@@ -221,6 +222,15 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		}
 		adapter.setChoice(false);
 		adapter.notifyDataSetChanged();
+		
+		if (!CheckUtil.isEmpty(nativeWindow) && nativeWindow.isShowing()) {
+			actionBar.setRightEnable();
+			nativeWindow.dismiss();
+		}
+		if (!CheckUtil.isEmpty(downLoadwindow)
+				&& downLoadwindow.isShowing()) {
+			cancelChoose();
+		}
 	}
 
 	// 点击多选按钮
@@ -261,21 +271,23 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			startActivityForResult(intent, CODE_SEARCH);
 		}else {
 	       DbBean dbBean = mDatas.get(position-1);
-			if (dbBean.getType()==MyConstants.PHOTO) {//条目类型照片
+	       Log.i("djj", dbBean.toString());
+			if (dbBean.getType()==MyConstants.PHOTO||dbBean.getType() == MyConstants.CLOUD_PHOTO) {//条目类型照片
 				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
 				intent.putExtra("url", dbBean.getResourceUrl());
 				startActivity(intent);
-			}else if (dbBean.getType()==MyConstants.VIDEO) {//条目类型录像
+			}else if (dbBean.getType()==MyConstants.VIDEO||dbBean.getType() == MyConstants.CLOUD_VIDEO) {//条目类型录像
 				Intent videoIntent = new Intent(getActivity(),VideoDetailActivity.class);
 				videoIntent.putExtra("url",dbBean.getResourceUrl() );
+				LogUtils.e(dbBean.getResourceUrl()+"录像跳转时候的路径");
 				startActivity(videoIntent);
-			}else if (dbBean.getType()==MyConstants.RECORD) {//条目类型录音
+			}else if (dbBean.getType()==MyConstants.RECORD||dbBean.getType() == MyConstants.CLOUD_RECORD) {//条目类型录音
 				Intent recordIntent = new Intent(getActivity(),RecordDetailActivity.class);
 				recordIntent.putExtra("url", dbBean.getResourceUrl());
 				recordIntent.putExtra("recordTime", dbBean.getRecordTime());
-				
+				LogUtils.e(dbBean.getResourceUrl()+"录音跳转时候的路径"+dbBean.getRecordTime()+"录音时长");
 				startActivity(recordIntent);
-			}
+			}	
 		}	
 		
 	}
@@ -294,33 +306,33 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	// 显示类别popwindow
 	private void showPop(View v) {
-		if (CheckUtil.isEmpty(window)) {
+		if (CheckUtil.isEmpty(nativeWindow)) {
 			View view = inflater.inflate(
 					R.layout.activity_category_cloudcvidence, null);
 			FrameLayout fl_empty = (FrameLayout) view
 					.findViewById(R.id.fl_empty);
 			TextView tv = (TextView) view.findViewById(R.id.tv_all);
-			window = new PopupWindow(view,
+			nativeWindow = new PopupWindow(view,
 					WindowManager.LayoutParams.MATCH_PARENT,
 					WindowManager.LayoutParams.MATCH_PARENT);
 			// 实例化一个ColorDrawable颜色为半透明
 			ColorDrawable dw = new ColorDrawable(0xb0000000);
 			// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
-			window.setBackgroundDrawable(dw);
-			window.setTouchable(true);
+			nativeWindow.setBackgroundDrawable(dw);
+			nativeWindow.setTouchable(true);
 			fl_empty.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View arg0) {
-					if (window.isShowing()) {
+					if (nativeWindow.isShowing()) {
 						actionBar.setRightEnable();
-						window.dismiss();
+						nativeWindow.dismiss();
 					}
 				}
 			});
 		}
-		window.setAnimationStyle(R.style.mypopwindow_anim_style);
-		window.showAsDropDown(v);
+		nativeWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
+		nativeWindow.showAsDropDown(v);
 	}
 
 	// 显示底部下载按钮
@@ -339,10 +351,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.i("djj", "456");
 		if (keyCode == event.KEYCODE_BACK) {
-			if (!CheckUtil.isEmpty(window) && window.isShowing()) {
+			Log.i("djj", CheckUtil.isEmpty(nativeWindow)+"");
+			if (nativeWindow!=null && nativeWindow.isShowing()) {
+				Log.i("djj", "native");
 				actionBar.setRightEnable();
-				window.dismiss();
+				nativeWindow.dismiss();
 				return true;
 			}
 			if (!CheckUtil.isEmpty(downLoadwindow)

@@ -6,7 +6,36 @@ public class FileInfo {
 	private String fileName;
 	private String fileSize;
 	private String fileLoc;
+	private String llsize;
+	private int type;//文件类型 
+	private int mobiletype;//现场取证的文件类型
 	private String fileCreatetime;
+	private String fileTime;//文件时长
+	
+	public String getFileTime() {
+		return fileTime;
+	}
+	public void setFileTime(String fileTime) {
+		this.fileTime = fileTime;
+	}
+	public int getMobiletype() {
+		return mobiletype;
+	}
+	public void setMobiletype(int mobiletype) {
+		this.mobiletype = mobiletype;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+	public String getLlsize() {
+		return llsize;
+	}
+	public void setLlsize(String llsize) {
+		this.llsize = llsize;
+	}
 	public String getFileLoc() {
 		return fileLoc;
 	}
@@ -61,8 +90,14 @@ public class FileInfo {
 	}
 	@Override
 	public String toString() {
-		return "UpLoadInfo [filePath=" + filePath + ", fileName=" + fileName + ", fileSize=" + fileSize + ", position=" + position + ", resourceId=" + resourceId + "]";
+		return "FileInfo [filePath=" + filePath + ", fileName=" + fileName
+				+ ", fileSize=" + fileSize + ", fileLoc=" + fileLoc
+				+ ", llsize=" + llsize + ", type=" + type + ", mobiletype="
+				+ mobiletype + ", fileCreatetime=" + fileCreatetime
+				+ ", fileTime=" + fileTime + ", position=" + position
+				+ ", resourceId=" + resourceId + ", objectKey=" + objectKey
+				+ "]";
 	}
-
+	
 	
 }
