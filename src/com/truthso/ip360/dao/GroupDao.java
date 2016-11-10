@@ -52,7 +52,7 @@ public class GroupDao {
 			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
 			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
 			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
-			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+			bean.setFileSize(cursor.getString(cursor.getColumnIndex("llsize")));
 			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
@@ -76,7 +76,7 @@ public class GroupDao {
 			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
 			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
 			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
-			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+			bean.setFileSize(cursor.getString(cursor.getColumnIndex("llsize")));
 			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));

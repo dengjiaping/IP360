@@ -97,7 +97,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		vh.tv_filename.setText(mDatas.get(position).getTitle());
 		
 		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
-		
+			
 		vh.tv_date.setText(mDatas.get(position).getCreateTime());
 		if(mDatas.get(position).getStatus().equals("0")){
 			vh.tv_status.setText("正在上传");

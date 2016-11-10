@@ -47,6 +47,7 @@ public class SqlDao {
 		values.put("remark", dbBean.getRemark());
 		values.put("location", dbBean.getLocation());
 		values.put("status", dbBean.getStatus());//状态 0：正在上传  1上传完成  2上传失败
+		values.put("llsize", dbBean.getLlsize());
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);

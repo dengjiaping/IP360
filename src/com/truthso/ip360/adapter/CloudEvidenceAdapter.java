@@ -238,9 +238,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setFilePath(bean.getDatas()
 											.getFileUrl());
 									info.setFileName(data.getFileTitle());
-									long l_size = Long.parseLong(data.getFileSize());
-									String s_size = FileSizeUtil.setFileSize(l_size);
-									info.setFileSize(s_size);
+									
+									info.setFileSize(data.getFileSize());
 									// info.setFileSize(size);
 									info.setPosition(0);
 									info.setResourceId(data.getPkValue());
