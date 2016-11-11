@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -288,10 +289,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.rl_item:
 			final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
+			String url = "http://"+data1.getOssUrl();
 			Log.i("djj", data1.getOssUrl());
 			Intent intent2 = new Intent(context, VideoDetailActivity.class);
-			intent2.putExtra("url", data1.getOssUrl());
+			intent2.putExtra("url", url);
 			context.startActivity(intent2);
+			//调用系统自带的播放器  
+	        /*Intent intent2 = new Intent(Intent.ACTION_VIEW);  
+	        Uri u = Uri.parse(url);
+	        intent2.setDataAndType(u, "video/mp4");  
+	        context.startActivity(intent2);  */
 		default:
 			break;
 		}
