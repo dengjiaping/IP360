@@ -275,6 +275,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			if (dbBean.getType()==MyConstants.PHOTO||dbBean.getType() == MyConstants.CLOUD_PHOTO) {//条目类型照片
 				Intent intent = new Intent(getActivity(),PhotoDetailActivity.class);
 				intent.putExtra("url", dbBean.getResourceUrl());
+				intent.putExtra("from","native");
 				startActivity(intent);
 			}else if (dbBean.getType()==MyConstants.VIDEO||dbBean.getType() == MyConstants.CLOUD_VIDEO) {//条目类型录像
 				Intent videoIntent = new Intent(getActivity(),VideoDetailActivity.class);

@@ -235,9 +235,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			intent.putExtra("mobileType", mobileType);
 			intent.putExtra("from", "cloud");
 			startActivityForResult(intent, CODE_SEARCH);*/
-			Log.i("djj", "123456");
 		}else{
-			Log.i("djj", "7890");
 			CloudEviItemBean cloudEviItemBean2 = datas.get(position-1);
 			Log.i("djj", cloudEviItemBean2.getOssUrl());
 		}
@@ -304,7 +302,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 										info);
 
 								Toast toast = new Toast(getActivity());
-								toast.makeText(getActivity(), "文件开始下载到本地证据", 1)
+								toast.makeText(getActivity(), "文件开始下载到本地证据", Toast.LENGTH_SHORT)
 										.show();
 								toast.setGravity(Gravity.CENTER, 0, 0);
 							} else {

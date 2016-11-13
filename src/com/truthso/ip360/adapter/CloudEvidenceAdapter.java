@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
+import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.bean.CloudEviItemBean;
@@ -170,6 +171,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			TextView tv_certificate_preview = (TextView) view
 					.findViewById(R.id.tv_certificate_preview);
 			tv_remark.setOnClickListener(this);
+			tv_remark.setTag(position);
+			tv_certificate_preview.setTag(position);
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
@@ -269,7 +272,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 											info);
 
 									Toast toast = new Toast(context);
-									toast.makeText(context, "文件开始下载到本地证据", 1)
+									toast.makeText(context, "文件开始下载到本地证据", Toast.LENGTH_SHORT)
 											.show();
 									toast.setGravity(Gravity.CENTER, 0, 0);
 								} else {
@@ -282,23 +285,29 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					});
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
+			int position = (int) v.getTag();
+			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
+
 			Intent intent1 = new Intent(context, CertificationActivity.class);
-			intent1.putExtra("pkValue", pkValue);// 唯一标识
+			intent1.putExtra("pkValue", cloudEviItemBean.getPkValue());// 唯一标识
 			intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
 			context.startActivity(intent1);
 			break;
 		case R.id.rl_item:
 			final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 			String url = "http://"+data1.getOssUrl();
+			String format=data1.getFileFormat();
 			Log.i("djj", data1.getOssUrl());
-			Intent intent2 = new Intent(context, VideoDetailActivity.class);
-			intent2.putExtra("url", url);
-			context.startActivity(intent2);
-			//调用系统自带的播放器  
-	        /*Intent intent2 = new Intent(Intent.ACTION_VIEW);  
-	        Uri u = Uri.parse(url);
-	        intent2.setDataAndType(u, "video/mp4");  
-	        context.startActivity(intent2);  */
+			if(format.equals("mp4")){
+				Intent intent2 = new Intent(context, VideoDetailActivity.class);
+				intent2.putExtra("url", url);
+				context.startActivity(intent2);
+			}else if(format.equals("jpg")) {
+				Intent intent2 = new Intent(context, PhotoDetailActivity.class);
+				intent2.putExtra("url", url);
+				intent2.putExtra("from","cloud");
+				context.startActivity(intent2);
+			}
 		default:
 			break;
 		}
