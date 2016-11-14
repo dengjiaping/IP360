@@ -2,14 +2,13 @@ package com.truthso.ip360.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -40,6 +39,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private String userAccount,userPwd;
 	private CheckBox cb_checkbox;
 	private EditText et_useraccount,et_userpwd;
+	private ImageView iv_account_delete,iv_password_delete;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -50,12 +50,16 @@ protected void onCreate(Bundle savedInstanceState) {
 	public void initView() {
 		btn_title_left = (Button) findViewById(R.id.btn_title_left);
 		btn_title_left.setVisibility(View.INVISIBLE);
-		
+		iv_account_delete = (ImageView) findViewById(R.id.iv_account_delete);
+		iv_account_delete.setOnClickListener(this);
+		iv_password_delete = (ImageView) findViewById(R.id.iv_password_delete);
+		iv_password_delete.setOnClickListener(this);
 		
 		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
 		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(userAccount)){
 			et_useraccount.setText(userAccount);
+			
 		}
 		
 		
@@ -75,7 +79,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		
 		btn_loginin = (Button) findViewById(R.id.btn_loginin);
 		btn_loginin.setOnClickListener(this);
-
+		
 	}
 	
 	
@@ -90,6 +94,12 @@ protected void onCreate(Bundle savedInstanceState) {
 		case R.id.tv_forget_pwd:// 忘记密码
 			Intent intent1 = new Intent(this,findPwdActivity.class);
 			startActivity(intent1);
+			break;
+		case R.id.iv_account_delete://清空账号
+			et_useraccount.setText("");
+			break;
+		case R.id.iv_password_delete://清空密码
+			et_userpwd.setText("");
 			break;
 		case R.id.btn_loginin:// 登录
 

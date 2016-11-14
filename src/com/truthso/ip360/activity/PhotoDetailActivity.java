@@ -30,7 +30,7 @@ public class PhotoDetailActivity extends BaseActivity {
 	}
 
 	@Override
-	public void initView() {
+	public void initView(){
 		 iv_photo = (ImageView) findViewById(R.id.iv_photo);
 		/* BitmapUtils bitmap = new BitmapUtils(this);
          bitmap.display(iv_photo, url);*/

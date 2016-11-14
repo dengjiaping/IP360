@@ -1,7 +1,5 @@
 package com.truthso.ip360.utils;
 
-
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -665,6 +663,7 @@ public class CheckUtil {
 	 */
 	public static boolean isEmailFormat(String value) {
 		String regExp = "^[0-9a-z][a-z0-9\\._-]{1,}@[a-z0-9-]{1,}[a-z0-9]\\.[a-z\\.]{1,}[a-z]$";
+//		String regExp = "/^\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
@@ -683,134 +682,150 @@ public class CheckUtil {
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	public static boolean isIDFormatNew(String value) {
 		String pattern = "((11|12|13|14|15|21|22|23|31|32|33|34|35|36|37|41|42|43|44|45|46|50|51|52|53|54|61|62|63|64|65|71|81|82|91)\\d{4})((((19|20)(([02468][048])|([13579][26]))0229))|((20[0-9][0-9])|(19[0-9][0-9]))((((0[1-9])|(1[0-2]))((0[1-9])|(1\\d)|(2[0-8])))|((((0[1,3-9])|(1[0-2]))(29|30))|(((0[13578])|(1[02]))31))))((\\d{3}(x|X))|(\\d{4}))";
 		Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
-	
+
 	/**
 	 * 
-	 * @param value 护照
+	 * @param value
+	 *            护照
 	 * @return true:合法 false:不合法
 	 */
-	public static boolean isPassportNo(String value){
+	public static boolean isPassportNo(String value) {
 		String regExp = "^.{3,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
-	
+
 	/**
 	 * 港澳居民来往内地通行证
+	 * 
 	 * @param value
 	 * @return true:合法 false:不合法
 	 */
-	public static boolean isHKMacaoPermitNo(String value){
+	public static boolean isHKMacaoPermitNo(String value) {
 		String regExp = "^.{8,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
-	 * 户口簿 
-	 * @param value 
+	 * 户口簿
+	 * 
+	 * @param value
 	 * @return true:合法 false:不合法
 	 */
-	public static boolean isHouseHoldRegisterNo(String value){
+	public static boolean isHouseHoldRegisterNo(String value) {
 		String regExp = "^.{18}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 军官证
+	 * 
 	 * @param value
-	 * @return  true:合法 false:不合法
+	 * @return true:合法 false:不合法
 	 */
-	public static boolean isOfficersCertificateNo(String value){
+	public static boolean isOfficersCertificateNo(String value) {
 		String regExp = "^.{10,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 士兵证
+	 * 
 	 * @param value
 	 * @return true:合法 false:不合法
 	 */
-	public static boolean isSoldiersCertificateNo(String value){
+	public static boolean isSoldiersCertificateNo(String value) {
 		String regExp = "^.{18,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 驾照
+	 * 
 	 * @param value
 	 * @return true:合法 false:不合法
 	 */
-	public static boolean isDriverLicenseNo(String value){
+	public static boolean isDriverLicenseNo(String value) {
 		String regExp = "^.{3,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 出生证明
+	 * 
 	 * @param value
 	 * @return
 	 */
-	public static boolean isBirthCertificateNo(String value){
+	public static boolean isBirthCertificateNo(String value) {
 		String regExp = "^.{3,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 台湾居民来往大陆通行证
+	 * 
 	 * @param value
 	 * @return
 	 */
-	public static boolean isMTPNo(String value){
+	public static boolean isMTPNo(String value) {
 		String regExp = "^.{3,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
 	 * 通用校验规则，大于等于3位
+	 * 
 	 * @param value
 	 * @return
 	 */
-	public static boolean isCommonNoValidate(String value){
+	public static boolean isCommonNoValidate(String value) {
 		String regExp = "^.{3,}$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
+
 	/**
-	 * 校验密码规则
-	 * 密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写
+	 * 校验密码规则 1密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写regExp
+	 *  2密码6—18位字母数字字符组成的
 	 * 
 	 * 
-	 * 
-	 * 如果要限定特殊字符，例如，特殊字符的范围为 !#$%^&*  ，那么可以这么改
+	 * 如果要限定特殊字符，例如，特殊字符的范围为 !#$%^&* ，那么可以这么改
 	 * ^(?![\d]+$)(?![a-zA-Z]+$)(?![!#$%^&*]+$)[\da-zA-Z!#$%^&*]{6,20}$
 	 * 
 	 * @param value
 	 * @return
 	 */
 	public static boolean isPassWordValidate(String value){
-		String regExp = "((?=.*\\d)(?=.*\\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,20}$";
+//		String regExp = "((?=.*\\d)(?=.*\\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,20}$";
+		String regExp= "/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,18}$/\n";
 		//String regExp = "/^[\\@A-Za-z0-9\\!\\#\\$\\%\\^\\&\\*\\.\\~]{6,20}$/";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
 	}
-
-
 
 	/**
 	 * 特殊字符验证
@@ -893,27 +908,28 @@ public class CheckUtil {
 		switch (simState) {
 
 		case TelephonyManager.SIM_STATE_ABSENT:
-			Toast.makeText(context, "无SIM卡",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "无SIM卡", Toast.LENGTH_SHORT).show();
 			return false;
 
 		case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
-			Toast.makeText(context, "需要NetworkPIN解锁",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "需要NetworkPIN解锁", Toast.LENGTH_SHORT)
+					.show();
 			return false;
 
 		case TelephonyManager.SIM_STATE_PIN_REQUIRED:
-			Toast.makeText(context, "需要PIN解锁",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "需要PIN解锁", Toast.LENGTH_SHORT).show();
 			return false;
 
 		case TelephonyManager.SIM_STATE_PUK_REQUIRED:
-			Toast.makeText(context, "需要PUN解锁",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "需要PUN解锁", Toast.LENGTH_SHORT).show();
 			return false;
 
 		case TelephonyManager.SIM_STATE_READY:
-			Toast.makeText(context, "良好",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "良好", Toast.LENGTH_SHORT).show();
 			return true;
 
 		case TelephonyManager.SIM_STATE_UNKNOWN:
-			Toast.makeText(context, "未知状态",Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "未知状态", Toast.LENGTH_SHORT).show();
 			return false;
 
 		default:
@@ -923,5 +939,16 @@ public class CheckUtil {
 		}
 
 	}
-
+	/**
+	 * 是否是身份证号
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean iscardNum(String validateContent) {
+		String regex = "/^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)$/\n";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+	
 }

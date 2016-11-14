@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/tv_psw"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:background="@null"
             android:hint="请输入由6~18位数字和字母组成的密码"
             android:textSize="@dimen/text_size" />

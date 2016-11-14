@@ -36,12 +36,14 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
-public class RealNameCertification extends BaseActivity implements OnClickListener {
+public class RealNameCertification extends BaseActivity implements
+		OnClickListener {
 	private Button btn_ver;
 	private ImageView iv_face;
-	private EditText et_cardid,et_realname;
-	private String cardId,realName;
+	private EditText et_cardid, et_realname;
+	private String cardId, realName;
 	private File faceFile;
+
 	@Override
 	public void initData() {
 
@@ -49,13 +51,13 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 
 	@Override
 	public void initView() {
-		iv_face=(ImageView) findViewById(R.id.iv_face);
+		iv_face = (ImageView) findViewById(R.id.iv_face);
 		iv_face.setOnClickListener(this);
 		btn_ver = (Button) findViewById(R.id.btn_ver);
 		btn_ver.setOnClickListener(this);
 		et_cardid = (EditText) findViewById(R.id.et_cardid);
 		et_realname = (EditText) findViewById(R.id.et_realname);
-		
+
 	}
 
 	@Override
@@ -67,123 +69,133 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 	public String setTitle() {
 		return "实名认证";
 	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.iv_face://采集照片		
+		case R.id.iv_face:// 采集照片
 			startActivityForResult(new Intent(this, LiveDectActivity.class), 20);
 			break;
-		case R.id.btn_ver://去认证		
+		case R.id.btn_ver:// 去认证
 			cardId = et_cardid.getText().toString().trim();
 			realName = et_realname.getText().toString().trim();
-			if (CheckUtil.isEmpty(cardId)||CheckUtil.isEmpty(cardId)) {
-				Toaster.showToast(RealNameCertification.this, "身份证号或者姓名不能为空");
-			}else{
-				//身份证正则
-				//调认证的接口
-				realNameVertification();
+			if (CheckUtil.isEmpty(cardId) || CheckUtil.isEmpty(realName)) {
+				Toaster.showToast(RealNameCertification.this, "身份证号或姓名不能为空");
+			} else {
+				if (CheckUtil.iscardNum(cardId)) {// 身份证正则
+					Toaster.showToast(RealNameCertification.this, "请输入正确的身份证号");
+				} else {
+						// 调认证的接口
+					realNameVertification();
+				}
+
 			}
-		
-			
+
 			break;
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	private void realNameVertification() {
 		showProgress("正在认证");
-		ApiManager.getInstance().setRealName(cardId, realName, faceFile, new ApiCallback() {
-			
-			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				hideProgress();
-				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
-						setResult(MyConstants.REALNAME_VERTIFICATION);
-						finish();
-					}else{
-						Toaster.showToast(RealNameCertification.this, response.getMsg());
-					}
-					
-				}else{
-					Toaster.showToast(RealNameCertification.this, "认证失败");
-				}
-				
-			}
+		ApiManager.getInstance().setRealName(cardId, realName, faceFile,
+				new ApiCallback() {
 
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+					@Override
+					public void onApiResult(int errorCode, String message,
+							BaseHttpResponse response) {
+						hideProgress();
+						if (!CheckUtil.isEmpty(response)) {
+							if (response.getCode() == 200) {
+								setResult(MyConstants.REALNAME_VERTIFICATION);
+								finish();
+							} else {
+								Toaster.showToast(RealNameCertification.this,
+										response.getMsg());
+							}
+
+						} else {
+							Toaster.showToast(RealNameCertification.this,
+									"认证失败");
+						}
+
+					}
+
+					@Override
+					public void onApiResultFailure(int statusCode,
+							Header[] headers, byte[] responseBody,
+							Throwable error) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		if(requestCode==20&&!CheckUtil.isEmpty(data)){
+
+		if (requestCode == 20 && !CheckUtil.isEmpty(data)) {
 			Bundle result = data.getBundleExtra("result");
-			boolean check_pass =result.getBoolean("check_pass");	
-			if(check_pass){
+			boolean check_pass = result.getBoolean("check_pass");
+			if (check_pass) {
 				byte[] byteArray = result.getByteArray("pic_result");
-				Bitmap decodeByteArray = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);			
+				Bitmap decodeByteArray = BitmapFactory.decodeByteArray(
+						byteArray, 0, byteArray.length);
 				iv_face.setImageBitmap(decodeByteArray);
-				String path=MyConstants.PHOTO_PATH;
-				File dir=new File(path);
-				if(!dir.exists()){
+				String path = MyConstants.PHOTO_PATH;
+				File dir = new File(path);
+				if (!dir.exists()) {
 					dir.mkdirs();
 				}
 				faceFile = new File(dir, "verPhoto.jpg");
-				 BufferedOutputStream bos;
+				BufferedOutputStream bos;
 				try {
-					bos = new BufferedOutputStream(new FileOutputStream(faceFile));
-					 decodeByteArray.compress(Bitmap.CompressFormat.JPEG, 100, bos);    
-				     bos.flush();    
-				     bos.close();    
+					bos = new BufferedOutputStream(new FileOutputStream(
+							faceFile));
+					decodeByteArray.compress(Bitmap.CompressFormat.JPEG, 100,
+							bos);
+					bos.flush();
+					bos.close();
 				} catch (FileNotFoundException e) {
-			
+
 					e.printStackTrace();
 				} catch (IOException e) {
-				
+
 					e.printStackTrace();
-				}    
-				
-			}else{
+				}
+
+			} else {
 				String mBadReason = result.getString("check_nopass_reason");
 				switch (Integer.parseInt(mBadReason)) {
 				case 1:
-					mBadReason="无人脸";
+					mBadReason = "无人脸";
 					break;
 				case 2:
-					mBadReason="多人脸";
+					mBadReason = "多人脸";
 					break;
 				case 3:
-					mBadReason="动作不符合";
+					mBadReason = "动作不符合";
 					break;
 				case 4:
-					mBadReason="图片损毁";
+					mBadReason = "图片损毁";
 					break;
 				case 5:
-					mBadReason="代表光线过暗";
+					mBadReason = "代表光线过暗";
 					break;
 				case 6:
-					mBadReason="代表光线过暗";
+					mBadReason = "代表光线过暗";
 					break;
 				case 8:
-					mBadReason="超时";
+					mBadReason = "超时";
 					break;
 				default:
 					break;
 				}
-				Toast.makeText(this, "检测失败/n/n原因:"+mBadReason, 0).show();
+				Toast.makeText(this, "检测失败/n/n原因:" + mBadReason, 0).show();
 			}
 		}
 	}
-	
+
 }

@@ -285,7 +285,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					});
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
-			int position = (int) v.getTag();
+			int position =  (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
 
 			Intent intent1 = new Intent(context, CertificationActivity.class);
@@ -294,20 +294,25 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent1);
 			break;
 		case R.id.rl_item:
-			final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
-			String url = "http://"+data1.getOssUrl();
-			String format=data1.getFileFormat();
-			Log.i("djj", data1.getOssUrl());
-			if(format.equals("mp4")){
-				Intent intent2 = new Intent(context, VideoDetailActivity.class);
-				intent2.putExtra("url", url);
-				context.startActivity(intent2);
-			}else if(format.equals("jpg")) {
-				Intent intent2 = new Intent(context, PhotoDetailActivity.class);
-				intent2.putExtra("url", url);
-				intent2.putExtra("from","cloud");
-				context.startActivity(intent2);
+			if (mDatas.size()>0) {
+				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
+				String url = "http://"+data1.getOssUrl();
+				String format=data1.getFileFormat();
+				Log.i("djj", data1.getOssUrl());
+				if(format.equals("mp4")){//视频
+					Intent intent2 = new Intent(context, VideoDetailActivity.class);
+					intent2.putExtra("url", url);
+					context.startActivity(intent2);
+				}else if(format.equals("jpg")||format.equals("png")) {//照片
+					Intent intent2 = new Intent(context, PhotoDetailActivity.class);
+					intent2.putExtra("url", url);
+					intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+					context.startActivity(intent2);
+				}else if (format.equals("")) {
+					
+				}
 			}
+		
 		default:
 			break;
 		}
