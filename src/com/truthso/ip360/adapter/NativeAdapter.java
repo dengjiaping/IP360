@@ -3,9 +3,14 @@ package com.truthso.ip360.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.LoginActivity;
+import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.RecordDetailActivity;
+import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
@@ -144,6 +149,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			ll_option.setVisibility(View.GONE);
 			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
 			TextView tv_preview=(TextView) ll_option.findViewById(R.id.tv_preview);
+			TextView tv_file_preview=(TextView) ll_option.findViewById(R.id.tv_file_preview);
 			
 			cb_option.setOnClickListener(new OnClickListener() {			
 				@Override
@@ -159,6 +165,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			tv_delete.setOnClickListener(this);
 			tv_preview.setTag(position);
 			tv_preview.setOnClickListener(this);
+			tv_file_preview.setTag(position);
+			tv_file_preview.setOnClickListener(this);
 		}
 	}
 	
@@ -188,12 +196,35 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			Intent intent = new Intent(context,CertificationActivity.class);
 			context.startActivity(intent);
 			break;
+		case R.id.tv_file_preview://文件预览
+			dbBean = mDatas.get((Integer) v.getTag());
+		
+//		       DbBean dbBean = mDatas.get(position-1);
+		       Log.i("djj", dbBean.toString());
+				if (dbBean.getType()==MyConstants.PHOTO||dbBean.getType() == MyConstants.CLOUD_PHOTO) {//条目类型照片
+					Intent photoIntent = new Intent(context,PhotoDetailActivity.class);
+					photoIntent.putExtra("url", dbBean.getResourceUrl());
+					photoIntent.putExtra("from","native");
+					context.startActivity(photoIntent);
+				}else if (dbBean.getType()==MyConstants.VIDEO||dbBean.getType() == MyConstants.CLOUD_VIDEO) {//条目类型录像
+					Intent videoIntent = new Intent(context,VideoDetailActivity.class);
+					videoIntent.putExtra("url",dbBean.getResourceUrl() );
+					LogUtils.e(dbBean.getResourceUrl()+"录像跳转时候的路径");
+					context.startActivity(videoIntent);
+				}else if (dbBean.getType()==MyConstants.RECORD||dbBean.getType() == MyConstants.CLOUD_RECORD) {//条目类型录音
+					Intent recordIntent = new Intent(context,RecordDetailActivity.class);
+					recordIntent.putExtra("url", dbBean.getResourceUrl());
+					recordIntent.putExtra("recordTime", dbBean.getRecordTime());
+					LogUtils.e(dbBean.getResourceUrl()+"录音跳转时候的路径"+dbBean.getRecordTime()+"录音时长");
+					context.startActivity(recordIntent);
+				}	
+			}	
 			
-		default:
-			break;
+		
+	
+			
 		}
 		
-	}
 	private void showDialog() {
 		alertDialog = new AlertDialog.Builder(context).
         	    setTitle("温馨提示").

@@ -63,7 +63,6 @@ import cz.msebera.android.httpclient.Header;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-
 public class CloudEvidence extends BaseFragment implements OnClickListener,
 		OnItemClickListener, XRefreshViewListener {
 	private int pagerNumber = 1;
@@ -345,6 +344,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				actionBar.setLeftText("拍照取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -361,6 +361,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		tv_video.setOnClickListener(new OnClickListener() {//录像			
 			@Override
 			public void onClick(View arg0) {
+				actionBar.setLeftText("录像取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -380,6 +381,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				actionBar.setLeftText("录音取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -398,6 +400,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				actionBar.setLeftText("线上取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -416,6 +419,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				actionBar.setLeftText("确权文件");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
