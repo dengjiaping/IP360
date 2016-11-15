@@ -122,6 +122,14 @@
             android:drawableTop="@drawable/ck"
             android:gravity="center"
             android:text="证书预览" />
+        <TextView
+            android:id="@+id/tv_file_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:drawableTop="@drawable/zxyl"
+            android:gravity="center"
+            android:text="在线预览" />
     </LinearLayout>
 
 </LinearLayout>

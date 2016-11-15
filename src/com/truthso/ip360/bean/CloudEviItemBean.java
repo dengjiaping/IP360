@@ -33,6 +33,7 @@ public class CloudEviItemBean {
 	private String fileUrl;//文件路径
 	private int pkValue;//证据记录主键值
 	private int count;//当次消费量
+	private int remarkText;//备注
 	private String ossUrl;
 	public String getOssUrl() {
 		return ossUrl;
@@ -111,6 +112,12 @@ public class CloudEviItemBean {
 	}
 	public void setPkValue(int pkValue) {
 		this.pkValue = pkValue;
+	}
+	public int getRemarkText() {
+		return remarkText;
+	}
+	public void setRemarkText(int remarkText) {
+		this.remarkText = remarkText;
 	}
 	
 	

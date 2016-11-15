@@ -83,12 +83,14 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		mDatas = GroupDao.getInstance(getActivity()).queryAll();
 
 		adapter = new NativeAdapter(getActivity(), mDatas);
-		listView.setAdapter(adapter);
-
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
-		et_find_service = (EditText) headView.findViewById(R.id.et_find_service);
 		listView.addHeaderView(headView);
+		listView.setAdapter(adapter);
+
+		
+		et_find_service = (EditText) headView.findViewById(R.id.et_find_service);
+
 		listView.setOnItemClickListener(this);		
         getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
        //getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
@@ -269,7 +271,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			intent.putExtra("mobileType", 50001);
 			intent.putExtra("from", "native");
 			startActivityForResult(intent, CODE_SEARCH);
-		}else {
+		}else {/*
 	       DbBean dbBean = mDatas.get(position-1);
 	       Log.i("djj", dbBean.toString());
 			if (dbBean.getType()==MyConstants.PHOTO||dbBean.getType() == MyConstants.CLOUD_PHOTO) {//条目类型照片
@@ -289,7 +291,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				LogUtils.e(dbBean.getResourceUrl()+"录音跳转时候的路径"+dbBean.getRecordTime()+"录音时长");
 				startActivity(recordIntent);
 			}	
-		}	
+		*/}	
 		
 	}
 

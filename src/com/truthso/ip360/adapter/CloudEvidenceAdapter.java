@@ -109,9 +109,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
-		RelativeLayout	rl_item=(RelativeLayout) convertView.findViewById(R.id.rl_item);
-		rl_item.setTag(position);
-		rl_item.setOnClickListener(this);
+//		RelativeLayout	rl_item=(RelativeLayout) convertView.findViewById(R.id.rl_item);
+//		rl_item.setTag(position);
+//		rl_item.setOnClickListener(this);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.tv_filename = (TextView) convertView
@@ -123,7 +123,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			pkValue = mDatas.get(position).getPkValue();
 			count = mDatas.get(position).getCount();
 			fileName = mDatas.get(position).getFileTitle();
-			format = fileName.substring(fileName.indexOf("."));// 格式
+//			format = fileName.substring(fileName.indexOf("."));// 格式
+			format = mDatas.get(position).getFileFormat();
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size = Long.parseLong(size);
@@ -172,6 +173,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			TextView tv_remark = (TextView) view.findViewById(R.id.tv_remark);
 			TextView tv_download = (TextView) view
 					.findViewById(R.id.tv_download);
+			TextView tv_file_preview = (TextView) view
+					.findViewById(R.id.tv_file_preview);
+			
 			TextView tv_certificate_preview = (TextView) view
 					.findViewById(R.id.tv_certificate_preview);
 			tv_remark.setOnClickListener(this);
@@ -180,7 +184,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
-
+			tv_file_preview.setTag(position);
+			tv_file_preview.setOnClickListener(this);
+			
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -220,6 +226,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.tv_remark:// 备注
+			int position1 =  (Integer) v.getTag();
+			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
 			Intent intent = new Intent(context, FileRemarkActivity.class);
 			intent.putExtra("count", count); // 当次消费钱数
 			intent.putExtra("fileName", fileName);
@@ -228,7 +236,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent.putExtra("size", size1);
 			intent.putExtra("mode", mode);
 			intent.putExtra("type", type);
-			intent.putExtra("pkValue", pkValue);
+			intent.putExtra("pkValue", cloudEviItemBean1.getPkValue());
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
@@ -304,17 +312,17 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
 			context.startActivity(intent1);
 			break;
-		case R.id.rl_item:
+		case R.id.tv_file_preview:
 			if (mDatas.size()>0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				String url = "http://"+data1.getOssUrl();
 				String format=data1.getFileFormat();
 				Log.i("djj", data1.getOssUrl());
-				if(format.equals("mp4")){//视频
+				if(format.equals("mp4")||format.equals(".avi")){//视频
 					Intent intent2 = new Intent(context, VideoDetailActivity.class);
 					intent2.putExtra("url", url);
 					context.startActivity(intent2);
-				}else if(format.equals("jpg")||format.equals("png")) {//照片
+				}else if(format.equals("jpg")||format.equals(".png")) {//照片
 					Intent intent2 = new Intent(context, PhotoDetailActivity.class);
 					intent2.putExtra("url", url);
 					intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
