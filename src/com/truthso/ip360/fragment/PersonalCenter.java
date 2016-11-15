@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ import cz.msebera.android.httpclient.Header;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class PersonalCenter extends BaseFragment implements OnClickListener {
+public class PersonalCenter extends BaseFragment implements OnClickListener,CompoundButton.OnCheckedChangeListener {
 	private PersonalMsgBean bean;
 	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
 	private int type;// 取证类型
@@ -68,6 +70,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	private String contractStart;
 	private String contractEnd;
 	private boolean isOk;
+	private CheckBox cb_iswifi;
 
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
@@ -104,6 +107,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
 
+		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
+		cb_iswifi.setOnCheckedChangeListener(this);
+		boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+		cb_iswifi.setChecked(isWifi);
 		getPersonalMsg();
 
 	}
@@ -392,6 +399,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,isChecked);
 	}
 
 	/**

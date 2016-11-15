@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -58,7 +59,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	private boolean isPre=false;
 
-	private int useType;
+	private int useType,pkValue;
 	private double video_fileSize_B;
 	private long ll;
 
@@ -229,7 +230,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			getport();
 			if(isPre){
 				filePre();
-				saveToDB();
+			//	saveToDB();
 			}
 			break;
 
@@ -239,7 +240,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	}
 	/**
 	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
-	 * @param fileType 文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
+	 * @param filetype 文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
 	 * @param fileSize 文件大小，单位为B
 	 * @param hashCode  哈希值 非空
 	 * @param fileDate取证时间
@@ -272,7 +273,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
-								int pkValue = datas.getPkValue();
+								 pkValue = datas.getPkValue();
 								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
@@ -287,7 +288,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
                               //上传文件
  							   UpLoadManager.getInstance().resuambleUpload(info);
 								finish();
-						
+								saveToDB();
 							} else {
 								Toaster.showToast(VideoPreserved.this,
 										bean.getMsg());
@@ -371,6 +372,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			dbBean.setLocation(loc);
 			dbBean.setLlsize(ll+"");
 			dbBean.setRecordTime(time);
+		    dbBean.setPkValue(pkValue+"");
+		    Log.i("djj","pkValue"+pkValue);
 			SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 		
 	}
@@ -386,7 +389,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 					public void onClick(DialogInterface dialog, int which) {
 						//上传文件信息
 						filePre();
-						saveToDB();//保存到数据库
+						//saveToDB();//保存到数据库
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {

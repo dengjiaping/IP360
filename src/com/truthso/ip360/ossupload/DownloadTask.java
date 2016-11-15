@@ -109,8 +109,9 @@ public class DownloadTask {
 
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
+								dbBean.setPkValue(info.getPkValue()+"");
 								dbBean.setStatus("2");
-								Log.i("djj", "down"+dbBean.toString());
+								Log.i("djj", "download"+dbBean.toString());
 								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
 								

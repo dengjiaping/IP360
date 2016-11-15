@@ -6,11 +6,15 @@ import java.util.List;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -179,13 +183,23 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	
 	@Override
 	public void onClick( View v) {
+		int position=(Integer) v.getTag();
+		dbBean = mDatas.get(position);
 		switch (v.getId()) {
 		case R.id.tv_delete://删除
 			showDialog();
-			dbBean = mDatas.get((Integer) v.getTag());
 			break;
 		case R.id.tv_preview://查看证书
+			//仅wifi下可查看证书
+			boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
+				return;
+			}
+			Log.i("djj","native"+dbBean.toString());
 			Intent intent = new Intent(context,CertificationActivity.class);
+			intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
+			intent.putExtra("type",dbBean.getType());
 			context.startActivity(intent);
 			break;
 			

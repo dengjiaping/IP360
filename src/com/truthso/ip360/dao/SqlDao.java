@@ -48,6 +48,7 @@ public class SqlDao {
 		values.put("location", dbBean.getLocation());
 		values.put("status", dbBean.getStatus());//状态 0：正在上传  1上传完成  2上传失败
 		values.put("llsize", dbBean.getLlsize());
+		values.put("pkvalue", dbBean.getPkValue());
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -162,6 +163,7 @@ public class SqlDao {
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
 			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			list.add(bean);
 
 		}

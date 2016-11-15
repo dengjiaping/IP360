@@ -80,7 +80,10 @@ public class MyConstants {
 	 * 保存的用户信息
 	 */
 	public final static String SP_USER_KEY = "IP360_user_key";
-	
-	
+
+	/**
+	 * 是否wifi下上传
+	 */
+	public final static String ISWIFI = "IsWifi";
 
 }

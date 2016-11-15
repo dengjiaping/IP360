@@ -11,9 +11,13 @@ import com.alibaba.sdk.android.oss.common.OSSLog;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 public class UpLoadManager {
 
@@ -52,6 +56,12 @@ public class UpLoadManager {
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 		
 		//resuambleUpload.resumableUploadWithRecordPathSetting();
+
+		boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+         if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+			 Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可上传");
+            return;
+		 }
 		resuambleUpload.putObject();
 		upLoadTaskMap.put(resourceId, resuambleUpload);		
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());

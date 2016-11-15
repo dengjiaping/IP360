@@ -25,7 +25,9 @@ import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -37,6 +39,8 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -263,6 +267,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setResourceId(data.getPkValue());
 									info.setFileLoc(data.getFileLocation());
 									info.setFileCreatetime(data.getFileDate());
+									info.setPkValue(data.getPkValue());
 									String url = bean.getDatas().getFileUrl();
 									// String
 									// objectKey=url.substring(url.indexOf("/")+1);
@@ -285,6 +290,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					});
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
+			//仅wifi下可查看证书
+			boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
+				return;
+			}
 			int position =  (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
 
@@ -308,8 +319,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					intent2.putExtra("url", url);
 					intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 					context.startActivity(intent2);
-				}else if (format.equals("")) {
-					
+				}else if (format.equals("3gp")) {
+					Intent intent2 = new Intent(context, RecordDetailActivity.class);
+					intent2.putExtra("url", url);
+					//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+					context.startActivity(intent2);
 				}
 			}
 		

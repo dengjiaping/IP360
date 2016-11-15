@@ -11,8 +11,12 @@ import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.NetStatusUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 
 public class DownLoadHelper {
@@ -35,6 +39,11 @@ public class DownLoadHelper {
 	// 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的`访问控制`章节
 
 	public void downloadFile(FileInfo fileinfo) {
+		boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+		if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+			Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可下载");
+			return;
+		}
 		DownloadTask task=new DownloadTask(oss,fileinfo);
 		task.start();
 		taskMap.put(fileinfo.getObjectKey(), task);

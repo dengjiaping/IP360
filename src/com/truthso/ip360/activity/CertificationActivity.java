@@ -1,6 +1,7 @@
 package com.truthso.ip360.activity;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
@@ -9,12 +10,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.truthso.ip360.activity.R.string;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CertificateInfoBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -31,18 +36,16 @@ public class CertificationActivity extends BaseActivity {
 	private WebView webview;
 	@Override
 	public void initData() {
-
+		pkValue = getIntent().getIntExtra("pkValue", 0);
+		type = getIntent().getIntExtra("type", 0);
+		Log.i("djj",pkValue+"_"+type);
 	}
 
 	@Override
 	public void initView() {
-		pkValue = getIntent().getIntExtra("pkValue", 0);
-		type = getIntent().getIntExtra("type", 0);
+
 		webview = (WebView) findViewById(R.id.webview);
 		WebSettings webSettings = webview.getSettings();
-		  
-		  
-		         
 		  
 		webSettings.setJavaScriptCanOpenWindowsAutomatically(true);  
 		webSettings.setUseWideViewPort(true);//关键点  
@@ -76,14 +79,16 @@ public class CertificationActivity extends BaseActivity {
 		 * 用WebView显示图片，可使用这个参数 设置网页布局类型： 1、LayoutAlgorithm.NARROW_COLUMNS ：  
 		 * 适应内容大小 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放  
 		 */  
-		webSettings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);  
-		  
-		
-				getPort();
+		webSettings.setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
+
+
+		getPort();
+
 	}
 
 	private void getPort() {
 		showProgress("正在加载...");
+		Log.i("djj",pkValue+":"+type);
 		ApiManager.getInstance().getCertificateInfo(pkValue, type, new ApiCallback() {
 			
 			@Override

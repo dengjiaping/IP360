@@ -11,7 +11,16 @@ public class FileInfo {
 	private int mobiletype;//现场取证的文件类型
 	private String fileCreatetime;
 	private String fileTime;//文件时长
-	
+	private int pkValue;
+
+	public int getPkValue() {
+		return pkValue;
+	}
+
+	public void setPkValue(int pkValue) {
+		this.pkValue = pkValue;
+	}
+
 	public String getFileTime() {
 		return fileTime;
 	}

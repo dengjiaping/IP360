@@ -81,6 +81,7 @@ public class GroupDao {
 			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
 			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			list.add(bean);
 		}
 		 cursor.close();

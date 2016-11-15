@@ -137,4 +137,8 @@ public class NetStatusUtil {
 			dialog.dismiss();
 		}
 	}
+
+
+
+
 }

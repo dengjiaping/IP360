@@ -25,7 +25,16 @@ public class DbBean {
     private String location;
     private String status;
     private String llsize;
-    
+    private String pkValue;
+
+	public String getPkValue() {
+		return pkValue;
+	}
+
+	public void setPkValue(String pkValue) {
+		this.pkValue = pkValue;
+	}
+
 	public String getLlsize() {
 		return llsize;
 	}
@@ -139,13 +148,22 @@ public class DbBean {
 
 	@Override
 	public String toString() {
-		return "DbBean [id=" + id + ", title=" + title + ", createTime="
-				+ createTime + ", fileSize=" + fileSize + ", jsonObject="
-				+ jsonObject + ", type=" + type + ", lable=" + lable
-				+ ", resourceUrl=" + resourceUrl + ", recordTime=" + recordTime
-				+ ", videoTime=" + videoTime + ", remark=" + remark
-				+ ", location=" + location + ", status=" + status + ", llsize="
-				+ llsize + "]";
+		return "DbBean{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", createTime='" + createTime + '\'' +
+				", fileSize='" + fileSize + '\'' +
+				", jsonObject='" + jsonObject + '\'' +
+				", type=" + type +
+				", lable='" + lable + '\'' +
+				", resourceUrl='" + resourceUrl + '\'' +
+				", recordTime='" + recordTime + '\'' +
+				", videoTime='" + videoTime + '\'' +
+				", remark='" + remark + '\'' +
+				", location='" + location + '\'' +
+				", status='" + status + '\'' +
+				", llsize='" + llsize + '\'' +
+				", pkValue='" + pkValue + '\'' +
+				'}';
 	}
-
 }

@@ -49,7 +49,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private Button btn_cancel, btn_save;
 	private boolean isPre=false;
 	private int useType;
-	private int mintime;
+	private int mintime,pkValue;
 	private double fileSize_B;
 	private long ll;
 	private Dialog alertDialog;
@@ -125,6 +125,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		dbBean.setRecordTime(time);
 		dbBean.setLocation(loc);
 		dbBean.setLlsize(ll+"");
+		dbBean.setPkValue(pkValue+"");
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
 	}
 
@@ -140,7 +141,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			getport();
 			if(isPre){
 				filePre();
-				saveData();
+				//saveData();
 			}
 			break;
 		default:
@@ -249,7 +250,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
-								int pkValue = datas.getPkValue();
+								pkValue = datas.getPkValue();
 								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
@@ -264,7 +265,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
                               //上传文件
  							   UpLoadManager.getInstance().resuambleUpload(info);
 								finish();
-						
+								saveData();//保存到数据库
 						
 							} else {
 								Toaster.showToast(LiveRecordPreActivity.this,
@@ -333,7 +334,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						//上传文件信息
 						filePre();
-						saveData();//保存到数据库
+						//saveData();//保存到数据库
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {

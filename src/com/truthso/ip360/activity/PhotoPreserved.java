@@ -51,7 +51,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private String path, title, size, date, loc;
 	private long length;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_account;
-	private int useType;
+	private int useType,pkValue;
 	private boolean isPre;
 	private double fileSize_B;
 	private long ll;
@@ -184,7 +184,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(path);
 		String imei = MyApplication.getInstance().getDeviceImei();
-		
+
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
 				ll + "", hashCode, date, loc, null, imei,
 				new ApiCallback() {
@@ -203,8 +203,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
-//								int pkValue = datas.getPkValue();
-                               	String objectkey = datas.getFileUrl();//文件上传的objectKey					
+								pkValue = datas.getPkValue();
+                               	String objectkey = datas.getFileUrl();//文件上传的objectKey
                                	int resourceId=datas.getPkValue();
 						    	//getPosition(pkValue);
                                	FileInfo info=new FileInfo();
@@ -216,7 +216,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                                	Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
 								//上传文件
 							   UpLoadManager.getInstance().resuambleUpload(info);
-//								saveToDb();
+								saveToDb();
 						           finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
@@ -287,10 +287,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		case R.id.btn_preserved:
 			getport();
 			if(isPre){
-
 				filePre();
-				saveToDb();
-
+				//saveToDb();
 			}
 			break;
 		default:
@@ -321,6 +319,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setFileSize(size);
 		dbBean.setLlsize(ll+"");
 		dbBean.setLocation(loc);
+		dbBean.setPkValue(pkValue+"");
 		SqlDao.getSQLiteOpenHelper().save(dbBean,
 				MyConstants.TABLE_MEDIA_DETAIL);
 		
@@ -347,7 +346,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					public void onClick(DialogInterface dialog, int which) {
 						//上传文件信息
 						filePre();
-						saveToDb();//保存到数据库
+					//	saveToDb();//保存到数据库
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
