@@ -280,6 +280,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setFileLoc(data.getFileLocation());
 									info.setFileCreatetime(data.getFileDate());
 									info.setPkValue(data.getPkValue());
+									info.setFileFormat(data.getFileFormat());
 									String url = bean.getDatas().getFileUrl();
 									// String
 									// objectKey=url.substring(url.indexOf("/")+1);
@@ -317,6 +318,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent1);
 			break;
 		case R.id.tv_file_preview:
+			//仅wifi下可查看证书
+			boolean isWifi=(Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可查看");
+				return;
+			}
 			if (mDatas.size()>0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				String url = "http://"+data1.getOssUrl();

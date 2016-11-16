@@ -1,12 +1,17 @@
 package com.truthso.ip360.activity;
 
+import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.truthso.ip360.activity.BaseActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.ImageLoaderUtil;
 
 /**
@@ -35,7 +40,29 @@ public class PhotoDetailActivity extends BaseActivity {
 		/* BitmapUtils bitmap = new BitmapUtils(this);
          bitmap.display(iv_photo, url);*/
         if(from.equals("cloud")){
-			ImageLoaderUtil.dispalyImage(url,iv_photo);
+			ImageLoaderUtil.dispalyImage(url,iv_photo,new ImageLoadingListener() {
+				
+				@Override
+				public void onLoadingStarted(String arg0, View arg1) {
+					showProgress("正在加载...");
+				}
+				
+				@Override
+				public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+					Toaster.showToast(PhotoDetailActivity.this, "加载失败");
+				}
+				
+				@Override
+				public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+					hideProgress();
+				}
+				
+				@Override
+				public void onLoadingCancelled(String arg0, View arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}else {
 			ImageLoaderUtil.displayFromSDCardopt(url,iv_photo,null);
 		}

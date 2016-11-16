@@ -1006,4 +1006,7 @@ public class CheckUtil {
 		Matcher m = p.matcher(validateContent);
 		return m.find();
 	}
+	
+	
+	
 }

@@ -1,9 +1,14 @@
 package com.truthso.ip360.activity;
 
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnErrorListener;
+import android.media.MediaPlayer.OnInfoListener;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.truthso.ip360.utils.MediaController;
@@ -28,7 +33,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 
 	}
 
-	@Override
+	@SuppressLint("NewApi") @Override
 	public void initView() {
 		path = getIntent().getStringExtra("url");
 		viv = (VideoView) findViewById(R.id.videoView);
@@ -39,6 +44,40 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 		//viv.setVideoURI(uri);
 		viv.requestFocus();
 		viv.start();
+		showProgress("正在缓冲...");
+		viv.setOnPreparedListener(new OnPreparedListener() {
+			
+			@Override
+			public void onPrepared(MediaPlayer arg0) {
+				// TODO Auto-generated method stub
+				 hideProgress();          
+			}
+		});
+		viv.setOnErrorListener(new OnErrorListener() {  
+            //视频无法播放监听  
+            public boolean onError(MediaPlayer mp, int what, int extra) {  
+                // TODO Auto-generated method stub  
+            	Toast.makeText(VideoDetailActivity.this, "视频无法播放", 0).show();
+                finish();  
+                return true;  
+            }  
+        });
+		viv.setOnInfoListener(new OnInfoListener() {
+			
+			@Override
+			public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
+				if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_START){  
+                   showProgress("正在缓冲...");
+                }else if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_END){  
+                    //此接口每次回调完START就回调END,若不加上判断就会出现缓冲图标一闪一闪的卡顿现象  
+                	  hideProgress();    
+                    if(mp.isPlaying()){  
+                       hideProgress();                          
+                    }  
+                }  
+				return true;
+			}
+		});
 	}
 
 	@Override

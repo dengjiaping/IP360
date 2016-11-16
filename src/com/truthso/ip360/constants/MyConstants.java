@@ -1,5 +1,7 @@
 package com.truthso.ip360.constants;
 
+import java.util.Map;
+
 import android.os.Environment;
 
 /**
@@ -85,5 +87,6 @@ public class MyConstants {
 	 * 是否wifi下上传
 	 */
 	public final static String ISWIFI = "IsWifi";
+	
 
 }

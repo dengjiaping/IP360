@@ -12,6 +12,14 @@ public class FileInfo {
 	private String fileCreatetime;
 	private String fileTime;//文件时长
 	private int pkValue;
+    private String fileFormat;
+	public String getFileFormat() {
+		return fileFormat;
+	}
+
+	public void setFileFormat(String fileFormat) {
+		this.fileFormat = fileFormat;
+	}
 
 	public int getPkValue() {
 		return pkValue;

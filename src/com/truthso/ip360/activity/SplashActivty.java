@@ -84,7 +84,7 @@ public class SplashActivty extends Activity {
 //		enterHome();
 
 //		// 检查联网更新
-//		checkUpdate();
+	//	checkUpdate();
 	}
 
 	private Handler handler = new Handler() {
@@ -263,45 +263,4 @@ public class SplashActivty extends Activity {
 		startActivity(intent);
 		finish();
 	}
-	/*
-	 * private void showUpdateDialog(){ AlertDialog.Builder builder = new
-	 * AlertDialog.Builder(this); builder.setTitle("发现新版本");
-	 * builder.setMessage("已经发布新版本了，希望您能及时升级。"); builder.setNeutralButton("升级",
-	 * new OnClickListener() {
-	 * 
-	 * @Override public void onClick(DialogInterface dialog, int which) { if
-	 * (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
-	 * { //升级 FinalHttp http = new FinalHttp(); http.configTimeout(1000);
-	 * http.download(downloadUrl,
-	 * Environment.getExternalStorageDirectory()+"/IP360.apk", new
-	 * AjaxCallBack<File>() {
-	 * 
-	 * @Override public void onFailure(Throwable t, int errorNo, String strMsg)
-	 * { super.onFailure(t, errorNo, strMsg); Toaster.showToast(ctx, "下载失败");
-	 * enterHome(); }
-	 * 
-	 * @Override public void onLoading(long count, long current) {
-	 * tv_download_progress.setVisibility(View.VISIBLE); int progress =
-	 * (int)(current*100/count);
-	 * tv_download_progress.setText("下载进度："+progress+"%"); }
-	 * 
-	 * @Override public void onStart() { super.onStart(); }
-	 * 
-	 * @Override public void onSuccess(File t) { installAPK(t); } });
-	 * 
-	 * }else{ Toaster.showToast(ctx, "sd卡不可用"); } } });
-	 * builder.setPositiveButton("暂不升级", new OnClickListener() {
-	 * 
-	 * @Override public void onClick(DialogInterface dialog, int which) {
-	 * dialog.dismiss(); enterHome(); } }); builder.setOnCancelListener(new
-	 * OnCancelListener() { }
-	 * 
-	 * @Override public void onCancel(DialogInterface dialog) { enterHome(); } }
-	 * ); builder.show();
-	 * 
-	 * } private void installAPK(File file) { Intent intent = new Intent();
-	 * intent.setAction("android.intent.action.VIEW");
-	 * intent.setDataAndType(Uri.fromFile(file),
-	 * "application/vnd.android.package-archive"); startActivity(intent); }
-*/
 }
