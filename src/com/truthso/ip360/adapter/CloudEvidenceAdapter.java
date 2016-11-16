@@ -54,7 +54,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	protected List<CloudEviItemBean> mDatas;
 	private int pkValue, type,mobileType;
 	private int count;// 当次消费条数
-	private String fileName, format, date, size, mode;
+	private String fileName, format, date, size, mode,remarkText;
 	private String size1;
 	private List<CloudEviItemBean> selectedList=new ArrayList<CloudEviItemBean>();
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
@@ -130,6 +130,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			long l_size = Long.parseLong(size);
 			size1 = FileSizeUtil.FormetFileSize(l_size);
 			mode = mDatas.get(position).getFileMode();
+			remarkText= mDatas.get(position).getRemarkText();
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -226,21 +227,24 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.tv_remark:// 备注
-			int position1 =  (Integer) v.getTag();
-			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
+			int position =  (Integer) v.getTag();
+			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
+			size = cloudEviItemBean.getFileSize();
+			long l_size = Long.parseLong(size);
+			size1 = FileSizeUtil.FormetFileSize(l_size);
 			Intent intent = new Intent(context, FileRemarkActivity.class);
-			intent.putExtra("count", count); // 当次消费钱数
-			intent.putExtra("fileName", fileName);
-			intent.putExtra("format", format);
-			intent.putExtra("date", date);
+			intent.putExtra("count", cloudEviItemBean.getCount()); // 当次消费钱数
+			intent.putExtra("fileName", cloudEviItemBean.getFileTitle());
+			intent.putExtra("format", cloudEviItemBean.getFileFormat());
+			intent.putExtra("date", cloudEviItemBean.getFileDate());
 			intent.putExtra("size", size1);
-			intent.putExtra("mode", mode);
+			intent.putExtra("mode", cloudEviItemBean.getFileMode());
 			intent.putExtra("type", type);
-			intent.putExtra("pkValue", cloudEviItemBean1.getPkValue());
+			intent.putExtra("remarkText", cloudEviItemBean.getRemarkText());
+			intent.putExtra("pkValue", cloudEviItemBean.getPkValue());
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
-
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			// final CloudEviItemBean data = mDatas.get(v.getId());
 
@@ -299,16 +303,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
 			//仅wifi下可查看证书
-			boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			/*boolean isWifi=(Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
 				return;
-			}
-			int position =  (Integer) v.getTag();
-			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
+			}*/
+			int position1 =  (Integer) v.getTag();
+			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
 
 			Intent intent1 = new Intent(context, CertificationActivity.class);
-			intent1.putExtra("pkValue", cloudEviItemBean.getPkValue());// 唯一标识
+			intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());// 唯一标识
 			intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
 			context.startActivity(intent1);
 			break;
@@ -317,21 +321,24 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				String url = "http://"+data1.getOssUrl();
 				String format=data1.getFileFormat();
+				format = format.toLowerCase();//格式变小写
 				Log.i("djj", data1.getOssUrl());
-				if(format.equals("mp4")||format.equals(".avi")){//视频
+				if(CheckUtil.isFormatVideo(format)){//视频
 					Intent intent2 = new Intent(context, VideoDetailActivity.class);
 					intent2.putExtra("url", url);
 					context.startActivity(intent2);
-				}else if(format.equals("jpg")||format.equals(".png")) {//照片
+				}else if(CheckUtil.isFormatPhoto(format)) {//照片
 					Intent intent2 = new Intent(context, PhotoDetailActivity.class);
 					intent2.putExtra("url", url);
 					intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 					context.startActivity(intent2);
-				}else if (format.equals("3gp")) {
+				}else if (CheckUtil.isFormatRadio(format)) {//音频
 					Intent intent2 = new Intent(context, RecordDetailActivity.class);
 					intent2.putExtra("url", url);
 					//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 					context.startActivity(intent2);
+				}else{
+					Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
 				}
 			}
 		

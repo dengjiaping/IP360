@@ -191,7 +191,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			break;
 		case R.id.tv_preview://查看证书
 			//仅wifi下可查看证书
-			boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
 				return;

@@ -186,6 +186,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
      <RelativeLayout
+         android:id="@+id/rl_app_remark"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
@@ -213,6 +214,37 @@
             android:layout_toRightOf="@id/tv_remark"
             android:background="@null"
             android:hint="请输入您的备注"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+     <RelativeLayout
+         android:id="@+id/rl_pc_remark"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:visibility="invisible"
+        android:background="@color/item_bg" >
+
+        
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/iv_jiupsd"
+            android:text="备注:"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_marginRight="@dimen/layout_marginRight"
+            android:layout_toRightOf="@id/tv"
+            android:textColor="@color/gray"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
    

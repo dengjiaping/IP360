@@ -57,7 +57,7 @@ public class UpLoadManager {
 		
 		//resuambleUpload.resumableUploadWithRecordPathSetting();
 
-		boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
          if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 			 Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可上传");
             return;

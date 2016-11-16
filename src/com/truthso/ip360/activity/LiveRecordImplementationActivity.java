@@ -213,7 +213,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 		filePath = fileDir
 				+"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
-						Calendar.getInstance(Locale.CHINA)) + ".3gp";
+						Calendar.getInstance(Locale.CHINA)) + ".amr";
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		// 设置录音文件的格式,这里是指文件的后缀名格式,这个设置的3GP
