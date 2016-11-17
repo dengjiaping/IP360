@@ -69,7 +69,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private List<product> list;// 业务余量的集合
 	private String contractStart;
 	private String contractEnd;
-	private boolean isOk;
+	private boolean isOk,isContractUser;
 	private CheckBox cb_iswifi;
 
 	@Override
@@ -133,10 +133,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						// 账户余额
 						if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
 							int i = bean.getDatas().getAccountBalance();
-							String accountBalance = "余额￥" + i / 10 + "." + i
-									% 10 + "元";
+							String accountBalance = "余额￥" + i / 100 + "." + i
+									% 100/10 +i%100%10+ "元";
 							tv_account_balance.setText(accountBalance);
 						} else {// 合同用户
+							isContractUser = true;
 							iv_next_yue.setVisibility(View.VISIBLE);
 							contractStart = bean.getDatas().getContractStart();
 							contractEnd = bean.getDatas().getContractEnd();
@@ -225,15 +226,17 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		switch (view.getId()) {
 		case R.id.rl_account:// 账户余额，合同用户需跳转
 			if (isOk) {
-				Intent intent = new Intent(getActivity(),
-						AccountMagActivity.class);
-				// 传参
-				intent.putExtra("contractStart", contractStart);
-				intent.putExtra("contractEnd", contractEnd);
-				intent.putExtra("usedCount_photo", usedCount_photo + "");
-				intent.putExtra("usedCount_video", usedCount_video + "");
-				intent.putExtra("usedCount_record", usedCount_record + "");
-				startActivity(intent);
+				if (isContractUser) {
+					Intent intent = new Intent(getActivity(),
+							AccountMagActivity.class);
+					// 传参
+					intent.putExtra("contractStart", contractStart);
+					intent.putExtra("contractEnd", contractEnd);
+					intent.putExtra("usedCount_photo", usedCount_photo + "");
+					intent.putExtra("usedCount_video", usedCount_video + "");
+					intent.putExtra("usedCount_record", usedCount_record + "");
+					startActivity(intent);
+				}
 			} else {
 				getPersonalMsg();
 			}
