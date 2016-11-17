@@ -234,14 +234,22 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	}
 
 	/** 停止录音 */
-	private void stoprecordVoice() {
+/*	private void stoprecordVoice() {
 		if (mediaRecorder != null) {
 			mediaRecorder.stop(); // 停止录音
 			mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
 			mediaRecorder.release(); // 这个是否录音控件的,不然会一直占据资源
 		}
+	}*/
+	/** 停止录音 */
+	private void stoprecordVoice() {
+		if (mediaRecorder != null) {
+			mediaRecorder.stop(); // 停止录音
+		//	mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
+			mediaRecorder.release(); // 这个是否录音控件的,不然会一直占据资源
+			mediaRecorder=null;
+		}
 	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();

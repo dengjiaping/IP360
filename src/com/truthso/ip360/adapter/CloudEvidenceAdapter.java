@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,8 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +114,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 //		rl_item.setOnClickListener(this);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
+			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
 			vh.tv_filename = (TextView) convertView
 					.findViewById(R.id.tv_filename);
 			vh.tv_filedate = (TextView) convertView
@@ -126,6 +126,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			fileName = mDatas.get(position).getFileTitle();
 //			format = fileName.substring(fileName.indexOf("."));// 格式
 			format = mDatas.get(position).getFileFormat();
+			
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size = Long.parseLong(size);
@@ -144,7 +145,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		String s_size = FileSizeUtil.setFileSize(l_size);
 		
 		vh.tv_size.setText(s_size);
-
+		String format = mDatas.get(position).getFileFormat();
+		if (CheckUtil.isFormatPhoto(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+		}else if (CheckUtil.isFormatVideo(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
+		}else if (CheckUtil.isFormatRadio(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
+		}else if (CheckUtil.isFormatDoc(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
+		}
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
 
 		return convertView;
@@ -152,6 +162,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
 	class ViewHolder {
 		private CheckBox cb_choice, cb_option;
+		private ImageView iv_icon;
 		private TextView tv_filename, tv_filedate, tv_size;
 	}
 
