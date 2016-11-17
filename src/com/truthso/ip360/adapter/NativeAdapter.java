@@ -259,7 +259,15 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			Log.i("djj","native"+dbBean.toString());
 			Intent intent = new Intent(context,CertificationActivity.class);
 			intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
-			intent.putExtra("type",dbBean.getType());
+			int type1=0;
+			if(dbBean.getType()==7){
+				type1=3;
+			}else if(dbBean.getType()==6){
+				type1=1;
+			}else{
+				type1=2;
+			}
+			intent.putExtra("type",type1);
 			context.startActivity(intent);
 			break;
 		case R.id.tv_file_preview://预览文件
