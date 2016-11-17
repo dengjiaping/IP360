@@ -988,7 +988,7 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isFormatRadio(String validateContent) {
-		String regex = "^amr|aa|aac|a52|ac3|aif|aifc|aiff|au|snd|cda|cue|dts|dts|wav|fla|flac|mid|midi|rmi|far|it|mod|mtm|s3m|stm|umx|xm|ape|mac|mp1|mp2|mp3|mp3pro|mpa|m4a|mp4|mp+|mpc|ra|rm|tak|tta|ogg|wav|wma|dff|dsf$";
+		String regex = "^amr|mar|aa|aac|a52|ac3|aif|aifc|aiff|au|snd|cda|cue|dts|dts|wav|fla|flac|mid|midi|rmi|far|it|mod|mtm|s3m|stm|umx|xm|ape|mac|mp1|mp2|mp3|mp3pro|mpa|m4a|mp4|mp+|mpc|ra|rm|tak|tta|ogg|wav|wma|dff|dsf$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(validateContent);
 		return m.find();

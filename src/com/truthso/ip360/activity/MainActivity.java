@@ -156,7 +156,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	 */
 	private void checkUpdate() {
 		final String version = getVersion();
-		LogUtils.e(version+"本地的版本号");
+//		LogUtils.e(version+"本地的版本号");
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 					if (bean.getCode() == 200) {
 						downloadUrl = bean.getDatas().getApkURl();
 						iVersion = bean.getDatas().getiVersionCode();
-						LogUtils.e(iVersion+"服务器返回的版本号");
+//						LogUtils.e(iVersion+"服务器返回的版本号");
 						if (version.equals(iVersion)) {// 不需要更新
 //							Message msg = new Message();
 //							msg.what = UPDATA_NONEED;

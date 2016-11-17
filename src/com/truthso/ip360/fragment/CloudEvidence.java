@@ -32,6 +32,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
@@ -418,6 +419,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
+			
 		});
 		 tv_file.setOnClickListener(new OnClickListener() {//确权文件
 			
@@ -583,6 +585,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if(!CheckUtil.isEmpty(datas)){
 							list.addAll(datas);					   
 						}			
+//						LogUtils.e(type+"type");
 						 adapter.notifyDataChange(list,type,mobileType);
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
