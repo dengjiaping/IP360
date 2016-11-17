@@ -352,6 +352,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 list.clear();
 				type = 2;//现场取证
 				mobileType = 50001;
+				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 
@@ -373,6 +374,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 			    type = 2;//现场取证
 				mobileType = 50003;
+				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -393,6 +395,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 				type = 2;//现场取证
 				mobileType = 50002;
+				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -412,6 +415,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 				type = 3;//线上取证
    			    mobileType = 0;
+				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -579,7 +583,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if(!CheckUtil.isEmpty(datas)){
 							list.addAll(datas);					   
 						}			
-						 adapter.notifyDataChange(list,mobileType);
+						 adapter.notifyDataChange(list,type,mobileType);
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}

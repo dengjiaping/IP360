@@ -354,8 +354,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
-	public void notifyDataChange(List<CloudEviItemBean> list,int mobileType) {
+	public void notifyDataChange(List<CloudEviItemBean> list,int type,int mobileType) {
 		if (list != null) {
+			this.type=type;
 			this.mDatas = list;
             this.mobileType=mobileType;
 			notifyDataSetChanged();
