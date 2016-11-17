@@ -167,7 +167,6 @@ public class SqlDao {
 			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 			list.add(bean);
-
 		}
 		 cursor.close();
 		return list;

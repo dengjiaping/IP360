@@ -163,7 +163,7 @@ private String from;//类型，取证类型
 							Log.i("djj", datas.size()+"");
 							list.addAll(datas);					   
 						}			
-						 adapter.notifyDataChange(list,mobileType);
+					//	 adapter.notifyDataChange(list,mobileType);
 					}else{
 						Toaster.showToast(SearchCloudEvidenceActivity.this, bean.getMsg());
 					}
