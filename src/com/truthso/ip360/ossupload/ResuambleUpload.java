@@ -194,6 +194,7 @@ public class ResuambleUpload {
 			@Override
 			public void onFailure(PutObjectRequest arg0, ClientException clientExcepion,
 					ServiceException serviceException) {
+                SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "3");
 				 Log.i("djj", "failure");
 	                // 请求异常
 	                if (clientExcepion != null) {
