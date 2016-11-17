@@ -272,18 +272,18 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			break;
 		case R.id.tv_file_preview://预览文件
 			//仅wifi下可预览
-			boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			/*boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
 				return;
-			}
-			Log.i("djj","native"+dbBean.toString());
+			}*/
+			
 			if (mDatas.size()>0) {
 				
 			String url=dbBean.getResourceUrl();
 			String format=dbBean.getFileFormat();
 			format = format.toLowerCase();//格式变小写
-			
+			Log.e("djj",format);
 				if(CheckUtil.isFormatVideo(format)){//视频
 					Intent intent2 = new Intent(context, VideoDetailActivity.class);
 					intent2.putExtra("url", url);

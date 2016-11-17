@@ -18,6 +18,7 @@
         android:id="@+id/main_RadioGroup"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:gravity="center_vertical"
         android:layout_weight="1"
         android:layout_gravity="bottom"
         android:background="@color/ghostwhite"
@@ -27,7 +28,7 @@
 
         <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:background="@drawable/home_selector"
@@ -36,7 +37,7 @@
 
         <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
              android:background="@drawable/cloudevidence_selector"
@@ -45,7 +46,7 @@
 
         <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
              android:background="@drawable/native_selector"
@@ -54,7 +55,7 @@
 
         <RadioButton
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:background="@drawable/translist_selector"
@@ -64,7 +65,7 @@
         <RadioButton
             android:id="@+id/rb_pc"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:background="@drawable/personcenter_selector"
