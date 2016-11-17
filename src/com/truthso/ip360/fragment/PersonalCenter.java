@@ -109,7 +109,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 
 		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
 		cb_iswifi.setOnCheckedChangeListener(this);
-		boolean isWifi= (boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		cb_iswifi.setChecked(isWifi);
 		getPersonalMsg();
 

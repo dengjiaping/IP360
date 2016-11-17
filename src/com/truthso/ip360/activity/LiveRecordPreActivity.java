@@ -126,6 +126,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		dbBean.setLocation(loc);
 		dbBean.setLlsize(ll+"");
 		dbBean.setPkValue(pkValue+"");
+		dbBean.setFileFormat("mar");
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
 	}
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -27,14 +28,16 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 	private Button btn_title_right;
 	private int count, type;
 	private TextView tv_filename, tv_type, tv_date, tv_format, tv_size,
-			tv_account;
+			tv_account, tv_text;
 	private EditText et_text;
-	private String fileName, date, size, mode, format;
+	private String fileName, date, size, mode, format, remarkText;
 	int pkValue;
+	private RelativeLayout rl_pc_remark, rl_app_remark;
 
 	@Override
 	public void initData() {
 	}
+
 	@Override
 	public void initView() {
 		pkValue = getIntent().getIntExtra("pkValue", 0);
@@ -45,6 +48,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		mode = getIntent().getStringExtra("mode");
 		count = getIntent().getIntExtra("count", 0);
 		type = getIntent().getIntExtra("type", 0);
+		remarkText = getIntent().getStringExtra("remarkText");
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
 		btn_title_right.setText("保存");
@@ -64,6 +68,22 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		String account = "￥" + count / 10 + "." + count % 10 + "元";
 		tv_account.setText(account);
 		et_text = (EditText) findViewById(R.id.et_text);
+		rl_pc_remark = (RelativeLayout) findViewById(R.id.rl_pc_remark);
+		rl_app_remark = (RelativeLayout) findViewById(R.id.rl_app_remark);
+		tv_text = (TextView) findViewById(R.id.tv_text);
+		if (mode.equals("手机取证")) {// 手机取证可以更改备注
+			if (CheckUtil.isEmpty(remarkText)) {
+				et_text.setHint("请输入备注");
+			} else {
+				et_text.setText(remarkText);
+			}
+			// et_text.setText(rText);
+		} else {// 其他文件不可以更改备注
+			btn_title_right.setVisibility(View.INVISIBLE);
+			rl_pc_remark.setVisibility(View.VISIBLE);
+			rl_app_remark.setVisibility(View.GONE);
+			tv_text.setText(remarkText);
+		}
 	}
 
 	@Override
@@ -79,19 +99,31 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 	@Override
 	public void onClick(View v) {// 保存
 		String reText = et_text.getText().toString().trim();
+		String str = remarkText.toString().trim();
 		if (!CheckUtil.isEmpty(reText)) {
-		getPort(reText);
-		} else {
-			Toaster.showToast(this, "请输入备注");
+			if (str.equals(reText)) {
+				Toaster.showToast(this, "您没有要更新的备注");
+			} else {
+				getPort(reText);
+			}
+		}else{
+			Toaster.showToast(this, "请输入备注！");
 		}
+	
+		/*
+		 * if (!CheckUtil.isEmpty(reText)) { getPort(reText); } else {
+		 * Toaster.showToast(this, "请输入备注"); }
+		 */
 
 	}
+
 	/**
 	 * 调接口
+	 * 
 	 * @param reText
 	 */
 	private void getPort(String reText) {
-	showProgress("正在保存...");
+		showProgress("正在保存...");
 		ApiManager.getInstance().setFileRemark(reText, pkValue, type,
 				new ApiCallback() {
 					@Override
@@ -100,16 +132,19 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 						hideProgress();
 						if (!CheckUtil.isEmpty(response)) {
 							if (response.getCode() == 200) {
-								Toaster.showToast(FileRemarkActivity.this, "保存成功");
+								Toaster.showToast(FileRemarkActivity.this,
+										"保存成功");
 								finish();
-							}else{
-								Toaster.showToast(FileRemarkActivity.this, response.getMsg());
+							} else {
+								Toaster.showToast(FileRemarkActivity.this,
+										response.getMsg());
 							}
-						}else{
+						} else {
 							Toaster.showToast(FileRemarkActivity.this, "保存失败");
 						}
 
 					}
+
 					@Override
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,

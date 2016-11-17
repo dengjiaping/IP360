@@ -82,6 +82,7 @@ public class GroupDao {
 			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
 			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
+			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 			list.add(bean);
 		}
 		 cursor.close();

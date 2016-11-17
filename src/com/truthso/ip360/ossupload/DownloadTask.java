@@ -88,6 +88,7 @@ public class DownloadTask {
 								dbBean.setCreateTime(info.getFileCreatetime());
 								dbBean.setResourceUrl(info.getFilePath());
 								dbBean.setRecordTime(info.getFileTime());
+								dbBean.setFileFormat(info.getFileFormat());
 //								dbBean.setType(MyConstants.PHOTO);
 								int type = info.getType();//类型 1确权文件 2现场取证 3 线上取证
 								int mobileType = info.getMobiletype();//现场取证的类型 5001拍照 5002录音 5003录像

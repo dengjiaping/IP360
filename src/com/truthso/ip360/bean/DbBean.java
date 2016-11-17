@@ -26,6 +26,15 @@ public class DbBean {
     private String status;
     private String llsize;
     private String pkValue;
+    private String fileFormat;
+
+	public String getFileFormat() {
+		return fileFormat;
+	}
+
+	public void setFileFormat(String fileFormat) {
+		this.fileFormat = fileFormat;
+	}
 
 	public String getPkValue() {
 		return pkValue;
@@ -148,22 +157,27 @@ public class DbBean {
 
 	@Override
 	public String toString() {
-		return "DbBean{" +
-				"id=" + id +
-				", title='" + title + '\'' +
-				", createTime='" + createTime + '\'' +
-				", fileSize='" + fileSize + '\'' +
-				", jsonObject='" + jsonObject + '\'' +
-				", type=" + type +
-				", lable='" + lable + '\'' +
-				", resourceUrl='" + resourceUrl + '\'' +
-				", recordTime='" + recordTime + '\'' +
-				", videoTime='" + videoTime + '\'' +
-				", remark='" + remark + '\'' +
-				", location='" + location + '\'' +
-				", status='" + status + '\'' +
-				", llsize='" + llsize + '\'' +
-				", pkValue='" + pkValue + '\'' +
-				'}';
+		return "DbBean [id=" + id + ", title=" + title + ", createTime="
+				+ createTime + ", fileSize=" + fileSize + ", jsonObject="
+				+ jsonObject + ", type=" + type + ", lable=" + lable
+				+ ", resourceUrl=" + resourceUrl + ", recordTime=" + recordTime
+				+ ", videoTime=" + videoTime + ", remark=" + remark
+				+ ", location=" + location + ", status=" + status + ", llsize="
+				+ llsize + ", pkValue=" + pkValue + ", fileFormat="
+				+ fileFormat + ", getFileFormat()=" + getFileFormat()
+				+ ", getPkValue()=" + getPkValue() + ", getLlsize()="
+				+ getLlsize() + ", getStatus()=" + getStatus()
+				+ ", getVideoTime()=" + getVideoTime() + ", getLocation()="
+				+ getLocation() + ", getId()=" + getId() + ", getRemark()="
+				+ getRemark() + ", getRecordTime()=" + getRecordTime()
+				+ ", getResourceUrl()=" + getResourceUrl() + ", getTitle()="
+				+ getTitle() + ", getCreateTime()=" + getCreateTime()
+				+ ", getFileSize()=" + getFileSize() + ", getJsonObject()="
+				+ getJsonObject() + ", getType()=" + getType()
+				+ ", getLable()=" + getLable() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+
+	
 }

@@ -663,7 +663,8 @@ public class CheckUtil {
 	 */
 	public static boolean isEmailFormat(String value) {
 		String regExp = "^[0-9a-z][a-z0-9\\._-]{1,}@[a-z0-9-]{1,}[a-z0-9]\\.[a-z\\.]{1,}[a-z]$";
-//		String regExp = "/^\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$";
+		// String regExp =
+		// "/^\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
@@ -808,8 +809,7 @@ public class CheckUtil {
 	}
 
 	/**
-	 * 校验密码规则 1密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写regExp
-	 *  2密码6—18位字母数字字符组成的
+	 * 校验密码规则 1密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写regExp 2密码6—18位字母数字字符组成的
 	 * 
 	 * 
 	 * 如果要限定特殊字符，例如，特殊字符的范围为 !#$%^&* ，那么可以这么改
@@ -818,10 +818,12 @@ public class CheckUtil {
 	 * @param value
 	 * @return
 	 */
-	public static boolean isPassWordValidate(String value){
-//		String regExp = "((?=.*\\d)(?=.*\\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,20}$";
-		String regExp= "/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,18}$/\n";
-		//String regExp = "/^[\\@A-Za-z0-9\\!\\#\\$\\%\\^\\&\\*\\.\\~]{6,20}$/";
+	public static boolean isPassWordValidate(String value) {
+		// String regExp =
+		// "((?=.*\\d)(?=.*\\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,20}$";
+		String regExp = "/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,18}$/\n";
+		// String regExp =
+		// "/^[\\@A-Za-z0-9\\!\\#\\$\\%\\^\\&\\*\\.\\~]{6,20}$/";
 		Pattern p = Pattern.compile(regExp);
 		Matcher m = p.matcher(value);
 		return m.find();
@@ -939,8 +941,10 @@ public class CheckUtil {
 		}
 
 	}
+
 	/**
 	 * 是否是身份证号
+	 * 
 	 * @param validateContent
 	 * @return
 	 */
@@ -950,5 +954,59 @@ public class CheckUtil {
 		Matcher m = p.matcher(validateContent);
 		return m.find();
 	}
+
+	/**
+	 * 是否是支持格式的图片
+	 * 
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean isFormatPhoto(String validateContent) {
+		String regex = "^jpg|bmp|jpeg|jpeg2000|tiff|psd|png|swf|svg|pcx|dxf|wmf|emf|lic|eps|tga|gif|exif|fpx|cdr|pcd|ufo|ai|hdri|raw|pict$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+
+	/**
+	 * 是否是支持格式的视频
+	 * 
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean isFormatVideo(String validateContent) {
+		String regex = "^avi|wmv|rmvb|rm|flv|mp4|mid|3gp|mkv|mov|f4v|asf|navi|webm|mpeg1|mpeg2|mpeg4|divx|mpg|mpe|vob|ra|dat|qt$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+
+	/**
+	 * 是否是支持格式的音频
+	 * 
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean isFormatRadio(String validateContent) {
+		String regex = "^amr|aa|aac|a52|ac3|aif|aifc|aiff|au|snd|cda|cue|dts|dts|wav|fla|flac|mid|midi|rmi|far|it|mod|mtm|s3m|stm|umx|xm|ape|mac|mp1|mp2|mp3|mp3pro|mpa|m4a|mp4|mp+|mpc|ra|rm|tak|tta|ogg|wav|wma|dff|dsf$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+
+	/**
+	 * 是否是支持格式的文档
+	 * 
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean isFormatDoc(String validateContent) {
+		String regex = "^txt|rtf|doc|xls|ppt|htm|html|wpd|pdf|chm|pdg|wdl|hlp|wps|docx|docm|dotm|dot|xps|mht|mhtml|xml|odt|xlsx|xlsm|xlsb|xltx|xltm|xlt|csv|prn|dif|slk|xlam|ods|pptx|pptm|potx|potm|pot|thmx|ppsx|ppsm|pps|ppam|ppa|odp$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+	
+	
 	
 }
