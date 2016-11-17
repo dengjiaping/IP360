@@ -69,7 +69,8 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private List<DbBean> mDatas;
 	private LayoutInflater inflater;
 	private Activity mActivity;
-
+    private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
+	private String type;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -333,7 +334,99 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 					}
 				}
 			});
+
+
+			tv_photo = (TextView) view.findViewById(R.id.tv_photo);
+
+			tv_video = (TextView) view.findViewById(R.id.tv_video);
+
+			tv_record = (TextView) view.findViewById(R.id.tv_record);
+
+			tv_pc = (TextView) view.findViewById(R.id.tv_pc);
+
+			tv_file = (TextView) view.findViewById(R.id.tv_file);
 		}
+		tv_photo.setOnClickListener(new OnClickListener() {//拍照
+
+			@Override
+			public void onClick(View arg0) {
+				actionBar.setLeftText("拍照取证");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+				mDatas.clear();
+				String[] arg=new String[]{"0","3"};
+				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				adapter.addData(mDatas);
+			}
+
+
+		});
+
+		tv_video.setOnClickListener(new OnClickListener() {//录像
+			@Override
+			public void onClick(View arg0) {
+				actionBar.setLeftText("录像取证");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+
+				mDatas.clear();
+				String[] arg=new String[]{"1","4"};
+				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				adapter.addData(mDatas);
+			}
+		});
+
+		tv_record.setOnClickListener(new OnClickListener() {//录音
+
+			@Override
+			public void onClick(View arg0) {
+				actionBar.setLeftText("录音取证");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+
+				mDatas.clear();
+				String[] arg=new String[]{"2","5"};
+				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				adapter.addData(mDatas);
+			}
+		});
+		tv_pc.setOnClickListener(new OnClickListener() {//线上取证
+
+			@Override
+			public void onClick(View arg0) {
+				actionBar.setLeftText("线上取证");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+				mDatas.clear();
+				String[] arg=new String[]{"6"};
+				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				adapter.addData(mDatas);
+			}
+		});
+		tv_file.setOnClickListener(new OnClickListener() {//确权文件
+
+			@Override
+			public void onClick(View arg0) {
+				actionBar.setLeftText("确权文件");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+				mDatas.clear();
+				String[] arg=new String[]{"7"};
+				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				adapter.addData(mDatas);
+			}
+		});
+
 		nativeWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 		nativeWindow.showAsDropDown(v);
 	}

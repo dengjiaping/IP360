@@ -171,5 +171,31 @@ public class SqlDao {
 		 cursor.close();
 		return list;
 	}
-	
+
+
+	//查询所有
+	public List<DbBean> queryByType(String[] types) {
+		List<DbBean> list = new ArrayList<DbBean>();
+		SQLiteDatabase db = helper.getWritableDatabase();
+	//	Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
+
+		Cursor cursor = db.query("IP360_media_detail",null ,"type=? or type=?", types, null, null, "id desc");
+		while (cursor.moveToNext()) {
+			DbBean bean = new DbBean();
+			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
+			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
+			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
+			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
+			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
+			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			list.add(bean);
+		}
+		cursor.close();
+		return list;
+	}
 }

@@ -3,7 +3,7 @@
     android:id="@+id/xrefreshview_header_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white" >
+    android:background="#e8e8e8" >
 
     <RelativeLayout
         android:id="@+id/xrefreshview_header_text"
@@ -19,13 +19,13 @@
 
             <ImageView
                 android:id="@+id/xrefreshview_header_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:src="@drawable/a6" />
              <ImageView
                 android:id="@+id/xrefreshview_header_arrow1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
                 android:src="@anim/refresh_animation" />
         </RelativeLayout>
 
