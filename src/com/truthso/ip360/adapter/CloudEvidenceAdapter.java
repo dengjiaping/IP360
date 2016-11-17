@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -247,10 +248,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			// final CloudEviItemBean data = mDatas.get(v.getId());
-
+			LogUtils.e("下载的pkvalue"+data.getPkValue()+"下载的type"+type);
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
-
 						@Override
 						public void onApiResultFailure(int statusCode,
 								Header[] headers, byte[] responseBody,

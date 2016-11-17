@@ -26,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.fragment.CloudEvidence;
@@ -155,6 +156,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	 */
 	private void checkUpdate() {
 		String version = getVersion();
+		LogUtils.e(version);
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
