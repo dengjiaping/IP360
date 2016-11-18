@@ -194,10 +194,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				intent.putExtra("mintime", mintime);
 				intent.putExtra("loc", loc);
 				startActivity(intent);
-				finish();
-				
-				
-
+				finish();		
 			}
 			break;
 
@@ -237,8 +234,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private void stoprecordVoice() {
 		if (mediaRecorder != null) {
 			mediaRecorder.stop(); // 停止录音
-			mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
+		//	mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
 			mediaRecorder.release(); // 这个是否录音控件的,不然会一直占据资源
+			mediaRecorder=null;
 		}
 	}
 
