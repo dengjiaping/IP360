@@ -164,6 +164,7 @@ public abstract class BaseFragment extends Fragment {
 		return loadingDialog;  
 
 	} 
-	
+
+
 	
 }

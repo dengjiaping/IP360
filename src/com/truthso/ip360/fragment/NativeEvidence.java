@@ -172,8 +172,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		}
 		
 	};*/
-	
-	
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		//lv_cloudevidence.invalidate();
+		adapter.notifyDataSetInvalidated();
+	}
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

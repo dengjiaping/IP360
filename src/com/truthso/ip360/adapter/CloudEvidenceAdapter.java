@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -199,7 +200,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_download.setOnClickListener(this);
 			tv_file_preview.setTag(position);
 			tv_file_preview.setOnClickListener(this);
-			
+			cb_option.setChecked(false);
+			ll_option.setVisibility(View.GONE);
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -255,6 +257,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent.putExtra("remarkText", cloudEviItemBean.getRemarkText());
 			intent.putExtra("pkValue", cloudEviItemBean.getPkValue());
 			context.startActivity(intent);
+
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());

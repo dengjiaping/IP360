@@ -527,8 +527,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
-
-	
 	/**
 	 *底部加载更多
 	 */
@@ -541,6 +539,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onRelease(float direction) {
 		
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		//lv_cloudevidence.invalidate();
+		adapter.notifyDataSetInvalidated();
 	}
 
 	@Override
@@ -602,4 +607,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			}
 		});
 	}
+
+
+
 }
