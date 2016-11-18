@@ -108,6 +108,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
 
 		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
+		cb_iswifi.setChecked(true);
 		cb_iswifi.setOnCheckedChangeListener(this);
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		cb_iswifi.setChecked(isWifi);
@@ -165,13 +166,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 							}
 						}
 
-						// 是否已实名认证
+					/*	// 是否已实名认证
 						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证
 																		// ，2是已认证
 							tv_realname.setText("未实名认证");// 实名认证状态
 						} else if (bean.getDatas().getRealNameState() == 2) {
 							tv_realname.setText("已实名认证");// 实名认证状态
-						}
+						}*/
 
 						// 是否已绑定手机号
 						if (!CheckUtil.isEmpty(bean.getDatas()

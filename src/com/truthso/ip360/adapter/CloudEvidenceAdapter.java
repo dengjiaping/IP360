@@ -55,13 +55,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private boolean isAllSelect = false;
 	private boolean isChoice = false;
 	protected List<CloudEviItemBean> mDatas;
-	private int pkValue, type,mobileType;
+	private int pkValue, type, mobileType;
 	private int count;// 当次消费条数
-	private String fileName, format, date, size, mode,remarkText;
+	private int lastPosition = 1;
+	private String fileName, format, date, size, mode, remarkText;
 	private String size1;
-	private List<CloudEviItemBean> selectedList=new ArrayList<CloudEviItemBean>();
+	private List<CloudEviItemBean> selectedList = new ArrayList<CloudEviItemBean>();
+
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
-			int type,int mobileType) {
+			int type, int mobileType) {
 		super();
 		this.context = context;
 		this.mDatas = mDatas;
@@ -112,9 +114,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
-//		RelativeLayout	rl_item=(RelativeLayout) convertView.findViewById(R.id.rl_item);
-//		rl_item.setTag(position);
-//		rl_item.setOnClickListener(this);
+			// RelativeLayout rl_item=(RelativeLayout)
+			// convertView.findViewById(R.id.rl_item);
+			// rl_item.setTag(position);
+			// rl_item.setOnClickListener(this);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
@@ -127,15 +130,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			pkValue = mDatas.get(position).getPkValue();
 			count = mDatas.get(position).getCount();
 			fileName = mDatas.get(position).getFileTitle();
-//			format = fileName.substring(fileName.indexOf("."));// 格式
+			// format = fileName.substring(fileName.indexOf("."));// 格式
 			format = mDatas.get(position).getFileFormat();
-			
+
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size = Long.parseLong(size);
 			size1 = FileSizeUtil.FormetFileSize(l_size);
 			mode = mDatas.get(position).getFileMode();
-			remarkText= mDatas.get(position).getRemarkText();
+			remarkText = mDatas.get(position).getRemarkText();
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -146,33 +149,31 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
 		long l_size = Long.parseLong(mDatas.get(position).getFileSize());
 		String s_size = FileSizeUtil.setFileSize(l_size);
-		
+
 		vh.tv_size.setText(s_size);
 		String format = mDatas.get(position).getFileFormat();
-//		if (CheckUtil.isEmpty(format)) {
-			if (CheckUtil.isFormatPhoto(format)) {
-				vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
-			}else if (CheckUtil.isFormatVideo(format)) {
-				vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
-			}else if (CheckUtil.isFormatRadio(format)) {
-				vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
-			}else if (CheckUtil.isFormatDoc(format)) {
-				vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
-			}
-//		}
-	
+		// if (CheckUtil.isEmpty(format)) {
+		if (CheckUtil.isFormatPhoto(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+		} else if (CheckUtil.isFormatVideo(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);
+		} else if (CheckUtil.isFormatRadio(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);
+		} else if (CheckUtil.isFormatDoc(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
+		}
+		// }
+
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
-	/*	if(mDatas.get(position).isOpen){
-			//打开
-			ll_option.setVisibility(View.VISIBLE);	
-		}else{
-			//关闭
-		}*/
+		/*
+		 * if(mDatas.get(position).isOpen){ //打开
+		 * ll_option.setVisibility(View.VISIBLE); }else{ //关闭 }
+		 */
 		return convertView;
 	}
 
 	class ViewHolder {
-		private CheckBox cb_choice,cb_option;
+		private CheckBox cb_choice, cb_option;
 		private ImageView iv_icon;
 		private TextView tv_filename, tv_filedate, tv_size;
 	}
@@ -199,7 +200,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					.findViewById(R.id.tv_download);
 			TextView tv_file_preview = (TextView) view
 					.findViewById(R.id.tv_file_preview);
-			
+
 			TextView tv_certificate_preview = (TextView) view
 					.findViewById(R.id.tv_certificate_preview);
 			tv_remark.setOnClickListener(this);
@@ -213,13 +214,13 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			cb_option.setChecked(false);
 			ll_option.setVisibility(View.GONE);
 			if (mDatas.get(position).isOpen) {
-//				ll_option.setVisibility(View.VISIBLE);	
+				// ll_option.setVisibility(View.VISIBLE);
 				if (ll_option.getVisibility() == View.VISIBLE) {
 					ll_option.setVisibility(View.GONE);
 				} else {
-					ll_option.setVisibility(View.VISIBLE);	
+					ll_option.setVisibility(View.VISIBLE);
 				}
-			}else{
+			} else {
 				ll_option.setVisibility(View.GONE);
 			}
 			cb_option.setOnClickListener(new OnClickListener() {
@@ -228,21 +229,35 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				public void onClick(View v) {
 					switch (v.getId()) {
 					case R.id.cb_option:
-						for (int i = 0; i <mDatas.size() ; i++) {
+						for (int i = 0; i < mDatas.size(); i++) {
 							if (i==position) {
-								mDatas.get(i).isOpen=true;
+								if(lastPosition==position){
+									if(mDatas.get(i).isOpen){
+										mDatas.get(i).isOpen=false;
+									}else{
+									mDatas.get(i).isOpen=true;
+									}
+								}else{mDatas.get(i).isOpen=true;}
 							}else{
 								mDatas.get(i).isOpen=false;
 							}
+
 						}
-						notifyDataSetChanged();	
-						
-							/*if (ll_option.getVisibility() == View.VISIBLE) {
-								ll_option.setVisibility(View.GONE);
-							} else {
-								ll_option.setVisibility(View.VISIBLE);	
-							}*/
-					
+						notifyDataSetChanged();
+						lastPosition = position;
+						/*
+						 * for (int i = 0; i <mDatas.size() ; i++) { if
+						 * (i==position) { mDatas.get(i).isOpen=true; }else{
+						 * mDatas.get(i).isOpen=false; } }
+						 * notifyDataSetChanged();
+						 */
+
+						/*
+						 * if (ll_option.getVisibility() == View.VISIBLE) {
+						 * ll_option.setVisibility(View.GONE); } else {
+						 * ll_option.setVisibility(View.VISIBLE); }
+						 */
+
 						break;
 
 					default:
@@ -253,25 +268,26 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
-	public List<CloudEviItemBean> getSelected(){
+	public List<CloudEviItemBean> getSelected() {
 		return selectedList;
 	}
-	
+
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		int position = (Integer) buttonView.getTag();;
-		if(isChecked){
+		int position = (Integer) buttonView.getTag();
+		;
+		if (isChecked) {
 			selectedList.add(mDatas.get(position));
-		}else{
+		} else {
 			selectedList.remove(mDatas.get(position));
-		}	 
+		}
 	}
 
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.tv_remark:// 备注
-			int position =  (Integer) v.getTag();
+			int position = (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
 			size = cloudEviItemBean.getFileSize();
 			long l_size = Long.parseLong(size);
@@ -292,7 +308,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			// final CloudEviItemBean data = mDatas.get(v.getId());
-			LogUtils.e("下载的pkvalue"+data.getPkValue()+"下载的type"+type);
+			LogUtils.e("下载的pkvalue" + data.getPkValue() + "下载的type" + type);
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
 						@Override
@@ -309,13 +325,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							if (!CheckUtil.isEmpty(bean)) {
 								if (bean.getCode() == 200) {
 									FileInfo info = new FileInfo();
-									String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
-									info.setFilePath(nativePath);//在本地的路径
+									String nativePath = MyConstants.DOWNLOAD_PATH
+											+ "/" + data.getFileTitle();
+									info.setFilePath(nativePath);// 在本地的路径
 									info.setFileName(data.getFileTitle());
-									info.setType(type);//取证类型
-									info.setMobiletype(mobileType);//现场取证的类型
-									long l_size = Long.parseLong(data.getFileSize());
-									String s_size = FileSizeUtil.setFileSize(l_size);
+									info.setType(type);// 取证类型
+									info.setMobiletype(mobileType);// 现场取证的类型
+									long l_size = Long.parseLong(data
+											.getFileSize());
+									String s_size = FileSizeUtil
+											.setFileSize(l_size);
 									info.setFileSize(s_size);
 									info.setLlsize(data.getFileSize());
 									info.setPosition(0);
@@ -334,8 +353,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 											info);
 
 									Toast toast = new Toast(context);
-									toast.makeText(context, "文件开始下载到本地证据", Toast.LENGTH_SHORT)
-											.show();
+									toast.makeText(context, "文件开始下载到本地证据",
+											Toast.LENGTH_SHORT).show();
 									toast.setGravity(Gravity.CENTER, 0, 0);
 								} else {
 									Toaster.toast(context, bean.getMsg(), 1);
@@ -347,13 +366,19 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					});
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
-			//仅wifi下可查看证书
-			/*boolean isWifi=(Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
-			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
-				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
-				return;
-			}*/
-			int position1 =  (Integer) v.getTag();
+			// 仅wifi下可查看证书
+			/*
+			 * boolean isWifi=(Boolean)
+			 * SharePreferenceUtil.getAttributeByKey(MyApplication
+			 * .getApplication(),
+			 * MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil
+			 * .VALUE_IS_BOOLEAN);
+			 * if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication
+			 * .getApplication())){
+			 * Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
+			 * return; }
+			 */
+			int position1 = (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
 
 			Intent intent1 = new Intent(context, CertificationActivity.class);
@@ -362,47 +387,55 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent1);
 			break;
 		case R.id.tv_file_preview:
-			//仅wifi下可查看证书
-			boolean isWifi=(Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
-			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
-				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可查看");
+			// 仅wifi下可查看证书
+			boolean isWifi = (Boolean) SharePreferenceUtil.getAttributeByKey(
+					MyApplication.getApplication(), MyConstants.SP_USER_KEY,
+					MyConstants.ISWIFI, SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			if (isWifi
+					&& !NetStatusUtil.isWifiValid(MyApplication
+							.getApplication())) {
+				Toaster.showToast(MyApplication.getApplication(), "仅WIFI网络下可查看");
 				return;
 			}
-			if (mDatas.size()>0) {
+			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
-				String url = "http://"+data1.getOssUrl();
-				String format=data1.getFileFormat();
-				format = format.toLowerCase();//格式变小写
+				String url = "http://" + data1.getOssUrl();
+				String format = data1.getFileFormat();
+				format = format.toLowerCase();// 格式变小写
 				Log.i("djj", data1.getOssUrl());
-				if(CheckUtil.isFormatVideo(format)){//视频
-					Intent intent2 = new Intent(context, VideoDetailActivity.class);
+				if (CheckUtil.isFormatVideo(format)) {// 视频
+					Intent intent2 = new Intent(context,
+							VideoDetailActivity.class);
 					intent2.putExtra("url", url);
 					context.startActivity(intent2);
-				}else if(CheckUtil.isFormatPhoto(format)) {//照片
-					Intent intent2 = new Intent(context, PhotoDetailActivity.class);
+				} else if (CheckUtil.isFormatPhoto(format)) {// 照片
+					Intent intent2 = new Intent(context,
+							PhotoDetailActivity.class);
 					intent2.putExtra("url", url);
-					intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+					intent2.putExtra("from", "cloud");// 给个标记知道是云端的照片查看，不是本地的
 					context.startActivity(intent2);
-				}else if (CheckUtil.isFormatRadio(format)) {//音频
-					Intent intent2 = new Intent(context, RecordDetailActivity.class);
+				} else if (CheckUtil.isFormatRadio(format)) {// 音频
+					Intent intent2 = new Intent(context,
+							RecordDetailActivity.class);
 					intent2.putExtra("url", url);
-					//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+					// intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 					context.startActivity(intent2);
-				}else{
+				} else {
 					Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
 				}
 			}
-		
+
 		default:
 			break;
 		}
 	}
 
-	public void notifyDataChange(List<CloudEviItemBean> list,int type,int mobileType) {
+	public void notifyDataChange(List<CloudEviItemBean> list, int type,
+			int mobileType) {
 		if (list != null) {
-			this.type=type;
+			this.type = type;
 			this.mDatas = list;
-            this.mobileType=mobileType;
+			this.mobileType = mobileType;
 			notifyDataSetChanged();
 		}
 	}
