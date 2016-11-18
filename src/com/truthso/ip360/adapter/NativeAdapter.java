@@ -149,7 +149,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			vh.tv_filesize=(TextView) convertView.findViewById(R.id.tv_filesize);
 			vh.tv_status=(TextView) convertView.findViewById(R.id.tv_status);
 			vh.tv_date=(TextView) convertView.findViewById(R.id.tv_date);
-			
+			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
 			
 			vh.cb_choice.setOnCheckedChangeListener(this);
 			convertView.setTag(vh);
@@ -174,12 +174,22 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 				vh.tv_status.setText("上传失败");
 			}
 		}
-	
+		String format = mDatas.get(position).getFileFormat();
+		if (CheckUtil.isFormatPhoto(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+		}else if (CheckUtil.isFormatVideo(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
+		}else if (CheckUtil.isFormatRadio(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
+		}else if (CheckUtil.isFormatDoc(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
+		}
 		return convertView;
 	}
 
 	class ViewHolder{
 		private CheckBox cb_choice,cb_option;	
+		private ImageView iv_icon;
 		private TextView tv_filename,tv_date,tv_filesize,tv_status,tv_file_preview;
 	}
 	
