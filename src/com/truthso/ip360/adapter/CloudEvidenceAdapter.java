@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -147,28 +149,36 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		
 		vh.tv_size.setText(s_size);
 		String format = mDatas.get(position).getFileFormat();
-		if (CheckUtil.isFormatPhoto(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
-		}else if (CheckUtil.isFormatVideo(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
-		}else if (CheckUtil.isFormatRadio(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
-		}else if (CheckUtil.isFormatDoc(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
-		}
+//		if (CheckUtil.isEmpty(format)) {
+			if (CheckUtil.isFormatPhoto(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+			}else if (CheckUtil.isFormatVideo(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
+			}else if (CheckUtil.isFormatRadio(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
+			}else if (CheckUtil.isFormatDoc(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
+			}
+//		}
+	
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
-
+	/*	if(mDatas.get(position).isOpen){
+			//打开
+			ll_option.setVisibility(View.VISIBLE);	
+		}else{
+			//关闭
+		}*/
 		return convertView;
 	}
 
 	class ViewHolder {
-		private CheckBox cb_choice, cb_option;
+		private CheckBox cb_choice,cb_option;
 		private ImageView iv_icon;
 		private TextView tv_filename, tv_filedate, tv_size;
 	}
 
-	private void changeState(int position, View view, CheckBox cb_choice,
-			CheckBox cb_option) {
+	private void changeState(final int position, View view, CheckBox cb_choice,
+			final CheckBox cb_option) {
 		if (isChoice) {
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
@@ -202,17 +212,37 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_file_preview.setOnClickListener(this);
 			cb_option.setChecked(false);
 			ll_option.setVisibility(View.GONE);
+			if (mDatas.get(position).isOpen) {
+//				ll_option.setVisibility(View.VISIBLE);	
+				if (ll_option.getVisibility() == View.VISIBLE) {
+					ll_option.setVisibility(View.GONE);
+				} else {
+					ll_option.setVisibility(View.VISIBLE);	
+				}
+			}else{
+				ll_option.setVisibility(View.GONE);
+			}
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					switch (v.getId()) {
 					case R.id.cb_option:
-						if (ll_option.getVisibility() == View.VISIBLE) {
-							ll_option.setVisibility(View.GONE);
-						} else {
-							ll_option.setVisibility(View.VISIBLE);
+						for (int i = 0; i <mDatas.size() ; i++) {
+							if (i==position) {
+								mDatas.get(i).isOpen=true;
+							}else{
+								mDatas.get(i).isOpen=false;
+							}
 						}
+						notifyDataSetChanged();	
+						
+							/*if (ll_option.getVisibility() == View.VISIBLE) {
+								ll_option.setVisibility(View.GONE);
+							} else {
+								ll_option.setVisibility(View.VISIBLE);	
+							}*/
+					
 						break;
 
 					default:

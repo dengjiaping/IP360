@@ -8,12 +8,12 @@
      android:id="@+id/rl_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" >
+        >
 
         <LinearLayout
       
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal" >
 
             <CheckBox
@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/iv_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/wj" />
@@ -84,7 +84,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="5dp"
         android:background="@color/grey" />
 
     <LinearLayout
@@ -95,15 +94,18 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:visibility="gone" >
-
+        android:visibility="gone"
+       >
+ <!-- android:visibility="gone"  -->
         <TextView
             android:id="@+id/tv_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/xz"
             android:gravity="center"
-            android:text="下载" />
+            android:text="下载"
+             android:textColor="@color/title_text_color"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_remark"
@@ -112,7 +114,9 @@
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/bz"
             android:gravity="center"
-            android:text="备注" />
+            android:text="备注" 
+             android:textColor="@color/title_text_color"
+            android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/tv_certificate_preview"
@@ -121,7 +125,9 @@
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/ck"
             android:gravity="center"
-            android:text="证书预览" />
+            android:text="证书预览" 
+             android:textColor="@color/title_text_color"
+            android:textSize="10sp"/>
         <TextView
             android:id="@+id/tv_file_preview"
             android:layout_width="wrap_content"
@@ -129,7 +135,9 @@
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/zxyl"
             android:gravity="center"
-            android:text="在线预览" />
+            android:text="在线预览"
+             android:textColor="@color/title_text_color"
+            android:textSize="10sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -76,14 +76,14 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		tv_title = (TextView) view.findViewById(R.id.tv_title);
-		ll_count_pay = (RelativeLayout) view.findViewById(R.id.rl_count_pay);
-		ll_count_pay.setOnClickListener(this);
+//		ll_count_pay = (RelativeLayout) view.findViewById(R.id.rl_count_pay);
+//		ll_count_pay.setOnClickListener(this);
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
 		rl_account = (RelativeLayout) view.findViewById(R.id.rl_account);
 		rl_account.setOnClickListener(this);
-		rl_Certification = (RelativeLayout) view
-				.findViewById(R.id.rl_Certification);
-		rl_Certification.setOnClickListener(this);
+//		rl_Certification = (RelativeLayout) view
+//				.findViewById(R.id.rl_Certification);
+//		rl_Certification.setOnClickListener(this);
 
 		rl_bind_phonum = (RelativeLayout) view
 				.findViewById(R.id.rl_bind_phonum);
@@ -242,7 +242,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			}
 
 			break;
-		case R.id.rl_count_pay:// 用户充值
+	/*	case R.id.rl_count_pay:// 用户充值
 			if (isOk) {
 				// 合同用户不能充值
 				if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
@@ -256,10 +256,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				}
 			} else {
 				getPersonalMsg();
-			}
+			}*/
 
-			break;
-		case R.id.rl_Certification:// 实名认证
+//			break;
+	/*	case R.id.rl_Certification:// 实名认证
 			if (isOk) {
 				if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
 					Intent intent2 = new Intent(getActivity(),
@@ -275,7 +275,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				getPersonalMsg();
 			}
 
-			break;
+			break;*/
 
 		case R.id.rl_bind_phonum:// 绑定手机
 			if (isOk) {

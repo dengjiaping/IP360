@@ -35,6 +35,14 @@ public class CloudEviItemBean {
 	private int count;//当次消费量
 	private String remarkText;//备注
 	private String ossUrl;
+	public boolean isOpen = false;
+	
+	public boolean isOpen() {
+		return isOpen;
+	}
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
 	public String getOssUrl() {
 		return ossUrl;
 	}

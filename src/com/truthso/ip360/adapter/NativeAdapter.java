@@ -175,15 +175,18 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}
 		}
 		String format = mDatas.get(position).getFileFormat();
-		if (CheckUtil.isFormatPhoto(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
-		}else if (CheckUtil.isFormatVideo(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
-		}else if (CheckUtil.isFormatRadio(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
-		}else if (CheckUtil.isFormatDoc(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
+		if (!CheckUtil.isEmpty(format)) {
+			if (CheckUtil.isFormatPhoto(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+			}else if (CheckUtil.isFormatVideo(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);	
+			}else if (CheckUtil.isFormatRadio(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);	
+			}else if (CheckUtil.isFormatDoc(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);	
+			}
 		}
+	
 		return convertView;
 	}
 

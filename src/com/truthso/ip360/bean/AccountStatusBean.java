@@ -38,6 +38,14 @@ public class AccountStatusBean extends BaseHttpResponse{
 		private int usedCount;
 		private int balanceCount;
 		private int limitCount;
+		private String showText;
+		
+		public String getShowText() {
+			return showText;
+		}
+		public void setShowText(String showText) {
+			this.showText = showText;
+		}
 		public int getStatus() {
 			return status;
 		}
