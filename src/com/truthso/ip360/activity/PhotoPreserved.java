@@ -322,6 +322,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setPkValue(pkValue+"");
 		dbBean.setFileFormat("jpg");
 		dbBean.setStatus("0");
+		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
 		SqlDao.getSQLiteOpenHelper().save(dbBean,
 				MyConstants.TABLE_MEDIA_DETAIL);
 		

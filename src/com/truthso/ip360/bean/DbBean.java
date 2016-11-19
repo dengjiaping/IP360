@@ -173,20 +173,9 @@ public class DbBean {
 				+ ", videoTime=" + videoTime + ", remark=" + remark
 				+ ", location=" + location + ", status=" + status + ", llsize="
 				+ llsize + ", pkValue=" + pkValue + ", fileFormat="
-				+ fileFormat + ", getFileFormat()=" + getFileFormat()
-				+ ", getPkValue()=" + getPkValue() + ", getLlsize()="
-				+ getLlsize() + ", getStatus()=" + getStatus()
-				+ ", getVideoTime()=" + getVideoTime() + ", getLocation()="
-				+ getLocation() + ", getId()=" + getId() + ", getRemark()="
-				+ getRemark() + ", getRecordTime()=" + getRecordTime()
-				+ ", getResourceUrl()=" + getResourceUrl() + ", getTitle()="
-				+ getTitle() + ", getCreateTime()=" + getCreateTime()
-				+ ", getFileSize()=" + getFileSize() + ", getJsonObject()="
-				+ getJsonObject() + ", getType()=" + getType()
-				+ ", getLable()=" + getLable() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+				+ fileFormat + ", userId=" + userId + "]";
 	}
 
+	
 	
 }

@@ -135,8 +135,6 @@ protected void onCreate(Bundle savedInstanceState) {
 				LoginBean bean = (LoginBean) response;
 				if(!CheckUtil.isEmpty(bean)){
 					if(bean.getCode()==200){
-						int userId = bean.getDatas().getUserId();//用户的UUID
-						saveToDb(userId);
 						//登录成功
 						String token = bean.getDatas().getToken();//登录标识
 						//保存登录的token
@@ -152,7 +150,8 @@ protected void onCreate(Bundle savedInstanceState) {
 						
 						//保存帐号
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userAccount", userAccount);
-						
+						//保存userid
+						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userId", bean.getDatas().getUserId());
 						//判断是否保存帐号密码
 						savePwd();
 						Toaster.showToast(LoginActivity.this, bean.getMsg());
@@ -202,11 +201,5 @@ protected void onCreate(Bundle savedInstanceState) {
 	@Override
 	public String setTitle() {
 		return "用户登录";
-	}
-	//保存用户的UUID到数据库
-	private void saveToDb(int userId) {
-		DbBean dbBean = new DbBean();
-		dbBean.setUserId(userId);
-		SqlDao.getSQLiteOpenHelper().save(dbBean,MyConstants.TABLE_MEDIA_DETAIL);
 	}
 }

@@ -128,6 +128,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		dbBean.setPkValue(pkValue+"");
 		dbBean.setFileFormat("mar");
 		dbBean.setStatus("0");
+		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
 	}
 

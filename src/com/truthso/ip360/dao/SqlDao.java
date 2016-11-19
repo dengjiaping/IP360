@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -50,6 +52,7 @@ public class SqlDao {
 		values.put("llsize", dbBean.getLlsize());
 		values.put("pkvalue", dbBean.getPkValue());
 		values.put("fileformat", dbBean.getFileFormat());
+		values.put("userId", dbBean.getUserId());
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -152,7 +155,9 @@ public class SqlDao {
 	public List<DbBean> queryAll() {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = helper.getWritableDatabase();
-		Cursor cursor = db.query("IP360_media_detail", null,"userid", null, null, null, "id desc");
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
+		//Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
+		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
 		while (cursor.moveToNext()) {
 			DbBean bean = new DbBean();
 			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
