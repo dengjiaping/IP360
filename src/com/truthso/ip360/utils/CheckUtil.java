@@ -809,7 +809,8 @@ public class CheckUtil {
 	}
 
 	/**
-	 * 校验密码规则 1密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写regExp 2密码6—18位字母数字字符组成的
+	 * 校验密码规则 1密码要求由6-20位的字符组成，至少包含两种以上字母、数字或者半角字符并区分大小写regExp
+	 * 2.密码6—18位字母数字组成的字母，不区分大小写
 	 * 
 	 * 
 	 * 如果要限定特殊字符，例如，特殊字符的范围为 !#$%^&* ，那么可以这么改
@@ -821,7 +822,7 @@ public class CheckUtil {
 	public static boolean isPassWordValidate(String value) {
 		// String regExp =
 		// "((?=.*\\d)(?=.*\\D)|(?=.*[a-zA-Z])(?=.*[^a-zA-Z]))^.{6,20}$";
-		String regExp = "/^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,18}$/\n";
+		String regExp = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$";
 		// String regExp =
 		// "/^[\\@A-Za-z0-9\\!\\#\\$\\%\\^\\&\\*\\.\\~]{6,20}$/";
 		Pattern p = Pattern.compile(regExp);
@@ -962,7 +963,7 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isFormatPhoto(String validateContent) {
-		String regex = "^jpg|bmp|jpeg|jpeg2000|tiff|psd|png|swf|svg|pcx|dxf|wmf|emf|lic|eps|tga|gif|exif|fpx|cdr|pcd|ufo|ai|hdri|raw|pict$";
+		String regex = "^jpg|bmp|jpeg|pcx|cgm|jpeg2000|tiff|psd|png|swf|svg|pcx|dxf|wmf|emf|lic|eps|tga|gif|exif|fpx|cdr|pcd|ufo|ai|hdri|raw|pict$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(validateContent);
 		return m.find();
@@ -988,7 +989,7 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isFormatRadio(String validateContent) {
-		String regex = "^mar|amr|aa|aac|a52|ac3|aif|aifc|aiff|au|snd|cda|cue|dts|dts|wav|fla|flac|mid|midi|rmi|far|it|mod|mtm|s3m|stm|umx|xm|ape|mac|mp1|mp2|mp3|mp3pro|mpa|m4a|mp4|mp+|mpc|ra|rm|tak|tta|ogg|wav|wma|dff|dsf$";
+		String regex = "^mar|amr|acc|aa|aac|a52|ac3|aif|aifc|aiff|au|snd|cda|cue|dts|dts|wav|fla|flac|mid|midi|rmi|far|it|mod|mtm|s3m|stm|umx|xm|ape|mac|mp1|mp2|mp3|mp3pro|mpa|m4a|mp4|mp+|mpc|ra|rm|tak|tta|ogg|wav|wma|dff|dsf$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(validateContent);
 		return m.find();

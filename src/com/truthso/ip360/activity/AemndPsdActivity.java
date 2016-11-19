@@ -60,12 +60,16 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 			newPwd2 = et_again_newpwd.getText().toString().trim();
 			if (CheckUtil.isEmpty(oldPwd)||CheckUtil.isEmpty(newPwd)) {
 				Toaster.showToast(AemndPsdActivity.this, "旧密码或新密码不能为空");
+			}else if(!newPwd.equals(newPwd2)){
+				Toaster.showToast(AemndPsdActivity.this, "新密码与再次输入的密码不一致");
+			}else if(!CheckUtil.isPassWordValidate(newPwd)){
+				Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
+			}else if(newPwd.equals(oldPwd)){
+				Toaster.showToast(this, "要修改的密码不能与原密码相同");
+				
 			}else{
 				ChangePwd();
-				
 			}
-			
-			
 			break;
 
 		default:

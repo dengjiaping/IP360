@@ -10,8 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -133,6 +135,8 @@ protected void onCreate(Bundle savedInstanceState) {
 				LoginBean bean = (LoginBean) response;
 				if(!CheckUtil.isEmpty(bean)){
 					if(bean.getCode()==200){
+						int userId = bean.getDatas().getUserId();//用户的UUID
+						saveToDb(userId);
 						//登录成功
 						String token = bean.getDatas().getToken();//登录标识
 						//保存登录的token
@@ -164,6 +168,8 @@ protected void onCreate(Bundle savedInstanceState) {
 					Toaster.showToast(LoginActivity.this, "登录失败");
 				}					
 			}
+
+		
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
@@ -197,5 +203,10 @@ protected void onCreate(Bundle savedInstanceState) {
 	public String setTitle() {
 		return "用户登录";
 	}
-
+	//保存用户的UUID到数据库
+	private void saveToDb(int userId) {
+		DbBean dbBean = new DbBean();
+		dbBean.setUserId(userId);
+		SqlDao.getSQLiteOpenHelper().save(dbBean,MyConstants.TABLE_MEDIA_DETAIL);
+	}
 }

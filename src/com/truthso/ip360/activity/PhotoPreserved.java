@@ -358,6 +358,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						alertDialog.dismiss();
 					}
 				}).create();
-		alertDialog.show();
+	alertDialog.show();
 	}
 }
