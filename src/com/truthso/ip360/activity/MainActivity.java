@@ -28,6 +28,8 @@ import android.widget.RadioGroup;
 
 import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.bean.VerUpDateBean;
+import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.fragment.CloudEvidence;
 import com.truthso.ip360.fragment.HomeFragment;
@@ -37,22 +39,28 @@ import com.truthso.ip360.fragment.TransList;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.DownLoadHelper;
+import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.DownLoadApkUtli;
 import com.truthso.ip360.utils.FragmentTabUtils;
+import com.truthso.ip360.utils.NetStatusUtil;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.util.NetUtils;
 
-public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedChangedListener {
+public class MainActivity extends FragmentActivity implements
+		OnRgsExtraCheckedChangedListener {
 	private RadioGroup radioGroup;
 	private SharedPreferences sp;
 	private PersonalCenter personalCenter;
 	private RadioButton rb_pc;
 	private FragmentTabUtils fragmentTabUtils;
-	private String downloadUrl,iVersion;
+	private String downloadUrl, iVersion;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
+		checkIsUpDownload();
 	}
 
 	// 初始化控件
@@ -75,56 +84,58 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 		fragmentList.add(new PersonalCenter());// 个人中心
 		radioGroup = (RadioGroup) findViewById(R.id.main_RadioGroup);
 		((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
-		fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(), fragmentList, R.id.main_fragment, radioGroup);
+		fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(),
+				fragmentList, R.id.main_fragment, radioGroup);
 
 	}
 
 	@Override
-	public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
-
+	public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId,
+			int index) {
 
 	}
 
 	public void replaceFragment(Fragment argFragment, String argName) {
-		getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, argFragment, argName).commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.main_fragment, argFragment, argName).commit();
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		//BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag("fragment");
-		BaseFragment currentFragment = (BaseFragment) fragmentTabUtils.getCurrentFragment();
-		Log.i("djj", CheckUtil.isEmpty(currentFragment)+"2");
-		if(!CheckUtil.isEmpty(currentFragment)&& currentFragment.onKeyDown(keyCode, event)){
+		// BaseFragment baseFragment = (BaseFragment)
+		// getSupportFragmentManager().findFragmentByTag("fragment");
+		BaseFragment currentFragment = (BaseFragment) fragmentTabUtils
+				.getCurrentFragment();
+		Log.i("djj", CheckUtil.isEmpty(currentFragment) + "2");
+		if (!CheckUtil.isEmpty(currentFragment)
+				&& currentFragment.onKeyDown(keyCode, event)) {
 			Log.i("djj", "back");
 			return true;
-		} 
+		}
 		return super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		
-	
-		
+
 	}
 
 	@Override
 	protected void onDestroy() {
-//		BaiduLocationUtil.cancelLocation();
+		// BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
-		
+
 	}
-	
-	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
-		
-			switch (msg.what) {			
+
+			switch (msg.what) {
 			case 0:
 				// 对话框通知用户升级程序
 				showUpdataDialog();
 				break;
-	
+
 			case 1:
 				// 下载apk失败
 				Toaster.showToast(MainActivity.this, "获取版本号失败");
@@ -133,11 +144,13 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 				// 下载apk失败
 				Toaster.showToast(MainActivity.this, "下载新版本失败");
 				break;
-		
+
 			}
 		};
 
 	};
+	private List<FileInfo> queryUpLoadList;
+	private List<FileInfo> queryDownLoadList;
 
 	private String getVersion() {
 		try {
@@ -156,7 +169,7 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 	 */
 	private void checkUpdate() {
 		final String version = getVersion();
-//		LogUtils.e(version+"本地的版本号");
+		// LogUtils.e(version+"本地的版本号");
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -167,12 +180,12 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 					if (bean.getCode() == 200) {
 						downloadUrl = bean.getDatas().getApkURl();
 						iVersion = bean.getDatas().getiVersionCode();
-//						LogUtils.e(iVersion+"服务器返回的版本号");
+						// LogUtils.e(iVersion+"服务器返回的版本号");
 						if (version.equals(iVersion)) {// 不需要更新
-//							Message msg = new Message();
-//							msg.what = UPDATA_NONEED;
-//							handler.sendMessage(msg);
-						} else {// 需要更新//		
+						// Message msg = new Message();
+						// msg.what = UPDATA_NONEED;
+						// handler.sendMessage(msg);
+						} else {// 需要更新//
 							Message msg = new Message();
 							msg.what = 0;
 							handler.sendMessage(msg);
@@ -214,10 +227,9 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 		});
 		builer.setNegativeButton("取消", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				
+
 			}
 
-		
 		});
 		AlertDialog dialog = builer.create();
 		dialog.show();
@@ -261,7 +273,53 @@ public class MainActivity extends FragmentActivity implements OnRgsExtraCheckedC
 				"application/vnd.android.package-archive");
 		startActivity(intent);
 	}
-	
-	
-	
+
+	private void checkIsUpDownload() {
+		queryUpLoadList = UpDownLoadDao.getDao()
+				.queryUpLoadList();
+		queryDownLoadList = UpDownLoadDao.getDao()
+				.queryDownLoadList();
+		
+		if(queryUpLoadList.size()>0||queryDownLoadList.size()>0){
+			boolean wifiValid = NetStatusUtil.isWifiValid(this);
+			if (wifiValid) {
+				upOrDownLoad();
+			} else {
+				showUploadDialog();
+			}
+		}		
+	}
+
+	private void upOrDownLoad() {
+		 Log.i("djj", "size"+queryUpLoadList.size());
+		if (queryUpLoadList.size() > 0) {
+			for (int i = 0; i < queryUpLoadList.size(); i++) {
+				UpLoadManager.getInstance().resuambleUploadUnCaseNet(
+						queryUpLoadList.get(i));
+			       Log.i("djj", "objeckey"+queryUpLoadList.get(i).getObjectKey());
+			}
+		}
+		if (  queryDownLoadList.size() > 0) {
+			for (int i = 0; i < queryDownLoadList.size(); i++) {
+				DownLoadHelper.getInstance().downloadFileUnCaseNet(
+						queryDownLoadList.get(i));
+			}
+		}
+
+	}
+
+	private void showUploadDialog() {
+		AlertDialog ad = new AlertDialog.Builder(this).setTitle("提示")
+				.setMessage("网络不是WiFi状态，是否继续上传/下载?")
+				.setNegativeButton("否", null)
+				.setPositiveButton("是", new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						upOrDownLoad();
+					}
+				}).show();
+		ad.setCancelable(false);
+	}
+
 }

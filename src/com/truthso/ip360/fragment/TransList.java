@@ -150,6 +150,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 	}
 
 	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.i("djj", "123456");
+	}
+	
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.acition_bar_right:

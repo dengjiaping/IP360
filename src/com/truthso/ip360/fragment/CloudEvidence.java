@@ -621,10 +621,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		});
 	}
 
-	private 	int lastPosition;
+	private int lastPosition;
 	@Override
 	public void update(int position) {
-	
+		if(position==adapter.getCount()-1){
+			lv_cloudevidence.setSelection(position);
+		}
+		
 		if(position!=lastPosition){
 			int fir=lv_cloudevidence.getFirstVisiblePosition();
 			int las=lv_cloudevidence.getLastVisiblePosition();

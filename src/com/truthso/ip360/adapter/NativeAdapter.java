@@ -118,6 +118,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		this.isOpen=position;
 	}
 	public void addData(List<DbBean> list){
+		isOpen=Integer.MAX_VALUE;
 		this.mDatas.clear();
 		this.mDatas.addAll(list);
 		notifyDataSetChanged();
@@ -240,6 +241,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 				public void onClick(View v) {		
 						if(ll_option.getVisibility()==View.VISIBLE){
 							ll_option.setVisibility(View.GONE);
+							isOpen=Integer.MAX_VALUE;
 						}else{
 							ll_option.setVisibility(View.VISIBLE);
 							updateItem.update(position);

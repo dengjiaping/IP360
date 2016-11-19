@@ -245,6 +245,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				public void onClick(View v) {
 					if(ll_option.getVisibility()==View.VISIBLE){
 						ll_option.setVisibility(View.GONE);
+						isOpen=Integer.MAX_VALUE;
 					}else{
 						ll_option.setVisibility(View.VISIBLE);
 						updateItem.update(position);
@@ -423,6 +424,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			this.type = type;
 			this.mDatas = list;
 			this.mobileType = mobileType;
+			isOpen=Integer.MAX_VALUE;
 			notifyDataSetChanged();
 		}
 	}

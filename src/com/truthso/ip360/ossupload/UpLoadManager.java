@@ -68,6 +68,18 @@ public class UpLoadManager {
 //		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), resourceId,info.getObjectKey());
 	}
 	
+	
+	public void resuambleUploadUnCaseNet(FileInfo info){
+		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
+		
+		//resuambleUpload.resumableUploadWithRecordPathSetting();
+		resuambleUpload.putObject();
+		upLoadTaskMap.put(resourceId, resuambleUpload);		
+//		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
+//		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), resourceId,info.getObjectKey());
+	}
+	
+	
 	public void pause(int resourceId){
 		//upLoadTaskMap.remove(resourceId).pause();
 		upLoadTaskMap.get(resourceId).pause();

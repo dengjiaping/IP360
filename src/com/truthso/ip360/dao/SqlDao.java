@@ -152,7 +152,7 @@ public class SqlDao {
 	public List<DbBean> queryAll() {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = helper.getWritableDatabase();
-		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
+		Cursor cursor = db.query("IP360_media_detail", null,"userid", null, null, null, "id desc");
 		while (cursor.moveToNext()) {
 			DbBean bean = new DbBean();
 			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));

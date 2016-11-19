@@ -157,8 +157,8 @@ public class UpDownLoadDao {
 			info.setFilePath(cursor.getString(cursor
 					.getColumnIndex("uploadfilepath")));
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 			list.add(info);
-
 		}
 		return list;
 	}

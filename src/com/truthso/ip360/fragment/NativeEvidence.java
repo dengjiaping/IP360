@@ -85,7 +85,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setRightText("多选");
 		actionBar.setActionBarOnClickListener(this);
 		listView = (ListView) view.findViewById(R.id.lv_nativeevidence);
-		mDatas = GroupDao.getInstance(getActivity()).queryAll();
+		mDatas =SqlDao.getSQLiteOpenHelper().queryAll();
 
 		adapter = new NativeAdapter(getActivity(), mDatas);
 		adapter.setUpdateItem(this);
@@ -489,6 +489,10 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void update(int position) {
+		if(position==adapter.getCount()-1){
+			listView.setSelection(position);
+		}
+		
 		if(position!=lastPosition){
 			int fir=listView.getFirstVisiblePosition();
 			int las=listView.getLastVisiblePosition();

@@ -50,6 +50,14 @@ public class DownLoadHelper {
 		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize());
 	}
 	
+	public void downloadFileUnCaseNet(FileInfo fileinfo) {
+		
+		DownloadTask task=new DownloadTask(oss,fileinfo);
+		task.start();
+		taskMap.put(fileinfo.getObjectKey(), task);
+		//UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize());
+	}
+	
 	public void pauseDownload(String objectKey){
 		
 		DownloadTask downloadTask = taskMap.get(objectKey);
