@@ -60,9 +60,11 @@ public class RegisterSetPwd extends BaseActivity implements OnClickListener {
 		userPwd = et_pwd.getText().toString().trim();
 		if (CheckUtil.isEmpty(userPwd)) {
 			Toaster.showToast(RegisterSetPwd.this, "请设置密码");
+		}else if(!CheckUtil.isPassWordValidate(userPwd)){
+			
+			Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
 		}else{
 			regist();
-			
 		}
 		
 		

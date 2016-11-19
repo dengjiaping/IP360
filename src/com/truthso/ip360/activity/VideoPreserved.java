@@ -94,7 +94,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 	
-		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("D") + 2);
 //		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
 //				MediaStore.Images.Thumbnails.MICRO_KIND));
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);

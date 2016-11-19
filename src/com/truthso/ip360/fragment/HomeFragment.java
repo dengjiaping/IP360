@@ -223,8 +223,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 				long length=newFile.length();
 				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
-				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",
-						Calendar.getInstance(Locale.CHINA)).toString();
+				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",Calendar.getInstance(Locale.CHINA)).toString();
 				
 				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
@@ -274,7 +273,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			intent.putExtra("minTime", minTime);
 			intent.putExtra("size",size);
 			intent.putExtra("video_fileSize_B", video_fileSize_B);
-//			intent.putExtra("title", title);
+			intent.putExtra("title", title);
 			startActivity(intent);
 		}
 	}

@@ -27,6 +27,15 @@ public class DbBean {
     private String llsize;
     private String pkValue;
     private String fileFormat;
+    private  int userId;//用户的id
+    
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public String getFileFormat() {
 		return fileFormat;

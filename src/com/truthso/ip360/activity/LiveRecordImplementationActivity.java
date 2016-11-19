@@ -171,7 +171,8 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				File file = new File(filePath);
 				   long length = file.length();
 				   double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
-				   fileName = filePath.substring(filePath.indexOf("_") + 1);
+				   fileName = filePath.substring(filePath.lastIndexOf("/")+1);
+				   LogUtils.e(fileName+"录音的文件名");
 				recTotalTime = mRecordTime.getText().toString().trim();
 				i = timeUsedInsec%60;
 				if (i > 0) {
@@ -211,6 +212,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		filePath = fileDir
 				+"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".amr";
+		LogUtils.e(filePath+"录音的路径");
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		// 设置录音文件的格式,这里是指文件的后缀名格式,这个设置的3GP
