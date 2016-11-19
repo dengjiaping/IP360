@@ -237,7 +237,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			startActivityForResult(intent, CODE_SEARCH);*/
 		}else{
 			CloudEviItemBean cloudEviItemBean2 = datas.get(position-1);
-			Log.i("djj", cloudEviItemBean2.getOssUrl());
 		}
 
 	}
@@ -544,7 +543,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onStart() {
 		super.onStart();
-		//lv_cloudevidence.invalidate();
 		adapter.notifyDataSetInvalidated();
 	}
 

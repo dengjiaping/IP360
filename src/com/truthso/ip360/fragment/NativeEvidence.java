@@ -30,6 +30,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.adapter.NativeAdapter;
+import com.truthso.ip360.adapter.NativeAdapter.ViewHolder;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
@@ -60,7 +62,7 @@ import com.truthso.ip360.view.MainActionBar;
  */
 
 public class NativeEvidence extends BaseFragment implements OnClickListener,
-		OnItemClickListener {
+		OnItemClickListener,UpdateItem {
 	private MainActionBar actionBar;
 	private ListView listView;
 	private int CODE_SEARCH = 101;
@@ -71,6 +73,8 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private Activity mActivity;
     private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
 	private String type;
+	private int lastPosition;
+	private boolean isRefresh;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		mDatas = GroupDao.getInstance(getActivity()).queryAll();
 
 		adapter = new NativeAdapter(getActivity(), mDatas);
+		adapter.setUpdateItem(this);
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
 		listView.addHeaderView(headView);
@@ -176,9 +181,22 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onStart() {
 		super.onStart();
-		//lv_cloudevidence.invalidate();
+	if(isRefresh){
+		Log.i("djj", "123");
+		adapter.setisOpen(Integer.MAX_VALUE);
 		adapter.notifyDataSetInvalidated();
 	}
+		
+	}
+	
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		isRefresh=true;
+	}
+	
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -468,5 +486,25 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void update(int position) {
+		if(position!=lastPosition){
+			int fir=listView.getFirstVisiblePosition();
+			int las=listView.getLastVisiblePosition();
+			if(lastPosition>=fir&&lastPosition<=las){
+				View view = listView.getChildAt(lastPosition - fir+1);  
+				if(view!=null){
+					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+						NativeAdapter.ViewHolder vh=(ViewHolder)view.getTag();
+						vh.cb_option.setChecked(false);
+					}		
+				}					
+			}			
+		}
+		lastPosition=position;
 	}
 }

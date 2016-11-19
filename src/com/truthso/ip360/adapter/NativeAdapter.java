@@ -17,6 +17,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.NetStatusUtil;
@@ -52,6 +53,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private DbBean dbBean;
 	private List<Integer> selectedList=new ArrayList<Integer>();
 	private Map<String, String> formatMap=new HashMap<String, String>();
+	private UpdateItem updateItem;
+	private int isOpen=Integer.MAX_VALUE;
 	public NativeAdapter(Context context,List<DbBean> mDatas) {
 		super();
 		this.context = context;
@@ -107,6 +110,13 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	
 	}
 	
+	public void setUpdateItem(UpdateItem updateItem){
+		this.updateItem=updateItem;
+	}
+	
+	public void setisOpen(int position){
+		this.isOpen=position;
+	}
 	public void addData(List<DbBean> list){
 		this.mDatas.clear();
 		this.mDatas.addAll(list);
@@ -190,15 +200,15 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		return convertView;
 	}
 
-	class ViewHolder{
-		private CheckBox cb_choice,cb_option;	
+	public class ViewHolder{
+		public CheckBox cb_choice,cb_option;	
 		private ImageView iv_icon;
 		private TextView tv_filename,tv_date,tv_filesize,tv_status,tv_file_preview;
 	}
 	
 	
 	
-	private void changeState(int position, View view, CheckBox cb_choice,
+	private void changeState(final int position, View view, CheckBox cb_choice,
 			CheckBox cb_option) {
 		if(isChoice){
 			cb_choice.setVisibility(View.VISIBLE);
@@ -214,9 +224,14 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			cb_choice.setVisibility(View.GONE);
 			cb_option.setVisibility(View.VISIBLE);
 			cb_option.setChecked(false);
+		
 			
 			final LinearLayout ll_option = (LinearLayout) view.findViewById(R.id.ll_option);
 			ll_option.setVisibility(View.GONE);
+			if(position==isOpen){
+				cb_option.setChecked(true);
+				ll_option.setVisibility(View.VISIBLE);
+			}			
 			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
 			TextView tv_preview=(TextView) ll_option.findViewById(R.id.tv_preview);
 			TextView tv_file_preview=(TextView) ll_option.findViewById(R.id.tv_file_preview);
@@ -227,7 +242,10 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 							ll_option.setVisibility(View.GONE);
 						}else{
 							ll_option.setVisibility(View.VISIBLE);
+							updateItem.update(position);
+							isOpen=position;
 						}
+						
 				}
 			});
 			tv_delete.setTag(position);
