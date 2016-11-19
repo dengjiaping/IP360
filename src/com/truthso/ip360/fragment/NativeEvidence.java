@@ -182,7 +182,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	public void onStart() {
 		super.onStart();
 	if(isRefresh){
-		Log.i("djj", "123");
 		adapter.setisOpen(Integer.MAX_VALUE);
 		adapter.notifyDataSetInvalidated();
 	}

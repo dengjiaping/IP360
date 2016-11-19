@@ -27,6 +27,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
+import com.truthso.ip360.adapter.NativeAdapter;
+import com.truthso.ip360.adapter.NativeAdapter.ViewHolder;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
@@ -65,7 +68,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CloudEvidence extends BaseFragment implements OnClickListener,
-		OnItemClickListener, XRefreshViewListener {
+		OnItemClickListener, XRefreshViewListener, UpdateItem {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
 	private ListView lv_cloudevidence;
@@ -87,6 +90,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private Button btn_download;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
+	private boolean isRefresh;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -125,6 +129,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 
 		 adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
+		 adapter.setUpdateItem(this);
 		 lv_cloudevidence.setAdapter(adapter);
 		 setSearchMode();
 	}
@@ -543,7 +548,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onStart() {
 		super.onStart();
-		adapter.notifyDataSetInvalidated();
+		if(isRefresh){
+			adapter.setisOpen(Integer.MAX_VALUE);
+			adapter.notifyDataSetInvalidated();
+		}
+	}
+	
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		isRefresh=true;
 	}
 
 	@Override
@@ -604,6 +619,28 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				
 			}
 		});
+	}
+
+	private 	int lastPosition;
+	@Override
+	public void update(int position) {
+	
+		if(position!=lastPosition){
+			int fir=lv_cloudevidence.getFirstVisiblePosition();
+			int las=lv_cloudevidence.getLastVisiblePosition();
+			if(lastPosition>=fir&&lastPosition<=las){
+				View view = lv_cloudevidence.getChildAt(lastPosition - fir+1);  
+				if(view!=null){
+					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+						CloudEvidenceAdapter.ViewHolder vh=(com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder) view.getTag();
+						vh.cb_option.setChecked(false);
+					}		
+				}					
+			}			
+		}
+		lastPosition=position;
 	}
 
 

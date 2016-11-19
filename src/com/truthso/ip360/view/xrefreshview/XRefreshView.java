@@ -252,17 +252,17 @@ public class XRefreshView extends LinearLayout {
 					+ mContentView.isBottom());
 			deltaY = (int) (deltaY / OFFSET_RADIO);
 			if (mContentView.isTop()
-					&& (deltaY > 8 || (deltaY < -3 && mHolder
+					&& (deltaY > 16 || (deltaY < -6 && mHolder
 							.hasHeaderPullDown()))) {
 				sendCancelEvent();
 				updateHeaderHeight(currentY, deltaY);
 			} else if (mContentView.isBottom()
-					&& (deltaY < 0 || deltaY > -3 && mHolder.hasFooterPullUp())) {
+					&& (deltaY < 5 || deltaY > -6 && mHolder.hasFooterPullUp())) {
 				sendCancelEvent();
 				updateFooterHeight(deltaY);
 			} else if (mContentView.isTop() && !mHolder.hasHeaderPullDown()
 					|| mContentView.isBottom() && !mHolder.hasFooterPullUp()) {
-				if (deltaY > 8){
+				if (deltaY > 16){
 					sendDownEvent();
 				}
 					

@@ -34,6 +34,7 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -61,7 +62,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private String fileName, format, date, size, mode, remarkText;
 	private String size1;
 	private List<CloudEviItemBean> selectedList = new ArrayList<CloudEviItemBean>();
-
+	private UpdateItem updateItem;
+	private int isOpen=Integer.MAX_VALUE;
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
 			int type, int mobileType) {
 		super();
@@ -72,6 +74,14 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		inflater = LayoutInflater.from(context);
 	}
 
+	public void setUpdateItem(UpdateItem updateItem){
+		this.updateItem=updateItem;
+	}
+	
+	public void setisOpen(int position){
+		this.isOpen=position;
+	}
+	
 	public void addData(List<CloudEviItemBean> mDatas) {
 		this.mDatas.clear();
 		this.mDatas.addAll(mDatas);
@@ -172,8 +182,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		return convertView;
 	}
 
-	class ViewHolder {
-		private CheckBox cb_choice, cb_option;
+	public class ViewHolder {
+		public CheckBox cb_choice, cb_option;
 		private ImageView iv_icon;
 		private TextView tv_filename, tv_filedate, tv_size;
 	}
@@ -195,6 +205,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			cb_option.setVisibility(View.VISIBLE);
 			final LinearLayout ll_option = (LinearLayout) view
 					.findViewById(R.id.ll_option);
+			cb_option.setChecked(false);
+			ll_option.setVisibility(View.GONE);
+			if(position==isOpen){
+				cb_option.setChecked(true);
+				ll_option.setVisibility(View.VISIBLE);
+			}		
 			TextView tv_remark = (TextView) view.findViewById(R.id.tv_remark);
 			TextView tv_download = (TextView) view
 					.findViewById(R.id.tv_download);
@@ -211,7 +227,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_download.setOnClickListener(this);
 			tv_file_preview.setTag(position);
 			tv_file_preview.setOnClickListener(this);
-			cb_option.setChecked(false);
+			/*cb_option.setChecked(false);
 			ll_option.setVisibility(View.GONE);
 			if (mDatas.get(position).isOpen) {
 				// ll_option.setVisibility(View.VISIBLE);
@@ -222,47 +238,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				}
 			} else {
 				ll_option.setVisibility(View.GONE);
-			}
+			}*/
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					switch (v.getId()) {
-					case R.id.cb_option:
-						for (int i = 0; i < mDatas.size(); i++) {
-							if (i==position) {
-								if(lastPosition==position){
-									if(mDatas.get(i).isOpen){
-										mDatas.get(i).isOpen=false;
-									}else{
-									mDatas.get(i).isOpen=true;
-									}
-								}else{mDatas.get(i).isOpen=true;}
-							}else{
-								mDatas.get(i).isOpen=false;
-							}
-
-						}
-						notifyDataSetChanged();
-						lastPosition = position;
-						/*
-						 * for (int i = 0; i <mDatas.size() ; i++) { if
-						 * (i==position) { mDatas.get(i).isOpen=true; }else{
-						 * mDatas.get(i).isOpen=false; } }
-						 * notifyDataSetChanged();
-						 */
-
-						/*
-						 * if (ll_option.getVisibility() == View.VISIBLE) {
-						 * ll_option.setVisibility(View.GONE); } else {
-						 * ll_option.setVisibility(View.VISIBLE); }
-						 */
-
-						break;
-
-					default:
-						break;
-					}
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+					}else{
+						ll_option.setVisibility(View.VISIBLE);
+						updateItem.update(position);
+						isOpen=position;
+					}			
 				}
 			});
 		}
