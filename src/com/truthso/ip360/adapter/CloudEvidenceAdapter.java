@@ -162,6 +162,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
 		vh.tv_size.setText(s_size);
 		String format = mDatas.get(position).getFileFormat();
+		format = format.toLowerCase();// 格式变小写
 		// if (CheckUtil.isEmpty(format)) {
 		if (CheckUtil.isFormatPhoto(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
