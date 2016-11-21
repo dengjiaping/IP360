@@ -20,6 +20,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,10 +125,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
-			// RelativeLayout rl_item=(RelativeLayout)
-			// convertView.findViewById(R.id.rl_item);
-			// rl_item.setTag(position);
-			// rl_item.setOnClickListener(this);
+
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
@@ -239,6 +237,25 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			} else {
 				ll_option.setVisibility(View.GONE);
 			}*/
+
+			RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
+
+			rl_item.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+						isOpen=Integer.MAX_VALUE;
+						cb_option.setChecked(false);
+					}else{
+						ll_option.setVisibility(View.VISIBLE);
+						updateItem.update(position);
+						isOpen=position;
+						cb_option.setChecked(true);
+					}			
+				}
+			});
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -250,7 +267,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						ll_option.setVisibility(View.VISIBLE);
 						updateItem.update(position);
 						isOpen=position;
-					}			
+					}
 				}
 			});
 		}

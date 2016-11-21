@@ -40,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -210,7 +211,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	
 	
 	private void changeState(final int position, View view, CheckBox cb_choice,
-			CheckBox cb_option) {
+							 final CheckBox cb_option) {
 		if(isChoice){
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
@@ -236,6 +237,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			TextView tv_delete=(TextView) ll_option.findViewById(R.id.tv_delete);
 			TextView tv_preview=(TextView) ll_option.findViewById(R.id.tv_preview);
 			TextView tv_file_preview=(TextView) ll_option.findViewById(R.id.tv_file_preview);
+
 			cb_option.setOnClickListener(new OnClickListener() {			
 				@Override
 				public void onClick(View v) {		
@@ -248,6 +250,23 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 							isOpen=position;
 						}
 						
+				}
+			});
+			RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
+			rl_item.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+						isOpen=Integer.MAX_VALUE;
+						cb_option.setChecked(false);
+					}else{
+						ll_option.setVisibility(View.VISIBLE);
+						updateItem.update(position);
+						isOpen=position;
+						cb_option.setChecked(true);
+					}
+
 				}
 			});
 			tv_delete.setTag(position);
