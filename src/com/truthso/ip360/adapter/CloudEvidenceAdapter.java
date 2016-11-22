@@ -28,9 +28,11 @@ import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.fragment.CloudEvidence;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
@@ -326,8 +328,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
-			// final CloudEviItemBean data = mDatas.get(v.getId());
-			LogUtils.e("下载的pkvalue" + data.getPkValue() + "下载的type" + type);
+			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());
+			if(queryByPkValue){
+				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
+				return;
+			}
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
 						@Override

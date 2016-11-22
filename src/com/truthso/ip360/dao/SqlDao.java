@@ -113,7 +113,16 @@ public class SqlDao {
 		db.close();
 		return dbBean;
 	}
-	
+
+
+	public boolean queryByPkValue(int pkvalue) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor cursor = db.query("IP360_media_detail", null, "pkvalue=?", new String[] { pkvalue+"" }, null, null, null);
+
+		boolean moveToNext = cursor.moveToNext();
+		db.close();
+		return moveToNext;
+	}
 	
 	public List<DbBean> searchByKey(String key) {
 		SQLiteDatabase db = helper.getWritableDatabase();
