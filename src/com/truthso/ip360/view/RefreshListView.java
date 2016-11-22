@@ -150,6 +150,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		
 	}
 
 	@Override
@@ -157,7 +158,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			int visibleItemCount, int totalItemCount) {
 		// 记录滚动时列表第一个完整可见项的position
 		firstItemIndex = firstVisibleItem;
-		
+		 // 判断是否滚动到底部  
+        if (view.getLastVisiblePosition() == view.getCount() - 1) {  
+            //加载更多功能的代码  
+        	isLastItem=true;
+        }  
 	}
 
 	/** 监听触摸事件 */
@@ -286,8 +291,9 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			isRecored = true;
 			startY = curY;
 		}
-		if(isRecored && isLastItem==true){
-			if (curY - startY < 0&&onLoadState==FOOTER_HIDE) {// 表示向上拉了
+		if(isRecored && isLastItem==true&&isOnLoad==true){
+		Log.i("MyCusListView===>", curY - startY+"");
+			if (curY - startY < -120&&onLoadState==FOOTER_HIDE) {// 表示向上拉了
 					// 状态改为下拉刷新
 					footerView.setVisibility(View.VISIBLE);
 //					footerView.show();

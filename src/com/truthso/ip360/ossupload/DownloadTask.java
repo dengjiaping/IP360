@@ -114,7 +114,7 @@ public class DownloadTask {
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setPkValue(info.getPkValue()+"");
 								dbBean.setStatus("2");
-							    int userId= (int) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,"userId",SharePreferenceUtil.VALUE_IS_INT);
+							    int userId=  (Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,"userId",SharePreferenceUtil.VALUE_IS_INT);
 								Log.i("djj",userId+"");
 								dbBean.setUserId(userId);
 								Log.i("djj", "download"+dbBean.toString());

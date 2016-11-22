@@ -9,17 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.truthso.ip360.view.xrefreshview.XRefreshView
+   <!--  <com.truthso.ip360.view.xrefreshview.XRefreshView
         android:id="@+id/xrefresh_cloudevidence"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     
-        <ListView
+       
+</com.truthso.ip360.view.xrefreshview.XRefreshView> -->
+ <com.truthso.ip360.view.RefreshListView
             android:id="@+id/lv_cloudevidence"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-</com.truthso.ip360.view.xrefreshview.XRefreshView>
-
     <!--<com.truthso.ip360.view.RefreshListView
         android:id="@+id/lv_cloud"
         android:layout_width="match_parent"
