@@ -54,6 +54,7 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.view.MainActionBar;
+import com.truthso.ip360.view.RefreshListView;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
 import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
 
@@ -68,12 +69,13 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CloudEvidence extends BaseFragment implements OnClickListener,
-		XRefreshViewListener, UpdateItem {
+		 UpdateItem, RefreshListView.OnRefreshListener, RefreshListView.OnloadListener {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
-	private ListView lv_cloudevidence;
+	//private ListView lv_cloudevidence;
 	private CloudEvidenceAdapter adapter;
-	private XRefreshView xRefresh;
+//	private XRefreshView xRefresh;
+	private RefreshListView listView;
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
 	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
@@ -101,20 +103,23 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 
-		xRefresh = (XRefreshView) view
+	/*	xRefresh = (XRefreshView) view
 				.findViewById(R.id.xrefresh_cloudevidence);
 		xRefresh.setPullRefreshEnable(true);
-		xRefresh.setPullLoadEnable(true);
+		xRefresh.setPullLoadEnable(false);
 		xRefresh.setAutoRefresh(false);
-		xRefresh.setXRefreshViewListener(this);
+		xRefresh.setXRefreshViewListener(this);*/
 
 		
 		
-		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
+		//lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
+		listView= (RefreshListView) view.findViewById(R.id.lv_cloud);
+		listView.setOnRefreshListener(this);
+		listView.setOnLoadListener(this);
 
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
-		lv_cloudevidence.addHeaderView(headView);
+		listView.addHeaderView(headView);
 		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
 		
 //		lv_cloudevidence.setOnItemClickListener(this);
@@ -129,7 +134,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		 adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
 		 adapter.setUpdateItem(this);
-		 lv_cloudevidence.setAdapter(adapter);
+		listView.setAdapter(adapter);
 		 setSearchMode();
 	}
 
@@ -471,7 +476,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					break;
 				case R.id.acition_bar_left:// 全选
 					adapter.setAllSelect(true);
-					lv_cloudevidence.invalidateViews();
+					listView.invalidateViews();
 					break;
 				default:
 					break;
@@ -482,7 +487,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		});
 		showDownLoadPop();
 		adapter.setChoice(true);
-		lv_cloudevidence.invalidateViews();
+		listView.invalidateViews();
 
 	}
 
@@ -492,7 +497,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			downLoadwindow.dismiss();
 		}
 		adapter.setChoice(false);
-		lv_cloudevidence.invalidateViews();
+		listView.invalidateViews();
 		actionBar.setRightText("多选");
 		actionBar.setLeftText("类别");
 		actionBar.setActionBarOnClickListener(CloudEvidence.this);
@@ -521,28 +526,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 		}
 	}
-	
-	
-	@Override
-	public void onRefresh() {
-		pagerNumber=1;
-		list.clear();
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}
 
-	/**
-	 *底部加载更多
-	 */
-	@Override
-	public void onLoadMore() {
-		pagerNumber++;
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}
 
-	@Override
-	public void onRelease(float direction) {
-		
-	}
 
 	@Override
 	public void onStart() {
@@ -575,6 +560,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				cancelChoose();
 				return true;
 			}
+			/*if(xRefresh!=null){
+				xRefresh.stopRefresh();
+				xRefresh.stopLoadMore();
+			}*/
 		}
 		return false;
 	}
@@ -590,8 +579,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
 				//停止刷新
-				xRefresh.stopRefresh();
-				xRefresh.stopLoadMore();
+				/*xRefresh.stopRefresh();
+				xRefresh.stopLoadMore();*/
+				listView.onRefreshFinished();
+				listView.onLoadFinished();
 				hideProgress();
 				
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
@@ -624,14 +615,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void update(int position) {
 		if(position==adapter.getCount()-1){
-			lv_cloudevidence.setSelection(position);
+			listView.setSelection(position);
 		}
 		
 		if(position!=lastPosition){
-			int fir=lv_cloudevidence.getFirstVisiblePosition();
-			int las=lv_cloudevidence.getLastVisiblePosition();
+			int fir=listView.getFirstVisiblePosition();
+			int las=listView.getLastVisiblePosition();
 			if(lastPosition>=fir&&lastPosition<=las){
-				View view = lv_cloudevidence.getChildAt(lastPosition - fir+1);  
+				View view = listView.getChildAt(lastPosition - fir+2);
 				if(view!=null){
 					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
 					if(ll_option.getVisibility()==View.VISIBLE){
@@ -646,5 +637,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	}
 
 
+	@Override
+	public void toRefresh() {
+		pagerNumber=1;
+		list.clear();
+		getDatas(searchText,type,mobileType,pagerNumber);
+	}
 
+	@Override
+	public void toOnLoad() {
+		Log.i("djj","haha");
+		pagerNumber++;
+		getDatas(searchText,type,mobileType,pagerNumber);
+	}
 }
