@@ -11,15 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +28,10 @@ import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
-import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.fragment.CloudEvidence;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -44,8 +41,6 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
-import com.truthso.ip360.utils.NetStatusUtil;
-import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -140,7 +135,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			fileName = mDatas.get(position).getFileTitle();
 			// format = fileName.substring(fileName.indexOf("."));// 格式
 			format = mDatas.get(position).getFileFormat();
-
 			date = mDatas.get(position).getFileDate();
 			size = mDatas.get(position).getFileSize();
 			long l_size = Long.parseLong(size);
@@ -152,8 +146,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh = (ViewHolder) convertView.getTag();
 
 		}
-
-		vh.tv_filename.setText(mDatas.get(position).getFileTitle());
+		String fileName= mDatas.get(position).getFileTitle();
+		if (fileName.length()>25) {
+			fileName =fileName.substring(0,25)+"...";
+		}
+		vh.tv_filename.setText(fileName);
 		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
 		long l_size = Long.parseLong(mDatas.get(position).getFileSize());
 		String s_size = FileSizeUtil.setFileSize(l_size);
@@ -238,9 +235,25 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			} else {
 				ll_option.setVisibility(View.GONE);
 			}*/
-
+			
 			RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
+			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
+			ll_item.setOnClickListener(new OnClickListener() {
 
+				@Override
+				public void onClick(View v) {
+					if(ll_option.getVisibility()==View.VISIBLE){
+						ll_option.setVisibility(View.GONE);
+						isOpen=Integer.MAX_VALUE;
+						cb_option.setChecked(false);
+					}else{
+						ll_option.setVisibility(View.VISIBLE);
+						updateItem.update(position);
+						isOpen=position;
+						cb_option.setChecked(true);
+					}			
+				}
+			});
 			rl_item.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -394,7 +407,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_file_preview:
 			// 仅wifi下可查看证书
-			boolean isWifi = (Boolean) SharePreferenceUtil.getAttributeByKey(
+	/*		boolean isWifi = (Boolean) SharePreferenceUtil.getAttributeByKey(
 					MyApplication.getApplication(), MyConstants.SP_USER_KEY,
 					MyConstants.ISWIFI, SharePreferenceUtil.VALUE_IS_BOOLEAN);
 			if (isWifi
@@ -402,7 +415,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							.getApplication())) {
 				Toaster.showToast(MyApplication.getApplication(), "仅WIFI网络下可查看");
 				return;
-			}
+			}*/
 			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				String url = "http://" + data1.getOssUrl();

@@ -86,7 +86,14 @@ public class TransList extends BaseFragment implements OnClickListener {
 		pagerList = new ArrayList<BasePager>();
 		pagerList.add(downLoadListPager);
 		pagerList.add(upLoadListPager);
-
+		
+	/*	for (int i = 0; i < pagerList.size(); i++) {
+			if (pagerList.get(i).equals(upLoadListPager)) {
+				actionBar.setRightDisEnable();
+			}else{
+				actionBar.setRightEnable();
+			}
+		}*/
 		mPageAdapter = new MyPageAdapter();
 		viewPager.setAdapter(mPageAdapter);
 		/*
@@ -101,12 +108,16 @@ public class TransList extends BaseFragment implements OnClickListener {
 				// 初始化本页数据
 				pagerList.get(position).initData(position);
 				if (position == 0) {
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
 					line.startAnimation(moveLeft);
 					rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_left_text.setTextColor(getResources().getColor(R.color.white));
 					rl_right.setBackgroundColor(getResources().getColor(R.color.white));
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
-				} else {
+				} else {//上传不让用户删除
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
 					line.startAnimation(moveRight);
 					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.white));

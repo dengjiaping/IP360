@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import android.app.DownloadManager.Request;
 import android.content.Intent;
 
 import com.loopj.android.http.RequestHandle;
@@ -14,6 +15,7 @@ import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.FilePositionBean;
+import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.UpLoadBean;
@@ -639,5 +641,21 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 		
 	}
-
+	/**
+	 * 备注页，获取备注时调用
+	 * @param pkValue
+	 * @param type
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getFileRemark(int pkValue,int type,ApiCallback callback){
+		BaseHttpRequest<FileRemarkBean> request = new BaseHttpRequest<FileRemarkBean>(FileRemarkBean.class,this);
+		request.setPath(URLConstant.getFileRemark);
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("type", type+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
 }

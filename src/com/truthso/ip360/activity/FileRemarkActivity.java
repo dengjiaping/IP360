@@ -1,5 +1,6 @@
 package com.truthso.ip360.activity;
 
+import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -72,11 +73,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		rl_app_remark = (RelativeLayout) findViewById(R.id.rl_app_remark);
 		tv_text = (TextView) findViewById(R.id.tv_text);
 		if (mode.equals("手机取证")) {// 手机取证可以更改备注
-			if (CheckUtil.isEmpty(remarkText)) {
-				et_text.setHint("请输入备注");
-			} else {
-				et_text.setText(remarkText);
-			}
+			getFileRemark(pkValue,type);//调接口获取备注
 			// et_text.setText(rText);
 		} else {// 其他文件不可以更改备注
 			btn_title_right.setVisibility(View.INVISIBLE);
@@ -84,7 +81,10 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 			rl_app_remark.setVisibility(View.GONE);
 			tv_text.setText(remarkText);
 		}
+		
 	}
+
+
 
 	@Override
 	public int setLayout() {
@@ -154,5 +154,42 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 				});
 
 	}
-
+	/**
+	 * 调获取备注的接口
+	 * @param pkValue2
+	 * @param type2
+	 */
+	private void getFileRemark(int pkValue2, int type2) {
+		showProgress("正在加载...");
+		ApiManager.getInstance().getFileRemark(pkValue2, type2, new ApiCallback() {
+			
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers,
+					byte[] responseBody, Throwable error) {
+				
+			}
+			
+			@Override
+			public void onApiResult(int errorCode, String message,
+					BaseHttpResponse response) {
+				hideProgress();
+			FileRemarkBean bean = (FileRemarkBean) response;
+			if (!CheckUtil.isEmpty(bean)) {
+				if (bean.getCode() == 200) {
+				String remark = bean.getDatas().getRemarkText();
+				if (CheckUtil.isEmpty(remark)) {
+					et_text.setHint("请输入备注");
+				} else {
+					et_text.setText(remark);
+				}
+				
+				}else{
+					Toaster.showToast(FileRemarkActivity.this, bean.getMsg());
+				}
+			}else{
+				
+				Toaster.showToast(FileRemarkActivity.this, "请重试");			}
+			}
+		});
+	}
 }
