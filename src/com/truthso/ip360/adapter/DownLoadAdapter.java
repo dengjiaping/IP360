@@ -2,8 +2,6 @@ package com.truthso.ip360.adapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,13 +13,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.ProgressListener;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.SpeedView;
 
 /**
@@ -41,6 +40,8 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private List<Integer> selectedList=new ArrayList<Integer>();
 	private List<FileInfo> list;
 	private long progress,lastProgress;
+	private String foramt1;
+	private ImageView iv_icon;
 	public DownLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
@@ -88,6 +89,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh = new ViewHolder();
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
+			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
 			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
@@ -186,6 +188,18 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		} else {
 			vh.tv_status.setText("上传失败");
 		}*/
+		String str =info.getFileName();
+		foramt1 = str.substring(str.lastIndexOf(".")+1);
+		String format= foramt1.toLowerCase();// 格式变小写
+		if (CheckUtil.isFormatPhoto(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+		} else if (CheckUtil.isFormatVideo(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);
+		} else if (CheckUtil.isFormatRadio(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);
+		} else if (CheckUtil.isFormatDoc(format)) {
+			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
+		}
 		return convertView;
 	}
 
@@ -195,6 +209,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		private SpeedView tv_status;
 		private ProgressBar probar;
 		private Button btn_upload_download;
+		private ImageView iv_icon;
 	}
 
 

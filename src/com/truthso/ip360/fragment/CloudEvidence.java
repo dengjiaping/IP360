@@ -68,7 +68,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CloudEvidence extends BaseFragment implements OnClickListener,
-		OnItemClickListener, XRefreshViewListener, UpdateItem {
+		XRefreshViewListener, UpdateItem {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
 	private ListView lv_cloudevidence;
@@ -95,8 +95,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		cloudEviItemBean = new CloudEviItemBean();
-		actionBar = (MainActionBar) view
-				.findViewById(R.id.actionbar_cloudevidence);
+		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("类别");
 		actionBar.setTitle("云端证据");
 		actionBar.setRightText("选择");
@@ -118,7 +117,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		lv_cloudevidence.addHeaderView(headView);
 		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
 		
-		lv_cloudevidence.setOnItemClickListener(this);
+//		lv_cloudevidence.setOnItemClickListener(this);
 
 		if (tag) {
 //			进来显示第一个
@@ -231,20 +230,20 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	}
 
-	@Override
+/*	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		if (position == 0) {
-			/*Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
+			Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
 			intent.putExtra("type", type);
 			intent.putExtra("mobileType", mobileType);
 			intent.putExtra("from", "cloud");
-			startActivityForResult(intent, CODE_SEARCH);*/
+			startActivityForResult(intent, CODE_SEARCH);
 		}else{
 			CloudEviItemBean cloudEviItemBean2 = datas.get(position-1);
 		}
 
-	}
+	}*/
 	
 	private void downloadAll() {
 		List<CloudEviItemBean> selected = adapter.getSelected();

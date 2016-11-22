@@ -85,6 +85,10 @@ public class URLConstant {
 	 */
 	public final static String SetFileRemark = "http://"+str+"/api/v1/file/setFileRemark";
 	/**
+	 * 获取文件备注
+	 */
+	public final static String getFileRemark = "http://"+str+"/api/v1/file/getFileRemark";
+	/**
 	 * 查看保全证书
 	 */
 	public final static String GetCertificateInfo = "http://"+str+"/api/v1/file/getCertificateUrl";

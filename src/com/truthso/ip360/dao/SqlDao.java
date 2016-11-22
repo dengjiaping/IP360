@@ -113,21 +113,7 @@ public class SqlDao {
 		db.close();
 		return dbBean;
 	}
-	/**
-	 * 查
-	 *
-	 * @param id
-	 *            需要查询的字段的ID值
-	 * @return
-	 */
-	public boolean queryByPkValue(int pkValue) {
-		SQLiteDatabase db = helper.getWritableDatabase();
-		Cursor cursor = db.query("IP360_media_detail", null, "pkValue=?", new String[] {pkValue+"" }, null, null, null);
-		boolean isExist=cursor.moveToNext();
-		db.close();
-		return isExist;
-	}
-
+	
 	
 	public List<DbBean> searchByKey(String key) {
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -170,8 +156,9 @@ public class SqlDao {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = helper.getWritableDatabase();
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
+		//Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
+//		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
 		Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
-		//Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
 		while (cursor.moveToNext()) {
 			DbBean bean = new DbBean();
 			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
@@ -217,8 +204,4 @@ public class SqlDao {
 		cursor.close();
 		return list;
 	}
-
-
-
-
 }

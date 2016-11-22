@@ -25,6 +25,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/round_corner_bg"
             android:text="全部开始"
+            android:visibility="invisible"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size" />
            <Button
@@ -34,6 +35,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/round_corner_bg"
             android:text="全部停止"
+            android:visibility="invisible"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size" />
     </LinearLayout>

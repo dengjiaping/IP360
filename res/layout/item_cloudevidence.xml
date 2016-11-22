@@ -7,11 +7,14 @@
     <RelativeLayout
      android:id="@+id/rl_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        
         >
-
+ <!-- android:focusable="true"
+         android:focusableInTouchMode="true"
+        android:descendantFocusability ="blocksDescendants" -->
         <LinearLayout
-      
+            android:id="@+id/ll_item"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal">
