@@ -35,6 +35,7 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -312,8 +313,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
-			// final CloudEviItemBean data = mDatas.get(v.getId());
-			LogUtils.e("下载的pkvalue" + data.getPkValue() + "下载的type" + type);
+			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());
+			if(queryByPkValue){
+				Toast.makeText(context, "文件已下载到本地证据",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
 						@Override
@@ -407,7 +412,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				String url = "http://" + data1.getOssUrl();
 				String format = data1.getFileFormat();
 				format = format.toLowerCase();// 格式变小写
-				Log.i("djj", data1.getOssUrl());
+
 				if (CheckUtil.isFormatVideo(format)) {// 视频
 					Intent intent2 = new Intent(context,
 							VideoDetailActivity.class);

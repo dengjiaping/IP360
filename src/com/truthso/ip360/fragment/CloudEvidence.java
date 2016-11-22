@@ -112,7 +112,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		
 		
 		lv_cloudevidence = (ListView) view.findViewById(R.id.lv_cloudevidence);
-	
+
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
 		lv_cloudevidence.addHeaderView(headView);

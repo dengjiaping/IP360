@@ -183,7 +183,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}else if(str.equals("2")){
 				vh.tv_status.setText("已下载");
 			}else{
-				vh.tv_status.setText("上传失败");
+				vh.tv_status.setText("正在上传");
 			}
 		}
 		String format = mDatas.get(position).getFileFormat();

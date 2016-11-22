@@ -7,16 +7,23 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -27,6 +34,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.lidroid.xutils.util.LogUtils;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
@@ -61,7 +69,7 @@ public class MainActivity extends FragmentActivity implements
 	private RadioButton rb_pc;
 	private FragmentTabUtils fragmentTabUtils;
 	private String downloadUrl, iVersion;
-
+private MyWifiReceiver myWifiReceiver;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,6 +80,7 @@ public class MainActivity extends FragmentActivity implements
 		initView();
 		checkUpdate();
 		checkIsUpDownload();
+		registWifiStatusListener();
 	}
 
 	// 初始化控件
@@ -124,7 +133,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onDestroy() {
 		// BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
-
+       unregisterReceiver(myWifiReceiver );
 	}
 
 	private Handler handler = new Handler() {
@@ -291,12 +300,11 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	private void upOrDownLoad() {
-		 Log.i("djj", "size"+queryUpLoadList.size());
+
 		if (queryUpLoadList.size() > 0) {
 			for (int i = 0; i < queryUpLoadList.size(); i++) {
 				UpLoadManager.getInstance().resuambleUploadUnCaseNet(
 						queryUpLoadList.get(i));
-			       Log.i("djj", "objeckey"+queryUpLoadList.get(i).getObjectKey());
 			}
 		}
 		if (  queryDownLoadList.size() > 0) {
@@ -322,4 +330,53 @@ public class MainActivity extends FragmentActivity implements
 		ad.setCancelable(false);
 	}
 
+	private void registWifiStatusListener(){
+		IntentFilter filter = new IntentFilter();
+		//filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+		//filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+
+		myWifiReceiver = new MyWifiReceiver();
+		registerReceiver(myWifiReceiver, filter);
+
+	}
+
+
+	public class MyWifiReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+
+			String action = intent.getAction();
+			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+
+				ConnectivityManager cm=		(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo info = cm.getActiveNetworkInfo();
+				if(info != null && info.isAvailable()) {
+
+					/////////////网络连接
+					String name = info.getTypeName();
+
+					if(info.getType()==ConnectivityManager.TYPE_WIFI){
+						/////WiFi网络
+                     if(info.isConnected()){
+						 Log.i("djj","wifi");
+					 }
+
+					}else if(info.getType()==ConnectivityManager.TYPE_ETHERNET){
+						/////有线网络
+
+					}else if(info.getType()==ConnectivityManager.TYPE_MOBILE){
+						/////////3g网络
+
+					}
+				} else {
+					////////网络断开
+
+				}
+			}
+		}
+
+
+	}
 }

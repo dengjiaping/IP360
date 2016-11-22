@@ -469,11 +469,9 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Log.i("djj", "456");
+
 		if (keyCode == event.KEYCODE_BACK) {
-			Log.i("djj", CheckUtil.isEmpty(nativeWindow)+"");
 			if (nativeWindow!=null && nativeWindow.isShowing()) {
-				Log.i("djj", "native");
 				actionBar.setRightEnable();
 				nativeWindow.dismiss();
 				return true;

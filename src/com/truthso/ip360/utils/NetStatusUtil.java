@@ -56,12 +56,14 @@ public class NetStatusUtil {
 	public static boolean isWifiValid(Context context) {
 
 		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		State wifiState = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState();
-		if (State.CONNECTED == wifiState) {
-			return true;
-		} else {
-			return false;
-		}
+		NetworkInfo activeNetworkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+			if (activeNetworkInfo.isConnected())
+			{
+				return true;
+			}
+
+		return  false;
 	}
 
 	/**
