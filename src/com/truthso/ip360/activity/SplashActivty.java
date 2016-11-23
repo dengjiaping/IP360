@@ -257,7 +257,14 @@ public class SplashActivty extends Activity {
 			}
 		} else {
 			// 第一次启动先进入引导页
-			intent = new Intent(ctx, GuideActivity.class);
+//			intent = new Intent(ctx, GuideActivity.class);
+			//这版先不要引导页
+			if (CheckUtil.isEmpty(token)) {
+				// 进登录界面
+				intent = new Intent(ctx, LoginActivity.class);
+			} else {
+				intent = new Intent(ctx, MainActivity.class);
+			}
 			SharePreferenceUtil.saveOrUpdateAttribute(this, MyConstants.SP_USER_KEY,MyConstants.ISWIFI,true);
 		}
 

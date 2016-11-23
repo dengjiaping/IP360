@@ -292,12 +292,10 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 	}
 
 	public void onSuccess(int statusCode, Header[] headers, File file) {
-		// TODO: 15/12/19 callback
-	}
+}
 
 	public void onFailure(int statusCode, Header[] headers,
 			Throwable throwable, File file) {
-		// TODO: 15/12/19 callback
 	}
 
 	public void onFailure(int statusCode, Header[] headers,

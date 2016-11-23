@@ -179,8 +179,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 								yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
 									
 									if (useType ==1 ) {//用户类型1-付费用户（C）；
-										 String str = "此文件保存价格为："+yue+"是否确认支付？";
-										  showDialog(str);
+//										 String str = "此文件保存价格为："+yue+"是否确认支付？";
+										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){//2-合同用户（B）
 									//上传文件信息，及存到数据库	
 										isPre=true;
@@ -189,8 +189,9 @@ public class LiveRecordPreActivity extends BaseActivity implements
 								}else if(bean.getDatas().getStatus()== 0){//不能用
 									
 									if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
-										  showDialog(str1);
+//										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
+//										  showDialog(str1);
+										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){
 										Toaster.showToast(LiveRecordPreActivity.this, "您已不能使用该项业务");
 										
@@ -257,7 +258,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
-							String url=	datas.getFileUrl();
+								String url=	datas.getFileUrl();
 								FileInfo info=new FileInfo();
 								info.setFileName(fileName);
 								info.setFilePath(filePath);

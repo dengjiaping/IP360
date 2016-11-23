@@ -238,7 +238,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				ll_option.setVisibility(View.GONE);
 			}*/
 			
-			/*RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
+			RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
 			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
 			ll_item.setOnClickListener(new OnClickListener() {
 
@@ -256,24 +256,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						cb_option.setChecked(true);
 					}			
 				}
-			});*/
-			/*rl_item.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					
-					if(ll_option.getVisibility()==View.VISIBLE){
-						ll_option.setVisibility(View.GONE);
-						isOpen=Integer.MAX_VALUE;
-						cb_option.setChecked(false);
-					}else{
-						ll_option.setVisibility(View.VISIBLE);
-						updateItem.update(position);
-						isOpen=position;
-						cb_option.setChecked(true);
-					}			
-				}
-			});*/
+			});
+		
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override

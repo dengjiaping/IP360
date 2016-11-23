@@ -80,13 +80,19 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			ViewGroup container, Bundle savedInstanceState) {
 		actionBar = (MainActionBar) view
 				.findViewById(R.id.actionbar_nativeevidence);
-		actionBar.setLeftText("类别");
+		actionBar.setLeftText("全部");
 		actionBar.setTitle("本地证据");
-		actionBar.setRightText("多选");
+		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 		listView = (ListView) view.findViewById(R.id.lv_nativeevidence);
 		mDatas =SqlDao.getSQLiteOpenHelper().queryAll();
-
+		if (mDatas.size() == 0) {
+			actionBar.setRightDisEnable();
+			actionBar.setRightText("");
+		}else{
+			actionBar.setRightEnable();
+			actionBar.setRightText("选择");
+		}
 		adapter = new NativeAdapter(getActivity(), mDatas);
 		adapter.setUpdateItem(this);
 		View headView = LayoutInflater.from(getActivity()).inflate(
@@ -162,6 +168,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		public void onChange(boolean selfChange, Uri uri) {
 			super.onChange(selfChange, uri);
 			mDatas = SqlDao.getSQLiteOpenHelper().queryAll();
+			if (mDatas.size() == 0) {
+				actionBar.setRightDisEnable();
+				actionBar.setRightText("");
+			}else{
+				actionBar.setRightEnable();
+				actionBar.setRightText("选择");
+			}
 			adapter.addData(mDatas);
 		}
 		
@@ -382,6 +395,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				mDatas.clear();
 				String[] arg=new String[]{"0","3"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
 				adapter.addData(mDatas);
 			}
 
@@ -400,6 +420,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				mDatas.clear();
 				String[] arg=new String[]{"1","4"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
 				adapter.addData(mDatas);
 			}
 		});
@@ -417,6 +444,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				mDatas.clear();
 				String[] arg=new String[]{"2","5"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
 				adapter.addData(mDatas);
 			}
 		});
@@ -432,6 +466,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				mDatas.clear();
 				String[] arg=new String[]{"6"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
 				adapter.addData(mDatas);
 			}
 		});
@@ -447,6 +488,13 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				mDatas.clear();
 				String[] arg=new String[]{"7"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
 				adapter.addData(mDatas);
 			}
 		});

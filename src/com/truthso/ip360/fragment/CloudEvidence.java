@@ -100,7 +100,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			ViewGroup container, Bundle savedInstanceState) {
 		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
-		actionBar.setLeftText("类别");
+		actionBar.setLeftText("拍照取证");
 		actionBar.setTitle("云端证据");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
@@ -502,7 +502,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 		adapter.setChoice(false);
 		listView.invalidateViews();
-		actionBar.setRightText("多选");
+		actionBar.setRightText("选择");
 		actionBar.setLeftText("类别");
 		actionBar.setActionBarOnClickListener(CloudEvidence.this);
 	}
@@ -595,7 +595,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						datas = bean.getDatas();
 						
 						if(!CheckUtil.isEmpty(datas)){
+							actionBar.setRightEnable();
+							actionBar.setRightText("选择");
 							list.addAll(datas);					   
+						}else{
+							actionBar.setRightDisEnable();
+							actionBar.setRightText("");
 						}			
 //						LogUtils.e(type+"type");
 						if(list.size()>=10){
