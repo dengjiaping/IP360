@@ -115,10 +115,8 @@ private MyWifiReceiver myWifiReceiver;
 		// getSupportFragmentManager().findFragmentByTag("fragment");
 		BaseFragment currentFragment = (BaseFragment) fragmentTabUtils
 				.getCurrentFragment();
-		Log.i("djj", CheckUtil.isEmpty(currentFragment) + "2");
 		if (!CheckUtil.isEmpty(currentFragment)
 				&& currentFragment.onKeyDown(keyCode, event)) {
-			Log.i("djj", "back");
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

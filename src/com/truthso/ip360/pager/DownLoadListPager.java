@@ -40,9 +40,9 @@ public class DownLoadListPager extends BasePager {
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, new MyContentObserver(new Handler()));
-				
 		return listView;
 	}
+
 
 	public class MyContentObserver extends ContentObserver{
 

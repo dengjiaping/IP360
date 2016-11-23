@@ -12,6 +12,7 @@ import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvider;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
@@ -45,6 +46,7 @@ public class DownLoadHelper {
 			return;
 		}
 		DownloadTask task=new DownloadTask(oss,fileinfo);
+
 		task.start();
 		taskMap.put(fileinfo.getObjectKey(), task);
 		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize());

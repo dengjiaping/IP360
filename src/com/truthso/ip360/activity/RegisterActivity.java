@@ -146,4 +146,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		});
 		
 	}
+
+
 }

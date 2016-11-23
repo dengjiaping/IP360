@@ -215,9 +215,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                                	info.setObjectKey(objectkey);
                                	Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
 								//上传文件
-							   UpLoadManager.getInstance().resuambleUpload(info);
+							    UpLoadManager.getInstance().resuambleUpload(info);
 								saveToDb();
-						           finish();
+								finish();
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());

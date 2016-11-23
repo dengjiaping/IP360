@@ -45,7 +45,7 @@ public class DownloadTask {
 	}
 
 	public OSSAsyncTask start(){
-//	Log.i("djj", "objectKey"+objectKey);
+	Log.i("djj", "objectKey"+objectKey);
 		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		 final File file=new File(downloadFile, fileName);
 		if(!file.exists()){
