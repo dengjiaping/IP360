@@ -213,7 +213,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.acition_bar_right:
-			choice();
+			if(list.size()>0){
+				choice();
+			}
 			break;
 		case R.id.acition_bar_left:
 			/*

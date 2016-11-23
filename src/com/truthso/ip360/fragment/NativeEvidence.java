@@ -218,7 +218,9 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.acition_bar_right:
-			choice();
+			if(mDatas.size()>0){
+				choice();
+			}
 			break;
 		case R.id.acition_bar_left:
 			// startActivityForResult(new Intent(getActivity(),
