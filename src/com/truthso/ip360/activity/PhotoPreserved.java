@@ -62,7 +62,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		title = getIntent().getStringExtra("title");
 		size = getIntent().getStringExtra("size");
 		date = getIntent().getStringExtra("date");
-		loc = getIntent().getStringExtra("loc");
+//		loc = getIntent().getStringExtra("loc");
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
@@ -77,11 +77,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
-		if (!CheckUtil.isEmpty(loc)) {
+		/*if (!CheckUtil.isEmpty(loc)) {
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");
-		}
+		}*/
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
@@ -304,9 +304,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void location(String s) {
 						loc = s;
-						
+						LogUtils.e(loc+"qqqqqqqqqqqqqqqqqqqqqqqqq");
 					}
 				});
+		
+		
+		
 	}
 
 	// 保存照片信息到数据库

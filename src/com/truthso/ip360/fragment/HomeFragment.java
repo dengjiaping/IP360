@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
-			getLocation();
+//			getLocation();
 			//调接口,看是否可以拍照
 			getPort(MyConstants.PHOTOTYPE,0);		
 			
@@ -148,7 +148,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
-								getLocation();
+//								getLocation();
 								photoDir = new File(MyConstants.PHOTO_PATH);
 								if (!photoDir.exists()) {
 									photoDir.mkdirs();
@@ -287,6 +287,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					loc = s;
 				}
 			});
+		  LogUtils.e(loc+"位置=================================");
 	}
 	public void addTimeUsed() {
 		timeUsedInsec = timeUsedInsec + 1;

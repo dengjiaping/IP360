@@ -132,6 +132,7 @@ private MyWifiReceiver myWifiReceiver;
 		// BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
        unregisterReceiver(myWifiReceiver );
+//       unbindService()
 	}
 
 	private Handler handler = new Handler() {
@@ -377,4 +378,5 @@ private MyWifiReceiver myWifiReceiver;
 
 
 	}
+
 }

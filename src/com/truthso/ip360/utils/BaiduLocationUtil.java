@@ -101,4 +101,5 @@ public class BaiduLocationUtil {
 		mLocationClient.unRegisterLocationListener(mMyLocationListener);
 		
 	}
+	
 }
