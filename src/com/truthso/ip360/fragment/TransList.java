@@ -117,7 +117,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
 				} else {//上传不让用户删除
 					actionBar.setRightDisEnable();
-					actionBar.setRightText("");
+					actionBar.setRightText("选择");
 					line.startAnimation(moveRight);
 					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.white));
@@ -164,7 +164,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		Log.i("djj", "123456");
 	}
 	
 	@Override

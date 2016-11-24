@@ -3,11 +3,13 @@ package com.truthso.ip360.pager;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.ContentObservable;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -23,8 +25,8 @@ public class UpLoadListPager extends BasePager {
 	private UpLoadAdapter adapter;
 	private UpDownLoadDao dao;
 	private List<FileInfo> list;
-	
-	public UpLoadListPager(Context ctx) {		
+
+	public UpLoadListPager(Context ctx) {
 		super(ctx);
 	}
 
@@ -47,7 +49,6 @@ public class UpLoadListPager extends BasePager {
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), true, new MyContentObserver(new Handler()));
-				
 		return listView;
 	}
 	
