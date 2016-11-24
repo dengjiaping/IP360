@@ -248,7 +248,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			} else {
 				Cursor c = getActivity().getContentResolver().query(uri,null, null,null,null);
 				if (c != null && c.moveToFirst()) {
-					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));				
+					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));		
+					LogUtils.e(filePath+"系统视频的路径");
 				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
 				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
 				    //总时长 ms

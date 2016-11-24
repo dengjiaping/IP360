@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -333,6 +334,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			if (mDatas.size()>0) {
 				
 			String url=dbBean.getResourceUrl();
+			LogUtils.e(url+"视频 的url路径");
 			String format=dbBean.getFileFormat();
 			format = format.toLowerCase();//格式变小写
 			Log.e("djj",format);
