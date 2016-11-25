@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +58,25 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private double fileSize_B;
 	private long ll;
 	private Dialog alertDialog;
+	private double lat,longti;
+	private String latitudeLongitude;
+	private Handler handler = new Handler(){
+		 public void handleMessage(Message msg) {
+			 switch (msg.what) {
+			case 1:
+				if (!CheckUtil.isEmpty(loc)) {
+				tv_loc.setText(loc);
+			}else{
+				tv_loc.setText("获取位置信息失败");
+			}
+				latitudeLongitude = longti+","+lat;
+				break;
+
+			default:
+				break;
+			}
+		 };
+	};
 	@Override
 	public void initData() {
 		path = getIntent().getStringExtra("path");
@@ -77,11 +98,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
-		/*if (!CheckUtil.isEmpty(loc)) {
-			tv_loc.setText(loc);
-		}else{
-			tv_loc.setText("获取位置信息失败");
-		}*/
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
@@ -186,7 +202,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		String imei = MyApplication.getInstance().getDeviceImei();
 
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				ll + "", hashCode, date, loc, null, imei,
+				ll + "", hashCode, date, loc, null, imei,latitudeLongitude,
 				new ApiCallback() {
 
 					@Override
@@ -302,14 +318,18 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				new locationListener() {
 
 					@Override
-					public void location(String s) {
+					public void location(String s, double latitude,
+							double longitude) {
 						loc = s;
-						LogUtils.e(loc+"qqqqqqqqqqqqqqqqqqqqqqqqq");
+						lat = latitude;
+						longti =longitude;
+//						LogUtils.e(loc+"qqqqqqqqqqqqqqqqqq");
+						Message message = handler .obtainMessage();
+						message.what = 1;
+						handler.sendMessage(message);	
 					}
+				
 				});
-		
-		
-		
 	}
 
 	// 保存照片信息到数据库

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,14 +64,32 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private int useType,pkValue;
 	private double video_fileSize_B;
 	private long ll;
+	private double lat,longti;
+	private String latitudeLongitude;
+	private Handler handler = new Handler(){
+		 public void handleMessage(Message msg) {
+			 switch (msg.what) {
+			case 1:
+				if (!CheckUtil.isEmpty(loc)) {
+				tv_loc.setText(loc);
+			}else{
+				tv_loc.setText("获取位置信息失败");
+			}
+				latitudeLongitude = longti+","+lat;
+				break;
 
+			default:
+				break;
+			}
+		 };
+	};
 
 	@Override
 	public void initData() {
 		getLocation();
 		mVideoPath = getIntent().getStringExtra("filePath");
 		mDate = getIntent().getStringExtra("date");
-		loc =getIntent().getStringExtra("loc");
+//		loc =getIntent().getStringExtra("loc");
 		time = getIntent().getStringExtra("time");
 		minTime = getIntent().getIntExtra("minTime", 0);
 		size=getIntent().getStringExtra("size");
@@ -258,7 +278,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		String hashCode = SecurityUtil.SHA512(mVideoPath);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(mVideoName,MyConstants.VIDEOTYPE,
-				ll+"", hashCode, mDate, loc,time ,imei,
+				ll+"", hashCode, mDate, loc,time ,imei,latitudeLongitude,
 				new ApiCallback() {
 
 					@Override
@@ -355,13 +375,21 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 * 定位
 	 */
 	private void getLocation(){
-		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
-				@Override
-				public void location(String s) {
-					loc = s;
-					
-				}
-			});
+		BaiduLocationUtil.getLocation(getApplicationContext(),
+				new locationListener() {
+
+					@Override
+					public void location(String s, double latitude,
+							double longitude) {
+						loc = s;
+						lat = latitude;
+						longti =longitude;
+						Message message = handler .obtainMessage();
+						message.what = 1;
+						handler.sendMessage(message);	
+					}
+				
+				});
 	}
 	//保存录像的数据到数据库
 	private void saveToDB() {

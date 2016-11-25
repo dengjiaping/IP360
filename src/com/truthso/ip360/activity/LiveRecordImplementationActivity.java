@@ -291,12 +291,14 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	}
 	private void getLocation(){
 		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
+
+			@Override
+			public void location(String s, double latitude, double longitude) {
+				// TODO Auto-generated method stub
 				
-				@Override
-				public void location(String s) {
-					loc = s;
-					
-				}
+			}
+				
+		
 			});
 	}
 }

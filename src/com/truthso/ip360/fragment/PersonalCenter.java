@@ -76,8 +76,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		tv_title = (TextView) view.findViewById(R.id.tv_title);
-//		ll_count_pay = (RelativeLayout) view.findViewById(R.id.rl_count_pay);
-//		ll_count_pay.setOnClickListener(this);
+		ll_count_pay = (RelativeLayout) view.findViewById(R.id.rl_count_pay);
+		ll_count_pay.setOnClickListener(this);
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
 		rl_account = (RelativeLayout) view.findViewById(R.id.rl_account);
 		rl_account.setOnClickListener(this);
@@ -243,7 +243,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			}
 
 			break;
-	/*	case R.id.rl_count_pay:// 用户充值
+		case R.id.rl_count_pay:// 用户充值
 			if (isOk) {
 				// 合同用户不能充值
 				if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
@@ -257,7 +257,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				}
 			} else {
 				getPersonalMsg();
-			}*/
+			}
 
 //			break;
 	/*	case R.id.rl_Certification:// 实名认证

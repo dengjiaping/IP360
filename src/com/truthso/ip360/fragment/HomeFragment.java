@@ -281,11 +281,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	}
 	private void getLocation(){
 		  BaiduLocationUtil.getLocation(getActivity(), new locationListener() {
+
+			@Override
+			public void location(String s, double latitude, double longitude) {
 				
-				@Override
-				public void location(String s) {
-					loc = s;
-				}
+			}
+				
+			
 			});
 		  LogUtils.e(loc+"位置=================================");
 	}

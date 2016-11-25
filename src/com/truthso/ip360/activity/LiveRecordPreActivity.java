@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -53,7 +55,25 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private double fileSize_B;
 	private long ll;
 	private Dialog alertDialog;
-	
+	private double lat,longti;
+	private String latitudeLongitude;
+	private Handler handler = new Handler(){
+		 public void handleMessage(Message msg) {
+			 switch (msg.what) {
+			case 1:
+				if (!CheckUtil.isEmpty(loc)) {
+				tv_loc.setText(loc);
+			}else{
+				tv_loc.setText("获取位置信息失败");
+			}
+				latitudeLongitude = longti+","+lat;
+				break;
+
+			default:
+				break;
+			}
+		 };
+	};
 	@Override
 	public void initData() {
 
@@ -72,7 +92,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		fileSize = getIntent().getStringExtra("fileSize");
 		time = getIntent().getStringExtra("fileTime");
 		filePath = getIntent().getStringExtra("filePath");
-		loc = getIntent().getStringExtra("loc");
+//		loc = getIntent().getStringExtra("loc");
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
 		
@@ -83,20 +103,21 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		
 		
 		tv_filename.setText(fileName);
-		if (!CheckUtil.isEmpty(loc)) {
+	/*	if (!CheckUtil.isEmpty(loc)) {
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");
-		}
+		}*/
 		
 		tv_date.setText(date);
 		tv_filesize.setText(fileSize);
 		tv_time.setText(time);
-		getLocation();
+		
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				LiveRecordPreActivity.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
-		
+		//定位
+		getLocation();
 	}
 
 	@Override
@@ -237,7 +258,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		String hashCode = SecurityUtil.SHA512(filePath);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(fileName,MyConstants.RECORDTYPE,
-				ll+"", hashCode, date, loc,time,imei,
+				ll+"", hashCode, date, loc,time,imei,latitudeLongitude,
 				new ApiCallback() {
 
 					@Override
@@ -358,10 +379,16 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				new locationListener() {
 
 					@Override
-					public void location(String s) {
+					public void location(String s, double latitude,
+							double longitude) {
 						loc = s;
-						
+						lat = latitude;
+						longti =longitude;
+						Message message = handler .obtainMessage();
+						message.what = 1;
+						handler.sendMessage(message);	
 					}
+				
 				});
 	}
 }

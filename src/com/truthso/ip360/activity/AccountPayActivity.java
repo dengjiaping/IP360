@@ -1,10 +1,7 @@
 package com.truthso.ip360.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
+import com.alibaba.sdk.android.mns.model.Message;
+import com.alipay.sdk.app.PayTask;
 /**
  * @despriction :个人中心->账户充值
  * 
@@ -33,4 +30,5 @@ public class AccountPayActivity extends BaseActivity {
 	public String setTitle() {
 		return "账户充值";
 	}
+
 }

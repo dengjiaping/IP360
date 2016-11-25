@@ -96,9 +96,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="获取位置信息失败"
+                android:text="正在获取位置信息..."
                 android:textColor="@color/text_color"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </RelativeLayout>
 
         <RelativeLayout

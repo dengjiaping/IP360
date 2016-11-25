@@ -489,7 +489,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileLocation,String fileTime,String imei, ApiCallback callback){
+	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileLocation,String fileTime,String imei,String latitudeLongitude, ApiCallback callback){
 		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
 				UpLoadBean.class, this);
 		request.setPath(URLConstant.UploadPreserveFile);
@@ -502,6 +502,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("fileLocation", fileLocation);
 		request.params().add("fileTime", fileTime);
 		request.params().add("imei", imei);
+		request.params().add("latitudeLongitude", latitudeLongitude);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);

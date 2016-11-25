@@ -16,6 +16,7 @@
 	<classpathentry kind="lib" path="libs/aliyun-oss-sdk-android-2.3.0.jar"/>
 	<classpathentry kind="lib" path="libs/okhttp-3.4.1.jar"/>
 	<classpathentry kind="lib" path="libs/okio-1.10.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/alipaySdk-20161009.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="org.eclipse.andmore.LIBRARIES"/>

@@ -31,7 +31,6 @@ public class BaiduLocationUtil {
 		mMyLocationListener = new MyLocationListener();
 		mLocationClient.registerLocationListener(mMyLocationListener);
 		initLocation();
-				
 		mLocationClient.start();
 	}
 
@@ -81,10 +80,15 @@ public class BaiduLocationUtil {
 				sb.append("无法获取您的位置信息");
 
 			}
-			s = location.getAddrStr() + location.getLocationDescribe();
-			if(CheckUtil.isEmpty(mlocationListener)){
+			
+		/*	if(CheckUtil.isEmpty(mlocationListener)){
 				mlocationListener.location(s);
-			}			
+			}*/
+			   double latitude = location.getLatitude();
+	            double longitude = location.getLongitude();
+	            s = location.getAddrStr()+location.getLocationDescribe();
+	            mlocationListener.location(s,latitude,longitude);
+	            LogUtils.e("位置"+s+"纬度："+latitude+"经度："+longitude);
 			// DebugLog.e("location1",s);
 			// System.out.println(location.getAddrStr()+"");
 
@@ -93,13 +97,13 @@ public class BaiduLocationUtil {
 	}
 
 	public interface locationListener {
-		void location(String s);
+		 void location(String s, double latitude, double longitude);
 	}
 	
-	public static void cancelLocation(){
+/*	public static void cancelLocation(){
 		mLocationClient.stop();
 		mLocationClient.unRegisterLocationListener(mMyLocationListener);
 		
-	}
+	}*/
 	
 }
