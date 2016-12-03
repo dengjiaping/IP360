@@ -59,6 +59,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private long ll;
 	private Dialog alertDialog;
 	private double lat,longti;
+	private int resourceId;
+	private String objectkey;
 	private String latitudeLongitude;
 	private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
@@ -89,6 +91,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ll = Math.round(fileSize_B);
 //		LogUtils.e(ll+"wsx");
 		getLocation();
+		//上传文件信息
+		filePre();
 	}
 
 	@Override
@@ -140,14 +144,14 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-								yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
-									
+
 									if (useType ==1 ) {//用户类型1-付费用户（C）；
-//										 String str = "此文件保存价格为："+yue+"是否确认支付？";
+										//弹出提示框
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){//2-合同用户（B）
-									//上传文件信息，及存到数据库	
-										isPre=true;
+//										//合同用户可用时，上传文件，保存文件信息到数据库
+											UpLoadFile();
+											saveToDb();
 									}
 									
 								}else if(bean.getDatas().getStatus()== 0){//不能用
@@ -178,29 +182,14 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	/**
 	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
 	 * 
-	 * @param fileType
-	 *            文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
-	 * @param fileSize
-	 *            文件大小，单位为B
-	 * @param hashCode
-	 *            哈希值 非空
-	 * @param fileDate
-	 *            取证时间
-	 * @param fileUrl
-	 *            上传oss的文件路径
-	 * @param fileLocation
-	 *            取证地点 可空
-	 * @param fileTime
-	 *            取证时长 录像 录音不为空
-	 * @param imei手机的IMEI码
-	 * @param callback
 	 * @return
 	 */
 	private void filePre() {
 		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(path);
 		String imei = MyApplication.getInstance().getDeviceImei();
-
+		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
+//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
 				ll + "", hashCode, date, loc, null, imei,latitudeLongitude,
 				new ApiCallback() {
@@ -220,20 +209,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								pkValue = datas.getPkValue();
-                               	String objectkey = datas.getFileUrl();//文件上传的objectKey
-                               	int resourceId=datas.getPkValue();
-						    	//getPosition(pkValue);
-                               	FileInfo info=new FileInfo();
-                               	info.setFileName(title);
-                               	info.setFilePath(path);
-                               	info.setFileSize(ll+"");
-                               	info.setResourceId(resourceId);
-                               	info.setObjectKey(objectkey);
-                               	Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
-								//上传文件
-							    UpLoadManager.getInstance().resuambleUpload(info);
-								saveToDb();
-								finish();
+                               objectkey = datas.getFileUrl();//文件上传的objectKey
+									resourceId=datas.getPkValue();
+
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -245,49 +223,25 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 				});
 	}
-/**
- * 获取文件断点的位置
- * @param pkValue
- *//*
-	private void getPosition(int pkValue) {
-		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-			}
-			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				FilePositionBean bean = (FilePositionBean) response;
-				if (!CheckUtil.isEmpty(bean)) {
-					if (bean.getCode() == 200) {
-						FilePosition datas = bean.getDatas();
-						startUpLoad(datas.getPosition(), datas.getResourceId());
+	/**
+	 * 上传文件
+	 */
+	private void UpLoadFile() {
+			//上传文件
+						FileInfo info=new FileInfo();
+						info.setFileName(title);
+						info.setFilePath(path);
+						info.setFileSize(ll+"");
+						info.setResourceId(resourceId);
+						info.setObjectKey(objectkey);
+						Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
+						//上传文件
+						UpLoadManager.getInstance().resuambleUpload(info);
+						//文件加到数据库
+						saveToDb();
 						finish();
-					} else {
-						Toaster.showToast(PhotoPreserved.this, bean.getMsg());
-					}
-				} else {
-					Toaster.showToast(PhotoPreserved.this, "请求失败");
-				}
-			}
-
-		});
-	}*/
-
-/*	private void startUpLoad(int position, int resourceId) {
-		Toaster.showToast(PhotoPreserved.this, "文件正在上传，请在传输列表查看");
-		FileInfo info=new FileInfo();
-		info.setFileName(title);
-		info.setFilePath(path);
-		info.setFileSize(ll+"");
-		info.setPosition(position);
-		info.setResourceId(resourceId);
-		Log.i("djj", info.toString());
-		//上传的路径，文件的路径，上传的位置，id
-		UpLoadManager.getInstance().startUpload(info);
-	}*/
+	}
 
 	@Override
 	public int setLayout() {
@@ -298,14 +252,14 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_cancel:
+			//取消上传文件
+			CancelUploadFile();
 			finish();
 			break;
 		case R.id.btn_preserved:
+			//调获取本次保全费用，及是否可用的接口
 			getport();
-			if(isPre){
-				filePre();
-				//saveToDb();
-			}
+
 			break;
 		default:
 			break;
@@ -360,9 +314,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	public String setTitle() {
 		return "拍照完成";
 	}
+
 	/**
 	 * 弹出框
-	 */
+	 * @param msg
+     */
 	private void showDialog(String msg) {
 	alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
 				.setMessage(msg).setIcon(R.drawable.ww)
@@ -370,18 +326,41 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//上传文件信息
-						filePre();
-					//	saveToDb();//保存到数据库
+						//上传文件
+						UpLoadFile();
+						//保全文件到数据库
+						saveToDb();
+
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						alertDialog.dismiss();
+						CancelUploadFile();
+//						alertDialog.dismiss();
 					}
 				}).create();
 	alertDialog.show();
 	}
+
+	/**
+	 * 取消上传文件
+	 */
+    private void CancelUploadFile() {
+		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});{
+
+		}
+	}
+	
 }

@@ -75,7 +75,6 @@ private MyWifiReceiver myWifiReceiver;
 		super.onCreate(savedInstanceState);
 		// 去除标题栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
@@ -115,8 +114,7 @@ private MyWifiReceiver myWifiReceiver;
 		// getSupportFragmentManager().findFragmentByTag("fragment");
 		BaseFragment currentFragment = (BaseFragment) fragmentTabUtils
 				.getCurrentFragment();
-		if (!CheckUtil.isEmpty(currentFragment)
-				&& currentFragment.onKeyDown(keyCode, event)) {
+		if (!CheckUtil.isEmpty(currentFragment) && currentFragment.onKeyDown(keyCode, event)) {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -146,7 +144,7 @@ private MyWifiReceiver myWifiReceiver;
 
 			case 1:
 				// 下载apk失败
-				Toaster.showToast(MainActivity.this, "获取版本号失败");
+//				Toaster.showToast(MainActivity.this, "获取版本号失败");
 				break;
 			case 2:
 				// 下载apk失败
@@ -276,6 +274,7 @@ private MyWifiReceiver myWifiReceiver;
 		Intent intent = new Intent();
 		// 执行动作
 		intent.setAction(Intent.ACTION_VIEW);
+		intent.addCategory("android.intent.category.DEFAULT");
 		// 执行的数据类型
 		intent.setDataAndType(Uri.fromFile(file),
 				"application/vnd.android.package-archive");
@@ -349,28 +348,28 @@ private MyWifiReceiver myWifiReceiver;
 			String action = intent.getAction();
 			if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 
-				ConnectivityManager cm=		(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+				ConnectivityManager cm=	(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo info = cm.getActiveNetworkInfo();
 				if(info != null && info.isAvailable()) {
 
-					/////////////网络连接
+					//网络连接
 					String name = info.getTypeName();
 
 					if(info.getType()==ConnectivityManager.TYPE_WIFI){
-						/////WiFi网络
+						//WiFi网络
                      if(info.isConnected()){
 						 Log.i("djj","wifi");
 					 }
 
 					}else if(info.getType()==ConnectivityManager.TYPE_ETHERNET){
-						/////有线网络
+						//有线网络
 
 					}else if(info.getType()==ConnectivityManager.TYPE_MOBILE){
-						/////////3g网络
+						//3g网络
 
 					}
 				} else {
-					////////网络断开
+					//网络断开
 
 				}
 			}

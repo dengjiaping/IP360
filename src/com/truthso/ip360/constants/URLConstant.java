@@ -117,4 +117,8 @@ public class URLConstant {
 	 * 上传文件到OSS后调用
 	 */
 	public final static String UploadFileOssStatus = "http://"+str+"/api/v1/file/uploadFileOssStatus";
+	/**
+	 * 取消上传文件
+	 */
+	public final static String deleteFileInfo = "http://"+str+"/api/v1/file/deleteFileInfo";
 }

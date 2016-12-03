@@ -322,9 +322,9 @@
             android:enabled="true"
             android:process=":remote" 
             >
-             <intent-filter>  
+   <!--          <intent-filter>
         <action android:name="com.baidu.location.service_v2.6"></action>  
-    </intent-filter>  
+    </intent-filter>  -->
         </service>
 
         <meta-data

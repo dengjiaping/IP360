@@ -185,8 +185,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 	/**
 	 * 注册
-	 * @param type
-	 * @param acount
 	 * @param vcode
 	 * @param callback
 	 * @return
@@ -210,8 +208,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 	/**
 	 * 重置密码
-	 * @param type
-	 * @param acount
 	 * @param vcode
 	 * @param callback
 	 * @return
@@ -259,8 +255,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	/**
 	 * 更改绑定的手机号
 	 * @param mobile
-	 * @param oldVcode
-	 * @param newVcode
 	 * @param callback
 	 * @return
 	 */
@@ -327,9 +321,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 	/**
 	 * 更改绑定的邮箱
-	 * @param newEmail
-	 * @param oldVcode
-	 * @param newVcode
 	 * @param callback
 	 * @return
 	 */
@@ -485,7 +476,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param fileLocation 取证地点 可空
 	 * @param fileTime 取证时长 录像 录音不为空
 	 * @param  
-	 * @param imei手机的IMEI码
+	 * @param imei 手机的IMEI码
 	 * @param callback
 	 * @return
 	 */
@@ -512,8 +503,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	
 	/**
 	 * 设置备注
-	 * @param remarkText备注的文本
-	 * @param pkValue证据记录主键值
+	 * @param remarkText 备注的文本
+	 * @param pkValue 证据记录主键值
 	 * @param type  请求展示类别  1-确权  2-现场取证 3-pc取证
 	 * @param callback
 	 * @return
@@ -611,7 +602,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 	/**
 	 * 版本更新
-	 * @param versionCode版本号
+	 * @param versionCode 版本号
 	 * @param callback
 	 * @return
 	 */
@@ -654,6 +645,21 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.setPath(URLConstant.getFileRemark);
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 取消上传文件
+	 * @param pkValue
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle DeleteFileInfo(int pkValue,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
+		request.setPath(URLConstant.deleteFileInfo);
+		request.params().add("pkValue", pkValue+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
