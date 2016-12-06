@@ -67,24 +67,23 @@ public class ResuambleUpload {
         ResumableUploadRequest request = new ResumableUploadRequest(testBucket, info.getObjectKey(), info.getFilePath(), recordDirectory);
         
         
-      /*  ObjectMetadata metadata = new ObjectMetadata();
+        ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType("application/octet-stream");
 
         request.setMetadata(metadata);
         request.setCallbackParam(new HashMap<String, String>(){
-        	{
-        	put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus"); 
-        	put("callbackBody", "resourceid=${x:resourceid}&token=${x:token}"); 
-          
-        	}
-        	
+            {
+                put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus");
+                put("callbackBody", "resourceId=${x:resourceId}&token=${x:token}");
+            }
         });
-        
+
         request.setCallbackVars(new HashMap<String, String>() {
             {
-                put("x:resourceid", resourceid+"");
+                put("x:resourceId", info.getResourceId()+"");
+                put("x:token", token);
             }
-       });*/
+        });
         
         // 设置上传过程回调
         request.setProgressCallback(new OSSProgressCallback<ResumableUploadRequest>() {
@@ -109,7 +108,9 @@ public class ResuambleUpload {
                 if(progressListener!=null){
                 	progressListener.onComplete();               	
                 }
-                SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "1");
+
+                SqlDao dao = SqlDao.getSQLiteOpenHelper();
+                dao.updateStatus(info.getFileName(), "1");
                 UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
              
             }
