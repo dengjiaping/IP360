@@ -60,7 +60,7 @@ public class MyAsyncHttpClient {
 
 	// post
 	public static RequestHandle post(String urlString, RequestParams params, ResponseHandlerInterface bHandler) {
-		return httpClient.post(urlString, params, bHandler);	
+		return httpClient.post(urlString, params, bHandler);
 	}
 
 	public static void cancelRequest(RequestHandle handle) {

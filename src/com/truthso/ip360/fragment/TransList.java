@@ -32,6 +32,10 @@ import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.MainActionBar;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 /**
  * @despriction :传输列表的fragment
  * 
@@ -157,12 +161,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initData() {
-
+		EventBus.getDefault().register(this);
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
+		EventBus.getDefault().unregister(this);
 		super.onDestroy();
 	}
 	
@@ -308,4 +313,16 @@ public class TransList extends BaseFragment implements OnClickListener {
 		}
 
 	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void  setActionBarRightVisibility(Boolean isVisibility){
+
+		if(isVisibility){
+			actionBar.setRightVisible();
+		}else{
+			actionBar.setRightGone();
+		}
+
+	}
+
 }

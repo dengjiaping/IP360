@@ -15,10 +15,13 @@ import com.truthso.ip360.adapter.DownLoadAdapter;
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.pager.UpLoadListPager.MyContentObserver;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class DownLoadListPager extends BasePager {
 	private ListView listView;
@@ -35,7 +38,12 @@ public class DownLoadListPager extends BasePager {
 		if(queryDownLoadList!=null){
 			list.addAll(queryDownLoadList); 			
 		}        
-		listView = new ListView(ctx);	
+		listView = new ListView(ctx);
+		if(list.size()>0){
+			EventBus.getDefault().post(true);
+		}else{
+			EventBus.getDefault().post(false);
+		}
 		adapter=new DownLoadAdapter(ctx,list);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
@@ -55,9 +63,13 @@ public class DownLoadListPager extends BasePager {
 		public void onChange(boolean selfChange) {
 			// TODO Auto-generated method stub
 			super.onChange(selfChange);
-			List<FileInfo> queryUpLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-			
-			adapter.notifyChange(queryUpLoadList);
+			List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
+			if(queryDownLoadList.size()>0){
+				EventBus.getDefault().post(true);
+			}else{
+				EventBus.getDefault().post(false);
+			}
+			adapter.notifyChange(queryDownLoadList);
 		}
 	}
 	

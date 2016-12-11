@@ -409,7 +409,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			}*/
 			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
-				String url = "http://" + data1.getOssUrl();
+				String url =data1.getOssUrl();
 				String format = data1.getFileFormat();
 				format = format.toLowerCase();// 格式变小写
 				Log.i("djj", data1.getOssUrl());

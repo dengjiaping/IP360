@@ -1,6 +1,7 @@
 package com.truthso.ip360.activity;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,6 +14,12 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.ImageLoaderUtil;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * @despriction :照片详情(原图)
@@ -32,6 +39,36 @@ public class PhotoDetailActivity extends BaseActivity {
 		url=getIntent().getStringExtra("url");
 		from=getIntent().getStringExtra("from");
 
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					URL u=new URL(url);
+					HttpURLConnection conn= (HttpURLConnection) u.openConnection();
+					conn.setRequestMethod("GET");
+					conn.setConnectTimeout(6000);
+					conn.addRequestProperty("Refere","http://appapi.truthso.com");
+					conn.connect();
+					Log.i("djj","code:"+conn.getResponseCode());
+					InputStream inputStream = conn.getInputStream();
+
+					byte[] b=new byte[1024];
+					int length=0;
+					Log.i("djj","haha");
+					while ((length=(inputStream.read(b)))!=-1) {
+						Log.i("djj","hehe");
+					}
+				} catch (MalformedURLException e) {
+					Log.i("djj","MalformedURLException");
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+
+			}
+		}).start();
 	}
 
 	@Override
@@ -39,7 +76,7 @@ public class PhotoDetailActivity extends BaseActivity {
 		 iv_photo = (ImageView) findViewById(R.id.iv_photo);
 		/* BitmapUtils bitmap = new BitmapUtils(this);
          bitmap.display(iv_photo, url);*/
-        if(from.equals("cloud")){
+      /*  if(from.equals("cloud")){
 			ImageLoaderUtil.dispalyImage(url,iv_photo,new ImageLoadingListener() {
 				
 				@Override
@@ -65,7 +102,7 @@ public class PhotoDetailActivity extends BaseActivity {
 			});
 		}else {
 			ImageLoaderUtil.displayFromSDCardopt(url,iv_photo,null);
-		}
+		}*/
 
 	}
 
