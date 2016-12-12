@@ -125,12 +125,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
 				hideProgress();
-
 				bean = (PersonalMsgBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						// list = bean.getProductBalance();//业务余量
-						isOk = true;
+						/*isOk = true;
 						// 账户余额
 						if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
 							int i = bean.getDatas().getAccountBalance();
@@ -142,9 +141,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 							iv_next_yue.setVisibility(View.VISIBLE);
 							contractStart = bean.getDatas().getContractStart();
 							contractEnd = bean.getDatas().getContractEnd();
-							contractEnd = contractEnd.replace("-", ".");
-							tv_account_balance.setText("合同用户" + contractEnd
-									+ "到期");
+//							contractEnd = contractEnd.replace("-", ".");
+//							tv_account_balance.setText("合同用户" + contractEnd
+//									+ "到期");
 
 							list = bean.getDatas().getProductBalance();
 							for (int i = 0; i < list.size(); i++) {
@@ -164,7 +163,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 								}
 
 							}
-						}
+						}*/
 
 					/*	// 是否已实名认证
 						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证

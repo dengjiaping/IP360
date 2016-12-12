@@ -26,17 +26,18 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_account_message"
-            android:text="账户状态"
+            android:text="账户余额"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
 
         <TextView
+            android:id="@+id/tv_account_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="合同用户"
+            android:text=""
             android:textColor="@color/black" />
     </RelativeLayout>
 
@@ -64,65 +65,51 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_account_message"
-            android:text="合同期限"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:text="套餐详情"/>
 
-        <TextView
-            android:id="@+id/tv_contract_date"
+       <TextView
+            android:id="@+id/tv_status_taocan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="没值"
+            android:text="当前无套餐"
             android:textColor="@color/black" />
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
+   <LinearLayout
+       android:id="@+id/ll_taocan"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:background="@color/item_bg" >
-
-        <ImageView
-            android:id="@+id/iv_account_message"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/yltj" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
-            android:text="用量统计:"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl1"
+        android:id="@+id/rl_taocan_detail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_hight"
         android:background="@color/item_bg" >
 
         <TextView
+            android:id="@+id/tv_pai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
             android:text="拍照取证"
-            android:textColor="@color/title_text_hint"
-            android:textSize="12sp" />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_date_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_pai"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:text="2016.12.10-2016.12.10"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            />
 
         <TextView
             android:id="@+id/tv_account_photo"
@@ -131,8 +118,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="已取证***次"
-            android:textColor="@color/title_text_hint" />
+            android:textSize="15sp"
+            android:textColor="@color/black"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -155,14 +142,25 @@
         android:background="@color/item_bg" >
 
         <TextView
+            android:id="@+id/tv_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
             android:text="视频取证"
-            android:textColor="@color/title_text_hint"
-            android:textSize="12sp" />
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_date_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_video"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:text="2016.12.10-2016.12.10"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            />
 
         <TextView
             android:id="@+id/tv_account_video"
@@ -171,8 +169,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="已取证***分钟"
-            android:textColor="@color/title_text_hint" />
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <LinearLayout
@@ -195,15 +192,25 @@
         android:background="@color/item_bg" >
 
         <TextView
+            android:id="@+id/tv_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
             android:text="录音取证"
-            android:textColor="@color/title_text_hint"
-            android:textSize="12sp" />
-
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_date_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_record"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:text="2016.12.10-2016.12.10"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            />
         <TextView
             android:id="@+id/tv_account_record"
             android:layout_width="wrap_content"
@@ -211,8 +218,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="已取证***分钟"
-            android:textColor="@color/title_text_hint" />
+            android:textColor="@color/black" />
     </RelativeLayout>
-
+   </LinearLayout>
 </LinearLayout>

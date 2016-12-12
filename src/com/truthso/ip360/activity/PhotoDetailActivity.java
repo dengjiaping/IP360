@@ -48,7 +48,7 @@ public class PhotoDetailActivity extends BaseActivity {
 					HttpURLConnection conn= (HttpURLConnection) u.openConnection();
 					conn.setRequestMethod("GET");
 					conn.setConnectTimeout(6000);
-					conn.addRequestProperty("Refere","http://appapi.truthso.com");
+					conn.addRequestProperty("Referer","http://appapi.truthso.com");
 					conn.connect();
 					Log.i("djj","code:"+conn.getResponseCode());
 					InputStream inputStream = conn.getInputStream();
@@ -87,6 +87,7 @@ public class PhotoDetailActivity extends BaseActivity {
 				@Override
 				public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
 					Toaster.showToast(PhotoDetailActivity.this, "加载失败");
+					finish();
 				}
 				
 				@Override
@@ -96,8 +97,7 @@ public class PhotoDetailActivity extends BaseActivity {
 				
 				@Override
 				public void onLoadingCancelled(String arg0, View arg1) {
-					// TODO Auto-generated method stub
-					
+
 				}
 			});
 		}else {

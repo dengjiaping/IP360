@@ -12,7 +12,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.truthso.ip360.application.MyApplication;
 
 /**
- * @author 浩
+ * @author wsx
  *
  */
 public class ImageLoaderUtil {
