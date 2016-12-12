@@ -1,17 +1,19 @@
 package com.truthso.ip360.activity;
 
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnErrorListener;
-import android.media.MediaPlayer.OnInfoListener;
-import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.truthso.ip360.utils.MediaController;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import io.vov.vitamio.MediaPlayer;
+import io.vov.vitamio.widget.MediaController;
+import io.vov.vitamio.widget.VideoView;
 
 /**
  * @despriction :视频详情播放页面
@@ -25,12 +27,16 @@ import com.truthso.ip360.utils.MediaController;
 public class VideoDetailActivity extends BaseActivity implements OnTouchListener {
 	MediaController mController;
 	VideoView viv;
-	int progress = 0;
+	long progress = 0;
 	private String path;
+	private Map<String,String> headers ;
 
 	@Override
 	public void initData() {
-
+		if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
+			return;
+		headers=new HashMap<>();
+		headers.put("Referer","http://appapi.truthso.com");
 	}
 
 	@SuppressLint("NewApi") @Override
@@ -39,13 +45,14 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 		viv = (VideoView) findViewById(R.id.videoView);
 		mController = new MediaController(this);
 		viv.setMediaController(mController);
-		viv.setVideoPath(path);
-		//Uri uri=Uri.parse(path);
-		//viv.setVideoURI(uri);
+		//viv.setVideoPath(path);
+
+		Uri uri= Uri.parse(path);
+		viv.setVideoURI(uri,headers);
 		viv.requestFocus();
 		viv.start();
 		showProgress("正在缓冲...");
-		viv.setOnPreparedListener(new OnPreparedListener() {
+		viv.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 			
 			@Override
 			public void onPrepared(MediaPlayer arg0) {
@@ -53,16 +60,17 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 				 hideProgress();          
 			}
 		});
-		viv.setOnErrorListener(new OnErrorListener() {  
+		viv.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             //视频无法播放监听  
             public boolean onError(MediaPlayer mp, int what, int extra) {  
                 // TODO Auto-generated method stub  
             	Toast.makeText(VideoDetailActivity.this, "视频无法播放", 0).show();
+				hideProgress();
                 finish();  
                 return true;  
             }  
         });
-		viv.setOnInfoListener(new OnInfoListener() {
+		viv.setOnInfoListener(new MediaPlayer.OnInfoListener() {
 			
 			@Override
 			public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
@@ -92,14 +100,14 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	@Override
 	protected void onPause() {
 		super.onPause();
-		progress = viv.getCurrentPosition();
+	//	progress = viv.getCurrentPosition();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		viv.seekTo(progress);
-		viv.start();
+	/*	viv.seekTo(progress);
+		viv.start();*/
 	}
 
 	@Override
