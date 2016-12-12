@@ -28,7 +28,10 @@ public class DbBean {
     private String pkValue;
     private String fileFormat;
     private  int userId;//用户的id
-    
+	private int expStatus;//扣费状态 0-正常付款；1-欠费
+
+
+
 	public int getUserId() {
 		return userId;
 	}
@@ -163,7 +166,13 @@ public class DbBean {
 	public void setLable(String lable) {
 		this.lable = lable;
 	}
+	public int getExpStatus() {
+		return expStatus;
+	}
 
+	public void setExpStatus(int expStatus) {
+		this.expStatus = expStatus;
+	}
 	@Override
 	public String toString() {
 		return "DbBean [id=" + id + ", title=" + title + ", createTime="
@@ -173,7 +182,7 @@ public class DbBean {
 				+ ", videoTime=" + videoTime + ", remark=" + remark
 				+ ", location=" + location + ", status=" + status + ", llsize="
 				+ llsize + ", pkValue=" + pkValue + ", fileFormat="
-				+ fileFormat + ", userId=" + userId + "]";
+				+ fileFormat + ",expStatus="+expStatus+", userId=" + userId + "]";
 	}
 
 	

@@ -9,7 +9,7 @@ package com.truthso.ip360.bean;
  */
 
 public class product {
-	private int type;//业务类型
+
 	/*RECORD_TYPE_RIGHT(20000,"确权"),
 	RECORD_TYPE_SNAP_SHOT(30001,"自主取证快照"),
 	RECORD_TYPE_SNAP_SCREEN(30002,"自主取证录屏"),
@@ -27,11 +27,40 @@ public class product {
     "type": 50001,
     "unit": "次",
     "usedCount": 0*/
+	private int type;//业务类型
 	private String unit;//数量单位 业务量的单位。如次、分钟、周。
-	private int freeCount;//赠送量 大于等于0
+//	private int freeCount;//赠送量 大于等于0
 	private int usedCount;//累计使用量
 	private int balanceCount;//剩余量freeCount-usedCount。负值时为透支。
-	private int limitCount;//透支阀值 透支最大量。超过会停服务。    可空
+//	private int limitCount;//透支阀值 透支最大量。超过会停服务。    可空
+	private String contractStart;//合同开始时间
+	private String contractEnd;//合同结束时间
+	private String buyCount;//买的量
+
+	public String getBuyCount() {
+		return buyCount;
+	}
+
+	public void setBuyCount(String buyCount) {
+		this.buyCount = buyCount;
+	}
+
+	public String getContractEnd() {
+		return contractEnd;
+	}
+
+	public void setContractEnd(String contractEnd) {
+		this.contractEnd = contractEnd;
+	}
+
+	public String getContractStart() {
+		return contractStart;
+	}
+
+	public void setContractStart(String contractStart) {
+		this.contractStart = contractStart;
+	}
+
 	public int getType() {
 		return type;
 	}
@@ -44,12 +73,7 @@ public class product {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public int getFreeCount() {
-		return freeCount;
-	}
-	public void setFreeCount(int freeCount) {
-		this.freeCount = freeCount;
-	}
+
 	public int getUsedCount() {
 		return usedCount;
 	}
@@ -62,11 +86,6 @@ public class product {
 	public void setBalanceCount(int balanceCount) {
 		this.balanceCount = balanceCount;
 	}
-	public int getLimitCount() {
-		return limitCount;
-	}
-	public void setLimitCount(int limitCount) {
-		this.limitCount = limitCount;
-	}
+
 	
 }

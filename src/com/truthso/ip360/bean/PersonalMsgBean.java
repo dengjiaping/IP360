@@ -28,26 +28,11 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		private String bindedEmail;//已绑定的邮箱（未绑定时为空字符串）
 		private int realNameState;//实名认证的状态
 		private int accountBalance;//账户余额
-//		contractStart	合同开始时间	String			2016-10-2
-//		contractEnd	合同结束时间	String			2017-10-2
-		private String contractStart;//合同开始时间
-		private String contractEnd;//合同结束时间
 		private List<product> productBalance;//业务余量  B类用户非空。C类用户无
 		private int accountType;//账户种类 1 个人 2 企业
 		
 		
-		public String getContractStart() {
-			return contractStart;
-		}
-		public void setContractStart(String contractStart) {
-			this.contractStart = contractStart;
-		}
-		public String getContractEnd() {
-			return contractEnd;
-		}
-		public void setContractEnd(String contractEnd) {
-			this.contractEnd = contractEnd;
-		}
+
 		public int getAccountType() {
 			return accountType;
 		}

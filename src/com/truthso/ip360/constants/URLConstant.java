@@ -121,4 +121,8 @@ public class URLConstant {
 	 * 取消上传文件
 	 */
 	public final static String deleteFileInfo = "http://"+str+"/api/v1/file/deleteFileInfo";
+	/**
+	 * 扣费
+	 */
+	public final static String Payment = "http://"+str+"/api/v1/expense/payment";
 }

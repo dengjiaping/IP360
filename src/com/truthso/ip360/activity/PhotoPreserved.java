@@ -18,6 +18,7 @@ import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
 import com.truthso.ip360.constants.MyConstants;
@@ -62,6 +63,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private String objectkey;
 	private double lat,longti;
 	private String latitudeLongitude;
+	private int  expStatus;//扣费状态
+	private boolean filePreIsok = false;
 	private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
@@ -127,7 +130,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1,
 				new ApiCallback() {
 
-					private String yue;
+//					private String yue;
 
 					@Override
 					public void onApiResultFailure(int statusCode,
@@ -144,25 +147,27 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-
-									if (useType ==1 ) {//用户类型1-付费用户（C）；
+									showDialog(bean.getDatas().getShowText());
+							/*		if (useType ==1 ) {//用户类型1-付费用户（C）；
 										//弹出提示框
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){//2-合同用户（B）
 //										//合同用户可用时，上传文件，保存文件信息到数据库
 											UpLoadFile();
 											saveToDb();
-									}
+									}*/
 
 								}else if(bean.getDatas().getStatus()== 0){//不能用
 
-									if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+									Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
+
+									/*if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
 //										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){
 										Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
 
-									}
+									}*/
 								}
 
 
@@ -185,6 +190,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * @return
 	 */
 	private void filePre() {
+
 		String hashCode = SecurityUtil.SHA512(path);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
@@ -206,6 +212,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						UpLoadBean bean = (UpLoadBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
+								filePreIsok = true;
 								Upload datas = bean.getDatas();
 								pkValue = datas.getPkValue();
                                objectkey = datas.getFileUrl();//文件上传的objectKey
@@ -227,7 +234,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * 上传文件
 	 */
 	private void UpLoadFile() {
-			//上传文件
+		     	//上传文件
 						FileInfo info=new FileInfo();
 						info.setFileName(title);
 						info.setFilePath(path);
@@ -237,9 +244,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						Toaster.showToast(PhotoPreserved.this, "文件正在上传请在传输列表查看");
 						//上传文件
 						UpLoadManager.getInstance().resuambleUpload(info);
-						//文件加到数据库
-						saveToDb();
-						finish();
+//						//文件加到数据库
+//						saveToDb();
+//						finish();
 	}
 
 	@Override
@@ -256,6 +263,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			finish();
 			break;
 		case R.id.btn_preserved:
+			if (!filePreIsok){//保全接口没调成功的话就再调一次
+				filePre();
+			}
 			//调获取本次保全费用，及是否可用的接口
 			getport();
 			break;
@@ -301,6 +311,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setFileFormat("jpg");
 		dbBean.setStatus("0");
 		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
+		dbBean.setExpStatus(expStatus);
 		SqlDao.getSQLiteOpenHelper().save(dbBean,
 				MyConstants.TABLE_MEDIA_DETAIL);
 		
@@ -324,10 +335,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//上传文件
-						UpLoadFile();
-						//保全文件到数据库
-						saveToDb();
+						//调扣费的接口
+						GetPayment(pkValue,MyConstants.PHOTOTYPE,1);
+
 
 					}
 				})
@@ -361,5 +371,45 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 		}
 	}
-	
-}
+
+	/**
+	 * 扣费
+	 * @param type （拍照（50001）、录像（50003）、录音（50002）
+	 * @param count 当次消费业务量
+     */
+	private void GetPayment(int pkValue,int type,int count){
+			showProgress("正在加载...");
+		ApiManager.getInstance().Payment(pkValue,type, count, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				ExpenseBean bean = (ExpenseBean) response;
+				if (!CheckUtil.isEmpty(bean)){
+					if(bean.getCode() == 200){
+						hideProgress();
+						//欠费状态
+					   expStatus = bean.getDatas().getStatus();
+						//上传文件
+						UpLoadFile();
+						//保全文件到数据库
+						saveToDb();
+						Toaster.showToast(PhotoPreserved.this,"文件正在上传，请在传输列表查看");
+						finish();
+					}else{
+						Toaster.showToast(PhotoPreserved.this,"保全失败，请点保全按钮重试！");
+					}
+				}else{
+					Toaster.showToast(PhotoPreserved.this,"保全失败，请点保全按钮重试！");
+				}
+
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
+
+		}
+
+	}
+

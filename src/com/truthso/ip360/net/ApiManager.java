@@ -14,6 +14,7 @@ import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
@@ -660,6 +661,25 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
 		request.setPath(URLConstant.deleteFileInfo);
 		request.params().add("pkValue", pkValue+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 扣费
+	 * @param type （拍照（50001）、录像（50003）、录音（50002）
+	 * @param count 无论B、C类用户，均表示使用的业务量的条数、分钟数。照片按次，录像、录音按时长（分钟）。可为0。
+	 * @param callback
+     * @return
+     */
+	public RequestHandle Payment(int pkValue,int type,int count,ApiCallback callback){
+		BaseHttpRequest<ExpenseBean> request = new BaseHttpRequest<ExpenseBean>(ExpenseBean.class,this);
+		request.setPath(URLConstant.Payment);
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("type", type+"");
+		request.params().add("count", count+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

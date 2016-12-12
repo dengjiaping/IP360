@@ -56,8 +56,10 @@ import cz.msebera.android.httpclient.Header;
 public class PersonalCenter extends BaseFragment implements OnClickListener,CompoundButton.OnCheckedChangeListener {
 	private PersonalMsgBean bean;
 	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
+	private String buyCount_photo,buyCount_video,buyCount_record;//买的量
 	private int type;// 取证类型
 	private Dialog alertDialog;
+	private String  accountBalance;
 	private ImageView iv_next_yue;
 	private RelativeLayout ll_count_pay, rl_Certification, rl_bind_phonum,
 			rl_bind_mail, rl_amend_psd, rl_about_us, rl_account;
@@ -65,13 +67,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
 			tv_bindemail, tv_title;
-
+	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
+	private String unit_photo,unit_video,unit_record;
 	private List<product> list;// 业务余量的集合
-	private String contractStart;
-	private String contractEnd;
 	private boolean isOk,isContractUser;
 	private CheckBox cb_iswifi;
-
+	private boolean isHaveCombo = true;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
-
+		iv_next_yue.setVisibility(View.INVISIBLE);
 		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
 		cb_iswifi.setChecked(true);
 		cb_iswifi.setOnCheckedChangeListener(this);
@@ -128,42 +129,54 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				bean = (PersonalMsgBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-						// list = bean.getProductBalance();//业务余量
-						/*isOk = true;
+						list = bean.getDatas().getProductBalance();//业务量的集合
+						isOk = true;
 						// 账户余额
-						if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
-							int i = bean.getDatas().getAccountBalance();
-							String accountBalance = "余额￥" + i / 100 + "." + i
-									% 100/10 +i%100%10+ "元";
-							tv_account_balance.setText(accountBalance);
-						} else {// 合同用户
-							isContractUser = true;
-							iv_next_yue.setVisibility(View.VISIBLE);
-							contractStart = bean.getDatas().getContractStart();
-							contractEnd = bean.getDatas().getContractEnd();
+							int balance = bean.getDatas().getAccountBalance();
+							accountBalance = "余额￥" + balance / 100 + "." + balance
+									% 100/10 +balance%100%10+ "元";
+//							tv_account_balance.setText(accountBalance);
+//							isContractUser = true;
+//							contractStart = bean.getDatas().getContractStart();
+//							contractEnd = bean.getDatas().getContractEnd();
 //							contractEnd = contractEnd.replace("-", ".");
 //							tv_account_balance.setText("合同用户" + contractEnd
 //									+ "到期");
-
-							list = bean.getDatas().getProductBalance();
+						if (list.size()!=0){
 							for (int i = 0; i < list.size(); i++) {
 								// 取证类型
 								type = list.get(i).getType();
 
 								if (type == MyConstants.PHOTOTYPE) {// 拍照
 									// 累积使用量
-									usedCount_photo = list.get(i)
-											.getUsedCount();
+									usedCount_photo = list.get(i).getUsedCount();
+									//总共购买的量
+									buyCount_photo = list.get(i).getBuyCount();
+									contractStart_photo= list.get(i).getContractStart();
+									contractEnd_photo = list.get(i).getContractEnd();
+								    unit_photo = list.get(i).getUnit();
 								} else if (type == MyConstants.VIDEOTYPE) {// 录像
 									usedCount_video = list.get(i)
 											.getUsedCount();
+									buyCount_video = list.get(i).getBuyCount();
+									contractStart_video= list.get(i).getContractStart();
+									contractEnd_video = list.get(i).getContractEnd();
+									unit_video = list.get(i).getUnit();
 								} else if (type == MyConstants.RECORDTYPE) {// 录音
 									usedCount_record = list.get(i)
 											.getUsedCount();
+									buyCount_record = list.get(i).getBuyCount();
+									contractStart_record= list.get(i).getContractStart();
+									contractEnd_record = list.get(i).getContractEnd();
+									unit_record= list.get(i).getUnit();
 								}
 
 							}
-						}*/
+						}else{//当前无套餐
+							isHaveCombo = false;
+						}
+
+
 
 					/*	// 是否已实名认证
 						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证
@@ -224,19 +237,41 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-		case R.id.rl_account:// 账户余额，合同用户需跳转
+		case R.id.rl_account:// 账号信息
 			if (isOk) {
-				if (isContractUser) {
+
 					Intent intent = new Intent(getActivity(),
 							AccountMagActivity.class);
 					// 传参
-					intent.putExtra("contractStart", contractStart);
-					intent.putExtra("contractEnd", contractEnd);
+					//余额
+				    intent.putExtra("accountBalance", accountBalance);
+					intent.putExtra("isHaveCombo",isHaveCombo);
+				if (isHaveCombo){//有套餐了传参
+					//业务的开始时间与结束时间
+					intent.putExtra("contractStart_photo", contractStart_photo);
+					intent.putExtra("contractEnd_photo", contractEnd_photo);
+
+					intent.putExtra("contractStart_video", contractStart_video);
+					intent.putExtra("contractEnd_video", contractEnd_video);
+
+					intent.putExtra("contractStart_record", contractStart_record);
+					intent.putExtra("contractEnd_record", contractEnd_record);
+					//套餐购买的量
+					intent.putExtra("buyCount_photo", buyCount_photo + "");
+					intent.putExtra("buyCount_video", buyCount_video + "");
+					intent.putExtra("buyCount_record", buyCount_record + "");
+					//业务已经使用的量
 					intent.putExtra("usedCount_photo", usedCount_photo + "");
 					intent.putExtra("usedCount_video", usedCount_video + "");
 					intent.putExtra("usedCount_record", usedCount_record + "");
-					startActivity(intent);
+					//业务量单位
+					intent.putExtra("unit_photo", unit_photo);
+					intent.putExtra("unit_video", unit_video);
+					intent.putExtra("unit_record", unit_record);
 				}
+
+					startActivity(intent);
+
 			} else {
 				getPersonalMsg();
 			}

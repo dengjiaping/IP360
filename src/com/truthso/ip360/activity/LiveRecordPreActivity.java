@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FilePositionBean.FilePosition;
 import com.truthso.ip360.bean.UpLoadBean;
@@ -54,9 +55,12 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private int mintime,pkValue;
 	private double fileSize_B;
 	private long ll;
+	private String url;
 	private Dialog alertDialog;
 	private double lat,longti;
 	private String latitudeLongitude;
+	private boolean filePreIsok = false;
+	private  int expStatus;
 	private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
@@ -118,6 +122,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				SharePreferenceUtil.VALUE_IS_INT);
 		//定位
 		getLocation();
+		//上传文件的hashcode
+		filePre();
 	}
 
 	@Override
@@ -149,6 +155,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		dbBean.setPkValue(pkValue+"");
 		dbBean.setFileFormat("mar");
 		dbBean.setStatus("0");
+		dbBean.setExpStatus(expStatus);
 		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
 		sqlDao.save(dbBean, "IP360_media_detail");// 存入数据库
 	}
@@ -156,20 +163,25 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_cancel:// 放弃
-			Intent intent = new Intent(this,MainActivity.class);
-			startActivity(intent);
-			finish();
-			break;
-		case R.id.btn_preserved:// 保全
-			getport();
-			if(isPre){
-				filePre();
-				//saveData();
-			}
-			break;
-		default:
-			break;
+			case R.id.btn_cancel://放弃
+				//取消上传文件
+				CancelUploadFile();
+				finish();
+				break;
+			case R.id.btn_preserved://保全
+				if (!filePreIsok) {//保全的接口调不成功，再掉一次
+					filePre();
+				}
+				//调获取本次保全费用，及是否可用的接口
+				getport();
+				break;
+			case R.id.acition_bar_left://返回键
+				//取消上传文件
+				CancelUploadFile();
+				break;
+
+			default:
+				break;
 		}
 	}
 	/**
@@ -180,7 +192,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, mintime,
 				new ApiCallback() {
 
-					private String yue;
+//					private String yue;
 
 					@Override
 					public void onApiResultFailure(int statusCode,
@@ -197,7 +209,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-								yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
+								/*yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
 									
 									if (useType ==1 ) {//用户类型1-付费用户（C）；
 //										 String str = "此文件保存价格为："+yue+"是否确认支付？";
@@ -205,18 +217,20 @@ public class LiveRecordPreActivity extends BaseActivity implements
 									}else if(useType ==2 ){//2-合同用户（B）
 									//上传文件信息，及存到数据库	
 										isPre=true;
-									}
-									
+									}*/
+									showDialog(bean.getDatas().getShowText());
 								}else if(bean.getDatas().getStatus()== 0){//不能用
 									
-									if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+							/*		if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
 //										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
 //										  showDialog(str1);
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){
 										Toaster.showToast(LiveRecordPreActivity.this, "您已不能使用该项业务");
 										
-									}
+									}*/
+									Toaster.showToast(LiveRecordPreActivity.this, "您已不能使用该项业务");
+
 								}
 								  
 								 
@@ -236,21 +250,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	/**
 	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
 	 * 
-	 * @param fileType
-	 *            文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空
-	 * @param fileSize
-	 *            文件大小，单位为B
-	 * @param hashCode
-	 *            哈希值 非空
-	 * @param fileDate
-	 *            取证时间
-	 * @param fileLocation
-	 *            取证地点 可空
-	 * @param fileTime
-	 *            取证时长 录像 录音不为空
-	 * @param imei手机的IMEI码
-	 * @param callback
-	 * @return
 	 */
 	private void filePre() {
 
@@ -274,24 +273,18 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						UpLoadBean bean = (UpLoadBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
+								filePreIsok = true;
 								Upload datas = bean.getDatas();
 								pkValue = datas.getPkValue();
 								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
-								String url=	datas.getFileUrl();
-								FileInfo info=new FileInfo();
-								info.setFileName(fileName);
-								info.setFilePath(filePath);
-                               	info.setFileSize(ll+"");
-                               	info.setResourceId(pkValue);
-                               	info.setObjectKey(url);
+								 url=	datas.getFileUrl();
+
                                	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
-                              //上传文件
- 							   UpLoadManager.getInstance().resuambleUpload(info);
-								finish();
-								saveData();//保存到数据库
-						
+
+
+
 							} else {
 								Toaster.showToast(LiveRecordPreActivity.this,
 										bean.getMsg());
@@ -357,9 +350,9 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//上传文件信息
-						filePre();
-						//saveData();//保存到数据库
+						//调扣费的接口
+						GetPayment(pkValue, MyConstants.RECORDTYPE, mintime);
+
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -390,5 +383,76 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					}
 				
 				});
+	}
+	/**
+	 * 上传文件
+	 */
+	private void UpLoadFile() {
+
+		FileInfo info=new FileInfo();
+		info.setFileName(fileName);
+		info.setFilePath(filePath);
+		info.setFileSize(ll+"");
+		info.setResourceId(pkValue);
+		info.setObjectKey(url);
+		//上传文件
+		UpLoadManager.getInstance().resuambleUpload(info);
+
+	}
+	/**
+	 * 扣费
+	 *
+	 * @param type  （拍照（50001）、录像（50003）、录音（50002）
+	 * @param count 当次消费业务量
+	 */
+	private void GetPayment(int pkValue, int type, int count) {
+		showProgress("正在加载...");
+		ApiManager.getInstance().Payment(pkValue, type, count, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				ExpenseBean bean = (ExpenseBean) response;
+				if (!CheckUtil.isEmpty(bean)){
+					if(bean.getCode() == 200){
+						hideProgress();
+						//欠费状态
+						expStatus = bean.getDatas().getStatus();
+						//上传文件
+						UpLoadFile();
+						//保全文件到数据库
+						saveData();
+						finish();
+						Toaster.showToast(LiveRecordPreActivity.this,"文件正在上传，请在传输列表查看");
+					}else{
+						Toaster.showToast(LiveRecordPreActivity.this,"保全失败，请点保全按钮重试！");
+					}
+				}else{
+					Toaster.showToast(LiveRecordPreActivity.this,"保全失败，请点保全按钮重试！");
+				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
+	}
+	/**
+	 * 取消上传文件
+	 */
+	private void CancelUploadFile() {
+		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
+
+
+
 	}
 }

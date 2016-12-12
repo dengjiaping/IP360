@@ -100,7 +100,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/iv_account_message"
-            android:text="账号余额"
+            android:text="账号信息"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>

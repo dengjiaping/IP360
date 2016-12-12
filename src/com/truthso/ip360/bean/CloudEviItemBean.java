@@ -34,9 +34,18 @@ public class CloudEviItemBean {
 	private int pkValue;//证据记录主键值
 	private int count;//当次消费量
 	private String remarkText;//备注
+	private int arreaStatus;//是否欠费 0欠费 1不欠费
 	private String ossUrl;
 	public boolean isOpen = false;
-	
+
+	public int getArreaStatus() {
+		return arreaStatus;
+	}
+
+	public void setArreaStatus(int arreaStatus) {
+		this.arreaStatus = arreaStatus;
+	}
+
 	public boolean isOpen() {
 		return isOpen;
 	}

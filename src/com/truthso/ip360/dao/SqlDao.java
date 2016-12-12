@@ -34,7 +34,7 @@ public class SqlDao {
 	/**
 	 * 把数据保存到数据库
 	 * 
-	 * @param bean对象
+	 * @param
 	 */
 	public void save(DbBean dbBean, String table) {
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -53,6 +53,7 @@ public class SqlDao {
 		values.put("pkvalue", dbBean.getPkValue());
 		values.put("fileformat", dbBean.getFileFormat());
 		values.put("userId", dbBean.getUserId());
+		values.put("expStatus", dbBean.getExpStatus());
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -108,7 +109,7 @@ public class SqlDao {
 			dbBean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));//录制时长
 			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
 			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
-			
+			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态
 		}
 		db.close();
 		return dbBean;
@@ -142,6 +143,7 @@ public class SqlDao {
 			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
 			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
 			dbBean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态
 			list.add(dbBean);
 		}
 		
@@ -181,6 +183,7 @@ public class SqlDao {
 			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
 			list.add(bean);
 		}
 		 cursor.close();
@@ -208,6 +211,7 @@ public class SqlDao {
 			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
 			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
 			list.add(bean);
 		}
 		cursor.close();

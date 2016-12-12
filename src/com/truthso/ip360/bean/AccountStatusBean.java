@@ -10,8 +10,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class AccountStatusBean extends BaseHttpResponse{
-//	status	能否使用	Integer	0-不能使用；1-可以使用。	非空	
+public class AccountStatusBean extends BaseHttpResponse {
+	//	status	能否使用	Integer	0-不能使用；1-可以使用。	非空
 //	accounBalance	账户余额	Integer	C类用户的余额。单位分。B类用户为0	非空	
 //	unit	数量单位	String(10)	业务量的单位。如次、分钟、周。	非空	
 //	count	当次消费数量	Integer	B/C类用户均使用。当前消费量。根据输入参数的count是否大于0确定。	非空	
@@ -20,7 +20,7 @@ public class AccountStatusBean extends BaseHttpResponse{
 //	balanceCount	剩余量	Integer	freeCount-usedCount。负值时为透支。	非空	
 //	limitCount	透支阀值	Integer	透支最大量。超过会停服务。	可空	
 	private AccountStatus datas;
-	
+
 	public AccountStatus getDatas() {
 		return datas;
 	}
@@ -29,75 +29,24 @@ public class AccountStatusBean extends BaseHttpResponse{
 		this.datas = datas;
 	}
 
-	public  class AccountStatus{
+	public class AccountStatus {
 		private int status;
-		private int accounBalance;
-		private String unit;
-		private int count;
-		private int freeCount;
-		private int usedCount;
-		private int balanceCount;
-		private int limitCount;
 		private String showText;
-		
 		public String getShowText() {
 			return showText;
 		}
+
 		public void setShowText(String showText) {
 			this.showText = showText;
 		}
+
 		public int getStatus() {
 			return status;
 		}
+
 		public void setStatus(int status) {
 			this.status = status;
 		}
-		public int getAccounBalance() {
-			return accounBalance;
-		}
-		public void setAccounBalance(int accounBalance) {
-			this.accounBalance = accounBalance;
-		}
-		public String getUnit() {
-			return unit;
-		}
-		public void setUnit(String unit) {
-			this.unit = unit;
-		}
-		public int getCount() {
-			return count;
-		}
-		public void setCount(int count) {
-			this.count = count;
-		}
-		public int getFreeCount() {
-			return freeCount;
-		}
-		public void setFreeCount(int freeCount) {
-			this.freeCount = freeCount;
-		}
-		public int getUsedCount() {
-			return usedCount;
-		}
-		public void setUsedCount(int usedCount) {
-			this.usedCount = usedCount;
-		}
-		public int getBalanceCount() {
-			return balanceCount;
-		}
-		public void setBalanceCount(int balanceCount) {
-			this.balanceCount = balanceCount;
-		}
-		public int getLimitCount() {
-			return limitCount;
-		}
-		public void setLimitCount(int limitCount) {
-			this.limitCount = limitCount;
-		}
-		
-		
+
 	}
-	
-	
-	
 }
