@@ -58,9 +58,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private double fileSize_B;
 	private long ll;
 	private Dialog alertDialog;
-	private double lat,longti;
 	private int resourceId;
 	private String objectkey;
+	private double lat,longti;
 	private String latitudeLongitude;
 	private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
@@ -153,20 +153,20 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 											UpLoadFile();
 											saveToDb();
 									}
-									
+
 								}else if(bean.getDatas().getStatus()== 0){//不能用
-									
+
 									if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
 //										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){
 										Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
-										
+
 									}
 								}
-								  
-								 
-								
+
+
+
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -181,11 +181,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	/**
 	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
-	 * 
+	 *
 	 * @return
 	 */
 	private void filePre() {
-		showProgress("上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(path);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
@@ -259,8 +258,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		case R.id.btn_preserved:
 			//调获取本次保全费用，及是否可用的接口
 			getport();
-
 			break;
+		case R.id.acition_bar_left://返回键
+				//取消上传文件
+				CancelUploadFile();
+				break;
 		default:
 			break;
 		}
@@ -277,7 +279,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						loc = s;
 						lat = latitude;
 						longti =longitude;
-//						LogUtils.e(loc+"qqqqqqqqqqqqqqqqqq");
 						Message message = handler .obtainMessage();
 						message.what = 1;
 						handler.sendMessage(message);	
@@ -305,10 +306,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		
 	}
 
-	// 保存到云端
-	private void saveToNet(){
-		
-	}
+
 
 	@Override
 	public String setTitle() {
@@ -338,7 +336,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						CancelUploadFile();
-//						alertDialog.dismiss();
 					}
 				}).create();
 	alertDialog.show();
@@ -351,7 +348,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-
+							if (response.getCode()==200){
+								hideProgress();
+							}
 			}
 
 			@Override

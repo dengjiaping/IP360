@@ -64,7 +64,6 @@ import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction :云端证据
- * 
  * @author wsx_summer Email:wangshaoxia@truthso.com
  * @date 创建时间：2016-7-21下午2:49:04
  * @version 1.0

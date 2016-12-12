@@ -58,7 +58,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_preserved,btn_cancel;
 	private int minTime;
 	private TextView tv_filename,tv_loc,tv_date,tv_filesize,tv_time,tv_account;
-
+	private String 	objectKey;
 	private boolean isPre=false;
 
 	private int useType,pkValue;
@@ -96,6 +96,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		title=getIntent().getStringExtra("title");
 		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B",0);
     	ll = Math.round(video_fileSize_B);
+		getLocation();
+		//上传文件信息
+		filePre();
 	}
 
 	@Override
@@ -173,8 +176,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 //								  showDialog(str);
 								  showDialog(bean.getDatas().getShowText());
 							}else if(useType ==2 ){//2-合同用户（B）
-							//上传文件信息，及存到数据库	
-								isPre=true;
+							//上传文件信息，及存到数据库
+								//合同用户可用时，上传文件，保存文件信息到数据库
+								UpLoadFile();
+								saveToDB();
+//								isPre=true;
 								
 							}
 							
@@ -203,6 +209,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	
 		
 	}
+
 
 	@Override
 	public int setLayout() {
@@ -246,15 +253,18 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_cancel://放弃
+			//取消上传文件
+			CancelUploadFile();
 			finish();
 			break;
 		case R.id.btn_preserved://保全
+			//调获取本次保全费用，及是否可用的接口
 			getport();
-			if(isPre){
-				filePre();
-			//	saveToDB();
-			}
 			break;
+			case R.id.acition_bar_left://返回键
+				//取消上传文件
+				CancelUploadFile();
+				break;
 
 		default:
 			break;
@@ -296,21 +306,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 							if (bean.getCode() == 200) {
 								Upload datas = bean.getDatas();
 								 pkValue = datas.getPkValue();
+							objectKey=	datas.getFileUrl();
 								//getPosition(pkValue);
 								//上传
 //								startUpLoad(0, pkValue);
-							String url=	datas.getFileUrl();
-								FileInfo info=new FileInfo();
-                               	info.setFileName(mVideoName);
-                               	info.setFilePath(mVideoPath);
-                               	info.setFileSize(ll+"");
-                               	info.setResourceId(pkValue);
-                               	info.setObjectKey(url);
-                               	Toaster.showToast(VideoPreserved.this, "文件正在上传请在传输列表查看");
-                              //上传文件
- 							   UpLoadManager.getInstance().resuambleUpload(info);
-								finish();
-								saveToDB();
+
 							} else {
 								Toaster.showToast(VideoPreserved.this,
 										bean.getMsg());
@@ -324,8 +324,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	}
 	/**
 	 * 获取文件上传到的位置
-	 * @param pkValue
-	 */
+	 *
+	 *//*
 	private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
@@ -353,13 +353,15 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			}
 
 		});
-	}
+	}*/
+
+	/*
 	/**
 	 * 上传文件的接口
 	 * @param position
 	 * @param resourceId
 	 */
-	private void startUpLoad(int position, int resourceId) {
+	/*private void startUpLoad(int position, int resourceId) {
 		Toaster.showToast(VideoPreserved.this, "文件正在上传，请在传输列表查看");
 		FileInfo info=new FileInfo();
 		info.setFileName(mVideoName);
@@ -368,12 +370,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		info.setPosition(position);
 		info.setResourceId(resourceId);
 	//	UpLoadManager.getInstance().startUpload(info);
-		
-		
-	}
-	/**
-	 * 定位
-	 */
+
+
+	}*/
 	private void getLocation(){
 		BaiduLocationUtil.getLocation(getApplicationContext(),
 				new locationListener() {
@@ -419,18 +418,56 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//上传文件信息
-						filePre();
-						//saveToDB();//保存到数据库
+						//上传文件
+						UpLoadFile();
+						//保全文件到数据库
+						saveToDB();
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
 						alertDialog.dismiss();
 					}
 				}).create();
 		alertDialog.show();
 	}
+	/**
+	 * 取消上传文件
+	 */
+	private void CancelUploadFile() {
+		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});{
+
+		}
+	}
+	/**
+	 * 上传文件
+	 */
+	private void UpLoadFile() {
+
+		FileInfo info=new FileInfo();
+		info.setFileName(mVideoName);
+		info.setFilePath(mVideoPath);
+		info.setFileSize(ll+"");
+		info.setResourceId(pkValue);
+		info.setObjectKey(objectKey);
+		Toaster.showToast(VideoPreserved.this, "文件正在上传请在传输列表查看");
+		//上传文件
+		UpLoadManager.getInstance().resuambleUpload(info);
+		finish();
+		saveToDB();
+	}
+
 }
