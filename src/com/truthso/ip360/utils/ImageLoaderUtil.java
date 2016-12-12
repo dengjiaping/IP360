@@ -3,8 +3,7 @@ package com.truthso.ip360.utils;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.*;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -12,12 +11,12 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.truthso.ip360.application.MyApplication;
 
 /**
- * @author 浩
+ * @author
  *
  */
 public class ImageLoaderUtil {
 	private static DisplayImageOptions options;
-	private static  ImageLoader imageLoader;
+	private static com.nostra13.universalimageloader.core.ImageLoader imageLoader=MyApplication.getInstance().getImageLoader();
 	/**
 	 * @param downloadImage 下载期间显示的图片
 	 * @param uriErrorImage  Uri为空或是错误的时候显示的图片 
@@ -49,7 +48,7 @@ public class ImageLoaderUtil {
 	 */
 	public static void dispalyImage(String uri,ImageView imageView,DisplayImageOptions opt)
 	{
-		MyApplication.getInstance().getImageLoader().displayImage(uri, imageView, opt);
+		imageLoader.displayImage(uri, imageView, opt);
 	}
 	
 	/**
@@ -59,7 +58,8 @@ public class ImageLoaderUtil {
 	public static void dispalyImage(String uri,ImageView imageView)
 	{
 //		imageLoader.init(ImageLoaderConfiguration.createDefault(MainActivity.this));
-		MyApplication.getInstance().getImageLoader().displayImage(uri, imageView);
+		imageLoader.displayImage(uri, imageView);
+
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ImageLoaderUtil {
 	 */
 	public static void dispalyImage(String uri,ImageView imageView,ImageLoadingListener listener)
 	{
-		MyApplication.getInstance().getImageLoader().displayImage(uri, imageView,listener);
+		imageLoader.displayImage(uri, imageView,listener);
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ImageLoaderUtil {
 	 */
 	public static void dispalyImage(String uri,ImageView imageView,DisplayImageOptions opt,ImageLoadingListener listener)
 	{
-		MyApplication.getInstance().getImageLoader().displayImage(uri, imageView, opt, listener);
+		imageLoader.displayImage(uri, imageView, opt, listener);
 	}
 	/**
 	 * @param uri
@@ -92,7 +92,7 @@ public class ImageLoaderUtil {
 	public static void dispalyImage(String uri,ImageView imageView,DisplayImageOptions opt,
 			ImageLoadingListener listener,ImageLoadingProgressListener progressListener )
 	{
-		MyApplication.getInstance().getImageLoader().displayImage(uri, imageView, opt, listener, progressListener);
+		imageLoader.displayImage(uri, imageView, opt, listener, progressListener);
 	}
 	/**
 	 * 从内容提提供者中抓取图片
@@ -100,7 +100,7 @@ public class ImageLoaderUtil {
 	public static  void displayFromContentopt(String uri, ImageView imageView,DisplayImageOptions opt) {
 		// String imageUri = "content://media/external/audio/albumart/13"; //
 		// from content provider
-		MyApplication.getInstance().getImageLoader().displayImage("content://" + uri, imageView,opt);
+		imageLoader.displayImage("content://" + uri, imageView,opt);
 	}
 	/**
 	 * 从drawable中异步加载本地图片
@@ -111,7 +111,7 @@ public class ImageLoaderUtil {
 	public static  void displayFromDrawableopt(String uri, ImageView imageView,DisplayImageOptions opt) {
 		// String imageUri = "content://media/external/audio/albumart/13"; //
 		// from content provider
-		MyApplication.getInstance().getImageLoader().displayImage("drawable://" + uri, imageView,opt);
+		imageLoader.displayImage("drawable://" + uri, imageView,opt);
 	}
 	/**
 	 * 从assets文件夹中异步加载图片
@@ -123,7 +123,7 @@ public class ImageLoaderUtil {
 	public static  void dispalyFromAssetsopt(String uri, ImageView imageView,DisplayImageOptions opt) {
 		// String imageUri = "content://media/external/audio/albumart/13"; //
 		// from content provider
-		MyApplication.getInstance().getImageLoader().displayImage("assets://" + uri, imageView,opt);
+		imageLoader.displayImage("assets://" + uri, imageView,opt);
 	}
 	/**
 	 * 从内存卡中异步加载本地图片
@@ -134,7 +134,7 @@ public class ImageLoaderUtil {
 	public static  void displayFromSDCardopt(String uri, ImageView imageView,DisplayImageOptions opt) {
 		// String imageUri = "content://media/external/audio/albumart/13"; //
 		// from content provider
-		MyApplication.getInstance().getImageLoader().displayImage("file://" + uri, imageView,opt);
+		imageLoader.displayImage("file://" + uri, imageView,opt);
 	}
 
 }

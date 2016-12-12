@@ -2,8 +2,11 @@ package com.truthso.ip360.activity;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,6 +14,7 @@ import java.util.logging.SimpleFormatter;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -45,13 +49,16 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 	private int duration;
 	private SimpleDateFormat formatter;
 	private boolean isPlaying;
+	private Map<String,String> headers ;
 	@Override
 	public void initData() {
-
+		headers=new HashMap<>();
+		headers.put("Referer","http://appapi.truthso.com");
 		url=getIntent().getStringExtra("url");
           if(url!=null){
       		try {
-      			mp.setDataSource(url);
+                Uri uri=Uri.parse(url);
+				mp.setDataSource(this,uri,headers);
       			mp.prepare();
       		} catch (IllegalArgumentException e) {
       			e.printStackTrace();
