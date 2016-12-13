@@ -21,6 +21,7 @@ import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.VerUpDateBean;
+import com.truthso.ip360.bean.ZfbPayBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.utils.SharePreferenceUtil;
@@ -680,6 +681,24 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
 		request.params().add("count", count+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 *支付宝支付接口
+	 * @param money
+	 * @param text
+	 * @param callback
+     * @return
+     */
+	public RequestHandle getOrderInfo(String money,String text,ApiCallback callback){
+		BaseHttpRequest<ZfbPayBean> request = new BaseHttpRequest<ZfbPayBean>(ZfbPayBean.class,this);
+		request.setPath(URLConstant.GetOrderInfo);
+		request.params().add("money", money);
+		request.params().add("text", text);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

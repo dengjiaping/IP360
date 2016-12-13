@@ -11,8 +11,9 @@ package com.truthso.ip360.constants;
 public class URLConstant {
 
 //	static String str = "192.168.1.20:8080";
-	static String str = "101.201.74.230:9091";
+//	static String str = "101.201.74.230:9091";
    // static String str = "appapi.ip360.net.cn";
+	static  String str ="101.201.112.127:9020";
 
 	/**
 	 * 登录
@@ -125,4 +126,8 @@ public class URLConstant {
 	 * 扣费
 	 */
 	public final static String Payment = "http://"+str+"/api/v1/expense/payment";
+	/**
+	 * 支付宝支付,从后台获取订单信息的接口
+	 */
+	public final static String GetOrderInfo = "http://"+str+"/api/v1/expense/getOrderInfo";
 }

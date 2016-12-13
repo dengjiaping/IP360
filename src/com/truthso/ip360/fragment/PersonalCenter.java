@@ -280,15 +280,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		case R.id.rl_count_pay:// 用户充值
 			if (isOk) {
 				// 合同用户不能充值
-				if (bean.getDatas().getUserType() == 1) {// 1-付费用户（C）；2-合同用户（B）
-					Intent intent1 = new Intent(getActivity(),
-							AccountPayActivity.class);
+					Intent intent1 = new Intent(getActivity(), AccountPayActivity.class);
+					intent1.putExtra("accountBalance",accountBalance);
 					startActivityForResult(intent1, MyConstants.ACCOUNT_YUE);
-				} else {
-					Toaster.showToast(getActivity(),
-							"合同用户请联系商务人员或客服电话010-84716996");
 
-				}
 			} else {
 				getPersonalMsg();
 			}

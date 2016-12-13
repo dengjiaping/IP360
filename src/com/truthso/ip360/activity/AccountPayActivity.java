@@ -12,11 +12,11 @@ import com.alipay.sdk.app.PayTask;
  */
 
 public class AccountPayActivity extends BaseActivity {
-
+private String accountBalance;//账户余额
 
 	@Override
 	public void initData() {
-		
+		accountBalance = getIntent().getStringExtra("accountBalance");
 	}
 	@Override
 	public void initView() {

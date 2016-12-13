@@ -12,7 +12,7 @@
         android:layout_height="@dimen/edit_height" >
 
         <ImageView
-            android:id="@+id/iv_jiupsd"
+            android:id="@+id/iv_jiup"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
+            android:layout_toRightOf="@id/iv_jiup"
             android:text="当前余额"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
@@ -36,9 +36,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="￥126.4"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:id="@+id/tv_accountbalance"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,7 +47,7 @@
         android:background="@color/activity_bg" >
 
         <ImageView
-            android:id="@+id/iv_jiupsd"
+            android:id="@+id/iv_jiups"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
+            android:layout_toRightOf="@id/iv_jiups"
             android:text="充值金额:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
@@ -73,7 +73,8 @@
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/tv_psw"
             android:background="@drawable/bg_edit"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:id="@+id/et_chongzhi_jine"/>
 
     </RelativeLayout>
 
@@ -104,10 +105,11 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal" >
 
         <CheckBox
-            android:id="@+id/cb_checkbox"
+            android:id="@+id/cb_checkbox_weixin"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
@@ -119,7 +121,7 @@
             android:layout_width="140dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/cb_checkbox"
+            android:layout_toRightOf="@id/cb_checkbox_weixin"
             android:background="@drawable/wxzf" />
     </RelativeLayout>
 
@@ -130,7 +132,7 @@
         android:layout_marginTop="@dimen/margin_top_account" >
 
         <CheckBox
-            android:id="@+id/cb_checkbox"
+            android:id="@+id/cb_checkbox_zfb"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerVertical="true"
@@ -141,20 +143,22 @@
             android:layout_width="140dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/cb_checkbox"
+            android:layout_toRightOf="@id/cb_checkbox_zfb"
             android:background="@drawable/zfb" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_top_account" >
 
         <CheckBox
-            android:id="@+id/cb_checkbox"
+            android:id="@+id/cb_checkbox_yl"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:checked="true"
             android:layout_centerVertical="true"
             android:background="@drawable/checkbox"
             android:button="@null" />
@@ -163,10 +167,9 @@
             android:layout_width="140dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/cb_checkbox"
+            android:layout_toRightOf="@id/cb_checkbox_yl"
             android:background="@drawable/yl" />
     </RelativeLayout>
-
     <Button
         android:id="@+id/btn_sure"
         android:layout_width="@dimen/button_width"
