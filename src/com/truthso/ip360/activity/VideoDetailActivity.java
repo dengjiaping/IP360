@@ -1,19 +1,21 @@
 package com.truthso.ip360.activity;
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
+
+import com.truthso.ip360.view.MyVideoView;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import io.vov.vitamio.MediaPlayer;
-import io.vov.vitamio.widget.MediaController;
-import io.vov.vitamio.widget.VideoView;
 
 /**
  * @despriction :视频详情播放页面
@@ -26,8 +28,8 @@ import io.vov.vitamio.widget.VideoView;
 
 public class VideoDetailActivity extends BaseActivity implements OnTouchListener {
 	MediaController mController;
-	VideoView viv;
-	long progress = 0;
+	MyVideoView viv;
+	int progress = 0;
 	private String path;
 	private Map<String,String> headers ;
 
@@ -42,7 +44,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	@SuppressLint("NewApi") @Override
 	public void initView() {
 		path = getIntent().getStringExtra("url");
-		viv = (VideoView) findViewById(R.id.videoView);
+		viv = (MyVideoView) findViewById(R.id.videoView);
 		mController = new MediaController(this);
 		viv.setMediaController(mController);
 		//viv.setVideoPath(path);
@@ -74,7 +76,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 			
 			@Override
 			public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
-				if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_START){  
+				if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_START){
                    showProgress("正在缓冲...");
                 }else if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_END){  
                     //此接口每次回调完START就回调END,若不加上判断就会出现缓冲图标一闪一闪的卡顿现象  
@@ -100,14 +102,14 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	@Override
 	protected void onPause() {
 		super.onPause();
-	//	progress = viv.getCurrentPosition();
+		progress = viv.getCurrentPosition();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-	/*	viv.seekTo(progress);
-		viv.start();*/
+		viv.seekTo(progress);
+		viv.start();
 	}
 
 	@Override
