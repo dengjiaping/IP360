@@ -9,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.truthso.ip360.view.xrefreshview.LogUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -48,7 +50,7 @@ public class AccountMagActivity extends BaseActivity {
     @Override
     public void initData() {
         accountBalance = getIntent().getStringExtra("accountBalance");
-        isHaveCombo =    getIntent().getBooleanExtra("isHaveCombo",isHaveCombo);
+        isHaveCombo =    getIntent().getBooleanExtra("isHaveCombo",false);
         if (isHaveCombo){
             //业务的开始时间与结束时间
             contractStart_photo =  getIntent().getStringExtra("contractStart_photo");
@@ -87,46 +89,60 @@ public class AccountMagActivity extends BaseActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String currDate = dateFormat.format(Calendar.getInstance().getTime());
         int icurrDate = Integer.parseInt(currDate);
+//        LogUtils.e(icurrDate+"当前日期");
 
         if (isHaveCombo){
             //拍照
+            String  str_contractEnd_photo = contractEnd_photo.replace("-","");
             if (buyCount_photo.equals("0")){//合同不约定预购用量的情况，此时只显示已经使用的
                 tv_account_photo.setText(usedCount_photo+unit_photo);
-                tv_date_photo.setText(contractStart_photo+"-"+contractEnd_photo);
+                tv_date_photo.setText(contractStart_photo.replace("-",".")+"-"+contractEnd_photo.replace("-","."));
             }else if (Integer.parseInt(usedCount_photo)>Integer.parseInt(buyCount_photo)){//已经使用的超过预购的,字体设置成红色
                 tv_account_photo.setTextColor(getResources().getColor(R.color.red));
                 tv_account_photo.setText(usedCount_photo+unit_photo+"/"+buyCount_photo+unit_photo);
-                tv_date_photo.setText(contractStart_photo+"-"+contractEnd_photo);
-            }else if (icurrDate>Integer.parseInt(buyCount_photo)){//已过期 日期设置成红色
+                tv_date_photo.setText(contractStart_photo.replace("-",".")+"-"+contractEnd_photo.replace("-","."));
+            }else if (icurrDate>Integer.parseInt(str_contractEnd_photo)){//已过期 日期设置成红色
                 tv_date_photo.setTextColor(getResources().getColor(R.color.red));
-                tv_date_photo.setText(contractStart_photo+"-"+contractEnd_photo);
+                tv_date_photo.setText(contractStart_photo.replace("-",".")+"-"+contractEnd_photo.replace("-","."));
                 tv_account_photo.setText(usedCount_photo+unit_photo+"/"+buyCount_photo+unit_photo);
+            }else{
+                tv_date_photo.setText(contractStart_photo.replace("-",".")+"-"+contractEnd_photo.replace("-","."));
+                tv_account_photo.setText(usedCount_photo+unit_photo+"/"+buyCount_photo+unit_photo);
+
             }
             //录像
+          String  str_contractEnd_video = contractEnd_video.replace("-","");
             if (buyCount_video.equals("0")){//合同不约定预购用量的情况，此时只显示已经使用的
-                tv_date_video.setText(contractStart_video+"-"+contractEnd_photo);
+                tv_date_video.setText(contractStart_video.replace("-",".")+"-"+contractEnd_video.replace("-","."));
                 tv_account_video.setText(usedCount_video+unit_video);
-            }else if (Integer.parseInt(usedCount_photo)>Integer.parseInt(buyCount_photo)){//已经使用的超过预购的,字体设置成红色
+            }else if (Integer.parseInt(usedCount_video)>Integer.parseInt(buyCount_video)){//已经使用的超过预购的,字体设置成红色
                 tv_account_video.setTextColor(getResources().getColor(R.color.red));
-                tv_date_video.setText(contractStart_video+"-"+contractEnd_photo);
+                tv_date_video.setText(contractStart_video.replace("-",".")+"-"+contractEnd_video.replace("-","."));
                 tv_account_video.setText(usedCount_video+unit_video+"/"+buyCount_video+unit_video);
-            }else if (icurrDate>Integer.parseInt(buyCount_photo)){//已过期 日期设置成红色
+            }else if (icurrDate>Integer.parseInt(str_contractEnd_video)){//已过期 日期设置成红色
                 tv_date_video.setTextColor(getResources().getColor(R.color.red));
-                tv_date_video.setText(contractStart_video+"-"+contractEnd_photo);
+                tv_date_video.setText(contractStart_video.replace("-",".")+"-"+contractEnd_video.replace("-","."));
+                tv_account_video.setText(usedCount_video+unit_video+"/"+buyCount_video+unit_video);
+            }else{
+                tv_date_video.setText(contractStart_video.replace("-",".")+"-"+contractEnd_video.replace("-","."));
                 tv_account_video.setText(usedCount_video+unit_video+"/"+buyCount_video+unit_video);
             }
             //录音
+           String  strcontractEnd_record = contractEnd_record.replace("-","");
             if (buyCount_record.equals("0")){//合同不约定预购用量的情况，此时只显示已经使用的
-                tv_date_record.setText(contractStart_record+"-"+contractEnd_record);
+                tv_date_record.setText(contractStart_record.replace("-",".")+"-"+contractEnd_record.replace("-","."));
                 tv_account_record.setText(usedCount_record+unit_record);
-            }else if (Integer.parseInt(usedCount_photo)>Integer.parseInt(buyCount_photo)){//已经使用的超过预购的,字体设置成红色
+            }else if (Integer.parseInt(usedCount_record)>Integer.parseInt(buyCount_record)){//已经使用的超过预购的,字体设置成红色
                 tv_account_record.setTextColor(getResources().getColor(R.color.red));
-                tv_date_record.setText(contractStart_record+"-"+contractEnd_record);
-                tv_account_record.setText(usedCount_record+unit_record+"/"+buyCount_video+unit_video);
-            }else if (icurrDate>Integer.parseInt(buyCount_photo)){//已过期 日期设置成红色
+                tv_date_record.setText(contractStart_record.replace("-",".")+"-"+contractEnd_record.replace("-","."));
+                tv_account_record.setText(usedCount_record+unit_record+"/"+buyCount_record+unit_record);
+            }else if (icurrDate>Integer.parseInt(strcontractEnd_record)){//已过期 日期设置成红色
                 tv_date_record.setTextColor(getResources().getColor(R.color.red));
-                tv_date_record.setText(contractStart_record+"-"+contractEnd_record);
-                tv_account_record.setText(usedCount_record+unit_record+"/"+buyCount_video+unit_video);
+                tv_date_record.setText(contractStart_record.replace("-",".")+"-"+contractEnd_record.replace("-","."));
+                tv_account_record.setText(usedCount_record+unit_record+"/"+buyCount_record+unit_record);
+            }else{
+                tv_date_record.setText(contractStart_record.replace("-",".")+"-"+contractEnd_record.replace("-","."));
+                tv_account_record.setText(usedCount_record+unit_record+"/"+buyCount_record+unit_record);
             }
 
         }else{//无套餐
@@ -136,7 +152,7 @@ public class AccountMagActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
+   public void initView() {
 
 
     }

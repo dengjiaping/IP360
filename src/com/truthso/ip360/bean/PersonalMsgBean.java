@@ -23,7 +23,7 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		this.datas = datas;
 	}
 	public class PersonalMsg{
-		private int userType;//用户类型 1-付费用户（C）；2-合同用户（B）
+//		private int userType;//用户类型 1-付费用户（C）；2-合同用户（B）
 		private String bindedMobile;//已绑定的手机号码（未绑定时为空字符串）
 		private String bindedEmail;//已绑定的邮箱（未绑定时为空字符串）
 		private int realNameState;//实名认证的状态
@@ -39,12 +39,7 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		public void setAccountType(int accountType) {
 			this.accountType = accountType;
 		}
-		public int getUserType() {
-			return userType;
-		}
-		public void setUserType(int userType) {
-			this.userType = userType;
-		}
+
 		public String getBindedMobile() {
 			return bindedMobile;
 		}

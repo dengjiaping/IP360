@@ -99,9 +99,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		title = getIntent().getStringExtra("title");
 		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B", 0);
 		ll = Math.round(video_fileSize_B);
-		getLocation();
+		/*getLocation();
 		//上传文件信息
-		filePre();
+		filePre();*/
 	}
 
 	@Override
@@ -141,9 +141,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_preserved.setOnClickListener(this);
 		btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		btn_cancel.setOnClickListener(this);
-
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 
+		getLocation();
+		//上传文件信息
+		filePre();
 
 	}
 
