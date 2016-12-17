@@ -288,7 +288,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				getPersonalMsg();
 			}
 
-//			break;
+			break;
 	/*	case R.id.rl_Certification:// 实名认证
 			if (isOk) {
 				if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
