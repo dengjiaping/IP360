@@ -92,10 +92,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-//		LogUtils.e(ll+"wsx");
 		getLocation();
+//		LogUtils.e(ll+"wsx");
+	/*	getLocation();
 		//上传文件信息
-		filePre();
+		filePre();*/
 	}
 
 	@Override
@@ -119,7 +120,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
-		
+//		getLocation();
+		//上传文件信息
+		filePre();
 		
 	}
 
@@ -277,9 +280,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	}
 
 	private void getLocation() {
+
 		BaiduLocationUtil.getLocation(getApplicationContext(),
 				new locationListener() {
-
 					@Override
 					public void location(String s, double latitude,
 							double longitude) {
@@ -288,7 +291,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						longti =longitude;
 						Message message = handler .obtainMessage();
 						message.what = 1;
-						handler.sendMessage(message);	
+						handler.sendMessage(message);
+						LogUtils.e("地理位置==========================="+loc);
+
 					}
 				
 				});
@@ -337,8 +342,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 
 					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -347,7 +351,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				}).create();
 	alertDialog.show();
 	}
-
 	/**
 	 * 取消上传文件
 	 */

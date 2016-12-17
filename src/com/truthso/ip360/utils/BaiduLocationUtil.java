@@ -88,7 +88,7 @@ public class BaiduLocationUtil {
 	            double longitude = location.getLongitude();
 	            s = location.getAddrStr()+location.getLocationDescribe();
 	            mlocationListener.location(s,latitude,longitude);
-	            LogUtils.e("位置"+s+"纬度："+latitude+"经度："+longitude);
+	            LogUtils.e("位置"+s+"纬度："+latitude+"经度："+longitude+"location.getLocType()"+location.getLocType());
 			// DebugLog.e("location1",s);
 			// System.out.println(location.getAddrStr()+"");
 

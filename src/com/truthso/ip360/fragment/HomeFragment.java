@@ -188,9 +188,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 //							Toaster.showToast(getActivity(), "您没有使用当前业务的权限！");
 							Toaster.showToast(getActivity(), bean.getMsg());
 						}
+					}else{
+						Toaster.showToast(getActivity(), bean.getMsg());
 					}
 				}else{
-					Toaster.showToast(getActivity(), bean.getMsg());
+					Toaster.showToast(getActivity(), "加载失败，请重试！");
 				}
 			}
 			@Override

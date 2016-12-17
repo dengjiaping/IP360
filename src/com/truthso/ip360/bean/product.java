@@ -31,7 +31,7 @@ public class product {
 	private String unit;//数量单位 业务量的单位。如次、分钟、周。
 //	private int freeCount;//赠送量 大于等于0
 	private int usedCount;//累计使用量
-	private int balanceCount;//剩余量freeCount-usedCount。负值时为透支。
+//	private int balanceCount;//剩余量freeCount-usedCount。负值时为透支。
 //	private int limitCount;//透支阀值 透支最大量。超过会停服务。    可空
 	private String contractStart;//合同开始时间
 	private String contractEnd;//合同结束时间
@@ -80,12 +80,7 @@ public class product {
 	public void setUsedCount(int usedCount) {
 		this.usedCount = usedCount;
 	}
-	public int getBalanceCount() {
-		return balanceCount;
-	}
-	public void setBalanceCount(int balanceCount) {
-		this.balanceCount = balanceCount;
-	}
+
 
 	
 }

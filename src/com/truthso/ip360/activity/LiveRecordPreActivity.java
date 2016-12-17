@@ -281,7 +281,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 //								startUpLoad(0, pkValue);
 								 url=	datas.getFileUrl();
 
-                               	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
+//                               	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
 
 
 

@@ -82,9 +82,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
 		rl_account = (RelativeLayout) view.findViewById(R.id.rl_account);
 		rl_account.setOnClickListener(this);
-//		rl_Certification = (RelativeLayout) view
-//				.findViewById(R.id.rl_Certification);
-//		rl_Certification.setOnClickListener(this);
+		rl_Certification = (RelativeLayout) view
+				.findViewById(R.id.rl_Certification);
+		rl_Certification.setOnClickListener(this);
 
 		rl_bind_phonum = (RelativeLayout) view
 				.findViewById(R.id.rl_bind_phonum);
@@ -239,9 +239,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		switch (view.getId()) {
 		case R.id.rl_account:// 账号信息
 			if (isOk) {
-
-					Intent intent = new Intent(getActivity(),
-							AccountMagActivity.class);
+					Intent intent = new Intent(getActivity(), AccountMagActivity.class);
 					// 传参
 					//余额
 				    intent.putExtra("accountBalance", accountBalance);
@@ -289,7 +287,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			}
 
 			break;
-	/*	case R.id.rl_Certification:// 实名认证
+		case R.id.rl_Certification:// 实名认证
 			if (isOk) {
 				if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
 					Intent intent2 = new Intent(getActivity(),
@@ -305,7 +303,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				getPersonalMsg();
 			}
 
-			break;*/
+			break;
+
 
 		case R.id.rl_bind_phonum:// 绑定手机
 			if (isOk) {
