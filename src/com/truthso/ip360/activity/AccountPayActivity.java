@@ -9,10 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
+import com.lidroid.xutils.db.annotation.Check;
 import com.truthso.ip360.bean.ZfbPayBean;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.PayResult;
 
 import java.util.Map;
@@ -61,7 +64,17 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 		switch (v.getId()){
 			case R.id.btn_sure:
 				money= et_chongzhi_jine.getText().toString().trim();
-                payment();
+				if (!CheckUtil.isEmpty(money)){
+					if (CheckUtil.isFormatAccount(money)){
+						payment();
+					}else{
+						Toaster.showToast(AccountPayActivity.this,"请输入正确的充值金额！");
+					}
+				}else{
+					Toaster.showToast(AccountPayActivity.this,"请输入充值金额！");
+				}
+
+
 				break;
 		}
 	}

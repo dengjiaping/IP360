@@ -57,7 +57,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private LinearLayout mTakeVideo;
 	private LinearLayout mRecord;
 	private File photo;
-
+	private double lat,longti;
 	private File photoDir;
 
 	private String date1;
@@ -81,6 +81,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		mTakeVideo.setOnClickListener(this);
 		mRecord = (LinearLayout) view.findViewById(R.id.ll_record);
 		mRecord.setOnClickListener(this);
+		//进来就定位
+		getLocation();
 	}
 
 	@Override
@@ -97,9 +99,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
-//			getLocation();
+			getLocation();
 			//调接口,看是否可以拍照
-			getPort(MyConstants.PHOTOTYPE,0);		
+			getPort(MyConstants.PHOTOTYPE,1);
 			
 			/*photoDir = new File(MyConstants.PHOTO_PATH);
 			if (!photoDir.exists()) {
@@ -113,8 +115,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			startActivityForResult(intent, CAMERA);*/
 			break;
 		case R.id.ll_take_video:// 录像取证
+			getLocation();
 			//调接口,看是否可以录像
-			getPort(MyConstants.VIDEOTYPE,0);		
+			getPort(MyConstants.VIDEOTYPE,1);
 			/*Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 			SimpleDateFormat formatter = new SimpleDateFormat(
@@ -124,8 +127,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			startActivityForResult(intent1, CASE_VIDEO);*/
 			break;
 		case R.id.ll_record:// 录音取证
+			getLocation();
 			//调接口,看是否可以录音
-			getPort(MyConstants.RECORDTYPE,0);
+			getPort(MyConstants.RECORDTYPE,1);
 			break;
 		default:
 			break;
@@ -145,10 +149,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-							
+
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
-//								getLocation();
 								photoDir = new File(MyConstants.PHOTO_PATH);
 								if (!photoDir.exists()) {
 									photoDir.mkdirs();
@@ -163,7 +166,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 
 							case MyConstants.VIDEOTYPE:
-								getLocation();
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 //								startActivityForResult(intent1, CASE_VIDEO);
@@ -175,7 +177,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 
 							case MyConstants.RECORDTYPE:
-								getLocation();
 								Intent intent2 = new Intent(getActivity(),
 										LiveRecordImplementationActivity.class);
 								intent2.putExtra("loc", loc);
@@ -235,6 +236,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				intent.putExtra("date", date);
 				intent.putExtra("loc", loc);
 				intent.putExtra("fileSize_B", fileSize_B);
+				intent.putExtra("loc",loc);
+				intent.putExtra("longlat",longti+","+lat);
 				startActivity(intent);
 			}
 		}
@@ -286,12 +289,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void location(String s, double latitude, double longitude) {
-				
+				loc = s;
+				lat = latitude;
+				longti =longitude;
+//				Message message = handler .obtainMessage();
+//				message.what = 1;
+//				handler.sendMessage(message);
 			}
-				
-			
+
+
 			});
-		  LogUtils.e(loc+"位置=================================");
 	}
 	public void addTimeUsed() {
 		timeUsedInsec = timeUsedInsec + 1;

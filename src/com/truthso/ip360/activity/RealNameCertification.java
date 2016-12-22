@@ -43,7 +43,7 @@ public class RealNameCertification extends BaseActivity implements
 	private EditText et_cardid, et_realname;
 	private String cardId, realName;
 	private File faceFile;
-
+	private String  picControl;//人像控制版本
 	@Override
 	public void initData() {
 
@@ -73,6 +73,7 @@ public class RealNameCertification extends BaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_face:// 采集照片
+		    picControl = LiveDectActivity.getVersion();//活体检测的版本号
 			startActivityForResult(new Intent(this, LiveDectActivity.class), 20);
 			break;
 		case R.id.btn_ver:// 去认证
@@ -80,14 +81,13 @@ public class RealNameCertification extends BaseActivity implements
 			realName = et_realname.getText().toString().trim();
 			if (CheckUtil.isEmpty(cardId) || CheckUtil.isEmpty(realName)) {
 				Toaster.showToast(RealNameCertification.this, "身份证号或姓名不能为空");
-			} else {
-				if (CheckUtil.iscardNum(cardId)) {// 身份证正则
+			} else if(!CheckUtil.iscardNum(cardId)){// 身份证正则
 					Toaster.showToast(RealNameCertification.this, "请输入正确的身份证号");
-				} else {
-						// 调认证的接口
-					realNameVertification();
-				}
-
+			}else if(!faceFile.exists()){
+				Toaster.showToast(RealNameCertification.this, "请先采集照片！");
+			}else{
+				// 调认证的接口
+				realNameVertification();
 			}
 
 			break;
@@ -99,7 +99,7 @@ public class RealNameCertification extends BaseActivity implements
 
 	private void realNameVertification() {
 		showProgress("正在认证");
-		ApiManager.getInstance().setRealName(cardId, realName, faceFile,
+		ApiManager.getInstance().setRealName(picControl,1+"",cardId, realName, faceFile,
 				new ApiCallback() {
 
 					@Override
@@ -109,6 +109,7 @@ public class RealNameCertification extends BaseActivity implements
 						if (!CheckUtil.isEmpty(response)) {
 							if (response.getCode() == 200) {
 								setResult(MyConstants.REALNAME_VERTIFICATION);
+								Toaster.showToast(RealNameCertification.this, response.getMsg());
 								finish();
 							} else {
 								Toaster.showToast(RealNameCertification.this,
@@ -126,7 +127,6 @@ public class RealNameCertification extends BaseActivity implements
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
 							Throwable error) {
-						// TODO Auto-generated method stub
 
 					}
 				});
@@ -193,7 +193,9 @@ public class RealNameCertification extends BaseActivity implements
 				default:
 					break;
 				}
-				Toast.makeText(this, "检测失败/n/n原因:" + mBadReason, 0).show();
+				String str= "检测失败/n/n原因:" + mBadReason;
+				Toaster.showToast(this,str);
+
 			}
 		}
 	}

@@ -315,10 +315,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());
+			if (data.getArreaStatus()==1){//不欠费
 			if(queryByPkValue){
 				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
-				return;
-			}
+		   		return;}
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
 						@Override
@@ -374,6 +374,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							}
 						}
 					});
+			}else if (data.getArreaStatus()==0){//欠费
+				Toast.makeText(MyApplication.getApplication(),"该文件欠费不能进行下载，请补全费用后下载！",Toast.LENGTH_SHORT).show();
+				return;
+			}
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
 			// 仅wifi下可查看证书
@@ -390,12 +394,17 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			 */
 			int position1 = (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
+				if (cloudEviItemBean1.getArreaStatus() ==1){//不欠费
+					Intent intent1 = new Intent(context, CertificationActivity.class);
+					intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());// 唯一标识
+					intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
+					context.startActivity(intent1);
+					break;
+				}else if(cloudEviItemBean1.getArreaStatus() ==0){//欠费
+					Toast.makeText(MyApplication.getApplication(),"该文件欠费不能查看证书，请补全费用后查看！",Toast.LENGTH_SHORT).show();
+					return;
+				}
 
-			Intent intent1 = new Intent(context, CertificationActivity.class);
-			intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());// 唯一标识
-			intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
-			context.startActivity(intent1);
-			break;
 		case R.id.tv_file_preview:
 			// 仅wifi下可查看证书
 	/*		boolean isWifi = (Boolean) SharePreferenceUtil.getAttributeByKey(
@@ -409,30 +418,35 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			}*/
 			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
-				String url =data1.getOssUrl();
-				String format = data1.getFileFormat();
-				format = format.toLowerCase();// 格式变小写
-				Log.i("djj", data1.getOssUrl());
-				if (CheckUtil.isFormatVideo(format)) {// 视频
-					Intent intent2 = new Intent(context,
-							VideoDetailActivity.class);
-					intent2.putExtra("url", url);
-					context.startActivity(intent2);
-				} else if (CheckUtil.isFormatPhoto(format)) {// 照片
-					Intent intent2 = new Intent(context,
-							PhotoDetailActivity.class);
-					intent2.putExtra("url", url);
-					intent2.putExtra("from", "cloud");// 给个标记知道是云端的照片查看，不是本地的
-					context.startActivity(intent2);
-				} else if (CheckUtil.isFormatRadio(format)) {// 音频
-					Intent intent2 = new Intent(context,
-							RecordDetailActivity.class);
-					intent2.putExtra("url", url);
-					// intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
-					context.startActivity(intent2);
-				} else {
-					Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
+				if (data1.getArreaStatus() == 1){//不欠费
+					String url =data1.getOssUrl();
+					String format = data1.getFileFormat();
+					format = format.toLowerCase();// 格式变小写
+					Log.i("djj", data1.getOssUrl());
+					if (CheckUtil.isFormatVideo(format)) {// 视频
+						Intent intent2 = new Intent(context,
+								VideoDetailActivity.class);
+						intent2.putExtra("url", url);
+						context.startActivity(intent2);
+					} else if (CheckUtil.isFormatPhoto(format)) {// 照片
+						Intent intent2 = new Intent(context,
+								PhotoDetailActivity.class);
+						intent2.putExtra("url", url);
+						intent2.putExtra("from", "cloud");// 给个标记知道是云端的照片查看，不是本地的
+						context.startActivity(intent2);
+					} else if (CheckUtil.isFormatRadio(format)) {// 音频
+						Intent intent2 = new Intent(context,
+								RecordDetailActivity.class);
+						intent2.putExtra("url", url);
+						// intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+						context.startActivity(intent2);
+					} else {
+						Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
+					}
+				}else if(data1.getArreaStatus() == 0){//欠费
+					Toast.makeText(MyApplication.getApplication(),"该文件欠费不能在线查看，请补全费用后查看！",Toast.LENGTH_SHORT).show();
 				}
+
 			}
 
 		default:
