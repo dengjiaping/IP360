@@ -1,10 +1,15 @@
 package com.truthso.ip360.application;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.concurrent.Future;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
@@ -20,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.updownload.UpLoadRunnable;
+import com.truthso.ip360.utils.CrashHandler;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 /**
@@ -30,7 +36,7 @@ import com.truthso.ip360.utils.SharePreferenceUtil;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class MyApplication extends Application {
+public class MyApplication extends Application implements Thread.UncaughtExceptionHandler {
 	/**
 	 * 获取到主线程的上下文
 	 */
@@ -65,7 +71,12 @@ public class MyApplication extends Application {
 		mMainThread = Thread.currentThread();
 		mMainThreadLooper = getMainLooper();
 		mMainTheadId = android.os.Process.myTid();
-		
+
+		//在这里为应用设置异常处理程序，然后我们的程序才能捕获未处理的异常
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(this);
+
+		Thread.currentThread().setUncaughtExceptionHandler(this);
 	}
 
 	
@@ -141,5 +152,27 @@ public class MyApplication extends Application {
     public String getTokenId (){
 		return (String)SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "token", com.truthso.ip360.utils.SharePreferenceUtil.VALUE_IS_STRING);
 	}
-    
+
+	@Override
+	public void uncaughtException(Thread thread, Throwable ex) {
+		android.os.Process.killProcess(android.os.Process.myPid());
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "errorLog.txt"));
+			PrintStream ps = new PrintStream(fos);
+
+			Class clazz = Class.forName("android.os.Build");
+			Field[] fields = clazz.getFields();
+			for (Field field : fields) {
+				String name = field.getName();
+				String value = (String) field.get(null);
+				ps.println(name + ":" + value);
+			}
+			ps.println("=============================================");
+			ex.printStackTrace(ps);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

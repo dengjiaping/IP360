@@ -694,11 +694,10 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
      * @return
      */
-	public RequestHandle getOrderInfo(String money,String text,ApiCallback callback){
+	public RequestHandle getOrderInfo(String money,ApiCallback callback){
 		BaseHttpRequest<ZfbPayBean> request = new BaseHttpRequest<ZfbPayBean>(ZfbPayBean.class,this);
 		request.setPath(URLConstant.GetOrderInfo);
 		request.params().add("money", money);
-		request.params().add("text", text);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

@@ -335,6 +335,7 @@
         <activity
             android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

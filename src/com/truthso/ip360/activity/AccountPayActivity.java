@@ -15,9 +15,12 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.utils.PayResult;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
 
 /**
  * @despriction :个人中心->账户充值
@@ -65,9 +68,8 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 				break;
 		}
 	}
-
 	private void payment() {
-		ApiManager.getInstance().getOrderInfo(money, "ceshi", new ApiCallback() {
+		ApiManager.getInstance().getOrderInfo(money, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
 				ZfbPayBean bean= (ZfbPayBean) response;
@@ -126,6 +128,7 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 			@Override
 			public void run() {
 				PayTask alipay = new PayTask(AccountPayActivity.this);
+				Log.i("msp","orderInfo2:"+orderInfo);
 				Map<String, String> result = alipay.payV2(orderInfo, true);
 				Log.i("msp", result.toString());
 

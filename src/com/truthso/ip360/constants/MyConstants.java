@@ -21,7 +21,10 @@ public class MyConstants {
 	public static final int BINDNEWEMOBILE = 3;//未绑定手机号时绑定手机号
 	public static final int OFFBIND_BINDNEWEMOBILE = 4;//解绑旧手机号绑定新手机号
 	public static final int ACCOUNT_YUE = 5;//账户余额
-	
+
+	//SD卡路径
+	public static final String SD_ROOT = Environment
+			.getExternalStorageDirectory().getAbsolutePath();
 	
 	
 	// 文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音6确权文件 7线上取证
