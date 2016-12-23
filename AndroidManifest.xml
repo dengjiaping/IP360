@@ -331,10 +331,29 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6hjNTqBPR05KcO8OKefEG30ZuC2ageCH" />
 
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="54defc56fd98c52a330004be" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="UMENG_DEFAULT_CHANNEL" >
+        </meta-data>
+
+
         <!-- 活体检查 -->
+        <!--<activity
+            android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />-->
+
         <activity
             android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        </activity>
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"

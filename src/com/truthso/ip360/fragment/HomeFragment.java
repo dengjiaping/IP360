@@ -180,6 +180,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								Intent intent2 = new Intent(getActivity(),
 										LiveRecordImplementationActivity.class);
 								intent2.putExtra("loc", loc);
+//								intent2.putExtra("longlat",longti+","+lat);
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
  //								addTimeUsed();
 								startActivity(intent2);
@@ -281,6 +282,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			intent.putExtra("size",size);
 			intent.putExtra("video_fileSize_B", video_fileSize_B);
 			intent.putExtra("title", title);
+			intent.putExtra("loc",loc);
+			intent.putExtra("longlat",longti+","+lat);
 			startActivity(intent);
 		}
 	}

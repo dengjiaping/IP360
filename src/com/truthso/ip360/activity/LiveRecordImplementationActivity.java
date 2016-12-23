@@ -39,6 +39,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private String loc;
 	private TextView mRecordTime;
 	private String timeUsed;
+	private double lat,longti;
 	private int timeUsedInsec;
 	private boolean isPause;
 	private Handler uiHandle = new Handler() {
@@ -172,7 +173,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				   long length = file.length();
 				   double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				   fileName = filePath.substring(filePath.lastIndexOf("/")+1);
-				   LogUtils.e(fileName+"录音的文件名");
+//				   LogUtils.e(fileName+"录音的文件名");
 				recTotalTime = mRecordTime.getText().toString().trim();
 				i = timeUsedInsec%60;
 				if (i > 0) {
@@ -194,6 +195,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				intent.putExtra("filePath", filePath);
 				intent.putExtra("mintime", mintime);
 				intent.putExtra("loc", loc);
+				intent.putExtra("longlat",longti+","+lat);
 				startActivity(intent);
 				finish();		
 			}
@@ -290,15 +292,19 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		return "录音取证";
 	}
 	private void getLocation(){
-		  BaiduLocationUtil.getLocation(getApplicationContext(), new locationListener() {
+		BaiduLocationUtil.getLocation(this, new locationListener() {
 
 			@Override
 			public void location(String s, double latitude, double longitude) {
-				// TODO Auto-generated method stub
-				
+				loc = s;
+				lat = latitude;
+				longti =longitude;
+//				Message message = handler .obtainMessage();
+//				message.what = 1;
+//				handler.sendMessage(message);
 			}
-				
-		
-			});
+
+
+		});
 	}
 }

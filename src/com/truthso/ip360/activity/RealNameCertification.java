@@ -73,8 +73,9 @@ public class RealNameCertification extends BaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_face:// 采集照片
-		    picControl = LiveDectActivity.getVersion();//活体检测的版本号
+
 			startActivityForResult(new Intent(this, LiveDectActivity.class), 20);
+			 picControl = LiveDectActivity.getVersion();//活体检测的版本号
 			break;
 		case R.id.btn_ver:// 去认证
 			cardId = et_cardid.getText().toString().trim();
