@@ -31,6 +31,7 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.ReBindEmailActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
+import com.truthso.ip360.activity.RealNameInfoActivity;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
@@ -290,22 +291,33 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		case R.id.rl_Certification:// 实名认证
 			if (isOk) {
 				if (bean.getDatas().getAccountType() == 1) {// 1 个人 2 企业
-					Intent intent2 = new Intent(getActivity(),
-							RealNameCertification.class);
-					startActivityForResult(intent2,
-							MyConstants.REALNAME_VERTIFICATION);
+					if(bean.getDatas().getRealNameState() ==2 ){//2-已认证
+							Intent intent = new Intent(getActivity(), RealNameInfoActivity.class);
+						intent.putExtra("realName",bean.getDatas().getRealName());
+						intent.putExtra("cardId",bean.getDatas().getCardId());
+							startActivity(intent);
+					}else if(bean.getDatas().getRealNameState() ==1 ){//1未认证
+						Intent intent2 = new Intent(getActivity(),
+								RealNameCertification.class);
+						startActivityForResult(intent2,
+								MyConstants.REALNAME_VERTIFICATION);
+					}
 
 				} else {
-					Toaster.showToast(getActivity(),
-							"企业用户请登录www.ip360.net.cn进行实名认证");
+					if (bean.getDatas().getRealNameState() ==2 ){//已认证
+						Intent intent = new Intent(getActivity(), RealNameInfoActivity.class);
+						intent.putExtra("realName",bean.getDatas().getRealName());
+						intent.putExtra("cardId",bean.getDatas().getCardId());
+						startActivity(intent);
+					}else if (bean.getDatas().getRealNameState() ==1 ){//未认证
+						Toaster.showToast(getActivity(), "企业用户请登录www.ip360.net.cn进行实名认证");
+					}
+
 				}
 			} else {
 				getPersonalMsg();
 			}
-
 			break;
-
-
 		case R.id.rl_bind_phonum:// 绑定手机
 			if (isOk) {
 				if (CheckUtil.isEmpty(bean.getDatas().getBindedMobile())) {// 为空是未绑定
@@ -317,8 +329,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 					Intent intent4 = new Intent(getActivity(),
 							ReBindPhoNumActivity.class);
 					intent4.putExtra("bindedMonile", bindedMonile);
-					startActivityForResult(intent4,
-							MyConstants.OFFBIND_BINDNEWEMOBILE);
+					startActivityForResult(intent4, MyConstants.OFFBIND_BINDNEWEMOBILE);
 					// startActivity(intent4);
 				}
 			} else {
@@ -414,7 +425,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 
 			}
 		});

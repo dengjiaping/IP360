@@ -182,10 +182,8 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 					mintime = timeUsedInsec/60;
 				}
 				
-//				LogUtils.e("mintime"+mintime);
 				isPause = true;
 				timeUsedInsec = 0;
-				
 				Intent intent = new Intent(this,LiveRecordPreActivity.class);
 				intent.putExtra("fileTime", recTotalTime);
 				intent.putExtra("date", date);
@@ -211,8 +209,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		mediaRecorder = null;
 		mediaRecorder = new MediaRecorder();
 
-		filePath = fileDir
-				+"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
+		filePath = fileDir +"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".amr";
 		LogUtils.e(filePath+"录音的路径");
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断

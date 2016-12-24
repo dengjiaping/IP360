@@ -56,7 +56,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:hint="*夏"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:id="@+id/tv_realname"/>
     </RelativeLayout>
         <View 
         android:layout_width="match_parent"
@@ -94,7 +95,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:hint="410*****3584"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_size"
+            android:id="@+id/tv_idcard"/>
     </RelativeLayout>
 
 </LinearLayout>
