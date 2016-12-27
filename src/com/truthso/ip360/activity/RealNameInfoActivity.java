@@ -33,10 +33,19 @@ public class RealNameInfoActivity extends BaseActivity {
     public void initView() {
         realName = getIntent().getStringExtra("realName");
         cardId = getIntent().getStringExtra("cardId");
+        StringBuffer sb=new StringBuffer();
+        for (int a=0;a<realName.length()-1;a++){
+            sb.append("*");
+        }
+        sb.append( realName.charAt(realName.length()-1));
+        String realNameFormat=sb.toString();
+//        String strRealName = realName.substring(realName.indexOf(realName.charAt(0)),realName.length()-1);
+//        String realNameFormat = realName.replace(strRealName,"*");
+        String  cardIdFormat = cardId.replace(cardId.substring(cardId.length()-14,cardId.length()-4),"**********");
         tv_realname = (TextView) findViewById(R.id.tv_realname);
-        tv_realname.setText(realName);
+        tv_realname.setText(realNameFormat);
         tv_idcard = (TextView) findViewById(R.id.tv_idcard);
-        tv_idcard.setText(cardId);
+        tv_idcard.setText(cardIdFormat);
     }
 
     @Override

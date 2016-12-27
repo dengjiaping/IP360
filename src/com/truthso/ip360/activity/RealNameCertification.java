@@ -73,7 +73,6 @@ public class RealNameCertification extends BaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_face:// 采集照片
-
 			startActivityForResult(new Intent(this, LiveDectActivity.class), 20);
 			 picControl = LiveDectActivity.getVersion();//活体检测的版本号
 			break;
@@ -114,7 +113,7 @@ public class RealNameCertification extends BaseActivity implements
 								finish();
 							} else {
 								Toaster.showToast(RealNameCertification.this,
-										response.getMsg());
+										"认证失败");
 							}
 
 						} else {

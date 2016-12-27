@@ -112,10 +112,11 @@ protected void onCreate(Bundle savedInstanceState) {
 				Toaster.showToast(this, "用户名或密码不能为空");
 			}else{
 				String phoneReg="^1\\d{10}";
-				if(!userAccount.matches(phoneReg)){
-					Toaster.showToast(this, "请输入正确的手机号");
-				}else{
+				if(userAccount.matches(phoneReg)||CheckUtil.isEmailFormat(userAccount)){
 					Login();
+				}else{
+					Toaster.showToast(this, "请输入正确的账号");
+
 				}				
 			}
 			

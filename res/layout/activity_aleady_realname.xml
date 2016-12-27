@@ -55,7 +55,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:hint="*夏"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_size"
             android:id="@+id/tv_realname"/>
     </RelativeLayout>
@@ -94,7 +94,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:hint="410*****3584"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/text_size"
             android:id="@+id/tv_idcard"/>
     </RelativeLayout>

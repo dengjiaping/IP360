@@ -29,7 +29,7 @@ public class UpLoadManager {
 	// 运行sample前需要配置以下字段为有效的值
     private static final String endpoint =  "http://oss-cn-beijing.aliyuncs.com";
     private static final String accessKeyId ="LTAIIHLk9eURcRim";
-    private static final String accessKeySecret = "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj";
+    private static final String accessKeySecret ="6rXdqbwAShL0P8uR4L1zoLVX4eIUKj";
     private static final String testBucket =  "ip360-test";
 	
 	private UpLoadManager(){
