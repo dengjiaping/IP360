@@ -134,4 +134,8 @@ public class URLConstant {
 	 * 支付宝支付,从后台获取订单信息的接口
 	 */
 	public final static String GetOrderInfo = "http://"+str+"/api/v1/expense/getOrderInfo";
+	/**
+	 * 获取轮播图图片
+	 */
+	public final static String getShowPicture = "http://"+str+"/api/v1/system/getShowPicture";
 }

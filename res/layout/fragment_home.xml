@@ -4,22 +4,114 @@
     android:layout_height="match_parent"
     android:background="@drawable/o"
     android:orientation="vertical" >
+<!--	android:background="#F6F6F6"-->
+<!--
+	<FrameLayout
+		android:id="@+id/framelayout"
+		android:layout_width="fill_parent"
+		android:layout_height="186dp" >
 
-    <!-- <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/title_bg_color" >
+		<com.truthso.ip360.view.ViewFlow
+			android:id="@+id/viewflow"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:background="@color/white"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:text="IP360"
-            android:textColor="@color/title_text_color"
-            android:textSize="@dimen/title_text_size" />
-    </RelativeLayout> -->
+		<FrameLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:gravity="center"
+			android:padding="3dip" >
 
+			<com.truthso.ip360.view.CircleFlowIndicator
+				android:id="@+id/viewflowindic"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal|right"
+				android:paddingRight="8dip"
+				android:paddingBottom="5dip"
+				circleSeparation="20dip"
+				inactiveColor="#FFFFFFFF"
+				inactiveType="stroke"
+				radiuss="4dp" />
+		</FrameLayout>
+	</FrameLayout>
+
+	<RelativeLayout
+		android:id="@+id/ll_take_photo"
+		android:layout_width="match_parent"
+		android:layout_height="77dp"
+		android:background="#FFFFFF"
+		android:layout_marginTop="17dp">
+		<ImageView
+	     	android:layout_width="46dp"
+			android:layout_height="41dp"
+			android:layout_marginLeft="47dp"
+			android:layout_alignParentLeft="true"
+			android:src="@drawable/pzqz"
+			android:layout_centerVertical="true"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="110dp"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:text="拍照取证"
+			android:textSize="16sp"
+			android:textColor="#A12935"
+			/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/ll_take_video"
+		android:layout_width="match_parent"
+		android:layout_height="77dp"
+		android:background="#FFFFFF"
+		android:layout_marginTop="15dp">
+		<ImageView
+			android:layout_width="46dp"
+			android:layout_height="41dp"
+			android:layout_marginLeft="47dp"
+			android:layout_alignParentLeft="true"
+			android:src="@drawable/lxqz"
+			android:layout_centerVertical="true"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="110dp"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:text="录像取证"
+			android:textSize="16sp"
+			android:textColor="#A12935"
+			/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/ll_record"
+		android:layout_width="match_parent"
+		android:layout_height="77dp"
+		android:background="#FFFFFF"
+		android:layout_marginTop="15dp">
+		<ImageView
+			android:layout_width="46dp"
+			android:layout_height="41dp"
+			android:layout_marginLeft="47dp"
+			android:layout_alignParentLeft="true"
+			android:src="@drawable/lyqz"
+			android:layout_centerVertical="true"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="110dp"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:text="录音取证"
+			android:textSize="16sp"
+			android:textColor="#A12935"
+			/>
+	</RelativeLayout>-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -61,13 +153,7 @@
             android:background="@drawable/pai" 
             />
 
-     <!--    <ImageView
-            android:layout_width="160dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/pz"
-            android:gravity="center_horizontal"
-            android:textSize="30sp" /> -->
+
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,13 +189,7 @@
             android:background="@drawable/lu" 
             />
 
-     <!--    <ImageView
-            android:layout_width="160dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/pz"
-            android:gravity="center_horizontal"
-            android:textSize="30sp" /> -->
+
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,13 +225,7 @@
             android:background="@drawable/yin" 
             />
 
-     <!--    <ImageView
-            android:layout_width="160dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/pz"
-            android:gravity="center_horizontal"
-            android:textSize="30sp" /> -->
+
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,66 +239,5 @@
                 />
    </LinearLayout>
 </LinearLayout>
-    
-<!--    <LinearLayout
-        android:id="@+id/ll_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
 
-</LinearLayout>
-    
-<LinearLayout
-        android:id="@+id/ll_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-
-</LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-
-</LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/ll_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/yin" />
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/lyy"
-            android:gravity="center_horizontal"
-            android:textSize="30sp" />
-    </LinearLayout>
- -->
 </LinearLayout>

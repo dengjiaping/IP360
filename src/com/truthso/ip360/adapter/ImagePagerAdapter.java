@@ -28,7 +28,6 @@ public class ImagePagerAdapter extends BaseAdapter {
 
 	public ImagePagerAdapter(Context context, List<Integer> list) {
 		this.context = context;
-		
 		this.size = list.size();
 		this.imageList=list;
 		isInfiniteLoop = false;

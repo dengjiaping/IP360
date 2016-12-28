@@ -2,6 +2,7 @@
 package com.truthso.ip360.view;
 
 
+import com.truthso.ip360.activity.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,7 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 
-import com.truthso.ip360.activity.R;
+
 
 /**
  * A FlowIndicator which draws circles (one for each view). 

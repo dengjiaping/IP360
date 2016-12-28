@@ -24,6 +24,7 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -99,7 +100,7 @@ public class RealNameCertification extends BaseActivity implements
 
 	private void realNameVertification() {
 		showProgress("正在认证");
-		ApiManager.getInstance().setRealName(picControl,1+"",cardId, realName, faceFile,
+		ApiManager.getInstance().setRealNameDemo(picControl,1+"",cardId, realName, faceFile,
 				new ApiCallback() {
 
 					@Override
@@ -110,15 +111,14 @@ public class RealNameCertification extends BaseActivity implements
 							if (response.getCode() == 200) {
 								setResult(MyConstants.REALNAME_VERTIFICATION);
 								Toaster.showToast(RealNameCertification.this, response.getMsg());
-								finish();
+								LogUtils.e(response.getMsg()+"返回的msg");
+//								finish();
 							} else {
-								Toaster.showToast(RealNameCertification.this,
-										"认证失败");
+								Toaster.showToast(RealNameCertification.this,response.getMsg());
 							}
 
 						} else {
-							Toaster.showToast(RealNameCertification.this,
-									"认证失败");
+							Toaster.showToast(RealNameCertification.this,response.getMsg());
 						}
 
 					}

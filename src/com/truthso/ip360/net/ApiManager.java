@@ -19,6 +19,7 @@ import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
+import com.truthso.ip360.bean.ShowPictureBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.bean.ZfbPayBean;
@@ -734,6 +735,15 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.setPath(URLConstant.GetOrderInfo);
 		request.params().add("money", money);
 		request.params().add("text", text);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	public RequestHandle getShowPicture(ApiCallback callback){
+		BaseHttpRequest<ShowPictureBean> request = new BaseHttpRequest<ShowPictureBean>(ShowPictureBean.class,this);
+		request.setPath(URLConstant.getShowPicture);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

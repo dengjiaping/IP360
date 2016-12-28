@@ -687,12 +687,12 @@ public class ViewFlow extends AdapterView<Adapter> {
 	}
 
 	private View setupChild(View child, boolean addToEnd, boolean recycle) {
-		ViewGroup.LayoutParams p = (ViewGroup.LayoutParams) child
+		LayoutParams p = (LayoutParams) child
 				.getLayoutParams();
 		if (p == null) {
 			p = new AbsListView.LayoutParams(
-					ViewGroup.LayoutParams.FILL_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT, 0);
+					LayoutParams.FILL_PARENT,
+					LayoutParams.WRAP_CONTENT, 0);
 		}
 		if (recycle)
 			attachViewToParent(child, (addToEnd ? -1 : 0), p);
