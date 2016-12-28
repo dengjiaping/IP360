@@ -1,5 +1,7 @@
 package com.truthso.ip360.bean;
 
+import android.graphics.Picture;
+
 import com.truthso.ip360.net.BaseHttpResponse;
 
 import java.util.List;
@@ -9,13 +11,13 @@ import java.util.List;
  */
 
 public class ShowPictureBean extends BaseHttpResponse{
-    private List<ShowPicture> datas;
+    private ShowPicture datas;
 
-    public List<ShowPicture> getDatas() {
+    public ShowPicture getDatas() {
         return datas;
     }
 
-    public void setDatas(List<ShowPicture> datas) {
+    public void setDatas(ShowPicture datas) {
         this.datas = datas;
     }
 }

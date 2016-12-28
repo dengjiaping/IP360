@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.truthso.ip360.utils.ImageLoader;
+import com.truthso.ip360.utils.ImageLoaderUtil;
 
 /**
  * @Description: 图片适配器
@@ -24,9 +25,9 @@ public class ImagePagerAdapter extends BaseAdapter {
 	private boolean isInfiniteLoop;
 	private ImageLoader imageLoader;
 //	private DisplayImageOptions options;
-	private List<Integer> imageList = new ArrayList<Integer>();
+	private List<String> imageList = new ArrayList<String>();
 
-	public ImagePagerAdapter(Context context, List<Integer> list) {
+	public ImagePagerAdapter(Context context, List<String> list) {
 		this.context = context;
 		this.size = list.size();
 		this.imageList=list;
@@ -63,7 +64,7 @@ public class ImagePagerAdapter extends BaseAdapter {
 			holder.imageView.setBackgroundColor(0xffffff);
 			holder.imageView
 					.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			holder.imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -77,7 +78,8 @@ public class ImagePagerAdapter extends BaseAdapter {
 
 			}
 		});
-		holder.imageView.setBackgroundResource(imageList.get(getPosition(position)));
+		//holder.imageView.setBackgroundResource(imageList.get(getPosition(position)));
+		ImageLoaderUtil.dispalyImage(imageList.get(getPosition(position)),holder.imageView);
 		return view;
 	}
 

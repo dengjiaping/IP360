@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/o"
+	android:background="#F6F6F6"
     android:orientation="vertical" >
 <!--	android:background="#F6F6F6"-->
-<!--
 	<FrameLayout
 		android:id="@+id/framelayout"
 		android:layout_width="fill_parent"
@@ -31,10 +31,10 @@
 				android:layout_gravity="center_horizontal|right"
 				android:paddingRight="8dip"
 				android:paddingBottom="5dip"
-				circleSeparation="20dip"
-				inactiveColor="#FFFFFFFF"
-				inactiveType="stroke"
-				radiuss="4dp" />
+				app:circleSeparation="20dip"
+				app:inactiveColor="#FFFFFFFF"
+				app:inactiveType="stroke"
+				app:radiuss="4dp" />
 		</FrameLayout>
 	</FrameLayout>
 
@@ -111,7 +111,8 @@
 			android:textSize="16sp"
 			android:textColor="#A12935"
 			/>
-	</RelativeLayout>-->
+	</RelativeLayout>
+<!--
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -239,5 +240,6 @@
                 />
    </LinearLayout>
 </LinearLayout>
+-->
 
 </LinearLayout>
