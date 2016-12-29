@@ -154,7 +154,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userId", bean.getDatas().getUserId());
 						//判断是否保存帐号密码
 						savePwd();
-						Toaster.showToast(LoginActivity.this, bean.getMsg());
+//						Toaster.showToast(LoginActivity.this, bean.getMsg());
 						//跳转到主页面
 						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
 						startActivity(intent2);

@@ -950,7 +950,19 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean iscardNum(String validateContent) {
-		String regex = "/^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)$/\n";
+		String regex = "^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)$";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(validateContent);
+		return m.find();
+	}
+	/**
+	 * 是否是正确的金额，正数或正浮点数
+	 *
+	 * @param validateContent
+	 * @return
+	 */
+	public static boolean isFormatAccount(String validateContent) {
+		String regex = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|[1-9]\\d$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(validateContent);
 		return m.find();

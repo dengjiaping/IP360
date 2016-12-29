@@ -51,7 +51,7 @@ import cz.msebera.android.httpclient.Header;
 public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_cancel, btn_preserved;
 	private ImageView iv_photo;
-	private String path, title, size, date, loc;
+	private String path, title, size, date, loc,longlat;
 	private long length;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_account;
 	private int useType,pkValue;
@@ -65,7 +65,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private String latitudeLongitude;
 	private int  expStatus;//扣费状态
 	private boolean filePreIsok = false;
-	private Handler handler = new Handler(){
+	/*private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
 			case 1:
@@ -81,18 +81,21 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				break;
 			}
 		 };
-	};
+	};*/
 	@Override
 	public void initData() {
 		path = getIntent().getStringExtra("path");
 		title = getIntent().getStringExtra("title");
 		size = getIntent().getStringExtra("size");
 		date = getIntent().getStringExtra("date");
-//		loc = getIntent().getStringExtra("loc");
+		loc = getIntent().getStringExtra("loc");
+		longlat= getIntent().getStringExtra("longlat");
+		tv_loc.setText("获取位置信息失败");
+
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-		getLocation();
+//		getLocation();
 //		LogUtils.e(ll+"wsx");
 	/*	getLocation();
 		//上传文件信息
@@ -199,7 +202,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
 //fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				ll + "", hashCode, date, loc, null, imei,latitudeLongitude,
+				ll + "", hashCode, date, loc, null, imei,longlat,
 				new ApiCallback() {
 
 					@Override
@@ -292,7 +295,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						Message message = handler .obtainMessage();
 						message.what = 1;
 						handler.sendMessage(message);
-						LogUtils.e("地理位置==========================="+loc);
 
 					}
 				

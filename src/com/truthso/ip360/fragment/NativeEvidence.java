@@ -71,7 +71,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private List<DbBean> mDatas;
 	private LayoutInflater inflater;
 	private Activity mActivity;
-    private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
+    private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file,tv_all;
 	private String type;
 	private int lastPosition;
 	private boolean isRefresh;
@@ -372,7 +372,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 				}
 			});
 
-
+			tv_all = (TextView) view.findViewById(R.id.tv_all);
 			tv_photo = (TextView) view.findViewById(R.id.tv_photo);
 
 			tv_video = (TextView) view.findViewById(R.id.tv_video);
@@ -383,6 +383,27 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 			tv_file = (TextView) view.findViewById(R.id.tv_file);
 		}
+		tv_all.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				actionBar.setLeftText("全部文件");
+				if (nativeWindow.isShowing()) {
+					actionBar.setRightEnable();
+					nativeWindow.dismiss();
+				}
+				mDatas.clear();
+				mDatas =SqlDao.getSQLiteOpenHelper().queryAll();
+				if (mDatas.size() == 0) {
+					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
+				}else{
+					actionBar.setRightEnable();
+					actionBar.setRightText("选择");
+				}
+				adapter.addData(mDatas);
+			}
+		});
+
 		tv_photo.setOnClickListener(new OnClickListener() {//拍照
 
 			@Override

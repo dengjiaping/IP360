@@ -419,17 +419,21 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 	/**
 	 * 实名认证
+	 * @param  picControl 人像控制版本
+	 * @param terminalId 终端号
 	 * @param idCardNum 身份证号
 	 * @param userRealName 真实姓名
 	 * @param file 已采集成功的照片
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle setRealName(String idCardNum,String userRealName,File file,ApiCallback callback){
+	public RequestHandle setRealName(String picControl,String terminalId,String idCardNum,String userRealName,File file,ApiCallback callback){
 		//得返回认证是否成功
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
 		request.setPath(URLConstant.RealNameCer);
+		request.params().add("picControl", picControl);
+		request.params().add("terminalId", terminalId);
 		request.params().add("idCardNum", idCardNum);
 		request.params().add("userRealName", userRealName);
 	
