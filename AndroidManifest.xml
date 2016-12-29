@@ -91,12 +91,6 @@
 
         </activity>
         <!-- 媒体基类 -->
-        <activity
-            android:name="com.truthso.ip360.activity.CommonMediaActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
         <!-- 引导页 -->
         <activity
             android:name="com.truthso.ip360.activity.GuideActivity"
@@ -112,12 +106,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <!-- 拍照 -->
-        <activity
-            android:name="com.truthso.ip360.activity.CameraActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>
         <!-- 录像 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoActivity"
@@ -163,6 +151,13 @@
         <!-- 实名认证页面 -->
         <activity
             android:name="com.truthso.ip360.activity.RealNameCertification"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <!--已进行实名认证的信息-->
+        <activity
+            android:name="com.truthso.ip360.activity.RealNameInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -331,10 +326,28 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="6hjNTqBPR05KcO8OKefEG30ZuC2ageCH" />
 
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="54defc56fd98c52a330004be" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="UMENG_DEFAULT_CHANNEL" >
+        </meta-data>
+
+
         <!-- 活体检查 -->
+        <!--<activity
+            android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />-->
+
         <activity
             android:name="com.megvii.livenessdetection.ui.LiveDectActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+        </activity>
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -356,7 +369,11 @@
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+       <!-- <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>-->
     </application>
 
 </manifest>

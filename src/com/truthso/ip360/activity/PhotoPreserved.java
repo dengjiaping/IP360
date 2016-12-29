@@ -90,7 +90,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		date = getIntent().getStringExtra("date");
 		loc = getIntent().getStringExtra("loc");
 		longlat= getIntent().getStringExtra("longlat");
-		tv_loc.setText("获取位置信息失败");
 
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
@@ -119,7 +118,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
-
+		if (!CheckUtil.isEmpty(loc)) {
+			tv_loc.setText(loc);
+		} else {
+			tv_loc.setText("获取位置信息失败");
+		}
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
@@ -282,7 +285,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	}
 
-	private void getLocation() {
+/*	private void getLocation() {
 
 		BaiduLocationUtil.getLocation(getApplicationContext(),
 				new locationListener() {
@@ -299,7 +302,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					}
 				
 				});
-	}
+	}*/
 
 	// 保存照片信息到数据库
 	private void saveToDb() {

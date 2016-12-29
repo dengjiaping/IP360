@@ -2,6 +2,8 @@
 package com.truthso.ip360.view;
 
 
+import com.truthso.ip360.activity.R;
+import com.truthso.ip360.utils.CheckUtil;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,12 +12,13 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 
-import com.truthso.ip360.activity.R;
+
 
 /**
  * A FlowIndicator which draws circles (one for each view). 
@@ -197,7 +200,9 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		resetTimer();
 		viewFlow = view;
 		flowWidth = viewFlow.getWidth();
+		Log.i("djj","inva"+CheckUtil.isEmpty(viewFlow));
 		invalidate();
+
 	}
 
 	/*
@@ -248,7 +253,8 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		}
 		// Calculate the width according the views count
 		else {
-			int count = 3;
+			int count = 2;
+			Log.i("djj","measure"+CheckUtil.isEmpty(viewFlow)+"");
 			if (viewFlow != null) {
 				count = viewFlow.getViewsCount();
 			}

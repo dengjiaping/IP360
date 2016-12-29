@@ -19,6 +19,7 @@ import com.alibaba.sdk.android.oss.model.ResumableUploadRequest;
 import com.alibaba.sdk.android.oss.model.ResumableUploadResult;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
@@ -73,7 +74,7 @@ public class ResuambleUpload {
         request.setMetadata(metadata);
         request.setCallbackParam(new HashMap<String, String>(){
             {
-                put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus");
+                put("callbackUrl", URLConstant.UploadFileOssStatus);//上传后的回调地址
                 put("callbackBody", "resourceId=${x:resourceId}&token=${x:token}");
             }
         });
@@ -146,7 +147,7 @@ public class ResuambleUpload {
         put.setMetadata(metadata);
         put.setCallbackParam(new HashMap<String, String>(){
         	{
-        	put("callbackUrl", "http://101.201.74.230:9091/api/v1/file/uploadFileOssStatus"); 
+        	put("callbackUrl", URLConstant.UploadFileOssStatus);
         	put("callbackBody", "resourceId=${x:resourceId}&token=${x:token}"); 
         	}        	
         });

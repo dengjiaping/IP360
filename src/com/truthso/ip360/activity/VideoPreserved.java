@@ -54,7 +54,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private String mVideoPath;
 	private String mVideoName;
 	private ImageView iv_video;
-	private String mVideoSize, size, title;
+	private String mVideoSize, size, title,longlat;
 	private String mDate, loc, time;
 	private Button btn_preserved, btn_cancel;
 	private int minTime;
@@ -65,10 +65,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private int useType, pkValue;
 	private double video_fileSize_B;
 	private long ll;
-	private double lat, longti;
-	private String latitudeLongitude;
+//	private double lat, longti;
+//	private String latitudeLongitude;
 	private int expStatus;
-	private Handler handler = new Handler() {
+/*	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 				case 1:
@@ -86,13 +86,13 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		}
 
 		;
-	};
-
+	};*/
 	@Override
 	public void initData() {
 		mVideoPath = getIntent().getStringExtra("filePath");
 		mDate = getIntent().getStringExtra("date");
-//		loc =getIntent().getStringExtra("loc");
+		loc = getIntent().getStringExtra("loc");
+		longlat= getIntent().getStringExtra("longlat");
 		time = getIntent().getStringExtra("time");
 		minTime = getIntent().getIntExtra("minTime", 0);
 		size = getIntent().getStringExtra("size");
@@ -143,7 +143,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_cancel.setOnClickListener(this);
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 
-		getLocation();
+//		getLocation();
 		//上传文件信息
 		filePre();
 
@@ -280,7 +280,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		String hashCode = SecurityUtil.SHA512(mVideoPath);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(mVideoName, MyConstants.VIDEOTYPE,
-				ll + "", hashCode, mDate, loc, time, imei, latitudeLongitude,
+				ll + "", hashCode, mDate, loc, time, imei, longlat,
 				new ApiCallback() {
 
 					@Override
@@ -366,7 +366,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 
 	}*/
-	private void getLocation() {
+/*	private void getLocation() {
 		BaiduLocationUtil.getLocation(getApplicationContext(),
 				new locationListener() {
 
@@ -382,7 +382,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 					}
 
 				});
-	}
+	}*/
 
 	//保存录像的数据到数据库
 	private void saveToDB() {
@@ -414,13 +414,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						//扣费
 						//调扣费的接口
 						GetPayment(pkValue, MyConstants.VIDEOTYPE, minTime);
-						//上传文件
-						UpLoadFile();
-						//保全文件到数据库
-						saveToDB();
+
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -458,7 +454,6 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 * 上传文件
 	 */
 	private void UpLoadFile() {
-
 		FileInfo info = new FileInfo();
 		info.setFileName(mVideoName);
 		info.setFilePath(mVideoPath);

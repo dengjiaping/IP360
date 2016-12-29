@@ -10,12 +10,11 @@ package com.truthso.ip360.constants;
 
 public class URLConstant {
 
-//	static String str = "http://192.168.1.20:8081";
+//	static String str = "192.168.1.20:8081";
 //	static String str = "101.201.74.230:9091";
    // static String str = "appapi.ip360.net.cn";
-
-	static  String str ="101.201.112.127:9020";
-
+//	static  String str ="101.201.112.127:9020";
+	static String str = "60.205.86.209:9020";
 	/**
 	 * 登录
 	 */
@@ -116,6 +115,10 @@ public class URLConstant {
 	 */
 	public final static String RealNameCer = "http://"+str+"/api/v1/security/setRealName";
 	/**
+	 * 实名认证demo
+	 */
+	public final static String setRealNameDemo = "http://"+str+"/api/v1/security/setRealNameDemo";
+	/**
 	 * 上传文件到OSS后调用
 	 */
 	public final static String UploadFileOssStatus = "http://"+str+"/api/v1/file/uploadFileOssStatus";
@@ -131,4 +134,8 @@ public class URLConstant {
 	 * 支付宝支付,从后台获取订单信息的接口
 	 */
 	public final static String GetOrderInfo = "http://"+str+"/api/v1/expense/getOrderInfo";
+	/**
+	 * 获取轮播图图片
+	 */
+	public final static String getShowPicture = "http://"+str+"/api/v1/system/getShowPicture";
 }

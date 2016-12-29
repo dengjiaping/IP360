@@ -3,7 +3,9 @@ package com.truthso.ip360.fragment;
 import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -18,13 +20,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
+
+
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.VideoPreserved;
+import com.truthso.ip360.adapter.ImagePagerAdapter;
 import com.truthso.ip360.bean.AccountStatusBean;
+import com.truthso.ip360.bean.PictureList;
+import com.truthso.ip360.bean.ShowPictureBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -34,9 +43,13 @@ import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.view.CircleFlowIndicator;
+import com.truthso.ip360.view.ViewFlow;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
+
+
 
 /**
  * @despriction :首页
@@ -53,9 +66,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private String timeUsed;
 	private int timeUsedInsec;
 	private MainActivity mActivity;
-	private LinearLayout mTakePhoto;
-	private LinearLayout mTakeVideo;
-	private LinearLayout mRecord;
+	private RelativeLayout mTakePhoto,mTakeVideo, mRecord;
+
 	private File photo;
 	private double lat,longti;
 	private File photoDir;
@@ -72,17 +84,51 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private String size;
 	private double video_fileSize_B;
 	private long duration;
-	
+	private CircleFlowIndicator mFlowIndicator;
+	private ViewFlow mViewFlow;
+	private ArrayList<String> imageUrlList = new ArrayList<String>();
 	@Override
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mTakePhoto = (LinearLayout) view.findViewById(R.id.ll_take_photo);
+		mTakePhoto = (RelativeLayout) view.findViewById(R.id.ll_take_photo);
 		mTakePhoto.setOnClickListener(this);
-		mTakeVideo = (LinearLayout) view.findViewById(R.id.ll_take_video);
+		mTakeVideo = (RelativeLayout) view.findViewById(R.id.ll_take_video);
 		mTakeVideo.setOnClickListener(this);
-		mRecord = (LinearLayout) view.findViewById(R.id.ll_record);
+		mRecord = (RelativeLayout) view.findViewById(R.id.ll_record);
 		mRecord.setOnClickListener(this);
+
+		mViewFlow = (ViewFlow)view. findViewById(R.id.viewflow);
+		mFlowIndicator = (CircleFlowIndicator) view.findViewById(R.id.viewflowindic);
+
+
+
+		//获取轮播图
+		getFlowViewData();
 		//进来就定位
 		getLocation();
+	}
+
+	private void getFlowViewData() {
+		ApiManager.getInstance().getShowPicture(new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				ShowPictureBean bean= (ShowPictureBean) response;
+				if(bean.getCode()==200&&bean.getDatas()!=null){
+					List<PictureList> pictureList = bean.getDatas().getPictureList();
+					for (int j=0;j<pictureList.size();j++){
+						imageUrlList.add(pictureList.get(j).getPictureUrl());
+					}
+						initBanner(imageUrlList);
+					}else{
+					Toast.makeText(getActivity(),"数据获取失败",Toast.LENGTH_SHORT).show();
+				}
+
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
 	}
 
 	@Override
@@ -92,9 +138,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initData() {
-		
+
 	}
-	
+	private void initBanner(ArrayList<String> imageUrlList) {
+		mFlowIndicator.setFillColor(0xFFFFFFFF);
+		mFlowIndicator.setStrokeColor(0xFFE4848F);
+
+		mViewFlow.setAdapter(new ImagePagerAdapter(getActivity(), imageUrlList).setInfiniteLoop(true));
+		mViewFlow.setmSideBuffer(imageUrlList.size()); // 实际图片张数，
+		// 我的ImageAdapter实际图片张数为3
+		mViewFlow.setFlowIndicator(mFlowIndicator);
+		mViewFlow.setTimeSpan(4500);
+		mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
+		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+	}
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
@@ -180,14 +237,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								Intent intent2 = new Intent(getActivity(),
 										LiveRecordImplementationActivity.class);
 								intent2.putExtra("loc", loc);
+//								intent2.putExtra("longlat",longti+","+lat);
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
  //								addTimeUsed();
 								startActivity(intent2);
 								break;
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
-//							Toaster.showToast(getActivity(), "您没有使用当前业务的权限！");
-							Toaster.showToast(getActivity(), bean.getMsg());
+							Toaster.showToast(getActivity(), "您没有使用当前业务的权限！");
+//							Toaster.showToast(getActivity(), bean.getMsg());
 						}
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
@@ -281,6 +339,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			intent.putExtra("size",size);
 			intent.putExtra("video_fileSize_B", video_fileSize_B);
 			intent.putExtra("title", title);
+			intent.putExtra("loc",loc);
+			intent.putExtra("longlat",longti+","+lat);
 			startActivity(intent);
 		}
 	}

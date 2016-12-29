@@ -19,6 +19,7 @@ import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
+import com.truthso.ip360.bean.ShowPictureBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.bean.ZfbPayBean;
@@ -449,6 +450,37 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		
 	}
 	/**
+	 * 实名认证
+	 * @param  picControl 人像控制版本
+	 * @param terminalId 终端号
+	 * @param idCardNum 身份证号
+	 * @param userRealName 真实姓名
+	 * @param file 已采集成功的照片
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle setRealNameDemo(String picControl,String terminalId,String idCardNum,String userRealName,File file,ApiCallback callback){
+		//得返回认证是否成功
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
+		request.setPath(URLConstant.setRealNameDemo);
+		request.params().add("picControl", picControl);
+		request.params().add("terminalId", terminalId);
+		request.params().add("idCardNum", idCardNum);
+		request.params().add("userRealName", userRealName);
+
+		try {
+			request.params().put("file", file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+
+	}
+	/**
 	 * 云端证据
 	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
 	 * @param type 展示类别 1-确权  2-现场取证 3-pc取证 非空
@@ -702,6 +734,15 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		BaseHttpRequest<ZfbPayBean> request = new BaseHttpRequest<ZfbPayBean>(ZfbPayBean.class,this);
 		request.setPath(URLConstant.GetOrderInfo);
 		request.params().add("money", money);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	public RequestHandle getShowPicture(ApiCallback callback){
+		BaseHttpRequest<ShowPictureBean> request = new BaseHttpRequest<ShowPictureBean>(ShowPictureBean.class,this);
+		request.setPath(URLConstant.getShowPicture);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

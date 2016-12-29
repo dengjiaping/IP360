@@ -60,7 +60,6 @@ import com.truthso.ip360.view.MainActionBar;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-
 public class NativeEvidence extends BaseFragment implements OnClickListener,
 		OnItemClickListener,UpdateItem {
 	private MainActionBar actionBar;

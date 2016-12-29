@@ -48,7 +48,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		OnClickListener {
 
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
-	private String date, fileName, loc, fileSize, time, filePath;
+	private String date, fileName, loc, fileSize, time, filePath,longlat;
 	private Button btn_cancel, btn_save;
 	private boolean isPre=false;
 	private int useType;
@@ -57,11 +57,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private long ll;
 	private String url;
 	private Dialog alertDialog;
-	private double lat,longti;
-	private String latitudeLongitude;
+//	private double lat,longti;
+//	private String latitudeLongitude;
 	private boolean filePreIsok = false;
 	private  int expStatus;
-	private Handler handler = new Handler(){
+	/*private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
 			case 1:
@@ -77,7 +77,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				break;
 			}
 		 };
-	};
+	};*/
 	@Override
 	public void initData() {
 
@@ -96,7 +96,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		fileSize = getIntent().getStringExtra("fileSize");
 		time = getIntent().getStringExtra("fileTime");
 		filePath = getIntent().getStringExtra("filePath");
-//		loc = getIntent().getStringExtra("loc");
+		loc = getIntent().getStringExtra("loc");
+		longlat= getIntent().getStringExtra("longlat");
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
 		
@@ -107,11 +108,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		
 		
 		tv_filename.setText(fileName);
-	/*	if (!CheckUtil.isEmpty(loc)) {
+		if (!CheckUtil.isEmpty(loc)) {
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");
-		}*/
+		}
 		
 		tv_date.setText(date);
 		tv_filesize.setText(fileSize);
@@ -121,7 +122,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				LiveRecordPreActivity.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
 		//定位
-		getLocation();
+//		getLocation();
 		//上传文件的hashcode
 		filePre();
 	}
@@ -178,10 +179,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			case R.id.acition_bar_left://返回键
 				//取消上传文件
 				CancelUploadFile();
+				finish();
 				break;
-
 			default:
 				break;
+
 		}
 	}
 	/**
@@ -257,7 +259,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		String hashCode = SecurityUtil.SHA512(filePath);
 		String imei = MyApplication.getInstance().getDeviceImei();
 		ApiManager.getInstance().uploadPreserveFile(fileName,MyConstants.RECORDTYPE,
-				ll+"", hashCode, date, loc,time,imei,latitudeLongitude,
+				ll+"", hashCode, date, loc,time,imei,longlat,
 				new ApiCallback() {
 
 					@Override
@@ -364,9 +366,9 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				}).create();
 		alertDialog.show();
 	}
-	/**
+/*	*//**
 	 * 定位
-	 */
+	 *//*
 	private void getLocation() {
 		BaiduLocationUtil.getLocation(getApplicationContext(),
 				new locationListener() {
@@ -383,7 +385,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					}
 				
 				});
-	}
+	}*/
 	/**
 	 * 上传文件
 	 */
