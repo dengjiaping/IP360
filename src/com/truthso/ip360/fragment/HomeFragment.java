@@ -143,7 +143,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private void initBanner(ArrayList<String> imageUrlList) {
 		mFlowIndicator.setFillColor(0xFFFFFFFF);
 		mFlowIndicator.setStrokeColor(0xFFE4848F);
-
 		mViewFlow.setAdapter(new ImagePagerAdapter(getActivity(), imageUrlList).setInfiniteLoop(true));
 		mViewFlow.setmSideBuffer(imageUrlList.size()); // 实际图片张数，
 		// 我的ImageAdapter实际图片张数为3
@@ -151,6 +150,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		mViewFlow.setTimeSpan(4500);
 		mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
 		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+
 	}
 	@Override
 	public void onClick(View view) {

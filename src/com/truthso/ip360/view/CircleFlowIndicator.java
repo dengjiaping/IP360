@@ -200,7 +200,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		resetTimer();
 		viewFlow = view;
 		flowWidth = viewFlow.getWidth();
-		Log.i("djj","inva"+CheckUtil.isEmpty(viewFlow));
+		requestLayout();
 		invalidate();
 
 	}
@@ -253,8 +253,7 @@ public class CircleFlowIndicator extends View implements FlowIndicator,
 		}
 		// Calculate the width according the views count
 		else {
-			int count = 2;
-			Log.i("djj","measure"+CheckUtil.isEmpty(viewFlow)+"");
+			int count = 3;
 			if (viewFlow != null) {
 				count = viewFlow.getViewsCount();
 			}
