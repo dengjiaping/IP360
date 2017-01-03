@@ -348,7 +348,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 	private void showPop(View v) {
 		if (CheckUtil.isEmpty(nativeWindow)) {
 			View view = inflater.inflate(
-					R.layout.activity_category_cloudcvidence, null);
+					R.layout.activity_category_native, null);
 			FrameLayout fl_empty = (FrameLayout) view
 					.findViewById(R.id.fl_empty);
 			TextView tv = (TextView) view.findViewById(R.id.tv_all);

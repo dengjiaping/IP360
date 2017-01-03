@@ -149,7 +149,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		mViewFlow.setFlowIndicator(mFlowIndicator);
 		mViewFlow.setTimeSpan(4500);
 		mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
-		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+//		mViewFlow.startAutoFlowTimer(); // 启动自动播放
 
 	}
 	@Override
