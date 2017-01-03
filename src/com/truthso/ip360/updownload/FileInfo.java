@@ -13,6 +13,16 @@ public class FileInfo {
 	private String fileTime;//文件时长
 	private int pkValue;
     private String fileFormat;
+	private int status;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public String getFileFormat() {
 		return fileFormat;
 	}

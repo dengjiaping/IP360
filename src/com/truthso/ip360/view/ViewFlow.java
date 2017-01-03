@@ -210,7 +210,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (getChildCount() == 0)
+		if (getChildCount() == 0||getChildCount()==3)
 			return false;
 
 		if (mVelocityTracker == null) {
@@ -310,8 +310,9 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		if (getChildCount() == 0)
+		if (getChildCount() == 0||getChildCount()==3)
 			return false;
+
 
 		if (mVelocityTracker == null) {
 			mVelocityTracker = VelocityTracker.obtain();

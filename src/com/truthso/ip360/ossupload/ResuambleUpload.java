@@ -3,6 +3,7 @@ package com.truthso.ip360.ossupload;
 import java.io.File;
 import java.util.HashMap;
 
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -22,9 +23,12 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by zhouzhuo on 12/3/15.
@@ -165,7 +169,6 @@ public class ResuambleUpload {
 			@Override
 			public void onProgress(PutObjectRequest arg0, long currentSize, long arg2) {
 				progress=currentSize;
-	             Log.i("djj", currentSize+"");
 	                if(progressListener!=null){
 	                	progressListener.onProgress(currentSize);
 	                }
@@ -178,26 +181,29 @@ public class ResuambleUpload {
 			@Override
 			public void onSuccess(PutObjectRequest arg0, PutObjectResult arg1) {
 				// TODO Auto-generated method stub
-				 Log.i("djj", "success");
-				 Log.i("djj", arg1.getStatusCode()+"");
+
 	                isDone=true;
 	                if(progressListener!=null){
 	                	progressListener.onComplete(); 
 	                	
 	                }
 	                SqlDao dao = SqlDao.getSQLiteOpenHelper();
-	             
-	                    
 	                dao.updateStatus(info.getFileName(), "1");
 	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
-	               
+
 			}
 			
 			@Override
 			public void onFailure(PutObjectRequest arg0, ClientException clientExcepion,
 					ServiceException serviceException) {
-                SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "3");
-				 Log.i("djj", "failure");
+                    status=ERROR;
+                    SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "3");
+                    UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),2);
+
+                if(progressListener!=null){
+                    progressListener.onFailure();
+
+                }
 	                // 请求异常
 	                if (clientExcepion != null) {
 	                	Log.i("djj", "failure1");

@@ -4,4 +4,5 @@ public interface ProgressListener {
 
 	public void onProgress(long progress);
 	public void onComplete();
+	void onFailure();
 }

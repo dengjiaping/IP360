@@ -135,6 +135,11 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 				Log.i("djj", "downComplete");
 				
 			}
+
+			@Override
+			public void onFailure() {
+				vh.tv_status.setStatus(false);
+			}
 		});
  
       /* TimerTask task=new TimerTask() {

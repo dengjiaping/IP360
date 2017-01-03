@@ -158,6 +158,7 @@ public class UpDownLoadDao {
 					.getColumnIndex("uploadfilepath")));
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
 			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
+			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
 			list.add(info);
 		}
 		return list;
@@ -244,5 +245,18 @@ public class UpDownLoadDao {
 				.notifyChange(
 						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
 						null);
+	}
+
+	public void updateUploadInfoByUrl(String url,int status) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.execSQL("update updownloadlog set status =? where uploadfilepath=?",
+				new Object[] { status,url});
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
+
 	}
 }
