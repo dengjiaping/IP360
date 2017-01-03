@@ -1,6 +1,9 @@
 package com.truthso.ip360.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -12,10 +15,9 @@ import java.util.TimerTask;
  */
 
 public class SpeedView extends TextView{
-
-    private Timer timer=new Timer();
     private long progress;
     private long lastProgress;
+    private boolean isStart;
     public SpeedView(Context context) {
         super(context);
     }
@@ -30,32 +32,45 @@ public class SpeedView extends TextView{
     }
 
     public void setProgress(Long progress){
+        if(!isStart){
+            handler.sendEmptyMessage(0);
+            isStart=true;
+        }
         SpeedView.this.progress=progress;
     }
 
-    public TimerTask task=new TimerTask() {
+    private Handler handler=new Handler(){
         @Override
-        public void run() {
-        final  long speed= ( progress-lastProgress)/1024;
-            SpeedView.this.post(new Runnable() {
-                @Override
-                public void run() {
-                    SpeedView.this.setText(speed+"k/s");
-                }
-            });
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            final  long speed= ( progress-lastProgress)/1024;
+            SpeedView.this.setText(speed+"k/s");
             SpeedView.this.lastProgress=progress;
+            handler.sendEmptyMessageDelayed(0,1000);
         }
     };
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        timer.schedule(task,0,1000);
+
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        timer.cancel();
+        handler.removeMessages(0);
+    }
+
+    public void setStatus(boolean isComplete){
+        handler.removeMessages(0);
+
+        if(isComplete){
+         this.setText("已完成");
+        }else{
+
+            this.setText("失败");
+        }
+
     }
 }

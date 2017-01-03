@@ -131,9 +131,14 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}
 
 			@Override
+			public void onFailure() {
+				Log.i("djj","onFailure");
+				vh.tv_status.setStatus(false);
+			}
+
+			@Override
 			public void onProgress(long progress) {
 				vh.probar.setProgress((int)progress);
-			//	UpLoadAdapter.this.progress=progress;
 				vh.tv_status.setProgress(progress);
 			}
 		});
@@ -154,16 +159,17 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		};
 		Timer timer=new Timer();
 		timer.schedule(task,0,1000);*/
-
-		int currentStatus = instanse.getCurrentStatus(resourceId);
-		 if(currentStatus==1){
+		int satus=upLoadInfo.getStatus();
+		//int currentStatus = instanse.getCurrentStatus(resourceId);
+		 if(satus==1){
 			 vh.tv_status.setText("暂停中");
 			// vh.btn_upload_download.setSelected(true);
-		 }else if(currentStatus==0){
+		 }else if(satus==0){
 			 //获取实时网速或者正在等待中
-			 vh.tv_status.setText("230b/s");
+			 vh.tv_status.setText("0b/s");
 			// vh.btn_upload_download.setSelected(false);
-		 }else{
+		 }else if(satus==2){
+			 Log.i("djj","上传失败");
 			 vh.tv_status.setText("上传失败");
 			 //vh.btn_upload_download.setSelected(true);
 		 }

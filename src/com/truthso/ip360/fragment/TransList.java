@@ -322,7 +322,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 		}else{
 			actionBar.setRightGone();
 		}
-
 	}
 
 }

@@ -16,11 +16,14 @@ import android.widget.ListView;
 
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class UpLoadListPager extends BasePager {
 	private ListView listView;
@@ -107,4 +110,5 @@ public class UpLoadListPager extends BasePager {
 	public void startAll() {
 		UpLoadManager.getInstance().startAll(adapter.getSelected());
 	}
+
 }

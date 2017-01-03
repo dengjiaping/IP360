@@ -48,7 +48,8 @@
 				app:circleSeparation="20dip"
 				app:inactiveColor="#FFFFFFFF"
 				app:inactiveType="stroke"
-				app:radiuss="4dp" />
+				app:radiuss="4dp"
+				android:visibility="gone"/>
 		</FrameLayout>
 	</FrameLayout>
 
