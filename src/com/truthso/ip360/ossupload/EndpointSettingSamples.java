@@ -38,7 +38,7 @@ public class EndpointSettingSamples {
     }
 
     /*
-    普通公有云Endpoint
+      *普通公有云Endpoint
      */
     public void PublicEndpointSample() {
 
