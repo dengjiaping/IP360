@@ -191,7 +191,7 @@ public class SplashActivty extends Activity {
 		// 当点确定按钮时从服务器上下载 新的apk 然后
 		builer.setPositiveButton("确定", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				downLoadApk();
+				//downLoadApk();
 			}
 		});
 		builer.setNegativeButton("取消", new OnClickListener() {
@@ -209,7 +209,7 @@ public class SplashActivty extends Activity {
 	/**
 	 * 从服务器中下载APK
 	 */
-	protected void downLoadApk() {
+/*	protected void downLoadApk() {
 		final ProgressDialog pd; // 进度条对话框
 		pd = new ProgressDialog(this);
 		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -232,7 +232,7 @@ public class SplashActivty extends Activity {
 				}
 			}
 		}.start();
-	}
+	}*/
 
 	// 安装apk
 	protected void installApk(File file) {

@@ -13,8 +13,8 @@ public class URLConstant {
 //	static String str = "192.168.1.20:8081";
 //	static String str = "101.201.74.230:9091";
    // static String str = "appapi.ip360.net.cn";
-//	static  String str ="101.201.112.127:9020";
-	static String str = "60.205.86.209:9020";
+	static  String str ="101.201.112.127:9020";
+	//static String str = "60.205.86.209:9020";
 	/**
 	 * 登录
 	 */
