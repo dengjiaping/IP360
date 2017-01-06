@@ -484,7 +484,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 					nativeWindow.dismiss();
 				}
 				mDatas.clear();
-				String[] arg=new String[]{"6"};
+				String[] arg=new String[]{"7"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
 				if (mDatas.size() == 0) {
 					actionBar.setRightDisEnable();
@@ -506,7 +506,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 					nativeWindow.dismiss();
 				}
 				mDatas.clear();
-				String[] arg=new String[]{"7"};
+				String[] arg=new String[]{"6"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);
 				if (mDatas.size() == 0) {
 					actionBar.setRightDisEnable();

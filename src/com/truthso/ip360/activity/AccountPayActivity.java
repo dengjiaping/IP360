@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.alipay.sdk.app.PayTask;
 import com.lidroid.xutils.db.annotation.Check;
@@ -40,6 +41,7 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 	private static final int SDK_AUTH_FLAG = 2;
 	private EditText et_chongzhi_jine;
 	private Button btn_sure;
+	private TextView tv_accountbalance;
 	@Override
 	public void initData() {
 		accountBalance = getIntent().getStringExtra("accountBalance");
@@ -50,7 +52,8 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 		btn_sure.setOnClickListener(this);
 
 		et_chongzhi_jine= (EditText) findViewById(R.id.et_chongzhi_jine);
-
+		tv_accountbalance = (TextView) findViewById(R.id.tv_accountbalance);
+		tv_accountbalance.setText(accountBalance);
 	}
 	@Override
 	public int setLayout() {

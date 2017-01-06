@@ -100,7 +100,7 @@ public class RealNameCertification extends BaseActivity implements
 
 	private void realNameVertification() {
 		showProgress("正在认证");
-		ApiManager.getInstance().setRealNameDemo(picControl,1+"",cardId, realName, faceFile,
+		ApiManager.getInstance().setRealName(picControl,1+"",cardId, realName, faceFile,
 				new ApiCallback() {
 
 					@Override
@@ -112,7 +112,7 @@ public class RealNameCertification extends BaseActivity implements
 								setResult(MyConstants.REALNAME_VERTIFICATION);
 								Toaster.showToast(RealNameCertification.this, response.getMsg());
 								LogUtils.e(response.getMsg()+"返回的msg");
-//								finish();
+								finish();
 							} else {
 								Toaster.showToast(RealNameCertification.this,response.getMsg());
 							}

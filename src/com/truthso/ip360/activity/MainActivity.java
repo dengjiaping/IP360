@@ -158,15 +158,15 @@ private MyWifiReceiver myWifiReceiver;
 	private List<FileInfo> queryUpLoadList;
 	private List<FileInfo> queryDownLoadList;
 
-	private String getVersion() {
+	private int getVersion() {
 		try {
 			// 通过PackageManager获取安装包信息
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(
 					getPackageName(), 0);
-			// 返回版本信息
-			return packageInfo.versionName;
+
+			return packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
-			return "";
+			return 0;
 		}
 	}
 
@@ -174,8 +174,8 @@ private MyWifiReceiver myWifiReceiver;
 	 * 调接口联网检查更新
 	 */
 	private void checkUpdate() {
-		final String version = getVersion();
-		// LogUtils.e(version+"本地的版本号");
+		final String version = getVersion()+"";
+		LogUtils.e(version+"本地的版本号==============================================================");
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -186,7 +186,7 @@ private MyWifiReceiver myWifiReceiver;
 					if (bean.getCode() == 200) {
 						downloadUrl = bean.getDatas().getApkURl();
 						iVersion = bean.getDatas().getiVersionCode();
-						// LogUtils.e(iVersion+"服务器返回的版本号");
+
 						if (version.equals(iVersion)) {// 不需要更新
 						// Message msg = new Message();
 						// msg.what = UPDATA_NONEED;
