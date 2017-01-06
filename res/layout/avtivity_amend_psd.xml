@@ -22,7 +22,7 @@
             android:background="@drawable/ww" /> -->
 
         <TextView
-            android:id="@+id/tv_psw"
+            android:id="@+id/tv_psw1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:layout_toRightOf="@id/tv_psw"
+            android:layout_toRightOf="@id/tv_psw1"
             android:inputType="textPassword"
             android:background="@null"
             android:hint="请输入您的原始密码"
@@ -65,7 +65,7 @@
             android:background="@drawable/ww" /> -->
 
         <TextView
-            android:id="@+id/tv_psw"
+            android:id="@+id/tv_psw2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -82,7 +82,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:layout_toRightOf="@id/tv_psw"
+            android:layout_toRightOf="@id/tv_psw2"
             android:inputType="textPassword"
             android:background="@null"
             android:hint="6~18位数字与字母的组合"

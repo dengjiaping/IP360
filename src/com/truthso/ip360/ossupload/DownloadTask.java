@@ -43,16 +43,15 @@ public class DownloadTask {
 			downloadFile.mkdirs();
 		}
 	}
-
 	public OSSAsyncTask start(){
 	Log.i("djj", "objectKey"+objectKey);
-		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
-		 final File file=new File(downloadFile, fileName);
+//		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
+		String fileUrlFormatName=info.getFileUrlFormatName();
+		 final File file=new File(downloadFile, fileUrlFormatName);
 		if(!file.exists()){
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -84,7 +83,7 @@ public class DownloadTask {
 								}
 							}
 							if(contentLength==progress){
-								//下载完成
+								//下载完成，下载的文件信息存数据库
 								DbBean dbBean = new DbBean();
 								dbBean.setTitle(info.getFileName());
 								dbBean.setCreateTime(info.getFileCreatetime());

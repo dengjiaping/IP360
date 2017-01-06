@@ -204,7 +204,7 @@ private MyWifiReceiver myWifiReceiver;
 							handler.sendMessage(msg);
 						}
 					} else {
-						Toaster.showToast(MainActivity.this, bean.getMsg());
+//						Toaster.showToast(MainActivity.this, bean.getMsg());
 					}
 				} else {
 					Message msg = new Message();

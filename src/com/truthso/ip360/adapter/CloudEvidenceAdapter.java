@@ -335,10 +335,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							if (!CheckUtil.isEmpty(bean)) {
 								if (bean.getCode() == 200) {
 									FileInfo info = new FileInfo();
-									String nativePath = MyConstants.DOWNLOAD_PATH
-											+ "/" + data.getFileTitle();
+//									String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + data.getFileTitle();
+									String fileUrl = bean.getDatas().getFileUrl();//阿里云的objectKey
+									String fileUrlformat= fileUrl.replace("/","-");
+									//因为有文件名相同的情况，把阿里云的objectkey路径当成文件名
+									String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + fileUrlformat;
 									info.setFilePath(nativePath);// 在本地的路径
-									info.setFileName(data.getFileTitle());
+//									info.setFileName(data.getFileTitle());
+									info.setFileName(bean.getDatas().getFileName());
+									info.setFileUrlFormatName(fileUrlformat);
 									info.setType(type);// 取证类型
 									info.setMobiletype(mobileType);// 现场取证的类型
 									long l_size = Long.parseLong(data
@@ -354,9 +359,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setFileCreatetime(data.getFileDate());
 									info.setPkValue(data.getPkValue());
 									info.setFileFormat(data.getFileFormat());
-									String url = bean.getDatas().getFileUrl();
-									// String
-									// objectKey=url.substring(url.indexOf("/")+1);
+									String url = bean.getDatas().getFileUrl();//文件的下载路径
 									info.setObjectKey(url);
 									// 下载
 									DownLoadHelper.getInstance().downloadFile(

@@ -45,6 +45,7 @@ public class DownLoadHelper {
 			Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可下载");
 			return;
 		}
+		//下载
 		DownloadTask task=new DownloadTask(oss,fileinfo);
 
 		task.start();

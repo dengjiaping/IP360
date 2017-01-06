@@ -4,6 +4,7 @@ public class FileInfo {
 
 	private String filePath;
 	private String fileName;
+	private String fileUrlFormatName;//
 	private String fileSize;
 	private String fileLoc;
 	private String llsize;
@@ -14,6 +15,14 @@ public class FileInfo {
 	private int pkValue;
     private String fileFormat;
 	private int status;
+
+	public String getFileUrlFormatName() {
+		return fileUrlFormatName;
+	}
+
+	public void setFileUrlFormatName(String fileUrlFormatName) {
+		this.fileUrlFormatName = fileUrlFormatName;
+	}
 
 	public int getStatus() {
 		return status;

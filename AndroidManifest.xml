@@ -94,15 +94,14 @@
         <activity
             android:name="com.truthso.ip360.activity.GuideActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:screenOrientation="portrait">
         </activity>
         <!-- 登录 -->
         <activity
             android:name="com.truthso.ip360.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 拍照 -->
         <!-- 录像 -->
@@ -110,202 +109,202 @@
             android:name="com.truthso.ip360.activity.VideoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 现场录音保全 -->
         <activity
             android:name="com.truthso.ip360.activity.LiveRecordPreActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+           >
         </activity>
         <!-- 现场录音的执行页面 -->
         <activity
             android:name="com.truthso.ip360.activity.LiveRecordImplementationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 照片保全页面 -->
         <activity
             android:name="com.truthso.ip360.activity.PhotoPreserved"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 录像保全页面 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoPreserved"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 账户充值页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AccountPayActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 实名认证页面 -->
         <activity
             android:name="com.truthso.ip360.activity.RealNameCertification"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!--已进行实名认证的信息-->
         <activity
             android:name="com.truthso.ip360.activity.RealNameInfoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 绑定手机号码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.BindPhoNumActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 更改绑定手机号码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindPhoNumActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 更改绑定手机号码页面2 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindPhonumBindNewActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.BindEmialActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 更改绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindEmailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 更改绑定邮箱页面2 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindEmailBindNewActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 修改密码页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AemndPsdActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+           >
         </activity>
         <!-- 关于我们页面 -->
         <activity
             android:name="com.truthso.ip360.activity.AboutUsAcctivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 合同用户的账号信息 -->
         <activity
             android:name="com.truthso.ip360.activity.AccountMagActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 注册 -->
         <activity
             android:name="com.truthso.ip360.activity.RegisterActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 忘记密码 -->
         <activity
             android:name="com.truthso.ip360.activity.findPwdActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 注册设置密码界面 -->
         <activity
             android:name="com.truthso.ip360.activity.RegisterSetPwd"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 忘记密码设置新密码界面 -->
         <activity
             android:name="com.truthso.ip360.activity.FindpwdSetNewPwd"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
         <!-- 搜索页面 -->
         <activity
             android:name="com.truthso.ip360.activity.SearchCloudEvidenceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+             >
         </activity>
         <!-- 类别 -->
         <activity
             android:name="com.truthso.ip360.activity.CategoryCloudEvidenceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+             >
         </activity>
         <!-- 照片详情 -->
         <activity
             android:name="com.truthso.ip360.activity.PhotoDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 录像详情 -->
         <activity
             android:name="com.truthso.ip360.activity.VideoDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+             >
         </activity>
         <!-- 录音详情 -->
         <activity
             android:name="com.truthso.ip360.activity.RecordDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+           >
         </activity>
         <!-- 备注 -->
         <activity
             android:name="com.truthso.ip360.activity.FileRemarkActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+          >
         </activity>
         <!-- 查看保全证书 -->
         <activity
             android:name="com.truthso.ip360.activity.CertificationActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
         </activity>
               <!-- 支付宝支付 -->
         <activity
             android:name="com.truthso.ip360.activity.AlipayRechargeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+           >
         </activity>
         
 
