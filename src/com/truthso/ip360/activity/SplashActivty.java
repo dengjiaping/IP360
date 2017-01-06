@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class SplashActivty extends Activity {
-	private boolean isFirstOpen;
+	private boolean isFirstOpen = false;
 	private String token;
 	private Context ctx;
 	private String downloadUrl;
@@ -249,6 +249,8 @@ public class SplashActivty extends Activity {
 	 */
 	private void enterHome() {
 		if (isFirstOpen) {
+//			// 第一次启动先进入引导页
+//			intent = new Intent(ctx, GuideActivity.class);
 			if (CheckUtil.isEmpty(token)) {
 				// 进登录界面
 				intent = new Intent(ctx, LoginActivity.class);
@@ -257,8 +259,7 @@ public class SplashActivty extends Activity {
 			}
 		} else {
 			// 第一次启动先进入引导页
-//			intent = new Intent(ctx, GuideActivity.class);
-			//这版先不要引导页
+			intent = new Intent(ctx, GuideActivity.class);
 			if (CheckUtil.isEmpty(token)) {
 				// 进登录界面
 				intent = new Intent(ctx, LoginActivity.class);

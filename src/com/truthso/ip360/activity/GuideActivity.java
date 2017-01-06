@@ -35,8 +35,7 @@ public class GuideActivity extends Activity implements OnClickListener,
 	private List<View> list;
 	private ViewPager mViewPager;
 	private GuideAdapter mGuideAdapter;
-	private final int[] guideImages = { R.drawable.guide01, R.drawable.guide02,
-			R.drawable.guide03 };
+	private final int[] guideImages = { R.drawable.guide01, R.drawable.guide02};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

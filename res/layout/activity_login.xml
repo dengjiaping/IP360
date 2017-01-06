@@ -38,8 +38,7 @@
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_toRightOf="@id/tv_psw"
             android:background="@null"
-            android:hint="请输入您的手机号"
-            android:inputType="phone"
+            android:hint="请输入您的手机号或邮箱"
             android:textSize="@dimen/text_size" />
 
         <RelativeLayout

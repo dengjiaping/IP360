@@ -671,6 +671,19 @@ public class CheckUtil {
 	}
 
 	/**
+	 * 账户是手机号或者邮箱
+	 * @param value
+	 * @return
+     */
+	public static boolean isAccountFormat(String value) {
+		String regExp = "^[0-9a-z][a-z0-9\\._-]{1,}@[a-z0-9-]{1,}[a-z0-9]\\.[a-z\\.]{1,}[a-z]|1\\d{10}$";
+		// String regExp =
+		// "/^\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?$";
+		Pattern p = Pattern.compile(regExp);
+		Matcher m = p.matcher(value);
+		return m.find();
+	}
+	/**
 	 * 校验身份证是否合法
 	 * 
 	 * @param value

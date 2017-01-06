@@ -166,11 +166,8 @@ private MyWifiReceiver myWifiReceiver;
 			// 通过PackageManager获取安装包信息
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(
 					getPackageName(), 0);
-<<<<<<< HEAD
 
-=======
 			// 返回版本信息
->>>>>>> 35b5d5c400f162e81d37222cdf1ee0ff24bdedfc
 			return packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
 			return 0;
@@ -181,29 +178,21 @@ private MyWifiReceiver myWifiReceiver;
 	 * 调接口联网检查更新
 	 */
 	private void checkUpdate() {
-<<<<<<< HEAD
 		final String version = getVersion()+"";
-		LogUtils.e(version+"本地的版本号==============================================================");
-=======
-	long lastCancleTime= (long) SharePreferenceUtil.getAttributeByKey(MainActivity.this,MyConstants.SP_USER_KEY,"cancleTime",SharePreferenceUtil.VALUE_IS_LONG);
+		long lastCancleTime= (long) SharePreferenceUtil.getAttributeByKey(MainActivity.this,MyConstants.SP_USER_KEY,"cancleTime",SharePreferenceUtil.VALUE_IS_LONG);
 		long currentTimeMillis = System.currentTimeMillis();
 		if(currentTimeMillis-lastCancleTime<8*60*60*1000){
             return;
 		}
-		final String version = getVersion()+"";
-		// LogUtils.e(version+"本地的版本号");
->>>>>>> 35b5d5c400f162e81d37222cdf1ee0ff24bdedfc
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
 				VerUpDateBean bean = (VerUpDateBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
-
 					if (bean.getCode() == 200) {
 						downloadUrl = bean.getDatas().getApkURl();
 						iVersion = bean.getDatas().getiVersionCode();
-
 						if (version.equals(iVersion)) {// 不需要更新
 						// Message msg = new Message();
 						// msg.what = UPDATA_NONEED;
