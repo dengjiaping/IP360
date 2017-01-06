@@ -36,6 +36,7 @@ import android.widget.RadioGroup;
 import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.VerUpDateBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.fragment.BaseFragment;
@@ -57,6 +58,8 @@ import com.truthso.ip360.utils.DownLoadApkUtli;
 import com.truthso.ip360.utils.FragmentTabUtils;
 import com.truthso.ip360.utils.NetStatusUtil;
 import com.truthso.ip360.utils.FragmentTabUtils.OnRgsExtraCheckedChangedListener;
+import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.MyProgressdialog;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.util.NetUtils;
@@ -163,7 +166,11 @@ private MyWifiReceiver myWifiReceiver;
 			// 通过PackageManager获取安装包信息
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(
 					getPackageName(), 0);
+<<<<<<< HEAD
 
+=======
+			// 返回版本信息
+>>>>>>> 35b5d5c400f162e81d37222cdf1ee0ff24bdedfc
 			return packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
 			return 0;
@@ -174,8 +181,18 @@ private MyWifiReceiver myWifiReceiver;
 	 * 调接口联网检查更新
 	 */
 	private void checkUpdate() {
+<<<<<<< HEAD
 		final String version = getVersion()+"";
 		LogUtils.e(version+"本地的版本号==============================================================");
+=======
+	long lastCancleTime= (long) SharePreferenceUtil.getAttributeByKey(MainActivity.this,MyConstants.SP_USER_KEY,"cancleTime",SharePreferenceUtil.VALUE_IS_LONG);
+		long currentTimeMillis = System.currentTimeMillis();
+		if(currentTimeMillis-lastCancleTime<8*60*60*1000){
+            return;
+		}
+		final String version = getVersion()+"";
+		// LogUtils.e(version+"本地的版本号");
+>>>>>>> 35b5d5c400f162e81d37222cdf1ee0ff24bdedfc
 		ApiManager.getInstance().getVerUpDate(version, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
@@ -191,6 +208,7 @@ private MyWifiReceiver myWifiReceiver;
 						// Message msg = new Message();
 						// msg.what = UPDATA_NONEED;
 						// handler.sendMessage(msg);
+
 						} else {// 需要更新//
 							Message msg = new Message();
 							msg.what = 0;
@@ -233,7 +251,8 @@ private MyWifiReceiver myWifiReceiver;
 		});
 		builer.setNegativeButton("取消", new OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-
+			long cancleTime=System.currentTimeMillis();
+				SharePreferenceUtil.saveOrUpdateAttribute(MainActivity.this, MyConstants.SP_USER_KEY,"cancleTime",cancleTime);
 			}
 
 		});
@@ -245,20 +264,26 @@ private MyWifiReceiver myWifiReceiver;
 	 * 从服务器中下载APK
 	 */
 	protected void downLoadApk() {
-		final ProgressDialog pd; // 进度条对话框
-		pd = new ProgressDialog(this);
-		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		pd.setMessage("正在下载更新");
-		pd.show();
+		/*final ProgressDialog mDialog; // 进度条对话框
+		mDialog = new ProgressDialog(this);
+		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mDialog.setMessage("正在下载更新");
+		mDialog.show();*/
+		final MyProgressdialog mDialog = new MyProgressdialog(this);
+
+		mDialog.setMessage("正在下载更新");
+		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		mDialog.show();
+
 		new Thread() {
 			@Override
 			public void run() {
 				try {
 					File file = DownLoadApkUtli.getFileFromServer(downloadUrl,
-							pd);
-					sleep(3000);
+							mDialog);
+					sleep(2000);
 					installApk(file);
-					pd.dismiss(); // 结束掉进度条对话框
+					mDialog.dismiss(); // 结束掉进度条对话框
 				} catch (Exception e) {
 					Message msg = new Message();
 					msg.what = 2;

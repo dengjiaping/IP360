@@ -10,6 +10,8 @@ import java.net.URL;
 import android.app.ProgressDialog;
 import android.os.Environment;
 
+import com.truthso.ip360.view.xrefreshview.MyProgressdialog;
+
 public class DownLoadApkUtli {
 
 	
@@ -20,7 +22,7 @@ public class DownLoadApkUtli {
 	 * @return
 	 * @throws Exception
 	 */
-	public static File getFileFromServer(String path, ProgressDialog pd) throws Exception{
+	public static File getFileFromServer(String path, MyProgressdialog pd) throws Exception{
 		//如果相等的话表示当前的sdcard挂载在手机上并且是可用的
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 			URL url = new URL(path);
