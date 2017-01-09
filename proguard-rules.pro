@@ -1,49 +1,101 @@
--optimizationpasses 5          # 指定代码的压缩级别
--dontusemixedcaseclassnames   # 是否使用大小写混合
--dontpreverify           # 混淆时是否做预校验
--verbose                # 混淆时是否记录日志
+#---------------------------------基本指令区----------------------------------
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-verbose
+-printmapping proguardMapping.txt
+-optimizations !code/simplification/cast,!field/*,!class/merging/*
+-keepattributes *Annotation*,InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+#----------------------------------------------------------------------------
 
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
+#---------------------------------默认保留区---------------------------------
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Appliction
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.view.View
+-keep public class com.android.vending.licensing.ILicensingService
+-keep class android.support.** {*;}
 
--keep public class * extends android.app.Activity      # 保持哪些类不被混淆
--keep public class * extends android.app.Application   # 保持哪些类不被混淆
--keep public class * extends android.app.Service       # 保持哪些类不被混淆
--keep public class * extends android.content.BroadcastReceiver  # 保持哪些类不被混淆
--keep public class * extends android.content.ContentProvider    # 保持哪些类不被混淆
--keep public class * extends android.app.backup.BackupAgentHelper # 保持哪些类不被混淆
--keep public class * extends android.preference.Preference        # 保持哪些类不被混淆
--keep public class com.android.vending.licensing.ILicensingService    # 保持哪些类不被混淆
-
--keepclasseswithmembernames class * {  # 保持 native 方法不被混淆
+-keepclasseswithmembernames class * {
     native <methods>;
 }
--keepclasseswithmembers class * {   # 保持自定义控件类不被混淆
-    public <init>(android.content.Context, android.util.AttributeSet);
-}
--keepclasseswithmembers class * {# 保持自定义控件类不被混淆
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-}
--keepclassmembers class * extends android.app.Activity { # 保持自定义控件类不被混淆
+-keepclassmembers class * extends android.app.Activity{
     public void *(android.view.View);
 }
--keepclassmembers enum * {     # 保持枚举 enum 类不被混淆
+-keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
-    public static final android.os.Parcelable$Creator *;
+-keep public class * extends android.view.View{
+    *** get*();
+    void set*(***);
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+-keep class **.R$* {
+ *;
+}
+-keepclassmembers class * {
+    void *(**On*Event);
+}
+#----------------------------------------------------------------------------
+
+#---------------------------------1.实体类---------------------------------
+
+-keep class com.truthso.ip360.bean.** { *; }
+#-------------------------------------------------------------------------
+
+#---------------------------------2.第三方包-------------------------------
 
 -dontwarn android.support.**
 -dontwarn com.alibaba.fastjson.**
 -dontwarn com.alibaba.sdk.**
 -dontwarn com.baidu.location.**
 -dontwarn okio.**
+-dontwarn com.loop.android.**
+-dontwarn com.alipay.**
+-dontwarn com.megvii.livenessdetection.**
+-dontwarn com.nineoldandroids.**
+-dontwarn okhttp3.**
+-dontwarn com.nostra13.universalimageloader.**
+-dontwarn  com.lidroid.xutils.**
+-dontwarn net.tsz.afinal.**
 
 
+-keep class com.loop.android.** {*;}
 -keep class com.alibaba.fastjson.** { *; }
 -keep class com.alibaba.sdk.** { *; }
 
 -keep class com.baidu.location.** { *; }
 -keep class okio.Okio.** { *; }
-
+-keep class com.alipay.** { *; }
+-keep class com.megvii.livenessdetection.** { *; }
+-keep class com.nineoldandroids.** { *; }
+-keep class okhttp3.** { *; }
+-keep class com.nostra13.universalimageloader.** { *; }
+-keep class com.lidroid.xutils.** { *; }
+-keep class net.tsz.afinal.** { *; }

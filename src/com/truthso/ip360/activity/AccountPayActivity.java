@@ -176,6 +176,7 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 					if (TextUtils.equals(resultStatus, "9000")) {
 						// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
 						Toast.makeText(AccountPayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+						finish();
 					} else {
 						// 该笔订单真实的支付结果，需要依赖服务端的异步通知。
 						Toast.makeText(AccountPayActivity.this, "支付失败", Toast.LENGTH_SHORT).show();

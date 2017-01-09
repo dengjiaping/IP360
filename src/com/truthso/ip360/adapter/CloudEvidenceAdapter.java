@@ -365,10 +365,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									DownLoadHelper.getInstance().downloadFile(
 											info);
 
-									Toast toast = new Toast(context);
-									toast.makeText(context, "文件开始下载到本地证据",
-											Toast.LENGTH_SHORT).show();
-									toast.setGravity(Gravity.CENTER, 0, 0);
+
 								} else {
 									Toaster.toast(context, bean.getMsg(), 1);
 								}
