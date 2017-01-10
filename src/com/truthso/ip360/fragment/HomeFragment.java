@@ -244,9 +244,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
-							Toaster.showToast(getActivity(), "您没有使用当前业务的权限！");
+							Toaster.showToast(getActivity(), "余额不足，请充值！");
 //							Toaster.showToast(getActivity(), bean.getMsg());
-						}
+						}/*else if(bean.getDatas().getStatus()== -1){//没有开通该项业务
+						Toaster.showToast(getActivity(), "您没有开通该项业务！");
+					}*/
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}

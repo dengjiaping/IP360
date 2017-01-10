@@ -47,7 +47,7 @@ public class DownloadTask {
 	Log.i("djj", "objectKey"+objectKey);
 //		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		String fileUrlFormatName=info.getFileUrlFormatName();
-		 final File file=new File(downloadFile, fileUrlFormatName);
+	 final File file=new File(downloadFile, fileUrlFormatName);
 		if(!file.exists()){
 			try {
 				file.createNewFile();

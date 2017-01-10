@@ -252,7 +252,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 	}*/
-	
+
+	/**
+	 *下载选择的
+	 */
 	private void downloadAll() {
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		for (int i = 0; i < selected.size(); i++) {
@@ -271,6 +274,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 	}
 
+	/**
+	 * 下载的方法
+	 * @param data
+     */
 	private void download(final CloudEviItemBean data){
 
 		ApiManager.getInstance().downloadFile(data.getPkValue(), type,
@@ -290,9 +297,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
 								FileInfo info = new FileInfo();
-								String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
-								info.setFilePath(nativePath);//在本地的路径
-								info.setFileName(data.getFileTitle());
+								String fileUrl = bean.getDatas().getFileUrl();//阿里云的objectKey
+//								String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
+								String fileUrlformat= fileUrl.replace("/","-");
+								//因为有文件名相同的情况，把阿里云的objectkey路径当成文件名
+								String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + fileUrlformat;
+								info.setFilePath(nativePath);// 在本地的路径
+//								info.setFileName(data.getFileTitle());
+								info.setFileName(bean.getDatas().getFileName());
+								info.setFileUrlFormatName(fileUrlformat);
 								info.setType(type);//取证类型
 								info.setMobiletype(mobileType);//现场取证的类型
 								long l_size = Long.parseLong(data.getFileSize());
@@ -301,6 +314,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 								info.setLlsize(data.getFileSize());
 								info.setPosition(0);
 								info.setFileTime(data.getFileTime());
+
 								info.setResourceId(data.getPkValue());
 								info.setFileLoc(data.getFileLocation());
 								info.setFileCreatetime(data.getFileDate());
@@ -378,6 +392,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
+
 				}
 
 				 list.clear();

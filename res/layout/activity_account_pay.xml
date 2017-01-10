@@ -138,8 +138,8 @@
             android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:background="@drawable/checkbox"
-            android:checked="true"
-            android:button="@null" />
+            android:button="@null"
+            android:checked="true"/>
 
         <ImageView
             android:layout_width="140dp"
@@ -160,7 +160,7 @@
             android:id="@+id/cb_checkbox_yl"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:checked="true"
+            android:checked="false"
             android:layout_centerVertical="true"
             android:background="@drawable/checkbox"
             android:button="@null" />

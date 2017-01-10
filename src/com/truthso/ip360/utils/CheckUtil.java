@@ -975,7 +975,7 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isFormatAccount(String validateContent) {
-		String regex = "^[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|[1-9]\\d$";
+		String regex = "^[1-9]\\d*|[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(validateContent);
 		return m.find();
