@@ -382,15 +382,13 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	 * 是否欠费，能否查看证书
 	 */
 	private void getStatus(int pkvalue,int type) {
-//		showProgress("正在加载...");
+//		 showProgress("正在加载...");
 		ApiManager.getInstance().getCertificateInfo(pkvalue, type, new ApiCallback() {
-
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 										   byte[] responseBody, Throwable error) {
 
 			}
-
 			@Override
 			public void onApiResult(int errorCode, String message,
 									BaseHttpResponse response) {
@@ -399,12 +397,12 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 					if (bean.getCode() == 200) {
 						bean.getDatas().getCertificateUrl();
 						String expstatus = bean.getDatas().getArreaStatus();
-						if (expstatus.equals("0")){//不欠费 可以查看证书
+						if (expstatus.equals("1")){//不欠费 可以查看证书
 							Intent intent = new Intent(context,CertificationActivity.class);
 							intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
 							intent.putExtra("type",type1);
 							context.startActivity(intent);
-						}else if(expstatus.equals("1")){//欠费 不可查看证书
+						}else if(expstatus.equals("0")){//欠费 不可查看证书
 							Toaster.showToast(context,"此文件为欠费文件，不能查看证书，请充值后查看！");
 						}
 
