@@ -12,7 +12,7 @@
         android:background="@color/item_bg" >
 
         <ImageView
-            android:id="@+id/iv_account_message"
+            android:id="@+id/iv_account_message1"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
+            android:layout_toRightOf="@id/iv_account_message1"
             android:text="账户余额"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
@@ -45,9 +47,11 @@ public class DownLoadHelper {
 			Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可下载");
 			return;
 		}
+		//下载
 		DownloadTask task=new DownloadTask(oss,fileinfo);
 
 		task.start();
+		Toaster.showToast(MyApplication.getApplication(),"文件开始下载，请到传输列表中查看");
 		taskMap.put(fileinfo.getObjectKey(), task);
 		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize());
 	}

@@ -23,9 +23,18 @@ public class DownLoadFileBean extends BaseHttpResponse{
 
 	public class DownLoad{
 		private String fileUrl;//文件下载路径
+		private String fileName;//文件的名称
 
 		public String getFileUrl() {
 			return fileUrl;
+		}
+
+		public String getFileName() {
+			return fileName;
+		}
+
+		public void setFileName(String fileName) {
+			this.fileName = fileName;
 		}
 
 		public void setFileUrl(String fileUrl) {

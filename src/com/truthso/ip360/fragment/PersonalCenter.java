@@ -179,13 +179,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 
 
 
-					/*	// 是否已实名认证
+						// 是否已实名认证
 						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证
 																		// ，2是已认证
 							tv_realname.setText("未实名认证");// 实名认证状态
 						} else if (bean.getDatas().getRealNameState() == 2) {
 							tv_realname.setText("已实名认证");// 实名认证状态
-						}*/
+						}
 
 						// 是否已绑定手机号
 						if (!CheckUtil.isEmpty(bean.getDatas()

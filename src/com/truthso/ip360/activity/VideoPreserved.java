@@ -37,6 +37,7 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.GetFileSizeUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -170,10 +171,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				AccountStatusBean bean = (AccountStatusBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
+			/*			LogUtils.e(bean.getDatas().getStatus()+"是否可用");
 						if (bean.getDatas().getStatus() == 1) {//0-不能使用；1-可以使用。
 //							yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
 							
-							/*if (useType ==1 ) {//用户类型1-付费用户（C）；
+							*//*if (useType ==1 ) {//用户类型1-付费用户（C）；
 //								 String str = "此文件保存价格为："+yue+"是否确认支付？";
 //								  showDialog(str);
 								  showDialog(bean.getDatas().getShowText());
@@ -184,20 +186,21 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 								saveToDB();
 //								isPre=true;
 								
-							}*/
+							}*//*
 							showDialog(bean.getDatas().getShowText());
 						} else if (bean.getDatas().getStatus() == 0) {//不能用
-							Toaster.showToast(VideoPreserved.this, "您已不能使用该项业务");
-						/*	if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+							LogUtils.e(bean.getDatas().getStatus()+"是否可用");
+							Toaster.showToast(VideoPreserved.this, "余额不足，您已不能使用该项业务");
+						*//*	if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
 //								 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
 //								  showDialog(str1);
 								  showDialog(bean.getDatas().getShowText());
 							}else if(useType ==2 ){
 								Toaster.showToast(VideoPreserved.this, "您已不能使用该项业务");
 								
-							}*/
-						}
-
+							}*//*
+						}*/
+						showDialog(bean.getDatas().getShowText());
 
 					} else {
 						Toaster.showToast(VideoPreserved.this, bean.getMsg());

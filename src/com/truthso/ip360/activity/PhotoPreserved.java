@@ -155,31 +155,31 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-									showDialog(bean.getDatas().getShowText());
-							/*		if (useType ==1 ) {//用户类型1-付费用户（C）；
+							/*	if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+
+							*//*		if (useType ==1 ) {//用户类型1-付费用户（C）；
 										//弹出提示框
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){//2-合同用户（B）
 //										//合同用户可用时，上传文件，保存文件信息到数据库
 											UpLoadFile();
 											saveToDb();
-									}*/
+									}*//*
 
 								}else if(bean.getDatas().getStatus()== 0){//不能用
 
 									Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
 
-									/*if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
+									*//*if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
 //										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
 										  showDialog(bean.getDatas().getShowText());
 									}else if(useType ==2 ){
 										Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
 
-									}*/
-								}
+									}*//*
+								}*/
 
-
+								showDialog(bean.getDatas().getShowText());
 
 							} else {
 								Toaster.showToast(PhotoPreserved.this,

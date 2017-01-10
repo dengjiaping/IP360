@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class SplashActivty extends Activity {
-	private boolean isFirstOpen;
+	private boolean isFirstOpen = false;
 	private String token;
 	private Context ctx;
 	private String downloadUrl;
@@ -68,12 +68,13 @@ public class SplashActivty extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_splash);
 		ctx = this;
-		handler.sendEmptyMessageDelayed(99, 2000);
-		getVersion();
+
 		isFirstOpen = (Boolean) SharePreferenceUtil.getAttributeByKey(
 				SplashActivty.this, MyConstants.APP_KEY,
 				MyConstants.APP_ISFIRST_IN,
 				SharePreferenceUtil.VALUE_IS_BOOLEAN);
+
+		getVersion();
 		token = MyApplication.getInstance().getTokenId();
 //		// 渐变动画 从0到1
 		AlphaAnimation alphaAnimation = new AlphaAnimation(0.f, 1.f);
@@ -82,7 +83,7 @@ public class SplashActivty extends Activity {
 		relativeLayout.startAnimation(alphaAnimation);
 		//是否跳转到首页
 //		enterHome();
-
+		handler.sendEmptyMessageDelayed(99,2000);
 //		// 检查联网更新
 	//	checkUpdate();
 	}
@@ -257,14 +258,13 @@ public class SplashActivty extends Activity {
 			}
 		} else {
 			// 第一次启动先进入引导页
-//			intent = new Intent(ctx, GuideActivity.class);
-			//这版先不要引导页
-			if (CheckUtil.isEmpty(token)) {
-				// 进登录界面
-				intent = new Intent(ctx, LoginActivity.class);
-			} else {
-				intent = new Intent(ctx, MainActivity.class);
-			}
+			intent = new Intent(ctx, GuideActivity.class);
+//			if (CheckUtil.isEmpty(token)) {
+//				// 进登录界面
+//				intent = new Intent(ctx, LoginActivity.class);
+//			} else {
+//				intent = new Intent(ctx, MainActivity.class);
+//			}
 			SharePreferenceUtil.saveOrUpdateAttribute(this, MyConstants.SP_USER_KEY,MyConstants.ISWIFI,true);
 		}
 
