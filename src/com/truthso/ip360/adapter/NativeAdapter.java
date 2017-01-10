@@ -19,6 +19,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -64,10 +65,12 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private UpdateItem updateItem;
 	private int isOpen=Integer.MAX_VALUE;
 	private  int type1;
-	public NativeAdapter(Context context,List<DbBean> mDatas) {
+	private NativeEvidence nativeEvidence;
+	public NativeAdapter(NativeEvidence nativeEvidence, List<DbBean> mDatas) {
 		super();
-		this.context = context;
+		this.context = nativeEvidence.getActivity();
 		this.mDatas=mDatas;
+		this.nativeEvidence=nativeEvidence;
 		inflater=LayoutInflater.from(context);
 		formatMap.put("txt", "text/plain");
 		formatMap.put("rtf", "application/rtf");
@@ -382,16 +385,18 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	 * 是否欠费，能否查看证书
 	 */
 	private void getStatus(int pkvalue,int type) {
-//		 showProgress("正在加载...");
+		nativeEvidence. showProgress("正在加载...");
 		ApiManager.getInstance().getCertificateInfo(pkvalue, type, new ApiCallback() {
+
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 										   byte[] responseBody, Throwable error) {
-
+				nativeEvidence.hideProgress();
 			}
 			@Override
 			public void onApiResult(int errorCode, String message,
 									BaseHttpResponse response) {
+				nativeEvidence.hideProgress();
 				CertificateInfoBean bean = (CertificateInfoBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
