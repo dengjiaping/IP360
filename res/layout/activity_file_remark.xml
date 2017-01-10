@@ -155,7 +155,7 @@
      <View
         android:layout_width="match_parent"
         android:layout_height="1dp" />
-     <RelativeLayout
+   <!--  <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_hight"
         android:background="@color/item_bg" >
@@ -184,7 +184,7 @@
     </RelativeLayout>
      <View
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp" />-->
      <RelativeLayout
          android:id="@+id/rl_app_remark"
         android:layout_width="match_parent"

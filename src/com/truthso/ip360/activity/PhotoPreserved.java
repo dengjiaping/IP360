@@ -115,7 +115,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		btn_cancel.setOnClickListener(this);
 		btn_preserved.setOnClickListener(this);
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
-		tv_account = (TextView) findViewById(R.id.tv_account);
+//		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
 		if (!CheckUtil.isEmpty(loc)) {

@@ -460,7 +460,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					nativeWindow.dismiss();
 				}
-
 				mDatas.clear();
 				String[] arg=new String[]{"2","5"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);

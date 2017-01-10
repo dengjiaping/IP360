@@ -65,9 +65,9 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		tv_format.setText(format);
 		tv_size = (TextView) findViewById(R.id.tv_size);
 		tv_size.setText(size);
-		tv_account = (TextView) findViewById(R.id.tv_account);
-		String account = "￥" + count / 10 + "." + count % 10 + "元";
-		tv_account.setText(account);
+//		tv_account = (TextView) findViewById(R.id.tv_account);
+//		String account = "￥" + count / 10 + "." + count % 10 + "元";
+//		tv_account.setText(account);
 		et_text = (EditText) findViewById(R.id.et_text);
 		rl_pc_remark = (RelativeLayout) findViewById(R.id.rl_pc_remark);
 		rl_app_remark = (RelativeLayout) findViewById(R.id.rl_app_remark);

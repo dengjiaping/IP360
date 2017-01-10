@@ -71,7 +71,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
 	private String unit_photo,unit_video,unit_record;
 	private List<product> list;// 业务余量的集合
-	private boolean isOk,isContractUser;
+	private boolean isOk,isContractUser,isRefreshAccount;
 	private CheckBox cb_iswifi;
 	private boolean isHaveCombo = true;
 	@Override
@@ -99,10 +99,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 
 		rl_about_us = (RelativeLayout) view.findViewById(R.id.rl_about_us);
 		rl_about_us.setOnClickListener(this);
-
 		btn_logout = (Button) view.findViewById(R.id.btn_logout);
 		btn_logout.setOnClickListener(this);
-
 		tv_account_balance = (TextView) view
 				.findViewById(R.id.tv_account_balance);
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
@@ -122,7 +120,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	public void getPersonalMsg() {
 		showProgress("正在获取信息，请稍后...");
 		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
-
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -130,6 +127,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				bean = (PersonalMsgBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
+						isRefreshAccount = true;
 						list = bean.getDatas().getProductBalance();//业务量的集合
 						isOk = true;
 						// 账户余额
@@ -239,7 +237,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.rl_account:// 账号信息
-			if (isOk) {
+			getPersonalMsg1();
+			if (isRefreshAccount) {
 					Intent intent = new Intent(getActivity(), AccountMagActivity.class);
 					// 传参
 					//余额
@@ -270,21 +269,22 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				}
 
 					startActivity(intent);
-
+				    isRefreshAccount = false;
 			} else {
-				getPersonalMsg();
+				getPersonalMsg1();
 			}
 
 			break;
 		case R.id.rl_count_pay:// 用户充值
-			if (isOk) {
+			getPersonalMsg1();
+			if (isRefreshAccount) {
 				// 合同用户不能充值
 					Intent intent1 = new Intent(getActivity(), AccountPayActivity.class);
 					intent1.putExtra("accountBalance",accountBalance);
 					startActivityForResult(intent1, MyConstants.ACCOUNT_YUE);
-
+				    isRefreshAccount = false;
 			} else {
-				getPersonalMsg();
+				getPersonalMsg1();
 			}
 
 			break;
@@ -457,4 +457,74 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		}
 		return false;
 	}*/
+	// 获取个人信息概要
+	public void getPersonalMsg1() {
+		showProgress("正在获取信息，请稍后...");
+		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				hideProgress();
+				bean = (PersonalMsgBean) response;
+				if (!CheckUtil.isEmpty(bean)) {
+					if (bean.getCode() == 200) {
+						list = bean.getDatas().getProductBalance();//业务量的集合
+
+						// 账户余额
+						int balance = bean.getDatas().getAccountBalance();
+						accountBalance = "余额￥" + balance / 100 + "." + balance
+								% 100 / 10 + balance % 100 % 10 + "元";
+//							tv_account_balance.setText(accountBalance);
+//							isContractUser = true;
+//							contractStart = bean.getDatas().getContractStart();
+//							contractEnd = bean.getDatas().getContractEnd();
+//							contractEnd = contractEnd.replace("-", ".");
+//							tv_account_balance.setText("合同用户" + contractEnd
+//									+ "到期");
+						if (list.size() != 0) {
+							for (int i = 0; i < list.size(); i++) {
+								// 取证类型
+								type = list.get(i).getType();
+
+								if (type == MyConstants.PHOTOTYPE) {// 拍照
+									// 累积使用量
+									usedCount_photo = list.get(i).getUsedCount();
+									//总共购买的量
+									buyCount_photo = list.get(i).getBuyCount();
+									contractStart_photo = list.get(i).getContractStart();
+									contractEnd_photo = list.get(i).getContractEnd();
+									unit_photo = list.get(i).getUnit();
+								} else if (type == MyConstants.VIDEOTYPE) {// 录像
+									usedCount_video = list.get(i)
+											.getUsedCount();
+									buyCount_video = list.get(i).getBuyCount();
+									contractStart_video = list.get(i).getContractStart();
+									contractEnd_video = list.get(i).getContractEnd();
+									unit_video = list.get(i).getUnit();
+								} else if (type == MyConstants.RECORDTYPE) {// 录音
+									usedCount_record = list.get(i)
+											.getUsedCount();
+									buyCount_record = list.get(i).getBuyCount();
+									contractStart_record = list.get(i).getContractStart();
+									contractEnd_record = list.get(i).getContractEnd();
+									unit_record = list.get(i).getUnit();
+								}
+
+							}
+						} else {//当前无套餐
+							isHaveCombo = false;
+						}
+
+
+					}
+
+				}
+			}
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers,
+										   byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
 }
