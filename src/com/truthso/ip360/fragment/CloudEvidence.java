@@ -506,7 +506,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		showDownLoadPop();
 		adapter.setChoice(true);
 		listView.invalidateViews();
-
+		listView.setOnLoad(false);
+		listView.setOnRefresh(false);
 	}
 
 	// 取消多选状态
@@ -519,6 +520,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setRightText("选择");
 		actionBar.setLeftText("类别");
 		actionBar.setActionBarOnClickListener(CloudEvidence.this);
+		listView.setOnLoad(true);
+		listView.setOnRefresh(true);
 	}
 
 	// 显示底部下载按钮

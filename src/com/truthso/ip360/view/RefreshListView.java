@@ -75,7 +75,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private int FOOTER_VISIBLE = 0x5;
 	private int FOOTER_LOADING = 0x6;
 	private int FOOTER_HIDE = 0x7;
-	private boolean isOnLoad;
+	private boolean isOnLoad,isOnRefresh;
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);		
 		init(context);
@@ -168,59 +168,61 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	/** 监听触摸事件 */
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		switch (ev.getAction()) {
-		case MotionEvent.ACTION_DOWN:// 第一次触摸时
-			if (firstItemIndex == 0) {
-				// 开始记录
-				isRecored = true;
-				// 获取首次Y位置
-				startY = (int) ev.getY();
-				Log.i(TAG, "从首次触摸点就开始记录...");
-			} else {
-				Log.i(TAG, "首次触摸时firstItemIndex不为0,不执行下拉刷新");
-			}
-			Log.i(TAG, "记录状态isRecored:" + isRecored);
-			break;
-		case MotionEvent.ACTION_UP:// 松开屏幕时
-			// 移除记录
-			isRecored = false;
-			Log.i(TAG, "停止记录..." + ",isRecored:" + isRecored);
-			if (refreshState == PULL_TO_REFRESH) {
-				refreshState = DONE;
-				changeHeadView();
-				Log.i(TAG, "PULL_TO_REFRESH状态松手,回到原始状态");
-			} else if (refreshState == RELEASE_TO_REFRESH) {
-				refreshState = REFRESHING;
-				changeHeadView();
-				onRefreshing();
-				Log.i(TAG, "RELEASE_TO_REFRESH状态松手,进入REFRESHING状态");
-			} else if (refreshState == REFRESHING) {
-				if (firstItemIndex == 0) {
-					// 保持刷新状态
-					headView.setPadding(0, 0, 0, 0);
-					Log.i(TAG, "REFRESHING状态松手,保持该状态,headView仍在顶部");
-				} else {
-					Log.i(TAG, "REFRESHING状态松手,保持该状态,headView被推出顶部");
-				}
-			}
-			//上拉加载更多
-			if(onLoadState == FOOTER_VISIBLE&&isLastItem==true){
-				footerView.setVisibility(View.VISIBLE);
-				footerView.loading();
-				onLoadState = FOOTER_LOADING;
-				onloading();
-			}
-			break;
-		case MotionEvent.ACTION_MOVE:// 手势移动时
-			// 记录实时的手指移动时在屏幕的Y位置,用于和startY比较
-			int curY = (int) ev.getY();
+		if(isOnRefresh){
+			switch (ev.getAction()) {
+				case MotionEvent.ACTION_DOWN:// 第一次触摸时
+					if (firstItemIndex == 0) {
+						// 开始记录
+						isRecored = true;
+						// 获取首次Y位置
+						startY = (int) ev.getY();
+						Log.i(TAG, "从首次触摸点就开始记录...");
+					} else {
+						Log.i(TAG, "首次触摸时firstItemIndex不为0,不执行下拉刷新");
+					}
+					Log.i(TAG, "记录状态isRecored:" + isRecored);
+					break;
+				case MotionEvent.ACTION_UP:// 松开屏幕时
+					// 移除记录
+					isRecored = false;
+					Log.i(TAG, "停止记录..." + ",isRecored:" + isRecored);
+					if (refreshState == PULL_TO_REFRESH) {
+						refreshState = DONE;
+						changeHeadView();
+						Log.i(TAG, "PULL_TO_REFRESH状态松手,回到原始状态");
+					} else if (refreshState == RELEASE_TO_REFRESH) {
+						refreshState = REFRESHING;
+						changeHeadView();
+						onRefreshing();
+						Log.i(TAG, "RELEASE_TO_REFRESH状态松手,进入REFRESHING状态");
+					} else if (refreshState == REFRESHING) {
+						if (firstItemIndex == 0) {
+							// 保持刷新状态
+							headView.setPadding(0, 0, 0, 0);
+							Log.i(TAG, "REFRESHING状态松手,保持该状态,headView仍在顶部");
+						} else {
+							Log.i(TAG, "REFRESHING状态松手,保持该状态,headView被推出顶部");
+						}
+					}
+					//上拉加载更多
+					if(onLoadState == FOOTER_VISIBLE&&isLastItem==true){
+						footerView.setVisibility(View.VISIBLE);
+						footerView.loading();
+						onLoadState = FOOTER_LOADING;
+						onloading();
+					}
+					break;
+				case MotionEvent.ACTION_MOVE:// 手势移动时
+					// 记录实时的手指移动时在屏幕的Y位置,用于和startY比较
+					int curY = (int) ev.getY();
 
-			
-			//设置下拉刷新
-			setRefreshState(curY);
-			//设置上拉加载更多
-			setOnLoadState(curY);
-			break;
+
+					//设置下拉刷新
+					setRefreshState(curY);
+					//设置上拉加载更多
+					setOnLoadState(curY);
+					break;
+			}
 		}
 		return super.onTouchEvent(ev);
 	}
@@ -325,6 +327,11 @@ public class RefreshListView extends ListView implements OnScrollListener {
 
 	public void setOnLoad(boolean isOnLoad) {
 		this.isOnLoad = isOnLoad;
+	}
+
+
+	public void setOnRefresh(boolean isOnRefresh) {
+		this.isOnRefresh = isOnRefresh;
 	}
 
 	/** 使用界面传递给此ListView的回调接口,用于两者间通信 */

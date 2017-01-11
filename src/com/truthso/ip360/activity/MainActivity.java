@@ -81,8 +81,8 @@ private MyWifiReceiver myWifiReceiver;
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
-		checkIsUpDownload();
-		registWifiStatusListener();
+		//checkIsUpDownload();
+		/*registWifiStatusListener();*/
 	}
 
 	// 初始化控件
@@ -388,8 +388,6 @@ private MyWifiReceiver myWifiReceiver;
 				}
 			}
 		}
-
-
 	}
 
 }

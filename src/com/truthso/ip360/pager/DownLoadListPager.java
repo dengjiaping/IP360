@@ -15,6 +15,7 @@ import com.truthso.ip360.adapter.DownLoadAdapter;
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.DownEvent;
 import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.pager.UpLoadListPager.MyContentObserver;
 import com.truthso.ip360.updownload.DownLoadManager;
@@ -39,10 +40,10 @@ public class DownLoadListPager extends BasePager {
 			list.addAll(queryDownLoadList); 			
 		}        
 		listView = new ListView(ctx);
-		if(list.size()>0){
-			EventBus.getDefault().post(true);
+		if(queryDownLoadList.size()>0){
+			EventBus.getDefault().post(new DownEvent(true));
 		}else{
-			EventBus.getDefault().post(false);
+			EventBus.getDefault().post(new DownEvent(false));
 		}
 		adapter=new DownLoadAdapter(ctx,list);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
@@ -65,9 +66,9 @@ public class DownLoadListPager extends BasePager {
 			super.onChange(selfChange);
 			List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
 			if(queryDownLoadList.size()>0){
-				EventBus.getDefault().post(true);
+				EventBus.getDefault().post(new DownEvent(true));
 			}else{
-				EventBus.getDefault().post(false);
+				EventBus.getDefault().post(new DownEvent(false));
 			}
 			adapter.notifyChange(queryDownLoadList);
 		}

@@ -25,6 +25,8 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.adapter.CommonAdapter;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
+import com.truthso.ip360.event.DownEvent;
+import com.truthso.ip360.event.UpEvent;
 import com.truthso.ip360.pager.BasePager;
 import com.truthso.ip360.pager.DownLoadListPager;
 import com.truthso.ip360.pager.UpLoadListPager;
@@ -59,6 +61,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private List<DbBean> mDatas;
 	private List<BasePager> pagerList;
 	private int position;
+	private boolean isDownEmpty,isUpEmpty;
 
 	@Override
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,16 +115,27 @@ public class TransList extends BaseFragment implements OnClickListener {
 				// 初始化本页数据
 				pagerList.get(position).initData(position);
 				if (position == 0) {
-					actionBar.setRightEnable();
-					actionBar.setRightText("选择");
+					if(isDownEmpty){
+						actionBar.setRightVisible();
+						actionBar.setRightEnable();
+						actionBar.setRightText("选择");
+					}else{
+						actionBar.setRightGone();
+					}
 					line.startAnimation(moveLeft);
 					rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_left_text.setTextColor(getResources().getColor(R.color.white));
 					rl_right.setBackgroundColor(getResources().getColor(R.color.white));
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
 				} else {//上传不让用户删除
-					actionBar.setRightDisEnable();
-					actionBar.setRightText("选择");
+					if(isUpEmpty){
+						actionBar.setRightVisible();
+						actionBar.setRightDisEnable();
+						actionBar.setRightText("选择");
+					}else{
+						actionBar.setRightGone();
+					}
+
 					line.startAnimation(moveRight);
 					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.white));
@@ -315,13 +329,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void  setActionBarRightVisibility(Boolean isVisibility){
+	public void  setActionBarRightVisibility(DownEvent event){
+		isDownEmpty=event.getFlag();
+	}
 
-		if(isVisibility){
-			actionBar.setRightVisible();
-		}else{
-			actionBar.setRightGone();
-		}
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void  setActionBarRightVisibility(UpEvent event){
+		isUpEmpty=event.getFlag();
 	}
 
 }

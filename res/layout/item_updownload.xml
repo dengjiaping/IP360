@@ -68,7 +68,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@id/probar"
-                        android:text="等待上传"
+                        android:text="等待中"
                         android:textSize="@dimen/text_date_size"
                         android:textColor="@color/gray"
                         />

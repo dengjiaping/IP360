@@ -194,8 +194,10 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			vh.tv_status.setText("上传失败");
 		}*/
 		String str =info.getFileName();
+		Log.i("hello",str);
 		foramt1 = str.substring(str.lastIndexOf(".")+1);
 		String format= foramt1.toLowerCase();// 格式变小写
+
 		if (CheckUtil.isFormatPhoto(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
 		} else if (CheckUtil.isFormatVideo(format)) {

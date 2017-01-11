@@ -16,6 +16,7 @@ import android.widget.ListView;
 
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.UpEvent;
 import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
@@ -52,9 +53,9 @@ public class UpLoadListPager extends BasePager {
 		listView = new ListView(ctx);
 
 		if(list.size()>0){
-			EventBus.getDefault().post(true);
+			EventBus.getDefault().post(new UpEvent(true));
 		}else{
-			EventBus.getDefault().post(false);
+			EventBus.getDefault().post(new UpEvent(false));
 		}
 		adapter=new UpLoadAdapter(ctx,list);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
