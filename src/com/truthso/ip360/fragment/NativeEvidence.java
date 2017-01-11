@@ -92,7 +92,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 			actionBar.setRightEnable();
 			actionBar.setRightText("选择");
 		}
-		adapter = new NativeAdapter(getActivity(), mDatas);
+		adapter = new NativeAdapter(this, mDatas);
 		adapter.setUpdateItem(this);
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);
@@ -460,7 +460,6 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					nativeWindow.dismiss();
 				}
-
 				mDatas.clear();
 				String[] arg=new String[]{"2","5"};
 				mDatas=SqlDao.getSQLiteOpenHelper().queryByType(arg);

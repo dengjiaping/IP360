@@ -405,17 +405,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					return;
 				}
 
-		case R.id.tv_file_preview:
-			// 仅wifi下可查看证书
-	/*		boolean isWifi = (Boolean) SharePreferenceUtil.getAttributeByKey(
-					MyApplication.getApplication(), MyConstants.SP_USER_KEY,
-					MyConstants.ISWIFI, SharePreferenceUtil.VALUE_IS_BOOLEAN);
-			if (isWifi
-					&& !NetStatusUtil.isWifiValid(MyApplication
-							.getApplication())) {
-				Toaster.showToast(MyApplication.getApplication(), "仅WIFI网络下可查看");
-				return;
-			}*/
+		case R.id.tv_file_preview://文件预览
+
 			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				if (data1.getArreaStatus() == 1){//不欠费

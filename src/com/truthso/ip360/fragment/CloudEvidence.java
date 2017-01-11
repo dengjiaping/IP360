@@ -296,40 +296,36 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						DownLoadFileBean bean = (DownLoadFileBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
+
 								FileInfo info = new FileInfo();
 								String fileUrl = bean.getDatas().getFileUrl();//阿里云的objectKey
-//								String nativePath = MyConstants.DOWNLOAD_PATH+"/"+data.getFileTitle();
 								String fileUrlformat= fileUrl.replace("/","-");
 								//因为有文件名相同的情况，把阿里云的objectkey路径当成文件名
 								String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + fileUrlformat;
 								info.setFilePath(nativePath);// 在本地的路径
-//								info.setFileName(data.getFileTitle());
+//									info.setFileName(data.getFileTitle());
 								info.setFileName(bean.getDatas().getFileName());
 								info.setFileUrlFormatName(fileUrlformat);
-								info.setType(type);//取证类型
-								info.setMobiletype(mobileType);//现场取证的类型
-								long l_size = Long.parseLong(data.getFileSize());
-								String s_size = FileSizeUtil.setFileSize(l_size);
+								info.setType(type);// 取证类型
+								info.setMobiletype(mobileType);// 现场取证的类型
+								long l_size = Long.parseLong(data
+										.getFileSize());
+								String s_size = FileSizeUtil
+										.setFileSize(l_size);
 								info.setFileSize(s_size);
 								info.setLlsize(data.getFileSize());
 								info.setPosition(0);
 								info.setFileTime(data.getFileTime());
-
 								info.setResourceId(data.getPkValue());
 								info.setFileLoc(data.getFileLocation());
 								info.setFileCreatetime(data.getFileDate());
-								String url = bean.getDatas().getFileUrl();
-								// String
-								// objectKey=url.substring(url.indexOf("/")+1);
+								info.setPkValue(data.getPkValue());
+								info.setFileFormat(data.getFileFormat());
+								String url = bean.getDatas().getFileUrl();//文件的下载路径
 								info.setObjectKey(url);
 								// 下载
 								DownLoadHelper.getInstance().downloadFile(
 										info);
-
-								Toast toast = new Toast(getActivity());
-								toast.makeText(getActivity(), "文件开始下载到本地证据", Toast.LENGTH_SHORT)
-										.show();
-								toast.setGravity(Gravity.CENTER, 0, 0);
 							} else {
 								Toaster.toast(getActivity(), bean.getMsg(), 1);
 							}

@@ -13,12 +13,17 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.GroupDao;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.fragment.NativeEvidence;
 import com.truthso.ip360.fragment.UpdateItem;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.NetStatusUtil;
@@ -45,6 +50,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cz.msebera.android.httpclient.Header;
+
 public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListener ,OnClickListener{
 	private Dialog alertDialog;
 	private Context context;
@@ -57,10 +64,13 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	private Map<String, String> formatMap=new HashMap<String, String>();
 	private UpdateItem updateItem;
 	private int isOpen=Integer.MAX_VALUE;
-	public NativeAdapter(Context context,List<DbBean> mDatas) {
+	private  int type1;
+	private NativeEvidence nativeEvidence;
+	public NativeAdapter(NativeEvidence nativeEvidence, List<DbBean> mDatas) {
 		super();
-		this.context = context;
+		this.context = nativeEvidence.getActivity();
 		this.mDatas=mDatas;
+		this.nativeEvidence=nativeEvidence;
 		inflater=LayoutInflater.from(context);
 		formatMap.put("txt", "text/plain");
 		formatMap.put("rtf", "application/rtf");
@@ -184,7 +194,8 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}else if(str.equals("2")){
 				vh.tv_status.setText("已下载");
 			}else if(str.equals("3")){
-				vh.tv_status.setText("上传失败");
+//				vh.tv_status.setText("上传失败");
+				vh.tv_status.setText("正在上传");
 			}
 		}
 		String format = mDatas.get(position).getFileFormat();
@@ -303,16 +314,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			showDialog();
 			break;
 		case R.id.tv_preview://查看证书
-			/*//仅wifi下可查看证书
-			boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
-			if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
-				Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
-				return;
-			}*/
-			Log.i("djj","native"+dbBean.toString());
-			Intent intent = new Intent(context,CertificationActivity.class);
-			intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
-			int type1=0;
+				type1=0;
 			if(dbBean.getType()==7){
 				type1=3;
 			}else if(dbBean.getType()==6){
@@ -320,8 +322,9 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}else{
 				type1=2;
 			}
-			intent.putExtra("type",type1);
-			context.startActivity(intent);
+		getStatus(Integer.parseInt(dbBean.getPkValue()),type1);//是否欠费，是否具有查看证书的权限
+//			int expstatus = dbBean.getExpStatus();//扣费状态 0-正常付款；1-欠费
+
 			break;
 		case R.id.tv_file_preview://预览文件
 			//仅wifi下可预览
@@ -363,7 +366,6 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 				     	try {
 							context.startActivity(intent2);
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 							Toaster.showToast(context, "暂不支持打开此种类型的文件！");
 						}					
@@ -378,7 +380,47 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			break;
 		}		
 	}
-	
+
+	/**
+	 * 是否欠费，能否查看证书
+	 */
+	private void getStatus(int pkvalue,int type) {
+		nativeEvidence. showProgress("正在加载...");
+		ApiManager.getInstance().getCertificateInfo(pkvalue, type, new ApiCallback() {
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers,
+										   byte[] responseBody, Throwable error) {
+				nativeEvidence.hideProgress();
+			}
+			@Override
+			public void onApiResult(int errorCode, String message,
+									BaseHttpResponse response) {
+				nativeEvidence.hideProgress();
+				CertificateInfoBean bean = (CertificateInfoBean) response;
+				if (!CheckUtil.isEmpty(bean)) {
+					if (bean.getCode() == 200) {
+						bean.getDatas().getCertificateUrl();
+						String expstatus = bean.getDatas().getArreaStatus();
+						if (expstatus.equals("1")){//不欠费 可以查看证书
+							Intent intent = new Intent(context,CertificationActivity.class);
+							intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
+							intent.putExtra("type",type1);
+							context.startActivity(intent);
+						}else if(expstatus.equals("0")){//欠费 不可查看证书
+							Toaster.showToast(context,"此文件为欠费文件，不能查看证书，请充值后查看！");
+						}
+
+					}else{
+						Toaster.showToast(context,bean.getMsg());
+					}
+				}else{
+					Toaster.showToast(context, "加载证书失败");
+				}
+			}
+		});
+	}
+
 	private String getFileType(String format){
 	if(formatMap.containsKey(format)){
 	   return	formatMap.get(format);

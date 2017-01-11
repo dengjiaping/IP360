@@ -11,7 +11,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
  */
 public class CertificateInfoBean extends BaseHttpResponse{
 	private CertificateInfo datas;
-	
+
+
 	public CertificateInfo getDatas() {
 		return datas;
 	}
@@ -21,7 +22,16 @@ public class CertificateInfoBean extends BaseHttpResponse{
 	}
 
 	public class CertificateInfo{
+		private String arreaStatus;//0是欠费，1是不欠费
 		private String certificateUrl;//Url
+
+		public String getArreaStatus() {
+			return arreaStatus;
+		}
+
+		public void setArreaStatus(String arreaStatus) {
+			this.arreaStatus = arreaStatus;
+		}
 
 		public String getCertificateUrl() {
 			return certificateUrl;
