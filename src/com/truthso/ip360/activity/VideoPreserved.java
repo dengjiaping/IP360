@@ -90,16 +90,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	};*/
 	@Override
 	public void initData() {
-		mVideoPath = getIntent().getStringExtra("filePath");
-		mDate = getIntent().getStringExtra("date");
-		loc = getIntent().getStringExtra("loc");
-		longlat= getIntent().getStringExtra("longlat");
-		time = getIntent().getStringExtra("time");
-		minTime = getIntent().getIntExtra("minTime", 0);
-		size = getIntent().getStringExtra("size");
-		title = getIntent().getStringExtra("title");
-		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B", 0);
-		ll = Math.round(video_fileSize_B);
+
 		/*getLocation();
 		//上传文件信息
 		filePre();*/
@@ -107,7 +98,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-
+		btn_preserved = (Button) findViewById(R.id.btn_preserved);
+		btn_preserved.setOnClickListener(this);
+		btn_cancel = (Button) findViewById(R.id.btn_cancel);
+		btn_cancel.setOnClickListener(this);
 //		iv_video = (ImageView) findViewById(R.id.iv_video);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 
@@ -120,6 +114,16 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		tv_time = (TextView) findViewById(R.id.tv_time);
 
 //		tv_account = (TextView) findViewById(R.id.tv_account);
+		mVideoPath = getIntent().getStringExtra("filePath");
+		mDate = getIntent().getStringExtra("date");
+		loc = getIntent().getStringExtra("loc");
+		longlat= getIntent().getStringExtra("longlat");
+		time = getIntent().getStringExtra("time");
+		minTime = getIntent().getIntExtra("minTime", 0);
+		size = getIntent().getStringExtra("size");
+		title = getIntent().getStringExtra("title");
+		video_fileSize_B = getIntent().getDoubleExtra("video_fileSize_B", 0);
+		ll = Math.round(video_fileSize_B);
 
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
 //		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
@@ -138,23 +142,23 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		tv_time.setText(time.toString().trim());
 
 
-		btn_preserved = (Button) findViewById(R.id.btn_preserved);
-		btn_preserved.setOnClickListener(this);
-		btn_cancel = (Button) findViewById(R.id.btn_cancel);
-		btn_cancel.setOnClickListener(this);
-		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 
+		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 //		getLocation();
 		//上传文件信息
-		filePre();
-
+//		filePre();
 	}
+
+/*	@Override
+	protected void onStart() {
+		super.onStart();
+		filePre();
+	}*/
 
 	/**
 	 * 调接口，看是否可用，和当次消费
 	 */
 	private void getport() {
-
 		showProgress("正在加载...");
 		ApiManager.getInstance().getAccountStatus(MyConstants.VIDEOTYPE, minTime, new ApiCallback() {
 
@@ -165,8 +169,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			}
 
 			@Override
-			public void onApiResult(int errorCode, String message,
-									BaseHttpResponse response) {
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
 				hideProgress();
 				AccountStatusBean bean = (AccountStatusBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
@@ -278,7 +281,6 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 */
 	private void filePre() {
 //		@param filetype 文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 @param fileSize 文件大小，单位为B @param hashCode  哈希值 非空 @param fileDate取证时间@param fileLocation  取证地点 可空@param fileTime  取证时长 录像 录音不为空 @param imei手机的IMEI码
-
 		showProgress("正在上传文件信息...");
 		String hashCode = SecurityUtil.SHA512(mVideoPath);
 		String imei = MyApplication.getInstance().getDeviceImei();

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.truthso.ip360.activity.AboutUsAcctivity;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
@@ -159,29 +160,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			getLocation();
 			//调接口,看是否可以拍照
 			getPort(MyConstants.PHOTOTYPE,1);
-			
-			/*photoDir = new File(MyConstants.PHOTO_PATH);
-			if (!photoDir.exists()) {
-				photoDir.mkdirs();
-			}
-			String name = "temp.jpg";
-			photo = new File(photoDir, name);
-			Uri photoUri = Uri.fromFile(photo);
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-			startActivityForResult(intent, CAMERA);*/
 			break;
 		case R.id.ll_take_video:// 录像取证
 			getLocation();
 			//调接口,看是否可以录像
 			getPort(MyConstants.VIDEOTYPE,1);
-			/*Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-			intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-			SimpleDateFormat formatter = new SimpleDateFormat(
-					"yyyy-MM-dd    HH:mm:ss     ");
-			long currentTimeMillis = System.currentTimeMillis();
-			date1=formatter.format(currentTimeMillis);
-			startActivityForResult(intent1, CASE_VIDEO);*/
 			break;
 		case R.id.ll_record:// 录音取证
 			getLocation();
@@ -206,7 +189,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
 								photoDir = new File(MyConstants.PHOTO_PATH);
@@ -225,7 +207,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							case MyConstants.VIDEOTYPE:
 								Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 								intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//								startActivityForResult(intent1, CASE_VIDEO);
 //								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivityForResult(intent1, CASE_VIDEO);
 								SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -303,22 +284,27 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		}
 		if (requestCode == CASE_VIDEO && resultCode == Activity.RESULT_OK
 				&& null != data) {
-		
-			
 			Uri uri = data.getData();
 			String filePath = "";
 			
 			if (uri == null) {
 				return;
 			} else {
-				Cursor c = getActivity().getContentResolver().query(uri,null, null,null,null);
-				if (c != null && c.moveToFirst()) {
-					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));		
-					LogUtils.e(filePath+"系统视频的路径");
-				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
-				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
+				Cursor c = getActivity().getContentResolver().query(uri,new String[] { MediaStore.MediaColumns.DATA,MediaStore.MediaColumns.SIZE,MediaStore.MediaColumns.TITLE ,MediaStore.Video.Media.DURATION}, null,null,null);
+//				Cursor c = getActivity().getContentResolver().query(uri,new String[] { MediaStore.MediaColumns.DATA}, null,null,null);
+					if (c != null && c.moveToFirst()) {
+					filePath = c.getString(0);
+					size = c.getString(1);
+					title =c.getString(2);
+					String dur =c.getString(3);
+					duration =Long.parseLong(dur);
+//					filePath = c.getString(c.getColumnIndex(MediaStore.Video.Media.DATA));
+//				    size=c.getString(c.getColumnIndex(MediaStore.Video.Media.SIZE));
+//					size=c.getString(c.getColumnIndex(MediaStore.MediaColumns.SIZE));
+//				    title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
 				    //总时长 ms
-				    duration = c.getLong(c.getColumnIndex(MediaStore.Video.Media.DURATION));
+//				    duration = c.getLong(c.getColumnIndex(MediaStore.Video.Media.DURATION));
+
 				    timeUsedInsec = (int) (duration/1000);//秒
 					time = getHor() + ":" + getMin() + ":" + getSec();
 					if (sec> 0) {
@@ -326,6 +312,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					}else{
 						 minTime= hor*60 +min;
 					}
+					c.close();
 				File file = new File(filePath);
 				long length = file.length();
 				video_fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);

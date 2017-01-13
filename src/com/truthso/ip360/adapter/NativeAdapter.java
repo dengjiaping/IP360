@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lidroid.xutils.db.annotation.Check;
 import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.LoginActivity;
@@ -292,12 +293,16 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		int position = (Integer) buttonView.getTag();;
-		if(isChecked){
-			selectedList.add(mDatas.get(position).getId());
-		}else{
-			selectedList.remove((Integer)mDatas.get(position).getId());
-		}	 
+		if (!CheckUtil.isEmpty(buttonView)){
+			int position = (Integer) buttonView.getTag();
+			if(isChecked){
+				selectedList.add(mDatas.get(position).getId());
+			}else{
+				selectedList.remove((Integer)mDatas.get(position).getId());
+			}
+		}
+
+
 	}
 
 	public List<Integer> getSelected(){

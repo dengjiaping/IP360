@@ -58,14 +58,12 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 			
 			@Override
 			public void onPrepared(MediaPlayer arg0) {
-				// TODO Auto-generated method stub
-				 hideProgress();          
+				 hideProgress();
 			}
 		});
 		viv.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            //视频无法播放监听  
-            public boolean onError(MediaPlayer mp, int what, int extra) {  
-                // TODO Auto-generated method stub  
+            //视频无法播放监听
+            public boolean onError(MediaPlayer mp, int what, int extra) {
             	Toast.makeText(VideoDetailActivity.this, "视频无法播放", 0).show();
 				hideProgress();
                 finish();  

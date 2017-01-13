@@ -105,8 +105,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		btn_save = (Button) findViewById(R.id.btn_preserved);
 		btn_cancel.setOnClickListener(this);
 		btn_save.setOnClickListener(this);
-		
-		
 		tv_filename.setText(fileName);
 		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
 			tv_loc.setText(loc);
