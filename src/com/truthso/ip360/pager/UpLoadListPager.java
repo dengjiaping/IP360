@@ -74,10 +74,10 @@ public class UpLoadListPager extends BasePager {
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
 			List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
-			if(queryUpLoadList.size()>0){
-				EventBus.getDefault().post(true);
+			if(list.size()>0){
+				EventBus.getDefault().post(new UpEvent(true));
 			}else{
-				EventBus.getDefault().post(false);
+				EventBus.getDefault().post(new UpEvent(false));
 			}
 			adapter.notifyChange(queryUpLoadList);
 		}

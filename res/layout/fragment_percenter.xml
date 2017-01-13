@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="IP360"
+            android:text="真相取证"
             android:textColor="@color/title_text_color"
             android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
@@ -65,7 +65,7 @@
         android:background="@color/item_bg" >
 
         <ImageView
-            android:id="@+id/iv_account_message"
+            android:id="@+id/iv_ac"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
@@ -99,13 +99,48 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
+            android:layout_toRightOf="@id/iv_ac"
             android:text="账号信息"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
-    
-         <View
+    <!--<RelativeLayout
+        android:id="@+id/rl_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_hight"
+        android:background="@color/item_bg"
+        >
+
+        <ImageView
+            android:id="@+id/ivune"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:background="@drawable/zhye" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/ivune"
+            android:text="账号信息"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:id="@+id/tv_account_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/layout_marginRight"
+            android:src="@drawable/sanjiao" />
+    </RelativeLayout>
+-->
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp" />
    
@@ -235,7 +270,7 @@
             android:textSize="@dimen/text_size" />
 
         <ImageView
-            android:id="@+id/iv_next_renzheng"
+            android:id="@+id/ivrenzheng"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
@@ -249,7 +284,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
-            android:layout_toLeftOf="@id/iv_next_renzheng"
+            android:layout_toLeftOf="@id/ivrenzheng"
             android:text=""
             android:textColor="@color/title_text_hint"
             android:textSize="@dimen/text_size" />

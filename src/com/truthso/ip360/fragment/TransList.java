@@ -68,6 +68,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_tranlist);
 		actionBar.setTitle("传输列表");
 		actionBar.setRightText("选择");
+		actionBar.setRightGone();
 		actionBar.setActionBarOnClickListener(this);
 
 		line = view.findViewById(R.id.line);

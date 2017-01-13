@@ -24,7 +24,6 @@ public class UpLoadManager {
 	 private static UpLoadManager instance;
 	 private OSS oss;
 	 private HashMap<Integer, ResuambleUpload> upLoadTaskMap=new HashMap<Integer,ResuambleUpload>();
-     private int resourceId;
      private HashMap<Integer,ProgressListener> progressListenerMap=new HashMap<Integer,ProgressListener>();
 	// 运行sample前需要配置以下字段为有效的值
     private static final String endpoint =  "http://oss-cn-beijing.aliyuncs.com";
@@ -62,18 +61,19 @@ public class UpLoadManager {
 			 Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
             return;
 		 }
+		Log.i("djj",info.getResourceId()+"ResourceId123");
 		resuambleUpload.putObject();
-		upLoadTaskMap.put(resourceId, resuambleUpload);
-		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
+		upLoadTaskMap.put(info.getResourceId(), resuambleUpload);
+		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey());
 	}
 	
 	
 	public void resuambleUploadUnCaseNet(FileInfo info){
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
-		
+		Log.i("djj",info.getResourceId()+"ResourceId");
 		//resuambleUpload.resumableUploadWithRecordPathSetting();
 		resuambleUpload.putObject();
-		upLoadTaskMap.put(resourceId, resuambleUpload);		
+		upLoadTaskMap.put(info.getResourceId(), resuambleUpload);
 //		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
 //		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), resourceId,info.getObjectKey());
 	}

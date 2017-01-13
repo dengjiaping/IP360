@@ -124,6 +124,8 @@ public class SqlDao {
 		db.close();
 		return moveToNext;
 	}
+
+
 	
 	public List<DbBean> searchByKey(String key) {
 		SQLiteDatabase db = helper.getWritableDatabase();
@@ -166,27 +168,30 @@ public class SqlDao {
 	public List<DbBean> queryAll() {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = helper.getWritableDatabase();
+		db.enableWriteAheadLogging();
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		//Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
 //		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");
 		Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
-		while (cursor.moveToNext()) {
-			DbBean bean = new DbBean();
-			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
-			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
-			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
-			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
-			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
-			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
-			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
-			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
-			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
-			bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
-			list.add(bean);
-		}
-		 cursor.close();
+
+			while (cursor.moveToNext()) {
+				DbBean bean = new DbBean();
+				bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+				bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
+				bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
+				bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+				bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
+				bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
+				bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+				bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+				bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
+				bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+				bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
+				list.add(bean);
+			}
+		cursor.close();
+		db.close();
 		return list;
 	}
 

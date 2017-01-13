@@ -81,7 +81,7 @@ private MyWifiReceiver myWifiReceiver;
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
-		//checkIsUpDownload();
+		checkIsUpDownload();
 		/*registWifiStatusListener();*/
 	}
 
@@ -132,7 +132,7 @@ private MyWifiReceiver myWifiReceiver;
 	protected void onDestroy() {
 		// BaiduLocationUtil.cancelLocation();
 		super.onDestroy();
-       unregisterReceiver(myWifiReceiver );
+     //  unregisterReceiver(myWifiReceiver );
 //       unbindService()
 	}
 
