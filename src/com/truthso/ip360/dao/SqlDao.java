@@ -38,6 +38,7 @@ public class SqlDao {
 	 */
 	public void save(DbBean dbBean, String table) {
 		SQLiteDatabase db = helper.getWritableDatabase();
+		db.enableWriteAheadLogging();
 		ContentValues values = new ContentValues();
 		values.put("title", dbBean.getTitle());
 		values.put("fileSize", dbBean.getFileSize());
@@ -168,6 +169,7 @@ public class SqlDao {
 	public List<DbBean> queryAll() {
 		List<DbBean> list = new ArrayList<DbBean>();
 		SQLiteDatabase db = helper.getWritableDatabase();
+		db.enableWriteAheadLogging();
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		//Cursor cursor = db.query("IP360_media_detail", null,"userId=?", new String[]{userId+""}, null, null, "id desc");
 //		Cursor cursor = db.query("IP360_media_detail", null,null, null, null, null, "id desc");

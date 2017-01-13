@@ -202,9 +202,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
 			if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
 				Log.i("djj","654321");
+				cb_choice.setBackgroundResource(R.drawable.cbox);
 				cb_choice.setChecked(false);
 				cb_choice.setClickable(false);
-				//cb_choice.setBackgroundResource(R.drawable.cbox);
+
 			}else {
 				Log.i("djj","123456");
 				cb_choice.setClickable(true);

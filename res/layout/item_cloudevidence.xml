@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="2dp"
-                android:background="@drawable/cb_selector"
                 android:visibility="gone" />
 
             <ImageView
