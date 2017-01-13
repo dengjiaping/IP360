@@ -75,7 +75,6 @@ public abstract class BaseFragment extends Fragment {
 	protected abstract void initData();
 	
 	public  boolean  onKeyDown(int keyCode, KeyEvent event){
-		Log.i("djj", "'789");
 		return false;
 	};
 	

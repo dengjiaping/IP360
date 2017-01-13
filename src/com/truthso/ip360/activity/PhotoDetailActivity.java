@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -134,5 +135,6 @@ public class PhotoDetailActivity extends BaseActivity {
 	public String setTitle() {
 		return "证据查看";
 	}
+
 
 }

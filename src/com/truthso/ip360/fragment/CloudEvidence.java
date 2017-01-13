@@ -117,6 +117,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		//listView= (RefreshListView) view.findViewById(R.id.lv_cloud);
 		listView.setOnRefreshListener(this);
 		listView.setOnLoadListener(this);
+		listView.setOnLoad(true);
+		listView.setOnRefresh(true);
 
 		View headView = LayoutInflater.from(getActivity()).inflate(
 				R.layout.head_cloudevidence, null);

@@ -211,10 +211,11 @@ public class UpDownLoadDao {
 						null);
 	}
 
-	public void deleteDownInfoByObjectkey(String objectkey) {
+	public void deleteDownInfoByResourceId(String resourceId) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		db.execSQL("delete from updownloadlog where objectkey=?",
-				new Object[] { objectkey });
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where sourceid=?",
+				new Object[] { resourceId });
 		MyApplication
 				.getApplication()
 				.getContentResolver()

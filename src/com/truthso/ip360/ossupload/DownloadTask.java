@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.os.Message;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientException;
@@ -32,6 +33,8 @@ public class DownloadTask {
 	private int progress = 0;
     private ProgressListener listener ;
     private FileInfo info;
+	private final int DOWNLOAD_CODE=101,SUCCESS=102;
+
 	public DownloadTask(OSS oss, FileInfo info) {
 		this.objectKey = info.getObjectKey();
 		this.oss = oss;
@@ -47,7 +50,7 @@ public class DownloadTask {
 	Log.i("djj", "objectKey"+objectKey);
 //		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		String fileUrlFormatName=info.getFileUrlFormatName();
-	 final File file=new File(downloadFile, fileUrlFormatName);
+	   final File file=new File(downloadFile, fileUrlFormatName);
 		if(!file.exists()){
 			try {
 				file.createNewFile();
@@ -117,9 +120,13 @@ public class DownloadTask {
 								Log.i("djj",userId+"");
 								dbBean.setUserId(userId);
 								Log.i("djj", "download"+dbBean.toString());
-								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
-								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
-								
+								/*SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
+								UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getPkValue());*/
+								Message msg=new Message();
+								msg.what=DOWNLOAD_CODE;
+								msg.arg1=SUCCESS;
+								msg.obj=dbBean;
+								UpDownloadHandler.getInstance().sendMessage(msg);
 							}
 							fos.close();
 							inputStream.close();

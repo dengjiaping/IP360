@@ -113,7 +113,7 @@ public class DownloadTask {
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setStatus("2");
 								SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
-								UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
+								//UpDownLoadDao.getDao().deleteDownInfoByObjectkey(objectKey);
 								
 							}
 							fos.close();
