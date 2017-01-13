@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DownLoadInfo;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -74,13 +76,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname) {
 		
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize) values(?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname) values(?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"0", objectkey ,llsize});
+						"0", objectkey ,llsize,fileurlformatname});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -92,10 +94,11 @@ public class UpDownLoadDao {
 	public void saveUpLoadInfo(String url, String fileName, String fileSize,
 			int position, int resourceId, String objectkey) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		db.execSQL(
-				"insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey) values(?,?,?,?,?,?,?)",
+				"insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey,userId) values(?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"1", objectkey });
+						"1", objectkey,userId });
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -118,10 +121,11 @@ public class UpDownLoadDao {
 	}
 
 	public List<FileInfo> queryDownLoadList() {
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"select * from updownloadlog where downorupload=?",
-				new String[] { "0" });
+				"select * from updownloadlog where downorupload=? and userId=?",
+				new String[] { "0" ,userId+""});
 		List<FileInfo> list = new ArrayList<FileInfo>();
 	
 		while (cursor.moveToNext()) {
@@ -136,16 +140,18 @@ public class UpDownLoadDao {
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
 			info.setObjectKey(cursor.getString(cursor
 					.getColumnIndex("objectkey")));
+			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
 			list.add(info);
 		}
 		return list;
 	}
 
 	public List<FileInfo> queryUpLoadList() {
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
-				"select * from updownloadlog where downorupload=?",
-				new String[] { "1" });
+				"select * from updownloadlog where downorupload=? and userId=?",
+				new String[] { "1",userId+"" });
 		List<FileInfo> list = new ArrayList<FileInfo>();
 
 		while (cursor.moveToNext()) {
@@ -159,6 +165,8 @@ public class UpDownLoadDao {
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
 			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
+
 			list.add(info);
 		}
 		return list;
@@ -259,5 +267,14 @@ public class UpDownLoadDao {
 						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
 						null);
 
+	}
+
+	public boolean queryByPkValue(int pkvalue) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		Cursor cursor = db.query("updownloadlog", null, "sourceid=?", new String[] { pkvalue+"" }, null, null, null);
+
+		boolean moveToNext = cursor.moveToNext();
+		db.close();
+		return moveToNext;
 	}
 }

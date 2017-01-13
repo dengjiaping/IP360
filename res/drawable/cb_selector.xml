@@ -3,5 +3,6 @@
 
     <item android:drawable="@drawable/cb_h" android:state_checked="false"></item>
     <item android:drawable="@drawable/cb_c" android:state_checked="true"></item>
+    <item android:state_checkable="false" android:drawable="@drawable/cbox"/>
 
 </selector>

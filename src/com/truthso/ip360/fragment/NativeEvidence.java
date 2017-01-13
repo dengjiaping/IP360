@@ -103,7 +103,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		et_find_service = (EditText) headView.findViewById(R.id.et_find_service);
 
 		listView.setOnItemClickListener(this);		
-        getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
+       getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), true, MyObserver);
        //getActivity().getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, MyObserver1);
         setSearchMode();
 	}

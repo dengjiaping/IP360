@@ -6,7 +6,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +20,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -33,7 +31,7 @@ import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
-import com.truthso.ip360.fragment.CloudEvidence;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -89,6 +87,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	public void setChoice(Boolean isChoice) {
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
+
 	}
 
 	public void clearData() {
@@ -196,6 +195,22 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			} else {
 				cb_choice.setChecked(false);
 			}
+
+			//本地证据已经存在或者在传输列表里面或者欠费，禁止选择
+			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
+			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
+			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
+			if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
+				Log.i("djj","654321");
+				cb_choice.setChecked(false);
+				cb_choice.setClickable(false);
+				//cb_choice.setBackgroundResource(R.drawable.cbox);
+			}else {
+				Log.i("djj","123456");
+				cb_choice.setClickable(true);
+				cb_choice.setBackgroundResource(R.drawable.cb_selector);
+			}
+
 			cb_choice.setTag(position);
 			cb_choice.setOnCheckedChangeListener(this);
 		} else {
@@ -282,7 +297,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		int position = (Integer) buttonView.getTag();
-		;
+
 		if (isChecked) {
 			selectedList.add(mDatas.get(position));
 		} else {
@@ -315,10 +330,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());
+			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(data.getPkValue());
 			if (data.getArreaStatus()==1){//不欠费
 			if(queryByPkValue){
 				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
 		   		return;}
+				if(queryByPkValue1){
+					Toast.makeText(MyApplication.getApplication(),"文件正在下载",Toast.LENGTH_SHORT).show();
+					return;
+				}
 			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
 					new ApiCallback() {
 						@Override

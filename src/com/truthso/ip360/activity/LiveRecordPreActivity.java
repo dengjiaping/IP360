@@ -108,7 +108,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		
 		
 		tv_filename.setText(fileName);
-		if (!CheckUtil.isEmpty(loc)) {
+		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");
@@ -456,5 +456,14 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 
 
+	}
+	/**
+	 * 监听系统的返回键
+	 */
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		//取消上传文件
+		CancelUploadFile();
 	}
 }

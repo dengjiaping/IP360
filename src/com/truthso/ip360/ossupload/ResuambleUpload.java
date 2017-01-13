@@ -27,6 +27,7 @@ import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -81,12 +82,14 @@ public class ResuambleUpload {
                 put("callbackUrl", URLConstant.UploadFileOssStatus);//上传后的回调地址
                 put("callbackBody", "resourceId=${x:resourceId}&token=${x:token}");
             }
+
         });
 
         request.setCallbackVars(new HashMap<String, String>() {
             {
                 put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
+                LogUtils.e(info.getResourceId()+"第一个rescordid");
             }
         });
         
@@ -99,6 +102,7 @@ public class ResuambleUpload {
                 if(progressListener!=null){
                 	progressListener.onProgress(currentSize);
                 }
+                LogUtils.e(info.getResourceId()+"回调进程1rescordid");
             }
             
         });
@@ -117,7 +121,7 @@ public class ResuambleUpload {
                 SqlDao dao = SqlDao.getSQLiteOpenHelper();
                 dao.updateStatus(info.getFileName(), "1");
                 UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
-             
+                LogUtils.e(info.getResourceId()+"上传成功回调rescordid");
             }
 
             @Override
@@ -135,9 +139,10 @@ public class ResuambleUpload {
                     Log.e("HostId", serviceException.getHostId());
                     Log.e("RawMessage", serviceException.getRawMessage());
                 }
-   
+                LogUtils.e(info.getResourceId()+"回调失败的rescordid");
             }
         });
+
     }
     
     
@@ -160,6 +165,7 @@ public class ResuambleUpload {
             {
                 put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
+                LogUtils.e(info.getResourceId()+"第2个rescordid");
             }
        });
     	
@@ -172,7 +178,7 @@ public class ResuambleUpload {
 	                if(progressListener!=null){
 	                	progressListener.onProgress(currentSize);
 	                }
-				
+                LogUtils.e(info.getResourceId()+"回调进程rescordid");
 			}
 		});
     	
@@ -190,7 +196,7 @@ public class ResuambleUpload {
 	                SqlDao dao = SqlDao.getSQLiteOpenHelper();
 	                dao.updateStatus(info.getFileName(), "1");
 	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
-
+                LogUtils.e(info.getResourceId()+"成功2rescordid");
 			}
 			
 			@Override
@@ -218,8 +224,10 @@ public class ResuambleUpload {
 	                    Log.e("HostId", serviceException.getHostId());
 	                    Log.e("RawMessage", serviceException.getRawMessage());
 	                }
+                LogUtils.e(info.getResourceId()+"失败rescordid");
 			}
 		});
+
     }
     
     

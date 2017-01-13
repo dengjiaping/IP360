@@ -147,7 +147,6 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 				Log.i("msp","orderInfo2:"+orderInfo);
 				Map<String, String> result = alipay.payV2(orderInfo, true);
 				Log.i("msp", result.toString());
-
 				Message msg = new Message();
 				msg.what = SDK_PAY_FLAG;
 				msg.obj = result;

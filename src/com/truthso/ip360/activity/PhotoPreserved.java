@@ -119,7 +119,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
-		if (!CheckUtil.isEmpty(loc)) {
+		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
 			tv_loc.setText(loc);
 		} else {
 			tv_loc.setText("获取位置信息失败");
@@ -365,7 +365,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			@Override
 			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
 							if (response.getCode()==200){
-								hideProgress();
+							hideProgress();
 							}
 			}
 
@@ -373,9 +373,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
 			}
-		});{
+		});
 
-		}
+
 	}
 
 	/**
@@ -417,10 +417,33 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 		}
 
+	/**
+	 * 监听系统的返回键
+	 * @param keyCode
+	 * @param event
+     * @return
+     *//*
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+			if (keyCode == KeyEvent.KEYCODE_BACK) {
+				//系统返回键调不上传的接口，通知后台清除数据
+				CancelUploadFile();
+//				return false;
+			}
+				return super.onKeyDown(keyCode, event);
+
+		}*/
+
+	/**
+	 * 监听系统的返回键
+	 */
 	@Override
 	public void onBackPressed() {
-		Log.i("djj","back"+123);
 		super.onBackPressed();
+		LogUtils.e("返回键执行了");
+		//取消上传文件
+		CancelUploadFile();
 	}
 }
+
 
