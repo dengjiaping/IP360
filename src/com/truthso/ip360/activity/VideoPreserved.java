@@ -69,6 +69,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 //	private double lat, longti;
 //	private String latitudeLongitude;
 	private int expStatus;
+	private String hashCode;
 /*	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -146,11 +147,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 //		getLocation();
 		//上传文件信息
-//		filePre();
+	    filePre();
 	}
 
 /*	@Override
-	protected void onStart() {
+	protected void onStart() {.
 		super.onStart();
 		filePre();
 	}*/
@@ -282,44 +283,63 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private void filePre() {
 //		@param filetype 文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 @param fileSize 文件大小，单位为B @param hashCode  哈希值 非空 @param fileDate取证时间@param fileLocation  取证地点 可空@param fileTime  取证时长 录像 录音不为空 @param imei手机的IMEI码
 		showProgress("正在上传文件信息...");
-		String hashCode = SecurityUtil.SHA512(mVideoPath);
-		String imei = MyApplication.getInstance().getDeviceImei();
-		ApiManager.getInstance().uploadPreserveFile(mVideoName, MyConstants.VIDEOTYPE,
-				ll + "", hashCode, mDate, loc, time, imei, longlat,
-				new ApiCallback() {
 
-					@Override
-					public void onApiResultFailure(int statusCode,
-												   Header[] headers, byte[] responseBody,
-												   Throwable error) {
-					}
+		new Thread(){
+			@Override
+			public void run() {
+				super.run();
+				hashCode = SecurityUtil.SHA512(mVideoPath);
+				if(hashCode!=null){
+					handler.sendEmptyMessage(0);
+				}
 
-					@Override
-					public void onApiResult(int errorCode, String message,
-											BaseHttpResponse response) {
-						hideProgress();
-						UpLoadBean bean = (UpLoadBean) response;
-						if (!CheckUtil.isEmpty(bean)) {
-							if (bean.getCode() == 200) {
-								filePreIsok = true;
-								Upload datas = bean.getDatas();
-								pkValue = datas.getPkValue();
-								objectKey = datas.getFileUrl();
-								//getPosition(pkValue);
-								//上传
+			}
+		}.start();
+
+	}
+
+	private Handler handler=new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			String imei = MyApplication.getInstance().getDeviceImei();
+			ApiManager.getInstance().uploadPreserveFile(mVideoName, MyConstants.VIDEOTYPE,
+					ll +"", hashCode, mDate, loc, time, imei, longlat,
+					new ApiCallback() {
+
+						@Override
+						public void onApiResultFailure(int statusCode,
+													   Header[] headers, byte[] responseBody,
+													   Throwable error) {
+						}
+
+						@Override
+						public void onApiResult(int errorCode, String message,
+												BaseHttpResponse response) {
+							hideProgress();
+							UpLoadBean bean = (UpLoadBean) response;
+							if (!CheckUtil.isEmpty(bean)) {
+								if (bean.getCode() == 200) {
+									filePreIsok = true;
+									Upload datas = bean.getDatas();
+									pkValue = datas.getPkValue();
+									objectKey = datas.getFileUrl();
+									//getPosition(pkValue);
+									//上传
 //								startUpLoad(0, pkValue);
 
+								} else {
+									Toaster.showToast(VideoPreserved.this,
+											bean.getMsg());
+								}
 							} else {
-								Toaster.showToast(VideoPreserved.this,
-										bean.getMsg());
+								Toaster.showToast(VideoPreserved.this, "请求失败");
 							}
-						} else {
-							Toaster.showToast(VideoPreserved.this, "请求失败");
 						}
-					}
+					});
+		}
+	};
 
-				});
-	}
 
 	/**
 	 * 获取文件上传到的位置
