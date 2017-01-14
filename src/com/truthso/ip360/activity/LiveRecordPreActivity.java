@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.DbBean;
@@ -61,6 +62,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 //	private String latitudeLongitude;
 	private boolean filePreIsok = false;
 	private  int expStatus;
+	private String hashCode;
 	/*private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
@@ -254,49 +256,64 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private void filePre() {
 
 		showProgress("上传文件信息...");
-		String hashCode = SecurityUtil.SHA512(filePath);
-		String imei = MyApplication.getInstance().getDeviceImei();
-		ApiManager.getInstance().uploadPreserveFile(fileName,MyConstants.RECORDTYPE,
-				ll+"", hashCode, date, loc,time,imei,longlat,
-				new ApiCallback() {
+		new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				hashCode = SecurityUtil.SHA512(filePath);
+				if (hashCode != null) {
+					handler.sendEmptyMessage(0);
+				}
 
-					@Override
-					public void onApiResultFailure(int statusCode,
-							Header[] headers, byte[] responseBody,
-							Throwable error) {
-					}
+			}
+		}.start();
+	}
+	private Handler handler=new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			String hashCode = SecurityUtil.SHA512(filePath);
+			LogUtils.e("录音文件的hashcode" + hashCode);
+			String imei = MyApplication.getInstance().getDeviceImei();
+			ApiManager.getInstance().uploadPreserveFile(fileName, MyConstants.RECORDTYPE,
+					ll + "", hashCode, date, loc, time, imei, longlat,
+					new ApiCallback() {
 
-					@Override
-					public void onApiResult(int errorCode, String message,
-							BaseHttpResponse response) {
-						hideProgress();
-						UpLoadBean bean = (UpLoadBean) response;
-						if (!CheckUtil.isEmpty(bean)) {
-							if (bean.getCode() == 200) {
-								filePreIsok = true;
-								Upload datas = bean.getDatas();
-								pkValue = datas.getPkValue();
-								//getPosition(pkValue);
-								//上传
+						@Override
+						public void onApiResultFailure(int statusCode,
+													   Header[] headers, byte[] responseBody,
+													   Throwable error) {
+						}
+
+						@Override
+						public void onApiResult(int errorCode, String message,
+												BaseHttpResponse response) {
+							hideProgress();
+							UpLoadBean bean = (UpLoadBean) response;
+							if (!CheckUtil.isEmpty(bean)) {
+								if (bean.getCode() == 200) {
+									filePreIsok = true;
+									Upload datas = bean.getDatas();
+									pkValue = datas.getPkValue();
+									//getPosition(pkValue);
+									//上传
 //								startUpLoad(0, pkValue);
-								 url=	datas.getFileUrl();
+									url = datas.getFileUrl();
 
 //                               	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
 
 
-
+								} else {
+									Toaster.showToast(LiveRecordPreActivity.this,
+											bean.getMsg());
+								}
 							} else {
-								Toaster.showToast(LiveRecordPreActivity.this,
-										bean.getMsg());
+								Toaster.showToast(LiveRecordPreActivity.this, "请求失败");
 							}
-						} else {
-							Toaster.showToast(LiveRecordPreActivity.this, "请求失败");
 						}
-					}
 
-				});
-	}
-
+					});
+		}
+	};
 	/*private void getPosition(int pkValue) {
 		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 

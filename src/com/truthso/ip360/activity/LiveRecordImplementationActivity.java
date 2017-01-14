@@ -148,7 +148,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 					public void run() {
 						while (isAlive) {
 							uiHandle.sendEmptyMessage(2);
-						
+
 							try {
 								Thread.sleep(100);
 							} catch (InterruptedException e) {
@@ -157,7 +157,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 						}
 					}
 				}).start();
-
+				formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				curDate = new Date(System.currentTimeMillis());
+				date = formatter.format(curDate);
 			} else {
 				isAlive = false;
 				isRecording = false;
@@ -165,9 +167,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				mButton.setVisibility(View.GONE);
 				stoprecordVoice();
 
-				formatter = new SimpleDateFormat("yyyy-MM-dd   HH:mm:ss");
-				curDate = new Date(System.currentTimeMillis());
-				date = formatter.format(curDate);
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
 				File file = new File(filePath);
 				   long length = file.length();
@@ -181,7 +180,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				}else{
 					mintime = timeUsedInsec/60;
 				}
-				
+				LogUtils.e(fileSize_B+"录音文件的大小"+fileSize);
 				isPause = true;
 				timeUsedInsec = 0;
 				Intent intent = new Intent(this,LiveRecordPreActivity.class);
@@ -208,9 +207,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private void recordVoice() {
 		mediaRecorder = null;
 		mediaRecorder = new MediaRecorder();
-
-		filePath = fileDir +"/"+ new DateFormat().format("yyyyMMdd_HHmmss",
-						Calendar.getInstance(Locale.CHINA)) + ".amr";
+		filePath = fileDir +"/"+ new DateFormat().format("yyyyMMdd_HHmmss", Calendar.getInstance(Locale.CHINA)) + ".amr";
 		LogUtils.e(filePath+"录音的路径");
 		// 设置录音的编码格式,即数据源的格式,这里设置什么格式主要根据录音的用途来判断
 		mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -221,6 +218,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		mediaRecorder.setOutputFile(filePath);// 设置录音文件的输出路径
 		try {
 			mediaRecorder.prepare();
+			mediaRecorder.start(); // 开始录音
 		} catch (IllegalStateException e) {
 			// stoprecordVoice();
 			e.printStackTrace();
@@ -228,7 +226,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			// stoprecordVoice();
 			e.printStackTrace();
 		}
-		mediaRecorder.start(); // 开始录音
+
 	}
 
 	/** 停止录音 */
@@ -243,7 +241,16 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	/** 停止录音 */
 	private void stoprecordVoice() {
 		if (mediaRecorder != null) {
-			mediaRecorder.stop(); // 停止录音
+			try {
+				mediaRecorder.stop(); // 停止录音
+			}catch (IllegalStateException e) {
+				// stoprecordVoice();
+				e.printStackTrace();
+			} catch (Exception e) {
+				// stoprecordVoice();
+				e.printStackTrace();
+			}
+
 		//	mediaRecorder.reset(); // 在释放资源时,必须要重置一下,不然下一步释放时可能会出错
 			mediaRecorder.release(); // 这个是否录音控件的,不然会一直占据资源
 			mediaRecorder=null;

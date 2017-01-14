@@ -220,10 +220,10 @@
          android:id="@+id/rl_pc_remark"
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
-        android:visibility="invisible"
+         android:visibility="invisible"
         android:background="@color/item_bg" >
 
-        
+
 
         <TextView
             android:id="@+id/tv"
@@ -240,7 +240,7 @@
             android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:layout_marginRight="@dimen/layout_marginRight"
             android:layout_toRightOf="@id/tv"

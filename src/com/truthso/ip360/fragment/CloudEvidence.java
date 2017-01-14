@@ -260,20 +260,26 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 */
 	private void downloadAll() {
 		List<CloudEviItemBean> selected = adapter.getSelected();
-		for (int i = 0; i < selected.size(); i++) {
-			download(selected.get(i));
+		if (selected.size()!=0){
+			for (int i = 0; i < selected.size(); i++) {
+				download(selected.get(i));
+			}
+			adapter.setChoice(false);
+			adapter.notifyDataSetChanged();
+
+			if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
+				actionBar.setRightEnable();
+				cloudWindow.dismiss();
+			}
+			if (!CheckUtil.isEmpty(downLoadwindow)
+					&& downLoadwindow.isShowing()) {
+				cancelChoose();
+			}
+		}else{
+			Toaster.showToast(getActivity(),"没有要下载的文件");
+
 		}
-		adapter.setChoice(false);
-		adapter.notifyDataSetChanged();
-		
-		if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
-			actionBar.setRightEnable();
-			cloudWindow.dismiss();
-		}
-		if (!CheckUtil.isEmpty(downLoadwindow)
-				&& downLoadwindow.isShowing()) {
-			cancelChoose();
-		}
+
 	}
 
 	/**
