@@ -32,12 +32,13 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CertificationActivity extends BaseActivity {
-	private int pkValue,type;
+	private int pkValue,type,dataType;
 	private WebView webview;
 	@Override
 	public void initData() {
 		pkValue = getIntent().getIntExtra("pkValue", 0);
 		type = getIntent().getIntExtra("type", 0);
+		dataType =getIntent().getIntExtra("dataType", 0);
 		Log.i("djj",pkValue+"_"+type);
 	}
 
@@ -89,7 +90,7 @@ public class CertificationActivity extends BaseActivity {
 	private void getPort() {
 		showProgress("正在加载...");
 		Log.i("djj",pkValue+":"+type);
-		ApiManager.getInstance().getCertificateInfo(pkValue, type, new ApiCallback() {
+		ApiManager.getInstance().getCertificateInfo(pkValue, type, dataType,new ApiCallback() {
 			
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,

@@ -424,6 +424,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setFileFormat("mp4");
 		dbBean.setStatus("0");
 		dbBean.setExpStatus(expStatus);
+		dbBean.setDataType(3);//现场取证
 		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
 		SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 

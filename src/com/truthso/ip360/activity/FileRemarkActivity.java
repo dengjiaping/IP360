@@ -32,7 +32,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 			tv_account, tv_text;
 	private EditText et_text;
 	private String fileName, date, size, mode, format, remarkText;
-	int pkValue;
+	private int pkValue,dataType;
 	private RelativeLayout rl_pc_remark, rl_app_remark;
 
 	@Override
@@ -49,6 +49,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		mode = getIntent().getStringExtra("mode");
 		count = getIntent().getIntExtra("count", 0);
 		type = getIntent().getIntExtra("type", 0);
+		dataType = getIntent().getIntExtra("dataType", 0);
 		remarkText = getIntent().getStringExtra("remarkText");
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
@@ -124,7 +125,7 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 	 */
 	private void getPort(String reText) {
 		showProgress("正在保存...");
-		ApiManager.getInstance().setFileRemark(reText, pkValue, type,
+		ApiManager.getInstance().setFileRemark(reText, pkValue, type,dataType,
 				new ApiCallback() {
 					@Override
 					public void onApiResult(int errorCode, String message,

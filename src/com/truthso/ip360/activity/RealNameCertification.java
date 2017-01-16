@@ -37,8 +37,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
-public class RealNameCertification extends BaseActivity implements
-		OnClickListener {
+public class RealNameCertification extends BaseActivity implements OnClickListener {
 	private Button btn_ver;
 	private ImageView iv_face;
 	private EditText et_cardid, et_realname;
@@ -84,7 +83,7 @@ public class RealNameCertification extends BaseActivity implements
 				Toaster.showToast(RealNameCertification.this, "身份证号或姓名不能为空");
 			} else if(!CheckUtil.iscardNum(cardId)){// 身份证正则
 					Toaster.showToast(RealNameCertification.this, "请输入正确的身份证号");
-			}else if(!faceFile.exists()){
+			}else if(faceFile==null){
 				Toaster.showToast(RealNameCertification.this, "请先采集照片！");
 			}else{
 				// 调认证的接口

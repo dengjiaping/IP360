@@ -491,7 +491,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle getCloudEvidence(String keywork,int type,int mobileType,int pageNumber,int pageSize,ApiCallback callback){
+	public RequestHandle getCloudEvidence(String keywork,int type,int mobileType,int pageNumber,int pageSize,int versionCode,ApiCallback callback){
 		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
 				CloudEvidenceBean.class, this);
 		request.setPath(URLConstant.GetCloudEvidence);
@@ -547,12 +547,13 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle setFileRemark(String remarkText,int pkValue,int type,ApiCallback callback){
+	public RequestHandle setFileRemark(String remarkText,int pkValue,int type,int dataType,ApiCallback callback){
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
 		request.setPath(URLConstant.SetFileRemark);
 		request.params().add("remarkText", remarkText);
 		request.params().add("pkValue", pkValue+"");
+		request.params().add("dataType", dataType+"");
 		request.params().add("type", type+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
@@ -566,13 +567,14 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle getCertificateInfo(int pkValue,int type,ApiCallback callback){
+	public RequestHandle getCertificateInfo(int pkValue,int type,int dataType,ApiCallback callback){
 		//接口要返回Url，后台改好再换Bean
 		BaseHttpRequest<CertificateInfoBean> request = new BaseHttpRequest<CertificateInfoBean>(
 				CertificateInfoBean.class, this);
 		request.setPath(URLConstant.GetCertificateInfo);
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
+		request.params().add("dataType", dataType+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
@@ -627,12 +629,13 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle downloadFile(int pkValue,int type,ApiCallback callback){
+	public RequestHandle downloadFile(int pkValue,int type,int dataType,ApiCallback callback){
 		BaseHttpRequest<DownLoadFileBean> request = new BaseHttpRequest<DownLoadFileBean>(
 				DownLoadFileBean.class, this);
 		request.setPath(URLConstant.DownloadFile);
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("type", type+"");
+		request.params().add("dataType", dataType+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);

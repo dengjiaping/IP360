@@ -172,8 +172,8 @@ private MyWifiReceiver myWifiReceiver;
 		} catch (NameNotFoundException e) {
 			return 0;
 		}
-	}
 
+	}
 	/**
 	 * 调接口联网检查更新
 	 */

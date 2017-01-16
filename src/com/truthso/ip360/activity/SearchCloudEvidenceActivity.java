@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
 import com.truthso.ip360.adapter.SearchCloudAdapter;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.net.ApiCallback;
@@ -19,6 +20,8 @@ import com.truthso.ip360.utils.CheckUtil;
 import cz.msebera.android.httpclient.Header;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -149,7 +152,7 @@ private String from;//类型，取证类型
 	 * 调接口获取数据
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
-		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
+		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10,getVersion(), new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -186,5 +189,17 @@ private String from;//类型，取证类型
 		
 	
 	}
+	private int getVersion() {
+		try {
+			// 通过PackageManager获取安装包信息
+			PackageInfo packageInfo = MyApplication.getInstance().getPackageManager().getPackageInfo(
+					MyApplication.getInstance().getPackageName(), 0);
 
+			// 返回版本信息
+			return packageInfo.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			return 0;
+		}
+
+	}
 }

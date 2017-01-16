@@ -36,7 +36,16 @@ public class CloudEviItemBean {
 	private String remarkText;//备注
 	private int arreaStatus;//是否欠费 0欠费 1不欠费
 	private String ossUrl;
+	private int dataType;// 1-url确权  2-其他确权  3-现场取证 4-pc取证
 	public boolean isOpen = false;
+
+	public int getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(int dataType) {
+		this.dataType = dataType;
+	}
 
 	public int getArreaStatus() {
 		return arreaStatus;

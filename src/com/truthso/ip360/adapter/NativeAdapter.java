@@ -327,7 +327,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}else{
 				type1=2;
 			}
-		getStatus(Integer.parseInt(dbBean.getPkValue()),type1);//是否欠费，是否具有查看证书的权限
+		getStatus(Integer.parseInt(dbBean.getPkValue()),type1,dbBean.getDataType());//是否欠费，是否具有查看证书的权限
 //			int expstatus = dbBean.getExpStatus();//扣费状态 0-正常付款；1-欠费
 
 			break;
@@ -389,9 +389,9 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 	/**
 	 * 是否欠费，能否查看证书
 	 */
-	private void getStatus(int pkvalue,int type) {
+	private void getStatus(int pkvalue,int type,int dataType) {
 		nativeEvidence. showProgress("正在加载...");
-		ApiManager.getInstance().getCertificateInfo(pkvalue, type, new ApiCallback() {
+		ApiManager.getInstance().getCertificateInfo(pkvalue, type,dataType, new ApiCallback() {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
@@ -410,6 +410,7 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 						if (expstatus.equals("1")){//不欠费 可以查看证书
 							Intent intent = new Intent(context,CertificationActivity.class);
 							intent.putExtra("pkValue",Integer.parseInt(dbBean.getPkValue()));
+							intent.putExtra("dataType",dbBean.getDataType());
 							intent.putExtra("type",type1);
 							context.startActivity(intent);
 						}else if(expstatus.equals("0")){//欠费 不可查看证书

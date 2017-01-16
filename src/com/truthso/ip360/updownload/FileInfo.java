@@ -15,6 +15,15 @@ public class FileInfo {
 	private int pkValue;
     private String fileFormat;
 	private int status;
+	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
+
+	public int getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(int dataType) {
+		this.dataType = dataType;
+	}
 
 	public String getFileUrlFormatName() {
 		return fileUrlFormatName;

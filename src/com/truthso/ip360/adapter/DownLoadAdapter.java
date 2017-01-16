@@ -159,9 +159,6 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		};
 		Timer timer=new Timer();
 		timer.schedule(task,0,1000);*/
-		
-		
-		
 		/*vh.btn_upload_download.setOnClickListener(new OnClickListener() {
 
 			@Override

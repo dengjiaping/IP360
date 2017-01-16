@@ -53,7 +53,7 @@ public class DownLoadHelper {
 		task.start();
 		Toaster.showToast(MyApplication.getApplication(),"文件开始下载，请到传输列表中查看");
 		taskMap.put(fileinfo.getObjectKey(), task);
-		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName());
+		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName(),fileinfo.getDataType());
 	}
 	
 	public void downloadFileUnCaseNet(FileInfo fileinfo) {

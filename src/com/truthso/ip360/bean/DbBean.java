@@ -29,8 +29,15 @@ public class DbBean {
     private String fileFormat;
     private  int userId;//用户的id
 	private int expStatus;//扣费状态 0-正常付款；1-欠费
+	private  int dataType;//dataType  1-url确权  2-其他确权  3-现场取证 4-pc取证
 
+	public int getDataType() {
+		return dataType;
+	}
 
+	public void setDataType(int dataType) {
+		this.dataType = dataType;
+	}
 
 	public int getUserId() {
 		return userId;

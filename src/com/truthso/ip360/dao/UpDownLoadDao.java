@@ -76,11 +76,11 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize,String fileurlformatname) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType) {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId) values(?,?,?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType) values(?,?,?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
 						"0", objectkey ,llsize,fileurlformatname,userId});
 		MyApplication

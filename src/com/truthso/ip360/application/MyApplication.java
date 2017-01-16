@@ -76,7 +76,7 @@ public class MyApplication extends Application implements Thread.UncaughtExcepti
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(this);
 
-		//Thread.currentThread().setUncaughtExceptionHandler(this);
+//		Thread.currentThread().setUncaughtExceptionHandler(this);
 	}
 
 	

@@ -171,7 +171,6 @@ public class ResuambleUpload {
     	
     	
     	put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-			
 			@Override
 			public void onProgress(PutObjectRequest arg0, long currentSize, long arg2) {
 				progress=currentSize;

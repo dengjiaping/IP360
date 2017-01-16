@@ -325,8 +325,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent.putExtra("type", type);
 			intent.putExtra("remarkText", cloudEviItemBean.getRemarkText());
 			intent.putExtra("pkValue", cloudEviItemBean.getPkValue());
+			intent.putExtra("dataType", cloudEviItemBean.getDataType());
 			context.startActivity(intent);
-
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
@@ -340,7 +340,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					Toast.makeText(MyApplication.getApplication(),"文件正在下载",Toast.LENGTH_SHORT).show();
 					return;
 				}
-			ApiManager.getInstance().downloadFile(data.getPkValue(), type,
+			ApiManager.getInstance().downloadFile(data.getPkValue(), type,data.getDataType(),
 					new ApiCallback() {
 						@Override
 						public void onApiResultFailure(int statusCode,
@@ -380,6 +380,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setFileCreatetime(data.getFileDate());
 									info.setPkValue(data.getPkValue());
 									info.setFileFormat(data.getFileFormat());
+									info.setDataType(data.getDataType());
 									String url = bean.getDatas().getFileUrl();//文件的下载路径
 									info.setObjectKey(url);
 									// 下载
@@ -418,6 +419,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				if (cloudEviItemBean1.getArreaStatus() ==1){//不欠费
 					Intent intent1 = new Intent(context, CertificationActivity.class);
 					intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());// 唯一标识
+					intent1.putExtra("dataType", cloudEviItemBean1.getDataType());//类型
 					intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
 					context.startActivity(intent1);
 					break;

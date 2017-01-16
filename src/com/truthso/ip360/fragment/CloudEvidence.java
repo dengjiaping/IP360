@@ -7,6 +7,8 @@ import java.util.TimerTask;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
 import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.adapter.NativeAdapter.ViewHolder;
+import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
@@ -53,6 +56,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.RefreshListView;
 import com.truthso.ip360.view.RefreshListView.OnRefreshListener;
@@ -288,7 +292,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      */
 	private void download(final CloudEviItemBean data){
 
-		ApiManager.getInstance().downloadFile(data.getPkValue(), type,
+		ApiManager.getInstance().downloadFile(data.getPkValue(), type,data.getDataType(),
 				new ApiCallback() {
 
 					@Override
@@ -597,7 +601,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
-		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, new ApiCallback() {
+		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, getVersion(),new ApiCallback() {
 
 
 			@Override
@@ -725,5 +729,18 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		pagerNumber=1;
 		list.clear();
 		getDatas(searchText,type,mobileType,pagerNumber);
+	}
+	private int getVersion() {
+		try {
+			// 通过PackageManager获取安装包信息
+			PackageInfo packageInfo = MyApplication.getInstance().getPackageManager().getPackageInfo(
+					MyApplication.getInstance().getPackageName(), 0);
+
+			// 返回版本信息
+			return packageInfo.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			return 0;
+		}
+
 	}
 }

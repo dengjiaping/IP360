@@ -126,7 +126,6 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 
 			@Override
 			public void onComplete() {
-				// TODO Auto-generated method stub
 				Log.i("progress", "complete");
 			}
 
