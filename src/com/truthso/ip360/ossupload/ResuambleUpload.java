@@ -249,5 +249,11 @@ public class ResuambleUpload {
     	status=PAUSE;
     	UpDownLoadDao.getDao().updateUpLoadProgress(info.getFilePath(), progress);
     }
+
+    public void  cancel(){
+        if(!resumableTask.isCompleted()){
+            resumableTask.cancel();
+        }
+    }
      
 }

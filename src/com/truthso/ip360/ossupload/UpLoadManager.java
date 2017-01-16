@@ -1,6 +1,7 @@
 package com.truthso.ip360.ossupload;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import android.util.Log;
 
@@ -114,6 +115,14 @@ public class UpLoadManager {
 			status=resuambleUpload.getStatus();
 		}		
 		return status;
+	}
+
+	public void cancelAll(){
+		if(upLoadTaskMap!=null&&upLoadTaskMap.size()>0){
+			for ( Map.Entry<Integer, ResuambleUpload> entry : upLoadTaskMap.entrySet()) {
+				entry.getValue().cancel();
+			}
+		}
 	}
 	
 }

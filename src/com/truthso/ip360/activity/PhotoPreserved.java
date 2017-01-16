@@ -417,7 +417,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						Toaster.showToast(PhotoPreserved.this,"文件正在上传，请在传输列表查看");
 						finish();
 					}else{
-						Toaster.showToast(PhotoPreserved.this,"保全失败，请点保全按钮重试！");
+						Toaster.showToast(PhotoPreserved.this,bean.getMsg());
 					}
 				}else{
 					Toaster.showToast(PhotoPreserved.this,"保全失败，请点保全按钮重试！");

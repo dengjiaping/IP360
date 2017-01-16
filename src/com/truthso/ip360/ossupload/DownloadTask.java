@@ -172,4 +172,9 @@ public class DownloadTask {
 		task.cancel();
 		UpDownLoadDao.getDao().updateDownLoadProgress(objectKey, progress);
 	}
+	public void cancel() {
+		if(!task.isCompleted()){
+			task.cancel();
+		}
+	}
 }

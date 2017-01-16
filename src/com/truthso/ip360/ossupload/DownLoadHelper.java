@@ -1,6 +1,7 @@
 package com.truthso.ip360.ossupload;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import android.support.v4.util.ArrayMap;
@@ -80,6 +81,26 @@ public class DownLoadHelper {
 		}
 		listenerMap.put(objectkey, listener);
 	}
-	
+
+
+	public void cancleDownload(){
+		if(taskMap!=null&&taskMap.size()>0){
+			for ( Map.Entry<String, DownloadTask> entry : taskMap.entrySet()) {
+				entry.getValue().cancel();
+			}
+		}
+	}
+
+	public void deleteAll(List<String> list){
+		for(int i=0;i<list.size();i++){
+			DownloadTask downloadTask = taskMap.get(list.get(i));
+			if(downloadTask!=null){
+				downloadTask.cancel();
+			}
+			UpDownLoadDao.getDao().deleteDownInfoByObjectKey(list.get(i));
+		}
+
+	}
+
 
 }

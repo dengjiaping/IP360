@@ -281,7 +281,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			}
 		}else{
 			Toaster.showToast(getActivity(),"没有要下载的文件");
-
 		}
 
 	}

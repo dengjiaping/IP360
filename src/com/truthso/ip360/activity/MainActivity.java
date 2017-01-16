@@ -134,6 +134,8 @@ private MyWifiReceiver myWifiReceiver;
 		super.onDestroy();
      //  unregisterReceiver(myWifiReceiver );
 //       unbindService()
+		DownLoadHelper.getInstance().cancleDownload();
+		UpLoadManager.getInstance().cancelAll();
 	}
 
 	private Handler handler = new Handler() {
@@ -389,5 +391,6 @@ private MyWifiReceiver myWifiReceiver;
 			}
 		}
 	}
+
 
 }

@@ -17,6 +17,7 @@ import com.truthso.ip360.bean.DownLoadInfo;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.DownEvent;
 import com.truthso.ip360.fragment.BaseFragment;
+import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.pager.UpLoadListPager.MyContentObserver;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
@@ -94,18 +95,16 @@ public class DownLoadListPager extends BasePager {
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-		DownLoadManager.getInstance().deleteAll( adapter.getSelected());
+		DownLoadHelper.getInstance().deleteAll(adapter.getSelected());
 	}
 
 	@Override
 	public void pauseAll() {
 		// TODO Auto-generated method stub
-		DownLoadManager.getInstance().pauseAll(adapter.getSelected());
 	}
 
 	@Override
 	public void startAll() {
 		// TODO Auto-generated method stub
-		DownLoadManager.getInstance().startAll(adapter.getSelected());
 	}
 }

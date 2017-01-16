@@ -141,29 +141,8 @@ public class DownLoadManager {
 		}
 		
 	}
-	
-	public void deleteByResourceId(int resourceId) {
-		Future<String> future = findFuture(resourceId);
-		map.remove(future);
-		UpDownLoadDao.getDao().deleteDownInfoByResourceId(resourceId);
-	}
-	
-	public void deleteAll(List<Integer> list){
-		if(list!=null&&list.size()>0){
-			for (int i = 0; i < list.size(); i++) {
-				Integer integer = list.get(i);
-				DownLoadRunnable downLoadRunnable = findDownLoadRunnableByResourceId(integer);
-				if (downLoadRunnable != null) {
-					Future<String> findFuture = findFuture(integer);				
-					    downLoadRunnable.pause();
-						findFuture.cancel(true);
-						map.remove(findFuture);
-					}
-				Log.i("djj", ""+integer);
-				UpDownLoadDao.getDao().deleteDownInfoByResourceId(integer);
-			}		
-		}		
-	}
+
+
 	
 	
 	public void pauseAll(List<Integer> list){

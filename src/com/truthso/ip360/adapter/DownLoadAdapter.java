@@ -37,7 +37,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	private boolean isAllSelect = false;
 	private boolean isChoice = false;
     private DownLoadHelper helper=DownLoadHelper.getInstance();
-	private List<Integer> selectedList=new ArrayList<Integer>();
+	private List<String> selectedList=new ArrayList<String>();
 	private List<FileInfo> list;
 	private long progress,lastProgress;
 	private String foramt1;
@@ -217,7 +217,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 	}
 
 
-	public List<Integer> getSelected(){
+	public List<String> getSelected(){
 		return selectedList;
 	}
 	
@@ -226,9 +226,14 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		int position = (Integer) arg0.getTag();
 		Log.i("djj", position+"");
 		if(arg1){
-			selectedList.add(list.get(position).getResourceId());
+			if(position<list.size()){
+				selectedList.add(list.get(position).getObjectKey());
+			}
+
 		}else{
-			selectedList.remove((Integer)list.get(position).getResourceId());
+			if(position<list.size()) {
+				selectedList.remove(list.get(position).getObjectKey());
+			}
 		}	 
 	}
 }

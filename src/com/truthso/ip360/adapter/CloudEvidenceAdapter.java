@@ -201,13 +201,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
 			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
 			if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
-				Log.i("djj","654321");
+
 				cb_choice.setBackgroundResource(R.drawable.cbox);
 				cb_choice.setChecked(false);
 				cb_choice.setClickable(false);
-
 			}else {
-				Log.i("djj","123456");
 				cb_choice.setClickable(true);
 				cb_choice.setBackgroundResource(R.drawable.cb_selector);
 			}
@@ -298,7 +296,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		int position = (Integer) buttonView.getTag();
-
 		if (isChecked) {
 			selectedList.add(mDatas.get(position));
 		} else {
