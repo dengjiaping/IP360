@@ -332,11 +332,25 @@ public class TransList extends BaseFragment implements OnClickListener {
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void  setActionBarRightVisibility(DownEvent event){
 		isDownEmpty=event.getFlag();
+		if(isDownEmpty){
+			actionBar.setRightVisible();
+			actionBar.setRightEnable();
+			actionBar.setRightText("选择");
+		}else{
+			actionBar.setRightGone();
+		}
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void  setActionBarRightVisibility(UpEvent event){
 		isUpEmpty=event.getFlag();
+		if(isUpEmpty){
+			actionBar.setRightVisible();
+			actionBar.setRightEnable();
+			actionBar.setRightText("选择");
+		}else{
+			actionBar.setRightGone();
+		}
 	}
 
 }

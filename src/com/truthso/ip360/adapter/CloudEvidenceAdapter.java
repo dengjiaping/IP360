@@ -87,7 +87,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	public void setChoice(Boolean isChoice) {
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
-
+		selectedList.clear();
 	}
 
 	public void clearData() {
@@ -190,25 +190,24 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (isChoice) {
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
-			if (isAllSelect) {
-				cb_choice.setChecked(true);
-			} else {
-				cb_choice.setChecked(false);
-			}
-
 			//本地证据已经存在或者在传输列表里面或者欠费，禁止选择
 			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
 			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
 			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
 			if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
-
 				cb_choice.setBackgroundResource(R.drawable.cbox);
-				cb_choice.setChecked(false);
 				cb_choice.setClickable(false);
 			}else {
 				cb_choice.setClickable(true);
 				cb_choice.setBackgroundResource(R.drawable.cb_selector);
 			}
+
+			if (isAllSelect&&cb_choice.isClickable()) {
+				cb_choice.setChecked(true);
+			} else {
+				cb_choice.setChecked(false);
+			}
+
 
 			cb_choice.setTag(position);
 			cb_choice.setOnCheckedChangeListener(this);
