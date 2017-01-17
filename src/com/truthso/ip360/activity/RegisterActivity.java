@@ -130,9 +130,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode()!=200) {
-						Toaster.showToast(RegisterActivity.this,response.getMsg());
+//						Toaster.showToast(RegisterActivity.this,response.getMsg());
 					}else{
 						timer.start();
+						Toaster.showToast(RegisterActivity.this,response.getMsg());
 					}
 				}else{
 					Toaster.showToast(RegisterActivity.this,"获取失败");

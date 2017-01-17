@@ -125,9 +125,14 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
-				
+
 				if (!CheckUtil.isEmpty(response)) {
-						Toaster.showToast(findPwdActivity.this,response.getMsg());			
+					if (response.getCode()!=200) {
+//						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					}else{
+						timer.start();
+						Toaster.showToast(findPwdActivity.this,response.getMsg());
+					}
 				}else{
 					Toaster.showToast(findPwdActivity.this,"获取失败");
 				}
