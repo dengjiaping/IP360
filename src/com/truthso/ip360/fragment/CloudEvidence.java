@@ -98,9 +98,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
+	private  int vCode;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+		vCode = getVersion();
 		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("拍照取证");
@@ -149,7 +151,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		// 自动弹出软键盘
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-
 			@Override
 			public void run() {
 				InputMethodManager inputManager = (InputMethodManager) et_find_service.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -595,12 +596,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 		return false;
 	}
+
 	/**
 	 * 调接口获取数据
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
+		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
-		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, getVersion(),new ApiCallback() {
+		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
 
 
 			@Override
@@ -699,7 +702,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public void onRefresh() {
 		pagerNumber=1;
 		list.clear();
-		getDatas(searchText,type,mobileType,pagerNumber);
+		String str = et_find_service.getText().toString().trim();
+		getDatas(str,type,mobileType,pagerNumber);
 	}
 
 	@Override

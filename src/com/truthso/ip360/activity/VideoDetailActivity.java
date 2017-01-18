@@ -13,6 +13,7 @@ import android.widget.VideoView;
 
 import com.truthso.ip360.view.MyVideoView;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 			return;
 		headers=new HashMap<>();
 		headers.put("Referer","http://appapi.truthso.com");
+
 	}
 
 	@SuppressLint("NewApi") @Override

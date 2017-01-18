@@ -327,7 +327,11 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}else{
 				type1=2;
 			}
-		getStatus(Integer.parseInt(dbBean.getPkValue()),type1,dbBean.getDataType());//是否欠费，是否具有查看证书的权限
+			//报空指针
+			if (!CheckUtil.isEmpty(dbBean.getPkValue())&&!CheckUtil.isEmpty(dbBean.getDataType())){
+				getStatus(Integer.parseInt(dbBean.getPkValue()),type1,dbBean.getDataType());//是否欠费，是否具有查看证书的权限
+			}
+
 //			int expstatus = dbBean.getExpStatus();//扣费状态 0-正常付款；1-欠费
 
 			break;
@@ -340,44 +344,45 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 			}*/
 			
 			if (mDatas.size()>0) {
-				
-			String url=dbBean.getResourceUrl();
-			LogUtils.e(url+"视频 的url路径");
-			String format=dbBean.getFileFormat();
-			format = format.toLowerCase();//格式变小写
-			Log.e("djj",format);
-				if(CheckUtil.isFormatVideo(format)){//视频
-					Intent intent2 = new Intent(context, VideoDetailActivity.class);
-					intent2.putExtra("url", url);
-					context.startActivity(intent2);
-				}else if(CheckUtil.isFormatPhoto(format)) {//照片
-					Intent intent2 = new Intent(context, PhotoDetailActivity.class);
-					intent2.putExtra("url", url);
-					intent2.putExtra("from","native");//给个标记知道是云端的照片查看，不是本地的
-					context.startActivity(intent2);
-				}else if (CheckUtil.isFormatRadio(format)) {//音频
-					Intent intent2 = new Intent(context, RecordDetailActivity.class);
-					intent2.putExtra("url", url);
-					//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
-					context.startActivity(intent2);
-				}else if(CheckUtil.isFormatDoc(format)){
-					String type=getFileType(format);
-					if(type!=null){
-						 Intent intent2 = new Intent("android.intent.action.VIEW");
-						 intent2.addCategory("android.intent.category.DEFAULT");
-						 intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				         Uri uri = Uri.parse(url);
-				         intent2.setDataAndType(uri, type);				         
-				     	try {
-							context.startActivity(intent2);
-						} catch (Exception e) {
-							e.printStackTrace();
-							Toaster.showToast(context, "暂不支持打开此种类型的文件！");
-						}					
-					}else{
-						Toaster.showToast(MyApplication.getApplication(),"手机暂不支持打开此类型文件");
+
+				String url = dbBean.getResourceUrl();
+				LogUtils.e(url + "视频 的url路径");
+				String format = dbBean.getFileFormat();
+				if (!CheckUtil.isEmpty(format)) {
+					format = format.toLowerCase();//格式变小写
+					if (CheckUtil.isFormatVideo(format)) {//视频
+						Intent intent2 = new Intent(context, VideoDetailActivity.class);
+						intent2.putExtra("url", url);
+						context.startActivity(intent2);
+					} else if (CheckUtil.isFormatPhoto(format)) {//照片
+						Intent intent2 = new Intent(context, PhotoDetailActivity.class);
+						intent2.putExtra("url", url);
+						intent2.putExtra("from", "native");//给个标记知道是云端的照片查看，不是本地的
+						context.startActivity(intent2);
+					} else if (CheckUtil.isFormatRadio(format)) {//音频
+						Intent intent2 = new Intent(context, RecordDetailActivity.class);
+						intent2.putExtra("url", url);
+						//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
+						context.startActivity(intent2);
+					} else if (CheckUtil.isFormatDoc(format)) {
+						String type = getFileType(format);
+						if (type != null) {
+							Intent intent2 = new Intent("android.intent.action.VIEW");
+							intent2.addCategory("android.intent.category.DEFAULT");
+							intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							Uri uri = Uri.parse(url);
+							intent2.setDataAndType(uri, type);
+							try {
+								context.startActivity(intent2);
+							} catch (Exception e) {
+								e.printStackTrace();
+								Toaster.showToast(context, "暂不支持打开此种类型的文件！");
+							}
+						} else {
+							Toaster.showToast(MyApplication.getApplication(), "手机暂不支持打开此类型文件");
+						}
+
 					}
-					
 				}
 			}
 			break;

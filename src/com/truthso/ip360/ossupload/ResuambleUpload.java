@@ -251,9 +251,13 @@ public class ResuambleUpload {
     }
 
     public void  cancel(){
-        if(!resumableTask.isCompleted()){
-            resumableTask.cancel();
+        if (!CheckUtil.isEmpty(resumableTask)){
+
+            if(!resumableTask.isCompleted()){
+                resumableTask.cancel();
+            }
         }
+
     }
      
 }

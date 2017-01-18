@@ -500,6 +500,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("mobileType", mobileType+"");
 		request.params().add("pageNumber", pageNumber+"");
 		request.params().add("pageSize", pageSize+"");
+		request.params().add("versionCode", versionCode+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

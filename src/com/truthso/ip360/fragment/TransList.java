@@ -67,7 +67,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_tranlist);
 		actionBar.setTitle("传输列表");
-		actionBar.setRightText("选择");
 		actionBar.setRightGone();
 		actionBar.setActionBarOnClickListener(this);
 
@@ -114,9 +113,9 @@ public class TransList extends BaseFragment implements OnClickListener {
 				TransList.this.position = position;
 				viewPager.setCurrentItem(position);
 				// 初始化本页数据
-				pagerList.get(position).initData(position);
-				if (position == 0) {
-					if(isDownEmpty){
+			pagerList.get(position).initData(position);
+				if (position == 0 ) {//下载
+					if(isDownEmpty ){
 						actionBar.setRightVisible();
 						actionBar.setRightEnable();
 						actionBar.setRightText("选择");
@@ -129,14 +128,14 @@ public class TransList extends BaseFragment implements OnClickListener {
 					rl_right.setBackgroundColor(getResources().getColor(R.color.white));
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
 				} else {//上传不让用户删除
-					if(isUpEmpty){
+				/*	if(isUpEmpty){
 						actionBar.setRightVisible();
 						actionBar.setRightDisEnable();
 						actionBar.setRightText("选择");
 					}else{
 						actionBar.setRightGone();
-					}
-
+					}*/
+					actionBar.setRightGone();
 					line.startAnimation(moveRight);
 					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.white));

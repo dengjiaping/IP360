@@ -46,6 +46,7 @@ private List<CloudEviItemBean> list = new ArrayList<CloudEviItemBean>();
 private CloudEvidenceAdapter adapter;
 private int type,mobileType;
 private String from;//类型，取证类型
+	private  int vCode;
 	@Override
 	public void initData() {
 		type=getIntent().getIntExtra("type", 0);
@@ -55,6 +56,7 @@ private String from;//类型，取证类型
 
 	@Override
 	public void initView() {
+		vCode = getVersion();
 		et_find_service = (EditText) findViewById(R.id.et_find_service);
 		rl_search_cloudevidence=(RelativeLayout) findViewById(R.id.rl_search_cloudevidence);
 		rl_search_cloudevidence.setOnClickListener(this);
@@ -152,7 +154,7 @@ private String from;//类型，取证类型
 	 * 调接口获取数据
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
-		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10,getVersion(), new ApiCallback() {
+		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10,vCode, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
