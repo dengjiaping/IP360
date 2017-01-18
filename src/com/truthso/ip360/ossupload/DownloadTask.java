@@ -122,6 +122,7 @@ public class DownloadTask {
 								Log.i("djj", "download"+dbBean.toString());
 								/*SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
 								UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getPkValue());*/
+								dbBean.setDataType(info.getDataType());
 								Message msg=new Message();
 								msg.what=DOWNLOAD_CODE;
 								msg.arg1=SUCCESS;

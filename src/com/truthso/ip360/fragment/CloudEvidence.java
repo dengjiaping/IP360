@@ -74,7 +74,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CloudEvidence extends BaseFragment implements OnClickListener,
-		 UpdateItem, OnItemClickListener, XRefreshViewListener, OnRefreshListener, OnloadListener {
+		 UpdateItem, OnItemClickListener, OnRefreshListener ,OnloadListener {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
 	//private ListView lv_cloudevidence;
@@ -698,24 +698,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
           Log.i("djj", position+"");
 	}
 
-	@Override
-	public void onRefresh() {
-		pagerNumber=1;
-		list.clear();
-		String str = et_find_service.getText().toString().trim();
-		getDatas(str,type,mobileType,pagerNumber);
-	}
-
-	@Override
-	public void onLoadMore() {
-		pagerNumber++;
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}
-
-	@Override
-	public void onRelease(float direction) {
-
-	}
 
 	@Override
 	public void toOnLoad() {
@@ -728,7 +710,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void toRefresh() {
 		// TODO Auto-generated method stub
-		
+		searchText=et_find_service.getText().toString().trim();
 		pagerNumber=1;
 		list.clear();
 		getDatas(searchText,type,mobileType,pagerNumber);

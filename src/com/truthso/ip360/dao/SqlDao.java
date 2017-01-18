@@ -55,6 +55,7 @@ public class SqlDao {
 		values.put("fileformat", dbBean.getFileFormat());
 		values.put("userId", dbBean.getUserId());
 		values.put("expStatus", dbBean.getExpStatus());
+		values.put("dataType", dbBean.getDataType());
 		db.insert(table, null, values);
 		db.close();
 		MyApplication.getApplication().getContentResolver().notifyChange(Uri.parse("content://com.truthso.ip360/IP360_media_detail"), null);
@@ -135,7 +136,7 @@ public class SqlDao {
 		Cursor cursor = db.rawQuery("select * from IP360_media_detail where title like ?", new String[]{"%"+key+"%"});
 		
 		while (cursor.moveToNext()) {
-			DbBean  dbBean= new DbBean();
+			/*DbBean  dbBean= new DbBean();
 			dbBean.setLable(cursor.getString(cursor.getColumnIndex("lable")));//标签
 			dbBean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));//生成日期
 			dbBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));//标题
@@ -146,8 +147,23 @@ public class SqlDao {
 			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
 			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
 			dbBean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态
-			list.add(dbBean);
+			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态*/
+
+	        DbBean bean = new DbBean();
+			bean.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+			bean.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			bean.setType(cursor.getInt(cursor.getColumnIndex("type")));
+			bean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));
+			bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));
+			bean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));
+			bean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));
+			bean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+			bean.setStatus(cursor.getString(cursor.getColumnIndex("status")));
+			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
+			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
+			bean.setDataType(cursor.getInt(cursor.getColumnIndex("dataType")));
+			list.add(bean);
 		}
 		
 		db.close();
@@ -189,6 +205,7 @@ public class SqlDao {
 				bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 				bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 				bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
+                bean.setDataType(cursor.getInt(cursor.getColumnIndex("dataType")));
 				list.add(bean);
 			}
 		cursor.close();
@@ -218,6 +235,7 @@ public class SqlDao {
 			bean.setPkValue(cursor.getString(cursor.getColumnIndex("pkvalue")));
 			bean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 			bean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));
+			bean.setDataType(cursor.getInt(cursor.getColumnIndex("dataType")));
 			list.add(bean);
 		}
 		cursor.close();
