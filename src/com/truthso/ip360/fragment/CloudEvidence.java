@@ -162,12 +162,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (CheckUtil.isEmpty(s.toString())) {
-					
 					list.clear();
 					getDatas(null,type,mobileType,1);
 					
 				} else {
 					mHandler.removeMessages(101);
+
+
 					if (!CheckUtil.isEmpty(requestHandle)) {
 						requestHandle.cancel(true);
 					}
@@ -378,11 +379,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("拍照取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
+//				adapter.clearData();
                 list.clear();
 				type = 2;//现场取证
 				mobileType = 50001;
@@ -396,17 +399,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		tv_video.setOnClickListener(new OnClickListener() {//录像			
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("录像取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 
 				}
-
+//				adapter.clearData();
 				 list.clear();
-
 				tag = false;
-
 			    type = 2;//现场取证
 				mobileType = 50003;
 				pagerNumber=1;
@@ -418,16 +420,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("录音取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-
+//				adapter.clearData();
 				 list.clear();
-
 				tag = false;
-
 				type = 2;//现场取证
 				mobileType = 50002;
 				pagerNumber=1;
@@ -438,16 +439,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("线上取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-
+//				adapter.clearData();
 				 list.clear();
-
 				tag = false;
-
 				type = 3;//线上取证
    			    mobileType = 0;
 				pagerNumber=1;
@@ -459,15 +459,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("确权文件");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-		 list.clear();
-
+//				adapter.clearData();
+				 list.clear();
 				tag = false;
-
 				type = 1;//确权文件
 				mobileType = 0;
 				getDatas(keywork,type,mobileType,pagerNumber);
@@ -598,14 +598,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	}
 
 	/**
-	 * 调接口获取数据
+	 * 云端证据的接口
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
-
-
 			@Override
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
@@ -624,6 +622,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if(!CheckUtil.isEmpty(datas)){
 							actionBar.setRightEnable();
 							actionBar.setRightText("选择");
+							list.clear();
 							list.addAll(datas);					   
 						}else{
 							actionBar.setRightDisEnable();
@@ -709,7 +708,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void toRefresh() {
-		// TODO Auto-generated method stub
 		searchText=et_find_service.getText().toString().trim();
 		pagerNumber=1;
 		list.clear();

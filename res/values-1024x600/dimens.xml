@@ -1,4 +1,4 @@
 <resources>
-//小米note
-	<dimen name="text_size">15sp</dimen>
+//小米note 华为meat 7
+	<dimen name="text_size">13sp</dimen>
 </resources>

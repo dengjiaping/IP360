@@ -180,9 +180,17 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		}else{
 			vh=	(ViewHolder) convertView.getTag();		
 		}	
-		changeState(position, convertView, vh.cb_choice, vh.cb_option);	
-		vh.tv_filename.setText(mDatas.get(position).getTitle());
-		
+		changeState(position, convertView, vh.cb_choice, vh.cb_option);
+	String fileName = mDatas.get(position).getTitle();
+		if(fileName.length()>22){
+		int s=fileName.length()-5;
+		String  strname = fileName.replace(fileName.substring(20,s),"...");
+			vh.tv_filename.setText(strname);
+		}else{
+			vh.tv_filename.setText(fileName);
+		}
+//		vh.tv_filename.setText(fileName);
+
 		vh.tv_filesize.setText(mDatas.get(position).getFileSize());
 			
 		vh.tv_date.setText(mDatas.get(position).getCreateTime());

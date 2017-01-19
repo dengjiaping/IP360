@@ -385,6 +385,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		tv_all.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				et_find_service.setText("");
 				actionBar.setLeftText("全部文件");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();
@@ -407,6 +408,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("拍照取证");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();
@@ -431,6 +433,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 		tv_video.setOnClickListener(new OnClickListener() {//录像
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("录像取证");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();
@@ -455,6 +458,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("录音取证");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();
@@ -477,6 +481,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("线上取证");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();
@@ -499,6 +504,7 @@ public class NativeEvidence extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onClick(View arg0) {
+				et_find_service.setText("");
 				actionBar.setLeftText("确权文件");
 				if (nativeWindow.isShowing()) {
 					actionBar.setRightEnable();

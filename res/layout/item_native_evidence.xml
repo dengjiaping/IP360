@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:text="我的照片证据1.png"
                     android:textColor="#666666"
+                    android:ellipsize="middle"
                     android:textSize="@dimen/text_size" />
 
                 <RelativeLayout
