@@ -385,7 +385,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-//				adapter.clearData();
+				adapter.clearData();
                 list.clear();
 				type = 2;//现场取证
 				mobileType = 50001;
@@ -406,7 +406,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 
 				}
-//				adapter.clearData();
+				adapter.clearData();
 				 list.clear();
 				tag = false;
 			    type = 2;//现场取证
@@ -426,7 +426,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-//				adapter.clearData();
+				adapter.clearData();
 				 list.clear();
 				tag = false;
 				type = 2;//现场取证
@@ -445,7 +445,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-//				adapter.clearData();
+				adapter.clearData();
 				 list.clear();
 				tag = false;
 				type = 3;//线上取证
@@ -465,7 +465,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				}
-//				adapter.clearData();
+				adapter.clearData();
 				 list.clear();
 				tag = false;
 				type = 1;//确权文件
@@ -601,8 +601,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 * 云端证据的接口
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
-		LogUtils.e("版本号"+getVersion());
+		list.clear();
+//		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
+		if(requestHandle!=null&&!requestHandle.isFinished()){
+			requestHandle.cancel(true);
+		}
 		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
