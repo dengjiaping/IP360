@@ -202,9 +202,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		};
 
    private RequestHandle requestHandle;
-	
-	
-	
+
 	@Override
 	public int setViewId() {
 		return R.layout.fragment_clouddevidence;
@@ -603,50 +601,53 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
-		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
+		if(requestHandle!=null&&!requestHandle.isFinished()){
+			requestHandle.cancel(true);
+		}
+		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
+									BaseHttpResponse response) {
 				//停止刷新
 				/*xRefresh.stopRefresh();
 				xRefresh.stopLoadMore();*/
 				listView.onRefreshFinished();
 				listView.onLoadFinished();
 				hideProgress();
-				
+
 				CloudEvidenceBean bean = (CloudEvidenceBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						datas = bean.getDatas();
-						
-						if(!CheckUtil.isEmpty(datas)){
+
+						if (!CheckUtil.isEmpty(datas)) {
 							actionBar.setRightEnable();
 							actionBar.setRightText("选择");
 							list.clear();
-							list.addAll(datas);					   
-						}else{
+							list.addAll(datas);
+						} else {
 							actionBar.setRightDisEnable();
 							actionBar.setRightText("");
-						}			
+						}
 //						LogUtils.e(type+"type");
-						if(list.size()>=10){
+						if (list.size() >= 10) {
 							listView.setOnLoad(true);
-						}else{
+						} else {
 							listView.setOnLoad(false);
 						}
-						 adapter.notifyDataChange(list,type,mobileType);
-					}else{
+						adapter.notifyDataChange(list, type, mobileType);
+					} else {
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}
-				}else{
+				} else {
 					Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
 				}
 			}
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				
+										   byte[] responseBody, Throwable error) {
+
 			}
 		});
 	}
