@@ -45,6 +45,7 @@
             android:text="录像取证"
             android:textColor="@color/black"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_record"
             android:layout_width="0dp"

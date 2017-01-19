@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -110,17 +111,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 
-		/*xRefresh = (XRefreshView) view
-				.findViewById(R.id.xrefresh_cloudevidence);
-		xRefresh.setPullRefreshEnable(false);
-		xRefresh.setPullLoadEnable(false);
-		xRefresh.setAutoRefresh(false);
-		xRefresh.setXRefreshViewListener(this);*/
-
-		
-		
 		listView =  (RefreshListView) view.findViewById(R.id.lv_cloudevidence);
-		//listView= (RefreshListView) view.findViewById(R.id.lv_cloud);
 		listView.setOnRefreshListener(this);
 		listView.setOnLoadListener(this);
 		listView.setOnLoad(true);
@@ -130,13 +121,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.layout.head_cloudevidence, null);
 		listView.addHeaderView(headView);
 		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
-		
-		//lv_cloudevidence.setOnItemClickListener(this);
+
 
 		if (tag) {
 //			进来显示第一个
 			type = 2;//现场取证
 			mobileType = 50001;
+			Log.i("djj","1234567890123");
 			getDatas(keywork,type,mobileType,pagerNumber);
 		}
 
@@ -161,10 +152,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if(start==0&&before==0&&count==0){
+					return;
+				}
 				if (CheckUtil.isEmpty(s.toString())) {
 					list.clear();
 					getDatas(null,type,mobileType,1);
-					
+
 				} else {
 					mHandler.removeMessages(101);
 
@@ -175,7 +169,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					Message msg = new Message();
 					msg.what = 101;
 					msg.obj = s.toString();
-					mHandler.sendMessageDelayed(msg, 500);
+					mHandler.sendMessageDelayed(msg, 1000);
 				}
 			}
 			
@@ -187,6 +181,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void afterTextChanged(Editable s) {
 				
+			}
+		});
+
+		et_find_service.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH){
+					getDatas(et_find_service.getText().toString().trim(),type,mobileType,1);
+					return true;
+				}
+				return false;
 			}
 		});
 	}
@@ -202,6 +207,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		};
 
    private RequestHandle requestHandle;
+
+
 
 	@Override
 	public int setViewId() {
@@ -388,6 +395,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				type = 2;//现场取证
 				mobileType = 50001;
 				pagerNumber=1;
+				Log.i("djj","拍照取证"+"mobileType"+mobileType);
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 
@@ -410,6 +418,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			    type = 2;//现场取证
 				mobileType = 50003;
 				pagerNumber=1;
+				Log.i("djj","录像取证"+"mobileType"+mobileType);
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -430,6 +439,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				type = 2;//现场取证
 				mobileType = 50002;
 				pagerNumber=1;
+				Log.i("djj","录音取证"+"mobileType"+mobileType);
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -437,22 +447,24 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			
 			@Override
 			public void onClick(View arg0) {
+
 				et_find_service.setText("");
 				actionBar.setLeftText("线上取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
-				}
 //				adapter.clearData();
-				 list.clear();
-				tag = false;
-				type = 3;//线上取证
-   			    mobileType = 0;
-				pagerNumber=1;
-				getDatas(keywork,type,mobileType,pagerNumber);
+					list.clear();
+					tag = false;
+					type = 3;//线上取证
+					mobileType = 0;
+					pagerNumber = 1;
+					Log.i("djj","线上取证"+"mobileType"+mobileType);
+					getDatas(keywork, type, mobileType, pagerNumber);
+				}
 			}
-			
 		});
+
 		 tv_file.setOnClickListener(new OnClickListener() {//确权文件
 			
 			@Override
@@ -468,6 +480,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				tag = false;
 				type = 1;//确权文件
 				mobileType = 0;
+				Log.i("djj","确权文件"+"mobileType"+mobileType);
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
@@ -601,13 +614,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
-		if(requestHandle!=null&&!requestHandle.isFinished()){
-			requestHandle.cancel(true);
-		}
-		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode, new ApiCallback() {
+		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message,
-									BaseHttpResponse response) {
+					BaseHttpResponse response) {
 				//停止刷新
 				/*xRefresh.stopRefresh();
 				xRefresh.stopLoadMore();*/
@@ -619,34 +629,34 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						datas = bean.getDatas();
-
-						if (!CheckUtil.isEmpty(datas)) {
+                        Log.i("djj","mobileType"+mobileType);
+						if(!CheckUtil.isEmpty(datas)){
 							actionBar.setRightEnable();
 							actionBar.setRightText("选择");
 							list.clear();
 							list.addAll(datas);
-						} else {
+						}else{
 							actionBar.setRightDisEnable();
 							actionBar.setRightText("");
 						}
 //						LogUtils.e(type+"type");
-						if (list.size() >= 10) {
+						if(list.size()>=10){
 							listView.setOnLoad(true);
-						} else {
+						}else{
 							listView.setOnLoad(false);
 						}
-						adapter.notifyDataChange(list, type, mobileType);
-					} else {
+						 adapter.notifyDataChange(list,type,mobileType);
+					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}
-				} else {
+				}else{
 					Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
 				}
 			}
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
-										   byte[] responseBody, Throwable error) {
+					byte[] responseBody, Throwable error) {
 
 			}
 		});
@@ -677,22 +687,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		lastPosition=position;
 	}
 
-
-/*	@Override
-	public void toRefresh() {
-		pagerNumber=1;
-		list.clear();
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}
-
-	@Override
-	public void toOnLoad() {
-		Log.i("djj","haha");
-		pagerNumber++;
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}*/
-
-
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
           Log.i("djj", position+"");
@@ -704,6 +698,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		// TODO Auto-generated method stub
 	
 		pagerNumber++;
+		Log.i("djj","1234567890");
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
@@ -712,6 +707,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		searchText=et_find_service.getText().toString().trim();
 		pagerNumber=1;
 		list.clear();
+		Log.i("djj","1234567890123");
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 	private int getVersion() {
