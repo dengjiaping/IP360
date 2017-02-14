@@ -105,9 +105,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(RegisterActivity.this, "请输入正确的手机号");
 				}else{
-					//开始倒计时
-					btn_send_code.setEnabled(false);
-					timer.start();
+
 				sendVerCode();
 				}				
 			}
@@ -120,8 +118,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
+		//开始倒计时
 		btn_send_code.setEnabled(false);
-		
+		timer.start();
 		ApiManager.getInstance().getRegVerCode(MyConstants.REGISTER, phoneNum, null, new ApiCallback() {
 			
 			@Override
@@ -129,10 +128,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 				
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode()!=200) {
-//						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					if (response.getCode()==200) {
+
 					}else{
-						timer.start();
+						btn_send_code.setEnabled(true);
+						timer.cancel();
+						btn_send_code.setText("发送验证码");
 						Toaster.showToast(RegisterActivity.this,response.getMsg());
 					}
 				}else{

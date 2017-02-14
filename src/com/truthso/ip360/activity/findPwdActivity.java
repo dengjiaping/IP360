@@ -127,12 +127,15 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode()!=200) {
-//						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					if (response.getCode()==200) {
+
 					}else{
-						timer.start();
+						btn_send_code.setEnabled(true);
+						timer.cancel();
+						btn_send_code.setText("发送验证码");
 						Toaster.showToast(findPwdActivity.this,response.getMsg());
 					}
+
 				}else{
 					Toaster.showToast(findPwdActivity.this,"获取失败");
 				}
