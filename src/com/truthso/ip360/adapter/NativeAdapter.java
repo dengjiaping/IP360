@@ -182,9 +182,9 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 		}	
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
 	String fileName = mDatas.get(position).getTitle();
-		if(fileName.length()>22){
+		if(fileName.length()>25){
 		int s=fileName.length()-5;
-		String  strname = fileName.replace(fileName.substring(20,s),"...");
+		String  strname = fileName.replace(fileName.substring(18,s),"...");
 			vh.tv_filename.setText(strname);
 		}else{
 			vh.tv_filename.setText(fileName);

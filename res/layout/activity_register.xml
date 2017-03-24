@@ -8,6 +8,51 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
+        android:layout_marginTop="@dimen/button_margiontop_10"
+        android:background="@color/item_bg" >
+        <TextView
+            android:id="@+id/tv_zhanghao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="账号"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/item_text_color"
+            />
+        <EditText
+            android:id="@+id/et_account"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/tv_zhanghao"
+            android:layout_marginLeft="@dimen/mar_left_20"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="请输入账号"
+            android:textSize="@dimen/text_item"
+            />
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" >
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:background="@color/white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gry"
+            android:layout_height="1dp" />
+    </LinearLayout>
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
 
         <ImageView
@@ -45,24 +90,34 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp" />-->
 <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" 
         android:orientation="horizontal"
         >
-
+    <TextView
+        android:id="@+id/tv_yanzhengma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="验证码"
+        android:layout_marginLeft="10dp"
+        android:textSize="@dimen/text_item"
+        android:textColor="@color/item_text_color"
+        />
         <EditText
             android:id="@+id/et_cercode"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_yanzhengma"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:background="@null"
             android:hint="请输入验证码"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_item" />
 
         <Button
             android:id="@+id/btn_send_code"
@@ -71,18 +126,109 @@
             android:layout_margin="10dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/round_corner_bg"
-            android:text="发送验证码"
+            android:text="获取验证码"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_12" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:background="@color/white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gry"
+            android:layout_height="1dp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:background="@color/item_bg" >
+        <TextView
+            android:id="@+id/tv_mima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设置密码"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/item_text_color"
+            />
+        <EditText
+            android:id="@+id/et_userpwd"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_mima"
+            android:layout_marginLeft="@dimen/mar_left_20"
+            android:background="@null"
+            android:hint="6~18位的字母和数字的字符"
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_item" />
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" >
+
+            <CheckBox
+                android:id="@+id/cb_password"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:button="@null"
+                android:background="@drawable/login_pwd_selector" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/layout_marginLeft"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/activity_bg" >
+
+        <CheckBox
+            android:id="@+id/cb_checkbox"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/checkbox"
+            android:button="@null" />
+
+        <TextView
+            android:id="@+id/tv_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/cb_checkbox"
+            android:text="我已阅读并同意"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:layout_toRightOf="@id/tv_qq"
+            android:text="用户协议"
+            android:textColor="#3975fe"
+            android:textSize="@dimen/text_size10" />
+
+    </RelativeLayout>
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_regist"
         android:layout_width="@dimen/button_width"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
         android:background="@drawable/round_corner_bg"
-        android:text="下一步"
+        android:text="注册"
         android:textColor="@color/button_text_color"
         android:textSize="@dimen/button_text_size" />
+
 </LinearLayout>
