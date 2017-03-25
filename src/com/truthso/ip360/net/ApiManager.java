@@ -146,11 +146,9 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle getRegVerCode(String type,
-			String acount,String vcode,ApiCallback callback) {
+	public RequestHandle getRegVerCode(String type, String acount,String vcode,ApiCallback callback) {
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
-
 		request.setPath(URLConstant.GetVertCode);
 		request.params().add("type",type);
 		request.params().add("acount",acount);
@@ -170,8 +168,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle getVerCode(String type,
-			String acount,String vcode,ApiCallback callback) {
+	public RequestHandle getVerCode(String type, String acount,String vcode,ApiCallback callback) {
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
 				BaseHttpResponse.class, this);
 

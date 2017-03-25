@@ -2,10 +2,13 @@ package com.truthso.ip360.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,13 +38,14 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
-	private TextView tv_register;
+	private Button btn_register;
 	private TextView tv_forget_pwd;
 	private Button btn_loginin,btn_title_left;
 	private String userAccount,userPwd;
 	private CheckBox cb_checkbox;
 	private EditText et_useraccount,et_userpwd;
-	private ImageView iv_account_delete,iv_password_delete;
+	private CheckBox cb_password;
+//	private ImageView iv_account_delete,iv_password_delete;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -52,20 +56,30 @@ protected void onCreate(Bundle savedInstanceState) {
 	public void initView() {
 		btn_title_left = (Button) findViewById(R.id.btn_title_left);
 		btn_title_left.setVisibility(View.INVISIBLE);
-		iv_account_delete = (ImageView) findViewById(R.id.iv_account_delete);
-		iv_account_delete.setOnClickListener(this);
-		iv_password_delete = (ImageView) findViewById(R.id.iv_password_delete);
-		iv_password_delete.setOnClickListener(this);
-		
+//		iv_account_delete = (ImageView) findViewById(R.id.iv_account_delete);
+//		iv_account_delete.setOnClickListener(this);
+//		iv_password_delete = (ImageView) findViewById(R.id.iv_password_delete);
+//		iv_password_delete.setOnClickListener(this);
+		cb_password = (CheckBox) findViewById(R.id.cb_password);
+		cb_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {//密码显示与隐藏
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked){
+					//如果选中，显示密码
+					et_userpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+				}else{
+					//否则隐藏密码
+					et_userpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				}
+			}
+		});
 		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
 		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(userAccount)){
 			et_useraccount.setText(userAccount);
 			
 		}
-		
-		
-		et_userpwd = (EditText) findViewById(R.id.et_userpwd);			
+		et_userpwd = (EditText) findViewById(R.id.et_userpwd);
 		String pwd = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userPwd", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(pwd)){			
 			et_userpwd.setText(pwd);
@@ -73,8 +87,8 @@ protected void onCreate(Bundle savedInstanceState) {
 		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
 		cb_checkbox.setChecked(true);
 		
-		tv_register = (TextView) findViewById(R.id.tv_register);
-		tv_register.setOnClickListener(this);
+		btn_register = (Button) findViewById(R.id.btn_register);
+		btn_register.setOnClickListener(this);
 
 		tv_forget_pwd = (TextView) findViewById(R.id.tv_forget_pwd);
 		tv_forget_pwd.setOnClickListener(this);
@@ -88,7 +102,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.tv_register:// 注册
+		case R.id.btn_register:// 注册
 			Intent intent = new Intent(this,RegisterActivity.class);
 			startActivity(intent);
 //			finish();
@@ -97,12 +111,13 @@ protected void onCreate(Bundle savedInstanceState) {
 			Intent intent1 = new Intent(this,findPwdActivity.class);
 			startActivity(intent1);
 			break;
-		case R.id.iv_account_delete://清空账号
+
+/*		case R.id.iv_account_delete://清空账号
 			et_useraccount.setText("");
 			break;
 		case R.id.iv_password_delete://清空密码
 			et_userpwd.setText("");
-			break;
+			break;*/
 		case R.id.btn_loginin:// 登录
 
 			userAccount = et_useraccount.getText().toString().trim();

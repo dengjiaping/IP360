@@ -153,7 +153,12 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 			public void onApiResult(int errorCode, String message,
 					BaseHttpResponse response) {
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
+					if (response.getCode()==200) {
+
+					}else{
+						btn_send_code.setEnabled(true);
+						timer.cancel();
+						btn_send_code.setText("发送验证码");
 						Toaster.showToast(ReBindEmailBindNewActivity.this,response.getMsg());
 					}
 				}else{

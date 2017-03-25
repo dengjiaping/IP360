@@ -74,7 +74,7 @@ import cz.msebera.android.httpclient.Header;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CloudEvidence extends BaseFragment implements OnClickListener,
-		 UpdateItem, OnItemClickListener, OnRefreshListener ,OnloadListener {
+		UpdateItem, OnItemClickListener, OnRefreshListener ,OnloadListener {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
 	//private ListView lv_cloudevidence;
@@ -101,7 +101,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private  int vCode;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState) {
+							ViewGroup container, Bundle savedInstanceState) {
 		vCode = getVersion();
 		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
@@ -117,8 +117,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		xRefresh.setAutoRefresh(false);
 		xRefresh.setXRefreshViewListener(this);*/
 
-		
-		
+
+
 		listView =  (RefreshListView) view.findViewById(R.id.lv_cloudevidence);
 		//listView= (RefreshListView) view.findViewById(R.id.lv_cloud);
 		listView.setOnRefreshListener(this);
@@ -130,7 +130,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.layout.head_cloudevidence, null);
 		listView.addHeaderView(headView);
 		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
-		
+
 		//lv_cloudevidence.setOnItemClickListener(this);
 
 		if (tag) {
@@ -141,10 +141,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 
-		 adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
-		 adapter.setUpdateItem(this);
-		 listView.setAdapter(adapter);
-		 setSearchMode();
+		adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
+		adapter.setUpdateItem(this);
+		listView.setAdapter(adapter);
+		setSearchMode();
 	}
 
 	private void setSearchMode() {
@@ -156,15 +156,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				InputMethodManager inputManager = (InputMethodManager) et_find_service.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(et_find_service, 0);
 			}
-		  }, 300);
+		}, 300);
 		et_find_service.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (CheckUtil.isEmpty(s.toString())) {
 					list.clear();
 					getDatas(null,type,mobileType,1);
-					
+
 				} else {
 					mHandler.removeMessages(101);
 
@@ -178,15 +178,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					mHandler.sendMessageDelayed(msg, 500);
 				}
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
-				
+
 			}
 		});
 	}
@@ -194,21 +194,21 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private Handler mHandler = new Handler() {
 
 		public void handleMessage(android.os.Message msg) {
-		
-				Log.i("djj", (String)(msg.obj)+type+mobileType);
-				list.clear();
-				getDatas((String)(msg.obj),type,mobileType,1);
-			}
-		};
 
-   private RequestHandle requestHandle;
+			Log.i("djj", (String)(msg.obj)+type+mobileType);
+			list.clear();
+			getDatas((String)(msg.obj),type,mobileType,1);
+		}
+	};
+
+	private RequestHandle requestHandle;
 
 	@Override
 	public int setViewId() {
 		return R.layout.fragment_clouddevidence;
 	}
 
-	@Override	
+	@Override
 	protected void initData() {
 		inflater = LayoutInflater.from(getActivity());
 
@@ -217,29 +217,29 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.acition_bar_right:
-			if(list.size()>0){
-				choice();
-			}
-			break;
-		case R.id.acition_bar_left:
+			case R.id.acition_bar_right:
+				if(list.size()>0){
+					choice();
+				}
+				break;
+			case R.id.acition_bar_left:
 			/*
 			 * startActivityForResult(new Intent(getActivity(),
 			 * CategoryCloudEvidenceActivity.class), CODE_SEARCH);
 			 */
-			if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
-				actionBar.setRightEnable();
-				cloudWindow.dismiss();
-			} else {
-				actionBar.setRightDisEnable();
-				showPop();
-			}
-			break;
-		case R.id.btn_download:
-			downloadAll();
-			break;
-		default:
-			break;
+				if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
+					actionBar.setRightEnable();
+					cloudWindow.dismiss();
+				} else {
+					actionBar.setRightDisEnable();
+					showPop();
+				}
+				break;
+			case R.id.btn_download:
+				downloadAll();
+				break;
+			default:
+				break;
 		}
 
 	}
@@ -288,7 +288,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	/**
 	 * 下载的方法
 	 * @param data
-     */
+	 */
 	private void download(final CloudEviItemBean data){
 
 		ApiManager.getInstance().downloadFile(data.getPkValue(), type,data.getDataType(),
@@ -296,14 +296,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 					@Override
 					public void onApiResultFailure(int statusCode,
-							Header[] headers, byte[] responseBody,
-							Throwable error) {
+												   Header[] headers, byte[] responseBody,
+												   Throwable error) {
 						Toaster.toast(getActivity(), "获取数据失败", 1);
 					}
 
 					@Override
 					public void onApiResult(int errorCode, String message,
-							BaseHttpResponse response) {
+											BaseHttpResponse response) {
 						DownLoadFileBean bean = (DownLoadFileBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
@@ -346,24 +346,24 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					}
 				});
 	}
-	
-	
-	
+
+
+
 	// 显示类别popwindow
 	private void showPop() {
 
 		popview = inflater.inflate(R.layout.activity_category_cloudcvidence,
 				null);
 		tv_photo = (TextView) popview.findViewById(R.id.tv_photo);
-	
+
 		tv_video = (TextView) popview.findViewById(R.id.tv_video);
-		
-		 tv_record = (TextView) popview.findViewById(R.id.tv_record);
-		 
-		 tv_pc = (TextView) popview.findViewById(R.id.tv_pc);
-		 
-		 tv_file = (TextView) popview.findViewById(R.id.tv_file);
-		
+
+		tv_record = (TextView) popview.findViewById(R.id.tv_record);
+
+		tv_pc = (TextView) popview.findViewById(R.id.tv_pc);
+
+		tv_file = (TextView) popview.findViewById(R.id.tv_file);
+
 		FrameLayout fl_empty = (FrameLayout) popview.findViewById(R.id.fl_empty);
 		cloudWindow = new PopupWindow(popview, WindowManager.LayoutParams.MATCH_PARENT,
 				WindowManager.LayoutParams.MATCH_PARENT);
@@ -372,9 +372,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
 		cloudWindow.setBackgroundDrawable(dw);
 		cloudWindow.setTouchable(true);
-		
+
 		tv_photo.setOnClickListener(new OnClickListener() {//拍照
-			
+
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
@@ -384,16 +384,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 				}
 				adapter.clearData();
-                list.clear();
+				list.clear();
 				type = 2;//现场取证
 				mobileType = 50001;
 				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 
-		
+
 		});
-		
+
 		tv_video.setOnClickListener(new OnClickListener() {//录像			
 			@Override
 			public void onClick(View arg0) {
@@ -405,17 +405,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 				}
 				adapter.clearData();
-				 list.clear();
+				list.clear();
 				tag = false;
-			    type = 2;//现场取证
+				type = 2;//现场取证
 				mobileType = 50003;
 				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
 		});
-		
+
 		tv_record.setOnClickListener(new OnClickListener() {//录音
-			
+
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
@@ -425,7 +425,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 				}
 				adapter.clearData();
-				 list.clear();
+				list.clear();
 				tag = false;
 				type = 2;//现场取证
 				mobileType = 50002;
@@ -434,7 +434,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			}
 		});
 		tv_pc.setOnClickListener(new OnClickListener() {//线上取证
-			
+
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
@@ -444,17 +444,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 				}
 				adapter.clearData();
-				 list.clear();
+				list.clear();
 				tag = false;
 				type = 3;//线上取证
-   			    mobileType = 0;
+				mobileType = 0;
 				pagerNumber=1;
 				getDatas(keywork,type,mobileType,pagerNumber);
 			}
-			
+
 		});
-		 tv_file.setOnClickListener(new OnClickListener() {//确权文件
-			
+		tv_file.setOnClickListener(new OnClickListener() {//确权文件
+
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
@@ -464,7 +464,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 				}
 				adapter.clearData();
-				 list.clear();
+				list.clear();
 				tag = false;
 				type = 1;//确权文件
 				mobileType = 0;
@@ -495,15 +495,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View v) {
 				switch (v.getId()) {
-				case R.id.acition_bar_right:// 取消
-					cancelChoose();
-					break;
-				case R.id.acition_bar_left:// 全选
-					adapter.setAllSelect(true);
-					listView.invalidateViews();
-					break;
-				default:
-					break;
+					case R.id.acition_bar_right:// 取消
+						cancelChoose();
+						break;
+					case R.id.acition_bar_left:// 全选
+						adapter.setAllSelect(true);
+						listView.invalidateViews();
+						break;
+					default:
+						break;
 				}
 
 			}
@@ -545,12 +545,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
 	}
 
-	
+
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode==CODE_SEARCH){
-			
+
 		}
 	}
 
@@ -564,7 +564,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			adapter.notifyDataSetInvalidated();
 		}
 	}
-	
+
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
@@ -576,7 +576,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == event.KEYCODE_BACK) {
-			
+
 			if (cloudWindow!=null && cloudWindow.isShowing()) {
 				actionBar.setRightEnable();
 				cloudWindow.dismiss();
@@ -605,11 +605,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		if(requestHandle!=null&&!requestHandle.isFinished()){
 			requestHandle.cancel(true);
 		}
-<<<<<<< HEAD
-		ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode,new ApiCallback() {
-=======
 		requestHandle = ApiManager.getInstance().getCloudEvidence(keywork, type, mobileType, pagerNumber, 10, vCode, new ApiCallback() {
->>>>>>> a05cef73ba9baa8536752d5dd7645c2e695e6c27
+
 			@Override
 			public void onApiResult(int errorCode, String message,
 									BaseHttpResponse response) {
@@ -663,7 +660,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		if(position==adapter.getCount()-1){
 			listView.setSelection(position);
 		}
-		
+
 		if(position!=lastPosition){
 			int fir=listView.getFirstVisiblePosition();
 			int las=listView.getLastVisiblePosition();
@@ -675,9 +672,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						ll_option.setVisibility(View.GONE);
 						CloudEvidenceAdapter.ViewHolder vh=(com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder) view.getTag();
 						vh.cb_option.setChecked(false);
-					}		
-				}					
-			}			
+					}
+				}
+			}
 		}
 		lastPosition=position;
 	}
@@ -700,14 +697,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          Log.i("djj", position+"");
+		Log.i("djj", position+"");
 	}
 
 
 	@Override
 	public void toOnLoad() {
 		// TODO Auto-generated method stub
-	
+
 		pagerNumber++;
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}

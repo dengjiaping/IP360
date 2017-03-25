@@ -159,8 +159,14 @@ private void sendVerCode() {
 				BaseHttpResponse response) {
 			
 			if (!CheckUtil.isEmpty(response)) {
-			
-//					Toaster.showToast(BindEmialActivity.this,response.getMsg());
+				if (response.getCode()==200) {
+
+				}else{
+					btn_send_code.setEnabled(true);
+					timer.cancel();
+					btn_send_code.setText("发送验证码");
+					Toaster.showToast(BindEmialActivity.this,response.getMsg());
+				}
 			
 			}else{
 				Toaster.showToast(BindEmialActivity.this,"获取失败");

@@ -156,10 +156,15 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 					BaseHttpResponse response) {
 				
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
-						
+					if (response.getCode()==200) {
+
+					}else{
+						btn_send_code.setEnabled(true);
+						timer.cancel();
+						btn_send_code.setText("发送验证码");
 						Toaster.showToast(BindPhoNumActivity.this,response.getMsg());
 					}
+
 				}else{
 					Toaster.showToast(BindPhoNumActivity.this,"获取失败");
 				}

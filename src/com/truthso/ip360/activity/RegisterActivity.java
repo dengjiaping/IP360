@@ -6,15 +6,23 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.MD5Util;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 /**
@@ -27,9 +35,11 @@ import android.widget.EditText;
  */
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
-	private Button btn_next, btn_send_code;
+	private Button btn_regist, btn_send_code;
 	private EditText et_account, et_cercode;
-	private String phoneNum, cerCode;
+	private String phoneNum, cerCode,userPwd;
+	private EditText et_userpwd;
+	private CheckBox cb_password;
 	// 倒计时
 	private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -52,13 +62,118 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-		btn_next = (Button) findViewById(R.id.btn_next);
-		btn_next.setOnClickListener(this);
+		btn_regist = (Button) findViewById(R.id.btn_regist);
+		btn_regist.setOnClickListener(this);
+		et_account = (EditText) findViewById(R.id.et_account);
+		et_cercode = (EditText) findViewById(R.id.et_cercode);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
 		btn_send_code.setOnClickListener(this);
 
-		et_account = (EditText) findViewById(R.id.et_account);
-		et_cercode = (EditText) findViewById(R.id.et_cercode);
+		/*if (!CheckUtil.isEmpty(et_account.getText().toString().trim())){//输入手机号后，获取验证码的按钮才可点击
+			btn_send_code.setClickable(true);
+			btn_send_code.setTextColor(getResources().getColor(R.color.white));
+			btn_send_code.setBackgroundColor(Color.parseColor(R.color.jiuhong+""));
+		}else{
+			btn_send_code.setClickable(false);
+			btn_send_code.setBackgroundColor(Color.parseColor(R.color.white+""));
+			btn_send_code.setTextColor(getResources().getColor(R.color.black));
+		}*/
+
+		et_userpwd = (EditText) findViewById(R.id.et_userpwd);
+
+		cb_password = (CheckBox) findViewById(R.id.cb_password);
+		cb_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {//密码显示与隐藏
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked){
+					//如果选中，显示密码
+					et_userpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+				}else{
+					//否则隐藏密码
+					et_userpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				}
+			}
+		});
+		if (btn_regist.getLinksClickable()){//註冊按鈕是否可点击
+//			btn_regist.setClickable(false);
+			btn_regist.setBackgroundColor(getResources().getColor(R.color.white));
+			btn_regist.setTextColor(getResources().getColor(R.color.gray));
+		}else{
+//			btn_regist.setClickable(true);
+			btn_regist.setTextColor(getResources().getColor(R.color.white));
+			btn_regist.setBackgroundColor(Color.parseColor(R.color.jiuhong+""));
+		}
+
+		//监听编辑框
+		et_account.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			if (!CheckUtil.isEmpty(et_account.getText().toString().trim())){
+					btn_regist.setClickable(true);
+				}else{
+				btn_regist.setClickable(false);
+			}
+			}
+		});
+		//监听编辑框
+		et_userpwd.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(et_userpwd.getText().toString().trim())){
+					btn_regist.setClickable(true);
+				}else{
+					btn_regist.setClickable(false);
+				}
+			}
+		});
+		//监听编辑框
+		et_cercode.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(et_cercode.getText().toString().trim())){
+					btn_regist.setClickable(true);
+				}else{
+					btn_regist.setClickable(false);
+				}
+			}
+		});
+
 	}
 
 	@Override
@@ -74,26 +189,28 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_next:// 下一步
+		case R.id.btn_regist:// 注册
 			phoneNum = et_account.getText().toString().trim();
 			cerCode = et_cercode.getText().toString().trim();
+			userPwd = et_userpwd.getText().toString().trim();
 			if (CheckUtil.isEmpty(phoneNum)||CheckUtil.isEmpty(cerCode)) {
 				Toaster.showToast(this, "手机号或验证码不能为空");
+			}else if(!CheckUtil.isPassWordValidate(userPwd)){
+				Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
 			}else{
 				String phoneReg="^1\\d{10}";
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(this, "请输入正确的手机号");
 				}else{
-					Intent intent = new Intent(this, RegisterSetPwd.class);
-					intent.putExtra("phoneNum", phoneNum);
-					intent.putExtra("cerCode", cerCode);
-					startActivity(intent);
-					finish();
+					regist();
 				}				
 			}
-//			
-//			Intent intent = new Intent(this, RegisterSetPwd.class);
-//			startActivity(intent);
+
+
+
+
+
+
 			break;
 		case R.id.btn_send_code:
 			
@@ -105,9 +222,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(RegisterActivity.this, "请输入正确的手机号");
 				}else{
-					//开始倒计时
-					btn_send_code.setEnabled(false);
-					timer.start();
+
 				sendVerCode();
 				}				
 			}
@@ -120,8 +235,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	 * 发送验证码
 	 */
 	private void sendVerCode() {
+		//开始倒计时
 		btn_send_code.setEnabled(false);
-		
+		timer.start();
 		ApiManager.getInstance().getRegVerCode(MyConstants.REGISTER, phoneNum, null, new ApiCallback() {
 			
 			@Override
@@ -129,10 +245,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					BaseHttpResponse response) {
 				
 				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode()!=200) {
-//						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					if (response.getCode()==200) {
+
 					}else{
-						timer.start();
+						btn_send_code.setEnabled(true);
+						timer.cancel();
+						btn_send_code.setText("发送验证码");
 						Toaster.showToast(RegisterActivity.this,response.getMsg());
 					}
 				}else{
@@ -147,6 +265,34 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		});
 		
 	}
+	private void regist() {
+		userPwd= MD5Util.encoder(userPwd);
+		ApiManager.getInstance().registUser(phoneNum, userPwd, cerCode, new ApiCallback() {
 
+			@Override
+			public void onApiResult(int errorCode, String message,
+									BaseHttpResponse response) {
+				if (!CheckUtil.isEmpty(response)) {
+					if (response.getCode() == 200) {
+						Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+						startActivity(intent);
+						finish();
+
+					}else{
+						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					}
+				}else{
+					Toaster.showToast(RegisterActivity.this,"注册失败");
+				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+	}
 
 }

@@ -1,15 +1,10 @@
 package com.truthso.ip360.activity;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
-import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,11 +16,7 @@ import java.util.Calendar;
  * @date 创建时间：2016-10-12下午2:43:57
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-/*intent.putExtra("accountBalance", accountBalance);
 
-        if (isHaveCombo){//有套餐了传参
-
-        }*/
 public class AccountMagActivity extends BaseActivity {
     //账户余额
     private TextView tv_account_balance;

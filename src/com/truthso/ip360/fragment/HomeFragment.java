@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.AboutUsAcctivity;
+import com.truthso.ip360.activity.AccountPayActivity;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
@@ -65,6 +69,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private static final int CAMERA = 0;
 	private static final int CASE_VIDEO = 1;
 	private String timeUsed;
+	private Dialog alertDialog;
 	private int timeUsedInsec;
 	private MainActivity mActivity;
 	private RelativeLayout mTakePhoto,mTakeVideo, mRecord;
@@ -225,11 +230,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
-							Toaster.showToast(getActivity(), "余额不足，请充值！");
-//							Toaster.showToast(getActivity(), bean.getMsg());
-						}/*else if(bean.getDatas().getStatus()== -1){//没有开通该项业务
-						Toaster.showToast(getActivity(), "您没有开通该项业务！");
-					}*/
+//							Toaster.showToast(getActivity(), "余额不足，请充值！");
+						showDialog("余额不足，请充值！");
+						}
 					}else{
 						Toaster.showToast(getActivity(), bean.getMsg());
 					}
@@ -373,4 +376,28 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	}
 
 
+	/**
+	 * 弹出框
+	 * @param msg
+	 */
+	private void showDialog(String msg) {
+		alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setPositiveButton("去充值", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//跳转到充值
+				Intent intent = new Intent(getActivity(), AccountPayActivity.class);
+						startActivity(intent);
+					}
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				}).create();
+		alertDialog.show();
+	}
 }

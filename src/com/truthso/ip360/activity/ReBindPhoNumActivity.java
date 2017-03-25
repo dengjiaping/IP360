@@ -145,8 +145,13 @@ public class ReBindPhoNumActivity extends BaseActivity implements
 							BaseHttpResponse response) {
 
 						if (!CheckUtil.isEmpty(response)) {
-							if (response.getCode() == 200) {
-								
+							if (response.getCode()==200) {
+
+							}else{
+								btn_send_code.setEnabled(true);
+								timer.cancel();
+								btn_send_code.setText("发送验证码");
+								Toaster.showToast(ReBindPhoNumActivity.this,response.getMsg());
 							}
 						} else {
 							Toaster.showToast(ReBindPhoNumActivity.this, "获取失败");
