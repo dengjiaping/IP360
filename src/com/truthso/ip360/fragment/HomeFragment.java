@@ -24,10 +24,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.AboutUsAcctivity;
 import com.truthso.ip360.activity.AccountPayActivity;
+import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
 import com.truthso.ip360.activity.PhotoPreserved;
@@ -73,7 +75,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private int timeUsedInsec;
 	private MainActivity mActivity;
 	private RelativeLayout mTakePhoto,mTakeVideo, mRecord;
-
+	private TextView tv_ruler;
 	private File photo;
 	private double lat,longti;
 	private File photoDir;
@@ -105,8 +107,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		mViewFlow = (ViewFlow)view. findViewById(R.id.viewflow);
 		mFlowIndicator = (CircleFlowIndicator) view.findViewById(R.id.viewflowindic);
 
-
-
+		tv_ruler = (TextView) view.findViewById(R.id.tv_ruler);
+		tv_ruler.setOnClickListener(this);
 		//获取轮播图
 		getFlowViewData();
 		//进来就定位
@@ -176,6 +178,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			//调接口,看是否可以录音
 			getPort(MyConstants.RECORDTYPE,1);
 			break;
+			case R.id.tv_ruler://计价规则
+				Intent intent = new Intent(getActivity(), ChargeRulerActivity.class);
+				startActivity(intent);
+				break;
 		default:
 			break;
 		}

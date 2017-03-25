@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class PhotoPreserved extends BaseActivity implements OnClickListener {
-	private Button btn_cancel, btn_preserved;
+	private Button btn_title_right, btn_preserved,btn_title_left;
 	private ImageView iv_photo;
 	private String path, title, size, date, loc,longlat;
 	private long length;
@@ -105,7 +105,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-		btn_cancel = (Button) findViewById(R.id.btn_cancel);
+		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left.setOnClickListener(this);
+		btn_title_right = (Button) findViewById(R.id.btn_title_right);
+		btn_title_right.setVisibility(View.VISIBLE);
+		btn_title_right.setText("放弃");
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
@@ -114,7 +118,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
 		tv_filesize.setText(size);
-		btn_cancel.setOnClickListener(this);
+		btn_title_right.setOnClickListener(this);
 		btn_preserved.setOnClickListener(this);
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
 //		tv_account = (TextView) findViewById(R.id.tv_account);
@@ -279,7 +283,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_cancel:
+		case R.id.btn_title_right://标题右上角的放弃
 			//取消上传文件
 			CancelUploadFile();
 			finish();
@@ -291,7 +295,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			//调获取本次保全费用，及是否可用的接口
 			getport();
 			break;
-		case R.id.acition_bar_left://返回键
+		case R.id.btn_title_left://返回键
 				//取消上传文件
 				CancelUploadFile();
 				break;

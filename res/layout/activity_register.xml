@@ -217,7 +217,8 @@
             android:layout_toRightOf="@id/tv_qq"
             android:text="用户协议"
             android:textColor="#3975fe"
-            android:textSize="@dimen/text_size10" />
+            android:textSize="@dimen/text_size10"
+            android:id="@+id/tv_yonghuxieyi" />
 
     </RelativeLayout>
     <Button

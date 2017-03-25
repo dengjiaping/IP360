@@ -57,7 +57,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private ImageView iv_video;
 	private String mVideoSize, size, title,longlat;
 	private String mDate, loc, time;
-	private Button btn_preserved, btn_cancel;
+	private Button btn_preserved, btn_title_right,btn_title_left;
 	private int minTime;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time, tv_account;
 	private String objectKey;
@@ -99,10 +99,14 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
+		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left.setOnClickListener(this);
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		btn_preserved.setOnClickListener(this);
-		btn_cancel = (Button) findViewById(R.id.btn_cancel);
-		btn_cancel.setOnClickListener(this);
+		btn_title_right = (Button) findViewById(R.id.btn_title_right);
+		btn_title_right.setVisibility(View.VISIBLE);
+		btn_title_right.setOnClickListener(this);
+
 //		iv_video = (ImageView) findViewById(R.id.iv_video);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 
@@ -255,7 +259,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_cancel://放弃
+			case R.id.btn_title_right://标题右上角放弃
 				//取消上传文件
 				CancelUploadFile();
 				finish();
@@ -267,7 +271,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				//调获取本次保全费用，及是否可用的接口
 				getport();
 				break;
-			case R.id.acition_bar_left://返回键
+			case R.id.btn_title_left://标题上的返回键
 				//取消上传文件
 				CancelUploadFile();
 				break;

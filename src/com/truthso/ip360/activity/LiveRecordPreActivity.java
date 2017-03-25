@@ -50,7 +50,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
 	private String date, fileName, loc, fileSize, time, filePath,longlat;
-	private Button btn_cancel, btn_save;
+	private Button btn_title_right, btn_save,btn_title_left;
 	private boolean isPre=false;
 	private int useType;
 	private int mintime,pkValue;
@@ -87,6 +87,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
+		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left.setOnClickListener(this);
+		btn_title_right = (Button) findViewById(R.id.btn_title_right);
+		btn_title_right.setVisibility(View.VISIBLE);
+		btn_title_right.setOnClickListener(this);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
@@ -103,9 +108,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
 		
-		btn_cancel = (Button) findViewById(R.id.btn_cancel);
 		btn_save = (Button) findViewById(R.id.btn_preserved);
-		btn_cancel.setOnClickListener(this);
 		btn_save.setOnClickListener(this);
 		tv_filename.setText(fileName);
 		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
@@ -165,7 +168,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_cancel://放弃
+			case R.id.btn_title_right://放弃
 				//取消上传文件
 				CancelUploadFile();
 				finish();
@@ -177,7 +180,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				//调获取本次保全费用，及是否可用的接口
 				getport();
 				break;
-			case R.id.acition_bar_left://返回键
+			case R.id.btn_title_left://返回键
 				//取消上传文件
 				CancelUploadFile();
 				finish();

@@ -1,16 +1,5 @@
 package com.truthso.ip360.activity;
 
-import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.net.ApiCallback;
-import com.truthso.ip360.net.ApiManager;
-import com.truthso.ip360.net.BaseHttpResponse;
-import com.truthso.ip360.system.Toaster;
-import com.truthso.ip360.utils.CheckUtil;
-import com.truthso.ip360.utils.MD5Util;
-import com.truthso.ip360.view.xrefreshview.LogUtils;
-
-import cz.msebera.android.httpclient.Header;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
@@ -24,6 +13,17 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.MD5Util;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction :注册页面
@@ -39,7 +39,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private EditText et_account, et_cercode;
 	private String phoneNum, cerCode,userPwd;
 	private EditText et_userpwd;
-	private CheckBox cb_password;
+	private CheckBox cb_password,cb_checkbox;
+	private TextView tv_yonghuxieyi;
 	// 倒计时
 	private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -62,13 +63,16 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
+		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
+		cb_checkbox.setChecked(true);//服务协议默认选中
 		btn_regist = (Button) findViewById(R.id.btn_regist);
 		btn_regist.setOnClickListener(this);
 		et_account = (EditText) findViewById(R.id.et_account);
 		et_cercode = (EditText) findViewById(R.id.et_cercode);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
 		btn_send_code.setOnClickListener(this);
-
+		tv_yonghuxieyi = (TextView) findViewById(R.id.tv_yonghuxieyi);
+		tv_yonghuxieyi.setOnClickListener(this);
 		/*if (!CheckUtil.isEmpty(et_account.getText().toString().trim())){//输入手机号后，获取验证码的按钮才可点击
 			btn_send_code.setClickable(true);
 			btn_send_code.setTextColor(getResources().getColor(R.color.white));
@@ -206,12 +210,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				}				
 			}
 
-
-
-
-
-
 			break;
+			case R.id.tv_yonghuxieyi://用户协议
+				Intent intent = new Intent(RegisterActivity.this,UserAgreementActivity.class);
+				startActivity(intent);
+				break;
 		case R.id.btn_send_code:
 			
 			phoneNum = et_account.getText().toString().trim();
@@ -288,7 +291,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 
 			}
 		});

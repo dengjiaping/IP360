@@ -9,7 +9,7 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/title_height"
-		android:background="@color/white">
+		android:background="@color/jiuhong">
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
 			android:text="真相取证"
 			android:textStyle="bold"
 			android:textSize="@dimen/title_text_size"
-			android:textColor="#A12935"
+			android:textColor="@color/white"
 			/>
 	</RelativeLayout>
 	<FrameLayout
@@ -56,81 +56,109 @@
 	<RelativeLayout
 		android:id="@+id/ll_take_photo"
 		android:layout_width="match_parent"
-		android:layout_height="77dp"
+		android:layout_height="50dp"
         android:background="@drawable/selector_shouye"
-		android:layout_marginTop="20dp">
-		<ImageView
-	     	android:layout_width="46dp"
-			android:layout_height="41dp"
-			android:layout_marginLeft="47dp"
-			android:layout_alignParentLeft="true"
-			android:src="@drawable/pzqz"
-			android:layout_centerVertical="true"/>
-
-		<TextView
+		android:layout_marginTop="10dp">
+		<RelativeLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginRight="110dp"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:textStyle="bold"
-			android:text="拍照取证"
-			android:textSize="16sp"
-			android:textColor="#A12935"
-			/>
+			android:layout_centerInParent="true">
+			<ImageView
+				android:layout_width="46dp"
+				android:layout_height="41dp"
+				android:src="@drawable/pzqz"
+				android:layout_centerVertical="true"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="100dp"
+				android:textStyle="bold"
+				android:text="拍照取证"
+				android:textSize="16sp"
+				android:textColor="#A12935"
+				/>
+		</RelativeLayout>
+
 	</RelativeLayout>
 
 	<RelativeLayout
 		android:id="@+id/ll_take_video"
 		android:layout_width="match_parent"
-		android:layout_height="77dp"
+		android:layout_height="50dp"
 		android:background="@drawable/selector_shouye"
-		android:layout_marginTop="15dp">
+		android:layout_marginTop="10dp">
 		<!--android:background="@drawable/selector_shouye"-->
-		<ImageView
-			android:layout_width="46dp"
-			android:layout_height="41dp"
-			android:layout_marginLeft="47dp"
-			android:layout_alignParentLeft="true"
-			android:src="@drawable/lxqz"
-			android:layout_centerVertical="true"/>
-		<TextView
+		<RelativeLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginRight="110dp"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:textStyle="bold"
-			android:text="录像取证"
-			android:textSize="16sp"
-			android:textColor="#A12935"
-			/>
+			android:layout_centerInParent="true">
+			<ImageView
+				android:layout_width="46dp"
+				android:layout_height="41dp"
+				android:src="@drawable/lxqz"
+				android:layout_centerVertical="true"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="100dp"
+				android:layout_centerVertical="true"
+				android:textStyle="bold"
+				android:text="录像取证"
+				android:textSize="16sp"
+				android:textColor="#A12935"
+				/>
+
+		</RelativeLayout>
+
 	</RelativeLayout>
 
 	<RelativeLayout
 		android:id="@+id/ll_record"
 		android:layout_width="match_parent"
-		android:layout_height="77dp"
+		android:layout_height="50dp"
 		android:background="@drawable/selector_shouye"
-		android:layout_marginTop="15dp">
-		<ImageView
-			android:layout_width="46dp"
-			android:layout_height="41dp"
-			android:layout_marginLeft="47dp"
-			android:layout_alignParentLeft="true"
-			android:src="@drawable/lyqz"
-			android:layout_centerVertical="true"/>
-		<TextView
+		android:layout_marginTop="10dp">
+		<RelativeLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginRight="110dp"
+			android:layout_centerInParent="true">
+			<ImageView
+				android:layout_width="46dp"
+				android:layout_height="41dp"
+				android:src="@drawable/lyqz"
+				android:layout_centerVertical="true"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="100dp"
+				android:layout_centerVertical="true"
+				android:textStyle="bold"
+				android:text="录音取证"
+				android:textSize="16sp"
+				android:textColor="#A12935"
+				/>
+
+
+		</RelativeLayout>
+
+	</RelativeLayout>
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="#F6F6F6"
+		android:layout_marginTop="20dp">
+		<TextView
+			android:id="@+id/tv_ruler"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
+			android:layout_marginRight="20dp"
 			android:layout_centerVertical="true"
-			android:textStyle="bold"
-			android:text="录音取证"
-			android:textSize="16sp"
-			android:textColor="#A12935"
-			/>
+			android:text="计价规则"
+			android:textSize="@dimen/text_12"
+			android:textColor="@color/red"/>
 	</RelativeLayout>
 <!--
 <LinearLayout

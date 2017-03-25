@@ -27,9 +27,9 @@ import android.widget.TextView;
 
 public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 	private Button btn_next;
-	private String phoneNum,cerCode,userPwd;
-	private TextView tv_phone;
-	private EditText et_pwd;
+	private String phoneNum,cerCode,userPwd,userPwd1;
+//	private TextView tv_phone;
+	private EditText et_pwd,et_pwd1;
 	@Override
 	public void initData() {
 
@@ -41,9 +41,10 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 		btn_next.setOnClickListener(this);
 		phoneNum = getIntent().getStringExtra("phoneNum");
 		cerCode = getIntent().getStringExtra("cerCode");
-		tv_phone = (TextView) findViewById(R.id.tv_phone);
-		tv_phone.setText(phoneNum);
+//		tv_phone = (TextView) findViewById(R.id.tv_phone);
+//		tv_phone.setText(phoneNum);
 		et_pwd = (EditText) findViewById(R.id.et_pwd);
+		et_pwd1 = (EditText) findViewById(R.id.et_pwd1);
 	}
 
 	@Override
@@ -53,17 +54,21 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 
 	@Override
 	public String setTitle() {
-		return "重置密码";
+		return "忘记密码";
 	}
 
 	@Override
 	public void onClick(View v) {
 		userPwd = et_pwd.getText().toString().trim();
-		if (CheckUtil.isEmpty(userPwd)) {
-			Toaster.showToast(FindpwdSetNewPwd.this, "请设置密码");
+		userPwd1 = et_pwd1.getText().toString().trim();
+		if (CheckUtil.isEmpty(userPwd)||CheckUtil.isEmpty(userPwd1)) {
+			Toaster.showToast(FindpwdSetNewPwd.this, "输入不能为空");
+		}else if(!CheckUtil.isPassWordValidate(userPwd)||!CheckUtil.isPassWordValidate(userPwd1)){
+			Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
+		}else if(!userPwd.equals(userPwd1)){
+			Toaster.showToast(this, "两次输入的密码不一致");
 		}else{
 			ResetPwd();
-			
 		}
 		
 		

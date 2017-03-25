@@ -46,7 +46,6 @@ import cz.msebera.android.httpclient.Header;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements
 		OnCheckedChangeListener, OnClickListener {
-
 	private Context context;
 	private LayoutInflater inflater;
 	private boolean isAllSelect = false;
@@ -125,10 +124,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
-			vh.tv_filename = (TextView) convertView
-					.findViewById(R.id.tv_filename);
-			vh.tv_filedate = (TextView) convertView
-					.findViewById(R.id.tv_filedate);
+			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
+			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
 
 			pkValue = mDatas.get(position).getPkValue();

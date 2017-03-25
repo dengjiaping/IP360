@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg" >
+    android:background="@color/white" >
 
     <include
         android:id="@+id/include1"
         layout="@layout/top_title" />
 
- 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/include1"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="160dp"
@@ -24,7 +24,7 @@
             android:layout_weight="0.11"
             android:background="@drawable/luxiang" />
 
-        <RelativeLayout
+       <!-- <RelativeLayout
             android:id="@+id/rl_filename"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -177,7 +177,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="" 
+                android:text=""
                 android:textColor="@color/text_color"
                 android:textSize="13sp" />
         </RelativeLayout>
@@ -220,43 +220,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="13sp"  />
         </RelativeLayout>
-        <!-- <RelativeLayout
-            android:id="@+id/rl_money"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_below="@id/rl_filesize"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:background="@color/item_bg" >
 
-            <ImageView
-                android:id="@+id/iv_account_message"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:background="@drawable/ww" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:layout_toRightOf="@id/iv_account_message"
-                android:text="当次消费"
-                android:textColor="@color/text_color"
-                android:textSize="@dimen/text_size" />
-
-            <TextView
-                android:id="@+id/tv_account"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/layout_marginRight"
-                android:text="￥5.00" />
-        </RelativeLayout> -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -265,7 +229,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
-			<LinearLayout 
+			<LinearLayout
 			    android:layout_width="match_parent"
 			    android:layout_height="fill_parent"
 			    android:orientation="horizontal"
@@ -292,15 +256,202 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size" />
 </LinearLayout>
-            <!-- <TextView
+
+        </RelativeLayout>-->
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/item_bg"
+            android:layout_weight="1"
+            >
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/btn_cancel"
-                android:layout_centerHorizontal="true"
-                android:text="30秒后自动放弃"
-                android:textColor="@color/title_bg_color"
-                android:textSize="@dimen/text_size" /> -->
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="文件名称:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size"  />
+            <TextView
+                android:id="@+id/tv_filename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"
+                android:layout_marginRight="15dp"
+                />
+
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/activity_bg">
+        </View>
+
+-->  <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/item_bg"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="取证地点:"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size"  />
+        <TextView
+            android:id="@+id/tv_loc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_item"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/activity_bg">
+        </View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/item_bg"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="取证时间:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size"  />
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"
+                android:layout_marginRight="15dp"
+                />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/activity_bg">
+        </View>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/item_bg"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:text="录像时长:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size"  />
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"
+                android:layout_marginRight="15dp"
+                />
+
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/activity_bg">
+        </View>
+ <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/item_bg"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="文件大小:"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size"  />
+        <TextView
+            android:id="@+id/tv_filesize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_item"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/activity_bg">
+        </View>
+
+        <Button
+            android:id="@+id/btn_preserved"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/button_marginTop"
+            android:background="@drawable/round_corner_bg"
+            android:text="保全"
+            android:textColor="@color/button_text_color"
+            android:textSize="@dimen/button_text_size" />
     </LinearLayout>
 
 </RelativeLayout>
