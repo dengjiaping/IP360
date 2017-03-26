@@ -599,7 +599,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 * 云端证据的接口
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
-		list.clear();
+	//	list.clear();
 //		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
 		if(requestHandle!=null&&!requestHandle.isFinished()){
