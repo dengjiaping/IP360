@@ -625,7 +625,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						if (!CheckUtil.isEmpty(datas)) {
 							actionBar.setRightEnable();
 							actionBar.setRightText("选择");
-							list.clear();
 							list.addAll(datas);
 						} else {
 							actionBar.setRightDisEnable();
