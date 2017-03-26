@@ -2,6 +2,8 @@ package com.truthso.ip360.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,21 +28,21 @@ import com.truthso.ip360.utils.MD5Util;
 import cz.msebera.android.httpclient.Header;
 
 /**
- * @despriction :注册页面
- * 
  * @author wsx_summer Email:wangshaoxia@truthso.com
- * @date 创建时间：2016-7-25下午4:15:40
  * @version 1.0
+ * @despriction :注册页面
+ * @date 创建时间：2016-7-25下午4:15:40
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private Button btn_regist, btn_send_code;
 	private EditText et_account, et_cercode;
-	private String phoneNum, cerCode,userPwd;
+	private String phoneNum, cerCode, userPwd;
 	private EditText et_userpwd;
-	private CheckBox cb_password,cb_checkbox;
+	private CheckBox cb_password, cb_checkbox;
 	private TextView tv_yonghuxieyi;
+	private boolean isAccountEmpty, isVcodeEmpty, isPasswordEmpty, isAgree;
 	// 倒计时
 	private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -55,6 +57,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			btn_send_code.setEnabled(true);
 		}
 	};
+	/**
+	 * ATTENTION: This was auto-generated to implement the App Indexing API.
+	 * See https://g.co/AppIndexing/AndroidStudio for more information.
+	 */
 
 	@Override
 	public void initData() {
@@ -89,23 +95,23 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		cb_password.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {//密码显示与隐藏
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
+				if (isChecked) {
 					//如果选中，显示密码
 					et_userpwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-				}else{
+				} else {
 					//否则隐藏密码
 					et_userpwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
 				}
 			}
 		});
-		if (btn_regist.getLinksClickable()){//註冊按鈕是否可点击
+		if (btn_regist.getLinksClickable()) {//註冊按鈕是否可点击
 //			btn_regist.setClickable(false);
 			btn_regist.setBackgroundColor(getResources().getColor(R.color.white));
 			btn_regist.setTextColor(getResources().getColor(R.color.gray));
-		}else{
+		} else {
 //			btn_regist.setClickable(true);
 			btn_regist.setTextColor(getResources().getColor(R.color.white));
-			btn_regist.setBackgroundColor(Color.parseColor(R.color.jiuhong+""));
+			btn_regist.setBackgroundColor(Color.parseColor(R.color.jiuhong + ""));
 		}
 
 		//监听编辑框
@@ -124,11 +130,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-			if (!CheckUtil.isEmpty(et_account.getText().toString().trim())){
-					btn_regist.setClickable(true);
-				}else{
-				btn_regist.setClickable(false);
-			}
+				if (!CheckUtil.isEmpty(s.toString().trim())) {
+					isAccountEmpty = true;
+				} else {
+					isAccountEmpty = false;
+				}
+				checkButtonStatus();
 			}
 		});
 		//监听编辑框
@@ -147,11 +154,12 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!CheckUtil.isEmpty(et_userpwd.getText().toString().trim())){
-					btn_regist.setClickable(true);
-				}else{
-					btn_regist.setClickable(false);
+				if (!CheckUtil.isEmpty(s.toString().trim())) {
+					isPasswordEmpty = true;
+				} else {
+					isPasswordEmpty = false;
 				}
+				checkButtonStatus();
 			}
 		});
 		//监听编辑框
@@ -170,14 +178,34 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!CheckUtil.isEmpty(et_cercode.getText().toString().trim())){
-					btn_regist.setClickable(true);
-				}else{
-					btn_regist.setClickable(false);
+				if (!CheckUtil.isEmpty(s.toString().trim())) {
+					isVcodeEmpty = true;
+				} else {
+					isVcodeEmpty = false;
 				}
+				checkButtonStatus();
 			}
 		});
 
+		cb_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				checkButtonStatus();
+			}
+		});
+
+	}
+
+	private void checkButtonStatus() {
+		if (isAccountEmpty && isVcodeEmpty && isPasswordEmpty && cb_checkbox.isChecked()) {
+			btn_regist.setEnabled(true);
+			btn_regist.setTextColor(Color.WHITE);
+			btn_regist.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_regist.setEnabled(false);
+			btn_regist.setBackgroundResource(R.drawable.round_corner_white);
+			btn_regist.setTextColor(getResources().getColor(R.color.huise));
+		}
 	}
 
 	@Override
@@ -193,47 +221,48 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_regist:// 注册
-			phoneNum = et_account.getText().toString().trim();
-			cerCode = et_cercode.getText().toString().trim();
-			userPwd = et_userpwd.getText().toString().trim();
-			if (CheckUtil.isEmpty(phoneNum)||CheckUtil.isEmpty(cerCode)) {
-				Toaster.showToast(this, "手机号或验证码不能为空");
-			}else if(!CheckUtil.isPassWordValidate(userPwd)){
-				Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
-			}else{
-				String phoneReg="^1\\d{10}";
-				if(!phoneNum.matches(phoneReg)){
-					Toaster.showToast(this, "请输入正确的手机号");
-				}else{
-					regist();
-				}				
-			}
+			case R.id.btn_regist:// 注册
+				phoneNum = et_account.getText().toString().trim();
+				cerCode = et_cercode.getText().toString().trim();
+				userPwd = et_userpwd.getText().toString().trim();
+				if (CheckUtil.isEmpty(phoneNum) || CheckUtil.isEmpty(cerCode)) {
+					Toaster.showToast(this, "手机号或验证码不能为空");
+				} else if (!CheckUtil.isPassWordValidate(userPwd)) {
+					Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
+				} else {
+					String phoneReg = "^1\\d{10}";
+					if (!phoneNum.matches(phoneReg)) {
+						Toaster.showToast(this, "请输入正确的手机号");
+					} else {
+						regist();
+					}
+				}
 
-			break;
+				break;
 			case R.id.tv_yonghuxieyi://用户协议
-				Intent intent = new Intent(RegisterActivity.this,UserAgreementActivity.class);
+				Intent intent = new Intent(RegisterActivity.this, UserAgreementActivity.class);
 				startActivity(intent);
 				break;
-		case R.id.btn_send_code:
-			
-			phoneNum = et_account.getText().toString().trim();
-			if (CheckUtil.isEmpty(phoneNum)) {
-				Toaster.showToast(this, "手机号不能为空");
-			}else{
-				String phoneReg="^1\\d{10}";
-				if(!phoneNum.matches(phoneReg)){
-					Toaster.showToast(RegisterActivity.this, "请输入正确的手机号");
-				}else{
+			case R.id.btn_send_code:
 
-				sendVerCode();
-				}				
-			}
-			break;
-		default:
-			break;
+				phoneNum = et_account.getText().toString().trim();
+				if (CheckUtil.isEmpty(phoneNum)) {
+					Toaster.showToast(this, "手机号不能为空");
+				} else {
+					String phoneReg = "^1\\d{10}";
+					if (!phoneNum.matches(phoneReg)) {
+						Toaster.showToast(RegisterActivity.this, "请输入正确的手机号");
+					} else {
+
+						sendVerCode();
+					}
+				}
+				break;
+			default:
+				break;
 		}
 	}
+
 	/**
 	 * 发送验证码
 	 */
@@ -242,34 +271,35 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		btn_send_code.setEnabled(false);
 		timer.start();
 		ApiManager.getInstance().getRegVerCode(MyConstants.REGISTER, phoneNum, null, new ApiCallback() {
-			
+
 			@Override
 			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				
-				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode()==200) {
+									BaseHttpResponse response) {
 
-					}else{
+				if (!CheckUtil.isEmpty(response)) {
+					if (response.getCode() == 200) {
+
+					} else {
 						btn_send_code.setEnabled(true);
 						timer.cancel();
 						btn_send_code.setText("发送验证码");
-						Toaster.showToast(RegisterActivity.this,response.getMsg());
+						Toaster.showToast(RegisterActivity.this, response.getMsg());
 					}
-				}else{
-					Toaster.showToast(RegisterActivity.this,"获取失败");
+				} else {
+					Toaster.showToast(RegisterActivity.this, "获取失败");
 				}
 			}
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				
+
 			}
 		});
-		
+
 	}
+
 	private void regist() {
-		userPwd= MD5Util.encoder(userPwd);
+		userPwd = MD5Util.encoder(userPwd);
 		ApiManager.getInstance().registUser(phoneNum, userPwd, cerCode, new ApiCallback() {
 
 			@Override
@@ -277,15 +307,15 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 									BaseHttpResponse response) {
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
-						Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+						Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
 						startActivity(intent);
 						finish();
 
-					}else{
-						Toaster.showToast(RegisterActivity.this,response.getMsg());
+					} else {
+						Toaster.showToast(RegisterActivity.this, response.getMsg());
 					}
-				}else{
-					Toaster.showToast(RegisterActivity.this,"注册失败");
+				} else {
+					Toaster.showToast(RegisterActivity.this, "注册失败");
 				}
 			}
 
@@ -296,5 +326,4 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		});
 
 	}
-
 }
