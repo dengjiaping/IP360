@@ -7,10 +7,12 @@ import com.truthso.ip360.fragment.PersonalCenter;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class FragmentTabUtils implements RadioGroup.OnCheckedChangeListener {
@@ -41,7 +43,9 @@ public class FragmentTabUtils implements RadioGroup.OnCheckedChangeListener {
 	@Override
 	public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
 		for (int i = 0; i < rgs.getChildCount(); i++) {
+			((RadioButton)rgs.getChildAt(i)).setTextColor(Color.parseColor("#868688"));
 			if (rgs.getChildAt(i).getId() == checkedId) {
+				((RadioButton)rgs.getChildAt(i)).setTextColor(Color.parseColor("#a12935"));
 				Fragment fragment = fragments.get(i);
 
 				FragmentTransaction ft = obtainFragmentTransaction(i);
@@ -65,6 +69,7 @@ public class FragmentTabUtils implements RadioGroup.OnCheckedChangeListener {
 				}
 
 			}
+
 		}
 
 	}

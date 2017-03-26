@@ -31,8 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:background="@drawable/home_selector"
+            android:drawableTop="@drawable/home_selector"
+            android:text="现在取证"
             android:gravity="center"
+            android:textSize="12sp"
              />
 
         <RadioButton
@@ -40,26 +42,32 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-             android:background="@drawable/cloudevidence_selector"
+            android:drawableTop="@drawable/cloudevidence_selector"
+            android:text="证据列表"
             android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/huise"
              />
 
-        <RadioButton
+    <!--    <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
              android:background="@drawable/native_selector"
             android:gravity="center"
-            />
+            />-->
 
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:background="@drawable/translist_selector"
+            android:drawableTop="@drawable/translist_selector"
+            android:text="传输列表"
             android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/huise"
             />
 
         <RadioButton
@@ -68,8 +76,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:background="@drawable/personcenter_selector"
+            android:drawableTop="@drawable/personcenter_selector"
+            android:text="个人中心"
             android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/huise"
             />
     </RadioGroup>
 

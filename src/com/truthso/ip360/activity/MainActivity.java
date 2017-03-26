@@ -90,11 +90,12 @@ private MyWifiReceiver myWifiReceiver;
 		List<Fragment> fragmentList = new ArrayList<Fragment>();
 		fragmentList.add(new HomeFragment());// 首页（现在取证）
 		fragmentList.add(new CloudEvidence());// 云端证据
-		fragmentList.add(new NativeEvidence());// 本地证据
+		//fragmentList.add(new NativeEvidence());// 本地证据
 		fragmentList.add(new TransList());// 传输列表
 		fragmentList.add(new PersonalCenter());// 个人中心
 		radioGroup = (RadioGroup) findViewById(R.id.main_RadioGroup);
 		((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
+		((RadioButton) radioGroup.getChildAt(0)).setTextColor(getResources().getColor(R.color.jiuhong));
 		fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(),
 				fragmentList, R.id.main_fragment, radioGroup);
 
@@ -106,10 +107,6 @@ private MyWifiReceiver myWifiReceiver;
 
 	}
 
-	public void replaceFragment(Fragment argFragment, String argName) {
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.main_fragment, argFragment, argName).commit();
-	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
