@@ -77,9 +77,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		UpdateItem, OnItemClickListener, OnRefreshListener ,OnloadListener {
 	private int pagerNumber = 1;
 	private MainActionBar actionBar;
-	//private ListView lv_cloudevidence;
 	private CloudEvidenceAdapter adapter;
-	private XRefreshView xRefresh;
 	private RefreshListView listView;
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
@@ -110,17 +108,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 
-		/*xRefresh = (XRefreshView) view
-				.findViewById(R.id.xrefresh_cloudevidence);
-		xRefresh.setPullRefreshEnable(false);
-		xRefresh.setPullLoadEnable(false);
-		xRefresh.setAutoRefresh(false);
-		xRefresh.setXRefreshViewListener(this);*/
-
-
-
 		listView =  (RefreshListView) view.findViewById(R.id.lv_cloudevidence);
-		//listView= (RefreshListView) view.findViewById(R.id.lv_cloud);
 		listView.setOnRefreshListener(this);
 		listView.setOnLoadListener(this);
 		listView.setOnLoad(true);
@@ -131,15 +119,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		listView.addHeaderView(headView);
 		et_find_service = (EditText)headView.findViewById(R.id.et_find_service);
 
-		//lv_cloudevidence.setOnItemClickListener(this);
-
 		if (tag) {
 //			进来显示第一个
 			type = 2;//现场取证
 			mobileType = 50001;
 			getDatas(keywork,type,mobileType,pagerNumber);
 		}
-
 
 		adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
 		adapter.setUpdateItem(this);
@@ -195,7 +180,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		public void handleMessage(android.os.Message msg) {
 
-			Log.i("djj", (String)(msg.obj)+type+mobileType);
 			list.clear();
 			getDatas((String)(msg.obj),type,mobileType,1);
 		}
@@ -223,10 +207,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				}
 				break;
 			case R.id.acition_bar_left:
-			/*
-			 * startActivityForResult(new Intent(getActivity(),
-			 * CategoryCloudEvidenceActivity.class), CODE_SEARCH);
-			 */
 				if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -243,21 +223,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 	}
-
-/*	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-		if (position == 0) {
-			Intent intent=new Intent(getActivity(),	SearchCloudEvidenceActivity.class);
-			intent.putExtra("type", type);
-			intent.putExtra("mobileType", mobileType);
-			intent.putExtra("from", "cloud");
-			startActivityForResult(intent, CODE_SEARCH);
-		}else{
-			CloudEviItemBean cloudEviItemBean2 = datas.get(position-1);
-		}
-
-	}*/
 
 	/**
 	 *下载选择的
@@ -347,8 +312,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				});
 	}
 
-
-
 	// 显示类别popwindow
 	private void showPop() {
 
@@ -402,7 +365,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
-
 				}
 				adapter.clearData();
 				list.clear();
@@ -505,9 +467,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					default:
 						break;
 				}
-
 			}
-
 		});
 		showDownLoadPop();
 		adapter.setChoice(true);
@@ -541,7 +501,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
 		// 进入退出的动画
-		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
 		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
 	}
 
@@ -553,8 +512,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		}
 	}
-
-
 
 	@Override
 	public void onStart() {
@@ -599,8 +556,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 * 云端证据的接口
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
-	//	list.clear();
-//		LogUtils.e("版本号"+getVersion());
 		showProgress("正在加载数据...");
 		if(requestHandle!=null&&!requestHandle.isFinished()){
 			requestHandle.cancel(true);
@@ -611,8 +566,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onApiResult(int errorCode, String message,
 									BaseHttpResponse response) {
 				//停止刷新
-				/*xRefresh.stopRefresh();
-				xRefresh.stopLoadMore();*/
 				listView.onRefreshFinished();
 				listView.onLoadFinished();
 				hideProgress();
@@ -630,7 +583,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 							actionBar.setRightDisEnable();
 							actionBar.setRightText("");
 						}
-//						LogUtils.e(type+"type");
+
 						if (list.size() >= 10) {
 							listView.setOnLoad(true);
 						} else {
@@ -661,10 +614,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 		if(position!=lastPosition){
-			int fir=listView.getFirstVisiblePosition();
-			int las=listView.getLastVisiblePosition();
+			//listview添加headerview后，adapter中getview方法的position=0是第一个条目，而监听方法中position=0是headerview
+			int fir=listView.getFirstVisiblePosition()-1;
+			int las=listView.getLastVisiblePosition()-1;
+
 			if(lastPosition>=fir&&lastPosition<=las){
-				View view = listView.getChildAt(lastPosition - fir+2);
+				View view = listView.getChildAt(lastPosition - fir+1);
 				if(view!=null){
 					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
 					if(ll_option.getVisibility()==View.VISIBLE){
@@ -679,37 +634,23 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	}
 
 
-/*	@Override
-	public void toRefresh() {
-		pagerNumber=1;
-		list.clear();
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}
-
-	@Override
-	public void toOnLoad() {
-		Log.i("djj","haha");
-		pagerNumber++;
-		getDatas(searchText,type,mobileType,pagerNumber);
-	}*/
-
-
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Log.i("djj", position+"");
+
 	}
 
 
 	@Override
 	public void toOnLoad() {
 		// TODO Auto-generated method stub
-
+		lastPosition=0;
 		pagerNumber++;
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 
 	@Override
 	public void toRefresh() {
+		lastPosition=0;
 		searchText=et_find_service.getText().toString().trim();
 		pagerNumber=1;
 		list.clear();

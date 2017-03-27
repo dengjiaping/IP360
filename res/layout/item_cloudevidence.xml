@@ -5,14 +5,11 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-     android:id="@+id/rl_item"
+        android:id="@+id/rl_item"
         android:layout_width="match_parent"
         android:layout_height="50dp"
     
         >
- <!-- android:focusable="true"
-         android:focusableInTouchMode="true"
-        android:descendantFocusability ="blocksDescendants" -->
         <LinearLayout
             android:id="@+id/ll_item"
             android:layout_width="match_parent"
@@ -85,63 +82,69 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-    <View
+   <!-- <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="@color/grey" />
+        android:background="@color/grey" />-->
 
     <LinearLayout
         android:id="@+id/ll_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:background="#cbcbcb"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
        >
- <!-- android:visibility="gone"  -->
         <TextView
             android:id="@+id/tv_download"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawableTop="@drawable/xz"
+            android:drawablePadding="5dp"
             android:gravity="center"
             android:text="下载"
-             android:textColor="@color/title_text_color"
-            android:textSize="10sp" />
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_remark"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/bz"
+            android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="备注" 
-             android:textColor="@color/title_text_color"
-            android:textSize="10sp"/>
+            android:text="备注"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
 
         <TextView
-            android:id="@+id/tv_certificate_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:drawableTop="@drawable/ck"
-            android:gravity="center"
-            android:text="证书预览" 
-             android:textColor="@color/title_text_color"
-            android:textSize="10sp"/>
-        <TextView
             android:id="@+id/tv_file_preview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/zxyl"
+            android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="在线预览"
-             android:textColor="@color/title_text_color"
-            android:textSize="10sp" />
+            android:text="预览"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_certificate_preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:drawableTop="@drawable/ck"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="查看证书"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -204,8 +204,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			} else {
 				cb_choice.setChecked(false);
 			}
-
-
 			cb_choice.setTag(position);
 			cb_choice.setOnCheckedChangeListener(this);
 		} else {
@@ -235,20 +233,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_download.setOnClickListener(this);
 			tv_file_preview.setTag(position);
 			tv_file_preview.setOnClickListener(this);
-			/*cb_option.setChecked(false);
-			ll_option.setVisibility(View.GONE);
-			if (mDatas.get(position).isOpen) {
-				// ll_option.setVisibility(View.VISIBLE);
-				if (ll_option.getVisibility() == View.VISIBLE) {
-					ll_option.setVisibility(View.GONE);
-				} else {
-					ll_option.setVisibility(View.VISIBLE);
-				}
-			} else {
-				ll_option.setVisibility(View.GONE);
-			}*/
-			
-			RelativeLayout rl_item= (RelativeLayout)view.findViewById(R.id.rl_item);
+
 			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
 			ll_item.setOnClickListener(new OnClickListener() {
 
