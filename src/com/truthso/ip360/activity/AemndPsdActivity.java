@@ -10,7 +10,10 @@ import com.truthso.ip360.utils.MD5Util;
 import cz.msebera.android.httpclient.Header;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +32,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 	private Button btn_sure;
 	private EditText et_oldpwd,et_newpwd,et_again_newpwd;
 	private String newPwd,oldPwd,newPwd2;
-
+	private  boolean  isOldPwdEmp,isNewPwdEmp,isNewPwd2Emp;
 	@Override
 	public void initData() {
 		
@@ -41,7 +44,82 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 		et_again_newpwd = (EditText) findViewById(R.id.et_again_newpwd);
 		btn_sure = (Button) findViewById(R.id.btn_sure);
 		btn_sure.setOnClickListener(this);
+		et_oldpwd.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			if (!CheckUtil.isEmpty(s.toString().trim())){
+				isOldPwdEmp = true;
+			}else{
+				isOldPwdEmp = false;
+			}
+			}
+		});
+		et_newpwd.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())){
+					isNewPwd2Emp = true;
+				}else{
+					isNewPwd2Emp = false;
+				}
+			}
+		});
+		et_again_newpwd.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())){
+					isNewPwdEmp = true;
+				}else{
+					isNewPwdEmp = false;
+				}
+			}
+		});
 	}
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (isNewPwd2Emp && isNewPwdEmp&&isOldPwdEmp) {
+			btn_sure.setEnabled(true);
+			btn_sure.setTextColor(Color.WHITE);
+			btn_sure.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_sure.setEnabled(false);
+			btn_sure.setBackgroundResource(R.drawable.round_corner_white);
+			btn_sure.setTextColor(getResources().getColor(R.color.huise));
+		}
+	}
+
 	@Override
 	public int setLayout() {
 		return R.layout.avtivity_amend_psd;

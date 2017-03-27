@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * @despriction :个人中心->关于我们
@@ -34,6 +36,7 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 		btn_useragreement.setOnClickListener(this);
 		btn_advice = (Button) findViewById(R.id.btn_advice);
 		btn_advice.setOnClickListener(this);
+
 	}
 
 	@Override
@@ -50,7 +53,8 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.btn_advice://意见反馈
-
+			Intent intent1 = new Intent(AboutUsAcctivity.this,UserAdviceActivity.class);
+				startActivity(intent1);
 
 			break;
 			case R.id.btn_useragreement://用户协议

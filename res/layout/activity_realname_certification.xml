@@ -6,8 +6,82 @@
     android:orientation="vertical" >
 
     <include layout="@layout/top_title" />
-
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:layout_marginTop="@dimen/button_margiontop_10"
+        android:background="@color/item_bg" >
+        <TextView
+            android:id="@+id/tv_zhanghao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="真实姓名："
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/item_text_color"
+            />
+        <EditText
+            android:id="@+id/et_cardid"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@id/tv_zhanghao"
+            android:layout_marginLeft="@dimen/mar_left_20"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="请输入真实姓名"
+            android:textSize="@dimen/text_item"
+            />
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" >
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:background="@color/white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gry"
+            android:layout_height="1dp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/edit_height"
+        android:background="@color/item_bg" >
+        <TextView
+            android:id="@+id/tv_mima"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="身份证号："
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/item_text_color"
+            />
+        <EditText
+            android:id="@+id/et_realname"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_mima"
+            android:layout_marginLeft="@dimen/mar_left_20"
+            android:background="@null"
+            android:hint="请输入身份证号"
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_item" />
+
+
+    </RelativeLayout>
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
         android:background="@color/item_bg" >
@@ -84,7 +158,7 @@
             android:background="@null"
             android:hint="请输入您的真实姓名"
             android:textSize="@dimen/text_size" />
-    </RelativeLayout>
+    </RelativeLayout>-->
       <View
         android:layout_width="match_parent"
         android:layout_height="1dp" />

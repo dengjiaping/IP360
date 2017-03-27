@@ -2,23 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg">
-
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/et_useradvice"
         android:layout_width="match_parent"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_height="250dp"
         android:layout_marginTop="25dp"
         android:hint="请输入要反馈的内容"
+        android:padding="10dp"
+        android:gravity="top"
         android:background="@drawable/round_corner_white"
         />
 
     <EditText
+        android:id="@+id/et_account"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/item_hight"
+        android:hint="  QQ/手机号/邮箱"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="@dimen/margin_top_20"
+        android:background="@color/white"
         />
 
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="@dimen/button_marginTop"
+        android:background="@drawable/round_corner_white"
+        android:text="提交"
+        android:textColor="@color/huise"
+        android:textSize="@dimen/button_text_size" />
 
 </LinearLayout>
