@@ -2,7 +2,13 @@ package com.truthso.ip360.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,8 +36,9 @@ import cz.msebera.android.httpclient.Header;
 public class ReBindEmailActivity extends BaseActivity implements OnClickListener{
 	private Button btn_next, btn_send_code;
 	private EditText et_cercode;
-	private TextView tv_binded_mobile;
+	private TextView tv_binded_mobile,tv_ziti;
 	private String cerCode;
+	private boolean iscercodeIsEmpty;
 	// 倒计时
 		private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -62,8 +69,53 @@ public class ReBindEmailActivity extends BaseActivity implements OnClickListener
 		et_cercode = (EditText) findViewById(R.id.et_cercode);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
 		btn_send_code.setOnClickListener(this);
-			
+		tv_ziti= (TextView) findViewById(R.id.tv_ziti);
+		SpannableStringBuilder mSpannableStringBuilder=new SpannableStringBuilder(tv_ziti.getText().toString().trim());
+		mSpannableStringBuilder.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.jiuhong)), 0, 4, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		mSpannableStringBuilder.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.black)), 4, 14, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+		tv_ziti.setText(mSpannableStringBuilder);
+
+
+		//监听编辑框
+		et_cercode.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())) {
+					iscercodeIsEmpty = true;
+				} else {
+					iscercodeIsEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
 	}
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (iscercodeIsEmpty) {
+			btn_next.setEnabled(true);
+			btn_next.setTextColor(Color.WHITE);
+			btn_next.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_next.setEnabled(false);
+			btn_next.setBackgroundResource(R.drawable.round_corner_white);
+			btn_next.setTextColor(getResources().getColor(R.color.huise));
+		}
+	}
+
 
 	@Override
 	public int setLayout() {
