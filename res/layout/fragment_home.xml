@@ -56,7 +56,7 @@
 	<RelativeLayout
 		android:id="@+id/ll_take_photo"
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
+		android:layout_height="60dp"
         android:background="@drawable/selector_shouye"
 		android:layout_marginTop="10dp">
 		<RelativeLayout
@@ -86,7 +86,7 @@
 	<RelativeLayout
 		android:id="@+id/ll_take_video"
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
+		android:layout_height="60dp"
 		android:background="@drawable/selector_shouye"
 		android:layout_marginTop="10dp">
 		<!--android:background="@drawable/selector_shouye"-->
@@ -117,7 +117,7 @@
 	<RelativeLayout
 		android:id="@+id/ll_record"
 		android:layout_width="match_parent"
-		android:layout_height="50dp"
+		android:layout_height="60dp"
 		android:background="@drawable/selector_shouye"
 		android:layout_marginTop="10dp">
 		<RelativeLayout

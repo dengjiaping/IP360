@@ -10,6 +10,9 @@ import com.truthso.ip360.utils.MD5Util;
 import cz.msebera.android.httpclient.Header;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,6 +33,7 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 	private String phoneNum,cerCode,userPwd,userPwd1;
 //	private TextView tv_phone;
 	private EditText et_pwd,et_pwd1;
+	private  boolean pwdIsEmpty,pwd1IsEmpty;
 	@Override
 	public void initData() {
 
@@ -45,8 +49,63 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 //		tv_phone.setText(phoneNum);
 		et_pwd = (EditText) findViewById(R.id.et_pwd);
 		et_pwd1 = (EditText) findViewById(R.id.et_pwd1);
-	}
+		et_pwd.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())){
+					pwdIsEmpty = true;
+				}else{
+					pwdIsEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
+		et_pwd1.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())){
+					pwd1IsEmpty = true;
+				}else{
+					pwd1IsEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
+	}
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (pwdIsEmpty && pwd1IsEmpty) {
+			btn_next.setEnabled(true);
+			btn_next.setTextColor(Color.WHITE);
+			btn_next.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_next.setEnabled(false);
+			btn_next.setBackgroundResource(R.drawable.round_corner_white);
+			btn_next.setTextColor(getResources().getColor(R.color.huise));
+		}
+	}
 	@Override
 	public int setLayout() {
 		return R.layout.activity_findpwd_setnewpwd;

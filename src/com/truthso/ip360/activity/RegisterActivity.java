@@ -196,6 +196,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 	}
 
+	/**
+	 * 按钮是否是彩色可点击
+	 */
 	private void checkButtonStatus() {
 		if (isAccountEmpty && isVcodeEmpty && isPasswordEmpty && cb_checkbox.isChecked()) {
 			btn_regist.setEnabled(true);

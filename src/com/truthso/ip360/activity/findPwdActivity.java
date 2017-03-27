@@ -10,7 +10,10 @@ import com.truthso.ip360.utils.CheckUtil;
 import cz.msebera.android.httpclient.Header;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,6 +32,7 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 	private Button btn_next, btn_send_code;
 	private EditText et_account, et_cercode;
 	private String phoneNum, cerCode;
+	private boolean accountIsEmpty,cercodeIsEmpty;
 	// 倒计时
 	private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -55,10 +59,67 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 		btn_next.setOnClickListener(this);
 		btn_send_code = (Button) findViewById(R.id.btn_send_code);
 		btn_send_code.setOnClickListener(this);
-		
+
 
 		et_account = (EditText) findViewById(R.id.et_account);
 		et_cercode = (EditText) findViewById(R.id.et_cercode);
+		et_account.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (!CheckUtil.isEmpty(s.toString().trim())){
+					accountIsEmpty = true;
+				}else{
+					accountIsEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
+		et_cercode.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+					if (!CheckUtil.isEmpty(s.toString().trim())){
+						cercodeIsEmpty = true;
+					}else{
+						cercodeIsEmpty = false;
+					}
+				checkButtonStatus();
+			}
+		});
+
+	}
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (accountIsEmpty && cercodeIsEmpty) {
+			btn_next.setEnabled(true);
+			btn_next.setTextColor(Color.WHITE);
+			btn_next.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_next.setEnabled(false);
+			btn_next.setBackgroundResource(R.drawable.round_corner_white);
+			btn_next.setTextColor(getResources().getColor(R.color.huise));
+		}
 	}
 
 	@Override

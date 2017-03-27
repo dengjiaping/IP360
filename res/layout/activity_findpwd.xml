@@ -97,8 +97,8 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@drawable/round_corner_bg"
+        android:background="@drawable/round_corner_white"
         android:text="下一步"
-        android:textColor="@color/button_text_color"
+        android:textColor="@color/huise"
         android:textSize="@dimen/button_text_size" />
 </LinearLayout>
