@@ -34,8 +34,8 @@
    <dimen name="edit_height">50dp</dimen>
    <dimen name="image_edit_head">35dp</dimen>
    <!-- 身份识别的缩略图框 -->
-    <dimen name="image_width">150dp</dimen>
-    <dimen name="image_height">160dp</dimen>
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_height">120dp</dimen>
     <!--支付-->
     <dimen name="margin_top_account">10dp</dimen>
     <!--登录页面  -->
@@ -44,5 +44,5 @@
     <!-- 本地证据条目 -->
     <dimen name="text_date_size">12sp</dimen>
     <!--item 主题文字-->
-    <dimen name="text_item">12sp</dimen>
+    <dimen name="text_item">13sp</dimen>
 </resources>
