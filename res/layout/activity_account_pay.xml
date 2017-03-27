@@ -9,6 +9,44 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="@dimen/item_hight"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="余额："
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/item_text_color"
+            android:textSize="@dimen/text_item"/>
+        <TextView
+            android:id="@+id/tv_accountbalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text=""
+            android:layout_marginRight="10dp"
+            android:textColor="@color/item_text_color"
+            android:textSize="@dimen/text_item"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity=""
+        android:background="@color/white">
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/gry"
+            android:layout_height="1dp" />
+    </LinearLayout>
+
+  <!--  <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height" >
 
         <ImageView
@@ -40,9 +78,34 @@
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size"
             />
-    </RelativeLayout>
-
-    <RelativeLayout
+    </RelativeLayout>-->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_hight"
+    android:background="@drawable/white"
+    >
+    <TextView
+        android:id="@+id/tv_jine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="充值金额："
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/item_text_color"
+        android:textSize="@dimen/text_item"/>
+    <EditText
+        android:id="@+id/et_chongzhi_jine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_jine"
+        android:layout_centerVertical="true"
+        android:hint="请输入充值金额"
+        android:background="@null"
+        android:textSize="@dimen/text_item"
+        android:textColor="@color/item_text_color"/>
+</RelativeLayout>
+   <!-- <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/edit_height"
         android:background="@color/activity_bg" >
@@ -78,29 +141,60 @@
             android:id="@+id/et_chongzhi_jine"/>
 
     </RelativeLayout>
-
+-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/edit_height" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_margiontop_10"
+        android:background="@color/white">
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/iv_jiupsd"
             android:layout_width="@dimen/image_edit_head"
             android:layout_height="@dimen/image_edit_head"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/zffs" />
+            android:background="@drawable/zffs" />-->
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/button_margiontop_10"
+        android:layout_marginLeft="@dimen/layout_marginLeft"
+        android:text="支付方式:"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size" />
+</LinearLayout>
 
-        <TextView
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
-            android:text="支付方式:"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@color/white">
+
+            <CheckBox
+                android:id="@+id/cb_checkbox_zfb"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/checkbox"
+                android:button="@null"
+                android:clickable="false"
+                android:checked="true"/>
+
+            <ImageView
+                android:layout_width="140dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/cb_checkbox_zfb"
+                android:background="@drawable/zfb" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -126,11 +220,12 @@
             android:background="@drawable/wxzf" />
     </RelativeLayout>
 
-    <RelativeLayout
+   <!-- <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_top_account" >
+        android:layout_marginTop="@dimen/margin_top_account"
+        android:background="@color/white">
 
         <CheckBox
             android:id="@+id/cb_checkbox_zfb"
@@ -148,7 +243,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/cb_checkbox_zfb"
             android:background="@drawable/zfb" />
-    </RelativeLayout>
+    </RelativeLayout>-->
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -163,7 +258,7 @@
             android:layout_height="20dp"
             android:checked="false"
             android:layout_centerVertical="true"
-            android:background="@drawable/checkbox"
+            android:background="@drawable/radio_c"
             android:button="@null" />
 
         <ImageView
@@ -175,13 +270,15 @@
     </RelativeLayout>
     <Button
         android:id="@+id/btn_sure"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_marginTop"
-        android:background="@drawable/round_corner_bg"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/round_corner_white"
         android:text="确认支付"
-        android:textColor="@color/button_text_color"
+        android:textColor="@color/huise"
         android:textSize="@dimen/button_text_size" />
 
 </LinearLayout>

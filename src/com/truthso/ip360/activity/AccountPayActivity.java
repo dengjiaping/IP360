@@ -1,8 +1,11 @@
 package com.truthso.ip360.activity;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +45,7 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 	private EditText et_chongzhi_jine;
 	private Button btn_sure;
 	private TextView tv_accountbalance;
+	private boolean isAccountBalanceEmp;
 	@Override
 	public void initData() {
 		accountBalance = getIntent().getStringExtra("accountBalance");
@@ -54,6 +58,41 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 		et_chongzhi_jine= (EditText) findViewById(R.id.et_chongzhi_jine);
 		tv_accountbalance = (TextView) findViewById(R.id.tv_accountbalance);
 		tv_accountbalance.setText(accountBalance);
+		tv_accountbalance.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			if (!CheckUtil.isEmpty(s.toString().trim())){
+				isAccountBalanceEmp = true;
+			}else{
+				isAccountBalanceEmp = false;
+			}
+			}
+		});
+	}
+
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (isAccountBalanceEmp) {
+			btn_sure.setEnabled(true);
+			btn_sure.setTextColor(Color.WHITE);
+			btn_sure.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_sure.setEnabled(false);
+			btn_sure.setBackgroundResource(R.drawable.round_corner_white);
+			btn_sure.setTextColor(getResources().getColor(R.color.huise));
+		}
 	}
 	@Override
 	public int setLayout() {

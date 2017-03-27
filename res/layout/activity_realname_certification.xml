@@ -159,7 +159,28 @@
             android:hint="请输入您的真实姓名"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>-->
-      <View
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/margin_top_20"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="采集照片:"
+            android:padding="10dp"
+            android:textColor="@color/item_text_color"
+            android:textSize="@dimen/text_item"/>
+        <ImageView
+            android:id="@+id/iv_face"
+            android:layout_width="@dimen/image_width"
+            android:layout_height="@dimen/image_height"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/margin_top_20"
+            android:background="@drawable/sb" />
+
+    </RelativeLayout>
+    <!--  <View
         android:layout_width="match_parent"
         android:layout_height="1dp" />
     <RelativeLayout
@@ -193,14 +214,16 @@
         android:layout_height="@dimen/image_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_top_20"
-        android:background="@drawable/sb" />
+        android:background="@drawable/sb" />-->
 
     <Button
         android:id="@+id/btn_ver"
-        android:layout_width="@dimen/button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/button_margiontop_40"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/round_corner_bg"
         android:text="认证"
         android:textColor="@color/button_text_color"
