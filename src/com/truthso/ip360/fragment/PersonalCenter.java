@@ -58,12 +58,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private Dialog alertDialog;
 	private String  accountBalance;
 	private ImageView iv_next_yue;
-	private RelativeLayout ll_count_pay, rl_Certification, rl_bind_phonum,
+	private RelativeLayout  rl_Certification, rl_bind_phonum,
 			rl_bind_mail, rl_amend_psd, rl_about_us, rl_account;
-	private Button btn_logout;
+	private Button btn_logout,btn_count_pay;
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
-			tv_bindemail, tv_title;
+			tv_bindemail, tv_account;
 	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
 	private String unit_photo,unit_video,unit_record;
 	private List<product> list,list1;// 业务余量的集合
@@ -74,9 +74,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		tv_title = (TextView) view.findViewById(R.id.tv_title);
-		ll_count_pay = (RelativeLayout) view.findViewById(R.id.rl_count_pay);
-		ll_count_pay.setOnClickListener(this);
+		tv_account = (TextView) view.findViewById(R.id.tv_account);
+		btn_count_pay = (Button) view.findViewById(R.id.btn_count_pay);
+		btn_count_pay.setOnClickListener(this);
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
 		rl_account = (RelativeLayout) view.findViewById(R.id.rl_account);
 		rl_account.setOnClickListener(this);
@@ -98,8 +98,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		rl_about_us.setOnClickListener(this);
 		btn_logout = (Button) view.findViewById(R.id.btn_logout);
 		btn_logout.setOnClickListener(this);
-		tv_account_balance = (TextView) view
-				.findViewById(R.id.tv_account_balance);
+		tv_account_balance = (TextView) view.findViewById(R.id.tv_account_balance);
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
@@ -131,7 +130,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 							int balance = bean.getDatas().getAccountBalance();
 							accountBalance = "余额￥" + balance / 100 + "." + balance
 									% 100/10 +balance%100%10+ "元";
-//							tv_account_balance.setText(accountBalance);
+							tv_account_balance.setText(accountBalance);
 //							isContractUser = true;
 //							contractStart = bean.getDatas().getContractStart();
 //							contractEnd = bean.getDatas().getContractEnd();
@@ -185,11 +184,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						// 是否已绑定手机号
 						if (!CheckUtil.isEmpty(bean.getDatas()
 								.getBindedMobile())) {// 为空时，是未绑定手机号
-							tv_title.setText(bean.getDatas().getBindedMobile());
+//							tv_account.setText(bean.getDatas().getBindedMobile());
 							tv_bindphonenum.setText(bean.getDatas()
 									.getBindedMobile());
 						} else {
-							tv_title.setText("真相取证");
+//							tv_account.setText("真相取证");
 							tv_bindphonenum.setText("未绑定");
 						}
 
@@ -237,7 +236,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			tag = "account";
 			getPersonalMsg1();
 			break;
-		case R.id.rl_count_pay:// 用户充值
+		case R.id.btn_count_pay:// 用户充值
 			tag = "chongzhi";
 			getPersonalMsg1();
 			if (isOk){
@@ -434,7 +433,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						int balance = bean.getDatas().getAccountBalance();
 						accountBalance = "余额￥" + balance / 100 + "." + balance
 								% 100 / 10 + balance % 100 % 10 + "元";
-//							tv_account_balance.setText(accountBalance);
+							tv_account_balance.setText(accountBalance);
 //							isContractUser = true;
 //							contractStart = bean.getDatas().getContractStart();
 //							contractEnd = bean.getDatas().getContractEnd();
