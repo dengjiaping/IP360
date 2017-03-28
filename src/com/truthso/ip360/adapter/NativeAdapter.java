@@ -455,13 +455,13 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
         	    setPositiveButton("确定", new DialogInterface.OnClickListener() {
         	     @Override
         	     public void onClick(DialogInterface dialog, int which) {
-        	    	        	    		
+
         	    	 SqlDao.getSQLiteOpenHelper().delete(MyConstants.TABLE_MEDIA_DETAIL,dbBean.getId());
-        	    	
+
         	     }
         	    }).
         	    setNegativeButton("取消", new DialogInterface.OnClickListener() {
-        	     
+
         	     @Override
         	     public void onClick(DialogInterface dialog, int which) {
         	    	 alertDialog.dismiss();

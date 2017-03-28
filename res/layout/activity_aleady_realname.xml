@@ -46,7 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
             android:text="真实姓名："
             android:textColor="@color/item_text_color"
             android:textSize="@dimen/text_item" />
@@ -93,7 +92,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
             android:text="身份证号:"
             android:textColor="@color/item_text_color"
             android:textSize="@dimen/text_item"/>

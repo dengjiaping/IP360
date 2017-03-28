@@ -77,6 +77,21 @@ public class SqlDao {
 	}
 
 	/**
+	 * 删
+	 *
+	 * @param table
+	 *
+	 * @param id
+	 *            唯一ID，根据ID删除字段数据。
+	 */
+	public int deleteByPkValue(String table, int pkvalue) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+	    int count=db.delete(table, "pkvalue=?", new String[] { pkvalue + "" });
+		db.close();
+		return count;
+	}
+
+	/**
 	 * 改
 	 * 
 	 * @param 

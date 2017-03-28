@@ -3,7 +3,10 @@ package com.truthso.ip360.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +35,7 @@ import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.CEListRefreshEvent;
 import com.truthso.ip360.fragment.UpdateItem;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -41,6 +45,8 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -59,6 +65,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private List<CloudEviItemBean> selectedList = new ArrayList<CloudEviItemBean>();
 	private UpdateItem updateItem;
 	private int isOpen=Integer.MAX_VALUE;
+	private Dialog alertDialog;
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
 			int type, int mobileType) {
 		super();
@@ -117,6 +124,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder vh = null;
+		CloudEviItemBean cloudEviItemBean = mDatas.get(position);
+		pkValue =cloudEviItemBean.getPkValue();
+		count = cloudEviItemBean.getCount();
+		fileName = cloudEviItemBean.getFileTitle();
+		format = cloudEviItemBean.getFileFormat();
+		date =cloudEviItemBean.getFileDate();
+		size = cloudEviItemBean.getFileSize();
+		long l_size = Long.parseLong(size);
+		size1 = FileSizeUtil.FormetFileSize(l_size);
+		mode = cloudEviItemBean.getFileMode();
+		remarkText = cloudEviItemBean.getRemarkText();
+
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
@@ -127,18 +146,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
 			vh.tv_filedate = (TextView) convertView.findViewById(R.id.tv_filedate);
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
-
-			pkValue = mDatas.get(position).getPkValue();
-			count = mDatas.get(position).getCount();
-			fileName = mDatas.get(position).getFileTitle();
-			// format = fileName.substring(fileName.indexOf("."));// 格式
-			format = mDatas.get(position).getFileFormat();
-			date = mDatas.get(position).getFileDate();
-			size = mDatas.get(position).getFileSize();
-			long l_size = Long.parseLong(size);
-			size1 = FileSizeUtil.FormetFileSize(l_size);
-			mode = mDatas.get(position).getFileMode();
-			remarkText = mDatas.get(position).getRemarkText();
+			vh.tv_downloaded=(TextView) convertView.findViewById(R.id.tv_downloaded);
+			vh.tv_delete=(TextView) convertView.findViewById(R.id.tv_delete);
+			vh.tv_download=(TextView) convertView.findViewById(R.id.tv_download);
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -149,12 +159,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			fileName =fileName.substring(0,25)+"...";
 		}
 		vh.tv_filename.setText(fileName);
-		vh.tv_filedate.setText(mDatas.get(position).getFileDate());
-		long l_size = Long.parseLong(mDatas.get(position).getFileSize());
+		vh.tv_filedate.setText(cloudEviItemBean.getFileDate());
+		//long l_size = Long.parseLong(cloudEviItemBean.getFileSize());
 		String s_size = FileSizeUtil.setFileSize(l_size);
 
 		vh.tv_size.setText(s_size);
-		String format = mDatas.get(position).getFileFormat();
+		String format = cloudEviItemBean.getFileFormat();
 		format = format.toLowerCase();// 格式变小写
 		// if (CheckUtil.isEmpty(format)) {
 		if (CheckUtil.isFormatPhoto(format)) {
@@ -166,20 +176,28 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		} else if (CheckUtil.isFormatDoc(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
 		}
-		// }
+
+		boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(cloudEviItemBean.getPkValue());//已经下载
+		if(queryByPkValue){
+			vh.tv_downloaded.setVisibility(View.VISIBLE);
+			vh.tv_delete.setVisibility(View.VISIBLE);
+			vh.tv_download.setVisibility(View.GONE);
+		}else{
+			vh.tv_downloaded.setVisibility(View.GONE);
+			vh.tv_delete.setVisibility(View.GONE);
+			vh.tv_download.setVisibility(View.VISIBLE);
+		}
+		//boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(cloudEviItemBean.getPkValue());//正在下载
 
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
-		/*
-		 * if(mDatas.get(position).isOpen){ //打开
-		 * ll_option.setVisibility(View.VISIBLE); }else{ //关闭 }
-		 */
+
 		return convertView;
 	}
 
 	public class ViewHolder {
 		public CheckBox cb_choice, cb_option;
 		private ImageView iv_icon;
-		private TextView tv_filename, tv_filedate, tv_size;
+		private TextView tv_filename, tv_filedate, tv_size,tv_downloaded,tv_delete,tv_download;
 	}
 
 	private void changeState(final int position, View view, CheckBox cb_choice,
@@ -222,9 +240,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					.findViewById(R.id.tv_download);
 			TextView tv_file_preview = (TextView) view
 					.findViewById(R.id.tv_file_preview);
-
 			TextView tv_certificate_preview = (TextView) view
 					.findViewById(R.id.tv_certificate_preview);
+			TextView tv_delete = (TextView) view
+					.findViewById(R.id.tv_delete);
+
 			tv_remark.setOnClickListener(this);
 			tv_remark.setTag(position);
 			tv_certificate_preview.setTag(position);
@@ -233,13 +253,17 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_download.setOnClickListener(this);
 			tv_file_preview.setTag(position);
 			tv_file_preview.setOnClickListener(this);
+			tv_delete.setTag(position);
+			tv_delete.setOnClickListener(this);
 
 			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
 			ll_item.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-
+					if(isChoice){
+						return;
+					}
 					if(ll_option.getVisibility()==View.VISIBLE){
 						ll_option.setVisibility(View.GONE);
 						isOpen=Integer.MAX_VALUE;
@@ -287,6 +311,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
+			case R.id.tv_delete:// 删除
+				showDialog((int)v.getTag());
+				break;
 		case R.id.tv_remark:// 备注
 			int position = (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean = mDatas.get(position);
@@ -308,8 +335,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
-			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());
-			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(data.getPkValue());
+			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());//已经下载
+			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(data.getPkValue());//正在下载
 			if (data.getArreaStatus()==1){//不欠费
 			if(queryByPkValue){
 				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
@@ -380,18 +407,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			}
 			break;
 		case R.id.tv_certificate_preview:// 证书预览
-			// 仅wifi下可查看证书
-			/*
-			 * boolean isWifi=(Boolean)
-			 * SharePreferenceUtil.getAttributeByKey(MyApplication
-			 * .getApplication(),
-			 * MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil
-			 * .VALUE_IS_BOOLEAN);
-			 * if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication
-			 * .getApplication())){
-			 * Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络可查看证书");
-			 * return; }
-			 */
 			int position1 = (Integer) v.getTag();
 			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
 				if (cloudEviItemBean1.getArreaStatus() ==1){//不欠费
@@ -457,5 +472,30 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			isOpen=Integer.MAX_VALUE;
 			notifyDataSetChanged();
 		}
+	}
+
+	private void showDialog(final int position) {
+		alertDialog = new AlertDialog.Builder(context).
+				setTitle("温馨提示").
+				setMessage("是否确认删除？").
+				setIcon(R.drawable.ww).
+				setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,mDatas.get(position).getPkValue());
+						if(count>0){
+							EventBus.getDefault().post(new CEListRefreshEvent());
+						}
+					}
+				}).
+				setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).
+				create();
+		alertDialog.show();
 	}
 }

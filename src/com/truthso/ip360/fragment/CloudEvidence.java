@@ -48,6 +48,7 @@ import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.event.CEListRefreshEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -63,6 +64,9 @@ import com.truthso.ip360.view.RefreshListView.OnRefreshListener;
 import com.truthso.ip360.view.RefreshListView.OnloadListener;
 import com.truthso.ip360.view.xrefreshview.XRefreshView;
 import com.truthso.ip360.view.xrefreshview.XRefreshView.XRefreshViewListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -130,6 +134,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		adapter.setUpdateItem(this);
 		listView.setAdapter(adapter);
 		setSearchMode();
+
+		EventBus.getDefault().register(this);
 	}
 
 	private void setSearchMode() {
@@ -522,6 +528,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 	}
 
+	@Subscribe
+	public void refreshList(CEListRefreshEvent event) {
+			adapter.setisOpen(Integer.MAX_VALUE);
+			adapter.notifyDataSetInvalidated();
+		}
+
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
@@ -615,11 +627,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		if(position!=lastPosition){
 			//listview添加headerview后，adapter中getview方法的position=0是第一个条目，而监听方法中position=0是headerview
-			int fir=listView.getFirstVisiblePosition()-1;
+			int fir=listView.getFirstVisiblePosition()-2;
 			int las=listView.getLastVisiblePosition()-1;
 
 			if(lastPosition>=fir&&lastPosition<=las){
-				View view = listView.getChildAt(lastPosition - fir+1);
+				View view = listView.getChildAt(lastPosition - fir);
 				if(view!=null){
 					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
 					if(ll_option.getVisibility()==View.VISIBLE){
@@ -667,6 +679,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		} catch (PackageManager.NameNotFoundException e) {
 			return 0;
 		}
+	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 }

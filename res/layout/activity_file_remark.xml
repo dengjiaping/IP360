@@ -199,7 +199,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
             android:text="备注"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
@@ -231,7 +230,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_jiupsd"
             android:text="备注:"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_size" />
