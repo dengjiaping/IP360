@@ -92,6 +92,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
 		btn_title_right.setOnClickListener(this);
+		btn_title_right.setText("放弃");
+		btn_title_right.setTextColor(getResources().getColor(R.color.white));
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
@@ -169,9 +171,10 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.btn_title_right://放弃
+				showDialogIsCancel("是否确认放弃保全？");
 				//取消上传文件
-				CancelUploadFile();
-				finish();
+//				CancelUploadFile();
+//				finish();
 				break;
 			case R.id.btn_preserved://保全
 				if (!filePreIsok) {//保全的接口调不成功，再掉一次
@@ -181,9 +184,10 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				getport();
 				break;
 			case R.id.btn_title_left://返回键
+				showDialogIsCancel("是否确认放弃保全？");
 				//取消上传文件
-				CancelUploadFile();
-				finish();
+//				CancelUploadFile();
+//				finish();
 				break;
 			default:
 				break;
@@ -483,6 +487,33 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	public void onBackPressed() {
 		super.onBackPressed();
 		//取消上传文件
-		CancelUploadFile();
+//		CancelUploadFile();
+		showDialogIsCancel("是否确认放弃保全？");
+	}
+	/**
+	 * 是否确认放弃保全
+	 * @param msg
+	 */
+	private void showDialogIsCancel(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//取消上传文件
+						CancelUploadFile();
+						finish();
+
+
+					}
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
+					}
+				}).create();
+		alertDialog.show();
 	}
 }

@@ -139,4 +139,8 @@ public class URLConstant {
 	 * 获取轮播图图片
 	 */
 	public final static String getShowPicture = "http://"+str+"/api/v1/system/getShowPicture";
+	/**
+	 * 用户意见反馈
+	 */
+	public final static String userAdvice = "http://"+str+"/api/v1/**/opinionFeedback";
 }

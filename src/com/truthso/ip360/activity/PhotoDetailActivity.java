@@ -37,9 +37,10 @@ import java.net.URL;
  */
 
 public class PhotoDetailActivity extends BaseActivity {
-	private ImageView iv_photo;
+	private ImageView iv_photo,iv_chuo;
 	private String url,from;
 	private Bitmap mBitmap;
+
 	@Override
 	public void initData() {
 
@@ -68,10 +69,13 @@ public class PhotoDetailActivity extends BaseActivity {
 	@Override
 	public void initView(){
 		 iv_photo = (ImageView) findViewById(R.id.iv_photo);
+		iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
 		/* BitmapUtils bitmap = new BitmapUtils(this);
          bitmap.display(iv_photo, url);*/
         if(from.equals("cloud")){
+			iv_chuo.setVisibility(View.GONE);
 			showProgress("加载中...");
+
 			/*new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -112,6 +116,8 @@ public class PhotoDetailActivity extends BaseActivity {
 				@Override
 				public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
 					hideProgress();
+					iv_chuo.setVisibility(View.VISIBLE);
+
 				}
 
 				@Override

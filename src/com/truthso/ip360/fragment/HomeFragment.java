@@ -284,7 +284,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);
 				intent.putExtra("date", date);
-				intent.putExtra("loc", loc);
+//				intent.putExtra("loc", loc);
 				intent.putExtra("fileSize_B", fileSize_B);
 				intent.putExtra("loc",loc);
 				intent.putExtra("longlat",longti+","+lat);

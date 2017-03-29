@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
@@ -35,6 +36,7 @@ import android.widget.RadioGroup;
 
 import com.lidroid.xutils.util.LogUtils;
 import com.truthso.ip360.application.MyApplication;
+import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
@@ -72,7 +74,8 @@ public class MainActivity extends FragmentActivity implements
 	private RadioButton rb_pc;
 	private FragmentTabUtils fragmentTabUtils;
 	private String downloadUrl, iVersion;
-private MyWifiReceiver myWifiReceiver;
+    private MyWifiReceiver myWifiReceiver;
+	private Dialog alertDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +101,7 @@ private MyWifiReceiver myWifiReceiver;
 		((RadioButton) radioGroup.getChildAt(0)).setTextColor(getResources().getColor(R.color.jiuhong));
 		fragmentTabUtils = new FragmentTabUtils(getSupportFragmentManager(),
 				fragmentList, R.id.main_fragment, radioGroup);
+		isNeedPay();
 
 	}
 
@@ -389,5 +393,51 @@ private MyWifiReceiver myWifiReceiver;
 		}
 	}
 
+	/**
+	 * 是否需要充值
+	 */
+	public void isNeedPay() {
+		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				PersonalMsgBean	bean = (PersonalMsgBean) response;
+
+					if(!CheckUtil.isEmpty(bean)){
+						if(bean.getCode()==200){
+							int balance = bean.getDatas().getAccountBalance();
+							if (balance<0){//欠费
+								showDialog();
+							}
+						}
+					}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
+	}
+	private void showDialog() {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage("您的账户已欠费，是否现在充值？").setIcon(R.drawable.ww)
+				.setPositiveButton("去充值", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//跳转充值页面
+						Intent intent = new Intent(MainActivity.this,AccountPayActivity.class);
+						startActivity(intent);
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
+	}
 
 }

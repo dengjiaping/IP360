@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/include1"
         layout="@layout/top_title" />
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
+        >-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        >
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:layout_weight="0.11"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="60dp"
             android:background="@drawable/luxiang" />
-
+        </RelativeLayout>
        <!-- <RelativeLayout
             android:id="@+id/rl_filename"
             android:layout_width="match_parent"
@@ -272,7 +273,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
+               android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="文件名称:"
                 android:textColor="@color/text_color"
@@ -300,7 +301,6 @@
 -->  <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:background="@color/item_bg"
         android:layout_weight="1"
         >
@@ -308,7 +308,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="取证地点:"
             android:textColor="@color/text_color"
@@ -319,6 +319,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:singleLine="true"
+            android:maxEms="15"
+            android:ellipsize="middle"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item"
             android:layout_marginRight="15dp"
@@ -336,7 +339,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:background="@color/item_bg"
             android:layout_weight="1"
             >
@@ -344,7 +346,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="取证时间:"
                 android:textColor="@color/text_color"
@@ -371,7 +373,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
             android:background="@color/item_bg"
             android:layout_weight="1"
             >
@@ -379,7 +380,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:text="录像时长:"
                 android:textColor="@color/text_color"
@@ -406,7 +407,6 @@
  <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:background="@color/item_bg"
         android:layout_weight="1"
         >
@@ -414,7 +414,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="文件大小:"
             android:textColor="@color/text_color"
@@ -454,4 +454,5 @@
             android:textSize="@dimen/button_text_size" />
     </LinearLayout>
 
-</RelativeLayout>
+<!--
+</LinearLayout>-->

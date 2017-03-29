@@ -43,7 +43,7 @@
             android:id="@+id/tv_binded_mobile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_alignRight="@id/tv_shoujihao"
+            android:layout_toRightOf="@id/tv_shoujihao"
            android:layout_marginLeft="@dimen/layout_marginLeft"
             android:gravity="center_vertical"
             android:text=""

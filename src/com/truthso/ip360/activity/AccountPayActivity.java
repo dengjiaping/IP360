@@ -58,7 +58,7 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 		et_chongzhi_jine= (EditText) findViewById(R.id.et_chongzhi_jine);
 		tv_accountbalance = (TextView) findViewById(R.id.tv_accountbalance);
 		tv_accountbalance.setText(accountBalance);
-		tv_accountbalance.addTextChangedListener(new TextWatcher() {
+		et_chongzhi_jine.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -76,7 +76,9 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 			}else{
 				isAccountBalanceEmp = false;
 			}
+				checkButtonStatus();
 			}
+
 		});
 	}
 

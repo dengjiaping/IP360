@@ -14,7 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         />
-
+    <ImageView
+        android:id="@+id/iv_chuo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/mar_left_20"
+        android:src="@drawable/bat"/>
   <!--  <io.vov.vitamio.widget.VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"

@@ -56,7 +56,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private String buyCount_photo,buyCount_video,buyCount_record;//买的量
 	private int type;// 取证类型
 	private Dialog alertDialog;
-	private String  accountBalance;
+	private String  accountBalance,str;
 	private ImageView iv_next_yue;
 	private RelativeLayout  rl_Certification, rl_bind_phonum,
 			rl_bind_mail, rl_amend_psd, rl_about_us, rl_account;
@@ -71,10 +71,14 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private CheckBox cb_iswifi;
 	private boolean isHaveCombo = true;
 	private String tag;//表示是账户信息调的还是账户余额调的
+	private RelativeLayout rl_clearCache;//清除缓存
+	private String Tag;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
 		tv_account = (TextView) view.findViewById(R.id.tv_account);
+		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(getActivity(), MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
+		tv_account.setText(userAccount);
 		btn_count_pay = (Button) view.findViewById(R.id.btn_count_pay);
 		btn_count_pay.setOnClickListener(this);
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
@@ -108,6 +112,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		cb_iswifi.setOnCheckedChangeListener(this);
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		cb_iswifi.setChecked(isWifi);
+		rl_clearCache = (RelativeLayout) view.findViewById(R.id.rl_clearCache);
+		rl_clearCache.setOnClickListener(this);
 		getPersonalMsg();
 
 	}
@@ -128,8 +134,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						isOk = true;
 						// 账户余额
 							int balance = bean.getDatas().getAccountBalance();
-							accountBalance = "余额￥" + balance / 100 + "." + balance
-									% 100/10 +balance%100%10+ "元";
+							accountBalance = "￥" + balance / 100 + "." + balance
+									% 100/10 +balance%100%10;
 							tv_account_balance.setText(accountBalance);
 //							isContractUser = true;
 //							contractStart = bean.getDatas().getContractStart();
@@ -328,21 +334,33 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			Intent intent6 = new Intent(getActivity(), AboutUsAcctivity.class);
 			startActivity(intent6);
 			break;
+			case R.id.rl_clearCache://清除缓存
+				str ="是否确定清除缓存？";
+				tag = "clearCache";
+				showDialog(str);
+
+			break;
 		case R.id.btn_logout:// 退出登录
-			showDialog();
+			str = "是否确定退出登录";
+			tag = "logout";
+			showDialog(str);
 		default:
 			break;
 		}
 	}
 
-	private void showDialog() {
+	private void showDialog(String str) {
 		alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
-				.setMessage("是否确认退出登录？").setIcon(R.drawable.ww)
+				.setMessage(str).setIcon(R.drawable.ww)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						logOut();
+						if(tag.equals("logout")){
+							logOut();
+						}else if (tag.equals("clearCache")){
+							clearCache();
+						}
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -355,6 +373,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		alertDialog.show();
 	}
 
+	/**
+	 * 清除缓存
+	 */
+    private void clearCache(){
+
+	}
 	// 退出登录
 	private void logOut() {
 		showProgress("正在退出...");

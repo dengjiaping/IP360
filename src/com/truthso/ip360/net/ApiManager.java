@@ -741,9 +741,32 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 
+	/**
+	 * 轮播图
+	 * @param callback
+     * @return
+     */
 	public RequestHandle getShowPicture(ApiCallback callback){
 		BaseHttpRequest<ShowPictureBean> request = new BaseHttpRequest<ShowPictureBean>(ShowPictureBean.class,this);
 		request.setPath(URLConstant.getShowPicture);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 用户意见反馈
+	 * @param content
+	 * @param contacts 反馈内容
+	 * @param callback 联系方式
+     * @return
+     */
+	public RequestHandle UserAdvice(String content,String contacts,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
+		request.setPath(URLConstant.userAdvice);
+		request.params().add("content", content);
+		request.params().add("contacts", contacts);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);

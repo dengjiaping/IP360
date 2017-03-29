@@ -106,6 +106,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
 		btn_title_right.setOnClickListener(this);
+		btn_title_right.setText("放弃");
+		btn_title_right.setTextColor(getResources().getColor(R.color.white));
 
 //		iv_video = (ImageView) findViewById(R.id.iv_video);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
@@ -260,9 +262,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.btn_title_right://标题右上角放弃
+				showDialogIsCancel("是否确认放弃保全？");
 				//取消上传文件
-				CancelUploadFile();
-				finish();
+//				CancelUploadFile();
+//				finish();
 				break;
 			case R.id.btn_preserved://保全
 				if (!filePreIsok) {//保全的接口调不成功，再掉一次
@@ -272,8 +275,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				getport();
 				break;
 			case R.id.btn_title_left://标题上的返回键
-				//取消上传文件
-				CancelUploadFile();
+				showDialogIsCancel("是否确认放弃保全？");
+//				//取消上传文件
+//				CancelUploadFile();
 				break;
 
 			default:
@@ -540,7 +544,34 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		showDialogIsCancel("是否确认放弃保全？");
 		//取消上传文件
-		CancelUploadFile();
+//		CancelUploadFile();
+	}
+	/**
+	 * 是否确认放弃保全
+	 * @param msg
+	 */
+	private void showDialogIsCancel(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//取消上传文件
+						CancelUploadFile();
+						finish();
+
+
+					}
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
+					}
+				}).create();
+		alertDialog.show();
 	}
 }

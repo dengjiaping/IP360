@@ -7,7 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 关于我们->用户反馈
@@ -103,5 +109,27 @@ public class UserAdviceActivity extends BaseActivity implements View.OnClickList
         //提交
 //        调接口
 
+    }
+    //调接口提交反馈内容
+    public void commit(String cotent,String contact){
+        ApiManager.getInstance().UserAdvice(cotent, contact, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                if (!CheckUtil.isEmpty(response)){
+                        if (response.getCode() == 200){
+                            Toaster.showToast(UserAdviceActivity.this, "反馈提交成功！");
+                        }else{
+                            Toaster.showToast(UserAdviceActivity.this, response.getMsg());
+                        }
+                }else{
+                    Toaster.showToast(UserAdviceActivity.this, "请重试");
+                }
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 }

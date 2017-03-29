@@ -149,16 +149,22 @@
 		android:layout_height="wrap_content"
 		android:background="#F6F6F6"
 		android:layout_marginTop="20dp">
+		<ImageView
+			android:layout_width="25dp"
+			android:layout_height="25dp"
+			android:layout_toLeftOf="@+id/tv_ruler"
+			android:src="@drawable/jifeiguize"/>
 		<TextView
 			android:id="@+id/tv_ruler"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
+			android:layout_marginLeft="@dimen/layout_marginLeft"
 			android:layout_marginRight="20dp"
 			android:layout_centerVertical="true"
 			android:text="计价规则"
 			android:textSize="@dimen/text_12"
-			android:textColor="@color/red"/>
+			android:textColor="@color/jiuhong"/>
 	</RelativeLayout>
 <!--
 <LinearLayout

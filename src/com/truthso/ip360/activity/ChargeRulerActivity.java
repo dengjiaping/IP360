@@ -15,7 +15,6 @@ public class ChargeRulerActivity extends BaseActivity {
     public void initView() {
 
     }
-
     @Override
     public int setLayout() {
         return 0;

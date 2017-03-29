@@ -176,6 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="@dimen/button_margiontop_10"
             android:background="@color/white">
 
             <CheckBox
@@ -183,17 +184,17 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
-                android:background="@drawable/checkbox"
+                android:background="@drawable/radio_c"
                 android:button="@null"
                 android:clickable="false"
                 android:checked="true"/>
 
             <ImageView
-                android:layout_width="140dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/cb_checkbox_zfb"
-                android:background="@drawable/zfb" />
+                android:src="@drawable/zfb" />
         </RelativeLayout>
     </RelativeLayout>
 
