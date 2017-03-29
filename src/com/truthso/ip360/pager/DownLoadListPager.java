@@ -28,31 +28,38 @@ import org.greenrobot.eventbus.EventBus;
 public class DownLoadListPager extends BasePager {
 	private ListView listView;
 	private DownLoadAdapter adapter;
-	private List<FileInfo> list;
 	public DownLoadListPager(Context ctx) {
 		super(ctx);
 	}
 
 	@Override
 	public View initView() {
-		list=new ArrayList<FileInfo>();
 		List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-		if(queryDownLoadList!=null){
-			list.addAll(queryDownLoadList); 			
-		}        
+
 		listView = new ListView(ctx);
 		if(queryDownLoadList.size()>0){
 			EventBus.getDefault().post(new DownEvent(true));
 		}else{
 			EventBus.getDefault().post(new DownEvent(false));
 		}
-		adapter=new DownLoadAdapter(ctx,list);
+		adapter=new DownLoadAdapter(ctx,formatList(queryDownLoadList));
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, new MyContentObserver(new Handler()));
 		return listView;
 	}
 
+	private List<FileInfo> formatList(List<FileInfo> list){
+		List<FileInfo> temp=new ArrayList<>();
+		for (int i=0;i<list.size();i++){
+			FileInfo fileInfo = list.get(i);
+			if(fileInfo.getStatus()==0){
+				temp.add(list.remove(i));
+			}
+		}
+		list.addAll(temp);
+		return list;
+	}
 
 	public class MyContentObserver extends ContentObserver{
 
@@ -71,7 +78,7 @@ public class DownLoadListPager extends BasePager {
 			}else{
 				EventBus.getDefault().post(new DownEvent(false));
 			}
-			adapter.notifyChange(queryDownLoadList);
+			adapter.notifyChange(formatList(queryDownLoadList));
 		}
 	}
 	
