@@ -30,10 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/paizhaoyuan"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="拍照取证"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_item" />
 
         <TextView
             android:id="@+id/tv_video"
@@ -41,20 +42,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/luxiangyuan"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="录像取证"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_item" />
         <TextView
             android:id="@+id/tv_record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/luyinyuan"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="录音取证"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_item" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,10 +74,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/xianshangyuan"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="线上取证"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_item" />
 
         <TextView
             android:id="@+id/tv_file"
@@ -82,21 +86,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/quequanyuan"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="确权文件"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_item" />
           <TextView
                     android:id="@+id/tv_all"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/all"
+                    android:drawablePadding="10dp"
                     android:gravity="center"
                     android:visibility="invisible"
                     android:text="全部文件"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_item" />
 
     </LinearLayout>
 

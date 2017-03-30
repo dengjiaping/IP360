@@ -96,7 +96,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
-	private Button btn_download;
+	private Button btn_download,acition_bar_left;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
@@ -107,11 +107,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		vCode = getVersion();
 		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
-		actionBar.setLeftText("拍照取证");
+		actionBar.setLeftText("类别");
 		actionBar.setTitle("云端证据");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
-
+		acition_bar_left = (Button) view.findViewById(R.id.acition_bar_left);
 		listView =  (RefreshListView) view.findViewById(R.id.lv_cloudevidence);
 		listView.setOnRefreshListener(this);
 		listView.setOnLoadListener(this);
@@ -216,6 +216,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					cloudWindow.dismiss();
 				} else {
 					actionBar.setRightDisEnable();
+					actionBar.setRightText("");
 					showPop();
 				}
 				break;
@@ -319,8 +320,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	// 显示类别popwindow
 	private void showPop() {
 
-		popview = inflater.inflate(R.layout.activity_category_cloudcvidence,
-				null);
+		popview = inflater.inflate(R.layout.activity_category_cloudcvidence, null);
 		tv_photo = (TextView) popview.findViewById(R.id.tv_photo);
 
 		tv_video = (TextView) popview.findViewById(R.id.tv_video);
@@ -345,7 +345,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("拍照取证");
+//				actionBar.setLeftText("拍照取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -365,7 +365,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("录像取证");
+//				actionBar.setLeftText("录像取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -385,7 +385,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("录音取证");
+//				actionBar.setLeftText("录音取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -404,7 +404,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("线上取证");
+//				actionBar.setLeftText("线上取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -424,7 +424,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("确权文件");
+//				actionBar.setLeftText("确权文件");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -534,7 +534,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		isRefresh=true;
 	}

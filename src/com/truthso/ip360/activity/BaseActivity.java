@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,7 @@ import com.truthso.ip360.net.MyAsyncHttpClient;
 import com.truthso.ip360.utils.CheckUtil;
 
 public abstract class BaseActivity extends Activity{
-	private Button btn_title_left;
+	private ImageButton btn_title_left;
 	private TextView tv_title;
 	private Dialog pDialog;
 	private static final int NET_FIAL = 0;
@@ -39,7 +40,7 @@ public abstract class BaseActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(setLayout());
-		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(new OnClickListener() {
 			
 			

@@ -18,10 +18,11 @@
 
             <CheckBox
                 android:id="@+id/cb_choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="2dp"
+                android:layout_marginLeft="10dp"
+                android:button="@null"
                 android:visibility="gone" />
 
                 <ImageView
@@ -68,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="已下载"
-                        android:textColor="@color/brown"
+                        android:textColor="@color/item_text_color"
                         android:textSize="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"

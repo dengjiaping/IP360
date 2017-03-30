@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +41,8 @@ import cz.msebera.android.httpclient.Header;
 public class LoginActivity extends BaseActivity implements OnClickListener {
 	private Button btn_register;
 	private TextView tv_forget_pwd;
-	private Button btn_loginin,btn_title_left;
+	private Button btn_loginin;
+	private ImageButton btn_title_left;
 	private String userAccount,userPwd;
 	private CheckBox cb_checkbox;
 	private EditText et_useraccount,et_userpwd;
@@ -54,7 +56,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 	public void initView() {
-		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setVisibility(View.INVISIBLE);
 //		iv_account_delete = (ImageView) findViewById(R.id.iv_account_delete);
 //		iv_account_delete.setOnClickListener(this);

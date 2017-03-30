@@ -221,14 +221,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
 			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
 			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
-			if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
+			/*if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
 				cb_choice.setBackgroundResource(R.drawable.cbox);
 				cb_choice.setClickable(false);
 			}else {
 				cb_choice.setClickable(true);
 				cb_choice.setBackgroundResource(R.drawable.cb_selector);
-			}
-
+			}*/
+			//1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，什么逻辑~
+			cb_choice.setClickable(true);
+			cb_choice.setBackgroundResource(R.drawable.cb_selector);
 			if (isAllSelect&&cb_choice.isClickable()) {
 				cb_choice.setChecked(true);
 			} else {

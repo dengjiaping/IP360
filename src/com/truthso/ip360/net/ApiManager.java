@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
-import android.app.DownloadManager.Request;
 import android.content.Intent;
 
 import com.loopj.android.http.RequestHandle;
@@ -23,9 +22,7 @@ import com.truthso.ip360.bean.ShowPictureBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.VerUpDateBean;
 import com.truthso.ip360.bean.ZfbPayBean;
-import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.constants.URLConstant;
-import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -768,8 +765,10 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("content", content);
 		request.params().add("contacts", contacts);
 		request.setApiCallback(callback);
-		RequestHandle requestHandle = request.get();
+		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+
+
 }

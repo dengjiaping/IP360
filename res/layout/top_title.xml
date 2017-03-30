@@ -5,16 +5,15 @@
     android:id="@+id/rl_title"
     android:background="@color/jiuhong" >
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_title_left"
-        android:layout_width="@dimen/image_size"
-        android:layout_height="@dimen/image_size"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/layout_marginLeft"
+        android:layout_centerVertical="true"
+        android:src="@drawable/back"
         android:background="@null"
-        android:text="返回"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size" />
+        />
 
     <TextView
         android:id="@+id/tv_title"
