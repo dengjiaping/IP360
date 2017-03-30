@@ -126,72 +126,20 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 			public void onProgress(long progress) {
 				Log.i("djj", "progress"+progress);
 				vh.probar.setProgress((int)progress);
-				//DownLoadAdapter.this.progress=progress;
 				vh.tv_status.setProgress(progress);
 			}
-			
 			@Override
 			public void onComplete() {
 				Log.i("djj", "downComplete");
 				
 			}
-
 			@Override
 			public void onFailure() {
 				vh.tv_status.setStatus(false);
 			}
 		});
- 
-      /* TimerTask task=new TimerTask() {
-			
-			@Override
-			public void run() {
-			final long speed=(progress-lastProgress)/1024;
-			DownLoadAdapter.this.lastProgress=progress;
-			vh.tv_status.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					vh.tv_status.setText(speed+"k/s");
-				}
-			});
-			}
-		};
-		Timer timer=new Timer();
-		timer.schedule(task,0,1000);*/
-		/*vh.btn_upload_download.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				downLoadManager.pauseOrStratDownLoad(resourceId);
-				int currentStatus = downLoadManager.getCurrentStatus(resourceId);
-				if (currentStatus == 1) {
-					vh.tv_status.setText("暂停中");
-				} else {
-					// 获取实时网速或者正在等待中
-					vh.tv_status.setText("230b/s");
-				}
-				if(vh.btn_upload_download.isSelected()){
-					vh.btn_upload_download.setSelected(false);
-				}else{
-					vh.btn_upload_download.setSelected(true);
-				}
-			}
-		});
-*/
-		/*int currentStatus = downLoadManager.getCurrentStatus(resourceId);
-		if (currentStatus == 1) {
-			vh.tv_status.setText("暂停中");
-		} else if (currentStatus == 0) {
-			// 获取实时网速或者正在等待中
-			vh.tv_status.setText("等待中");
-		} else if (currentStatus == 2) {
-			vh.tv_status.setText("230b/s");
-		} else {
-			vh.tv_status.setText("上传失败");
-		}*/
 		String str =info.getFileName();
-		Log.i("hello",str);
 		foramt1 = str.substring(str.lastIndexOf(".")+1);
 		String format= foramt1.toLowerCase();// 格式变小写
 
@@ -204,6 +152,7 @@ public class DownLoadAdapter extends BaseAdapter implements OnCheckedChangeListe
 		} else if (CheckUtil.isFormatDoc(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
 		}
+
 		return convertView;
 	}
 

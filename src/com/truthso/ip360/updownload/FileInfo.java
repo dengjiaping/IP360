@@ -14,7 +14,7 @@ public class FileInfo {
 	private String fileTime;//文件时长
 	private int pkValue;
     private String fileFormat;
-	private int status;
+	private int status;//成功0失败1等待2
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
 
 	public int getDataType() {

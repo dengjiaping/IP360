@@ -16,7 +16,7 @@
     <dimen name="layout_marginLeft">10dp</dimen>
     <dimen name="layout_marginRight">5dp</dimen>
     <dimen name="image_size">50dp</dimen>
-    <dimen name="text_size">15sp</dimen>
+    <dimen name="text_size">16sp</dimen>
     <dimen name ="text_12">12sp</dimen>
     <dimen name="item_hight">50dp</dimen>
     <dimen name="item_height_40">40dp</dimen>

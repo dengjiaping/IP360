@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -32,6 +34,7 @@ import com.truthso.ip360.pager.DownLoadListPager;
 import com.truthso.ip360.pager.UpLoadListPager;
 import com.truthso.ip360.updownload.UpLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.DisplayUtil;
 import com.truthso.ip360.view.MainActionBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +58,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private MyPageAdapter mPageAdapter;
 	private int screanWidth;
 	private TranslateAnimation moveLeft, moveRight;
-	private RelativeLayout rl_left, rl_right;
 	// private CommonAdapter<DbBean> adapter;
 	// private ListView listView;
 	private List<DbBean> mDatas;
@@ -71,28 +73,25 @@ public class TransList extends BaseFragment implements OnClickListener {
 		actionBar.setActionBarOnClickListener(this);
 
 		line = view.findViewById(R.id.line);
-		rl_left = (RelativeLayout) view.findViewById(R.id.rl_left);
-		rl_right = (RelativeLayout) view.findViewById(R.id.rl_right);
-		rl_left.setOnClickListener(this);
-		rl_right.setOnClickListener(this);
+		line.setLayoutParams(new LinearLayout.LayoutParams(DisplayUtil.getScreenWidth(getActivity())/2,DisplayUtil.dip2px(getActivity(),3)));
 
 		tv_right_text = (TextView) view.findViewById(R.id.tv_right_text);
 		tv_left_text = (TextView) view.findViewById(R.id.tv_left_text);
-
+		tv_left_text.setOnClickListener(this);
+		tv_right_text.setOnClickListener(this);
 		// line.startAnimation(moveLeft);
-		rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
-		tv_left_text.setTextColor(getResources().getColor(R.color.white));
-		rl_right.setBackgroundColor(getResources().getColor(R.color.white));
-
+		tv_left_text.setTextColor(getResources().getColor(R.color.button_color));
 		tv_right_text.setTextColor(getResources().getColor(R.color.black));
+
 
 		viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
 		downLoadListPager = new DownLoadListPager(getActivity());
 		upLoadListPager = new UpLoadListPager(getActivity());
 		pagerList = new ArrayList<BasePager>();
-		pagerList.add(downLoadListPager);
 		pagerList.add(upLoadListPager);
+		pagerList.add(downLoadListPager);
+
 		
 	/*	for (int i = 0; i < pagerList.size(); i++) {
 			if (pagerList.get(i).equals(upLoadListPager)) {
@@ -114,7 +113,7 @@ public class TransList extends BaseFragment implements OnClickListener {
 				viewPager.setCurrentItem(position);
 				// 初始化本页数据
 			pagerList.get(position).initData(position);
-				if (position == 0 ) {//下载
+				if (position == 1) {//下载
 					if(isDownEmpty ){
 						actionBar.setRightVisible();
 						actionBar.setRightEnable();
@@ -122,11 +121,9 @@ public class TransList extends BaseFragment implements OnClickListener {
 					}else{
 						actionBar.setRightGone();
 					}
-					line.startAnimation(moveLeft);
-					rl_left.setBackgroundColor(getResources().getColor(R.color.button_color));
-					tv_left_text.setTextColor(getResources().getColor(R.color.white));
-					rl_right.setBackgroundColor(getResources().getColor(R.color.white));
-					tv_right_text.setTextColor(getResources().getColor(R.color.black));
+					line.startAnimation(moveRight);
+					tv_right_text.setTextColor(getResources().getColor(R.color.button_color));
+					tv_left_text.setTextColor(getResources().getColor(R.color.black));
 				} else {//上传不让用户删除
 				/*	if(isUpEmpty){
 						actionBar.setRightVisible();
@@ -136,11 +133,9 @@ public class TransList extends BaseFragment implements OnClickListener {
 						actionBar.setRightGone();
 					}*/
 					actionBar.setRightGone();
-					line.startAnimation(moveRight);
-					rl_right.setBackgroundColor(getResources().getColor(R.color.button_color));
-					tv_right_text.setTextColor(getResources().getColor(R.color.white));
-					rl_left.setBackgroundColor(getResources().getColor(R.color.white));
-					tv_left_text.setTextColor(getResources().getColor(R.color.black));
+					line.startAnimation(moveLeft);
+					tv_left_text.setTextColor(getResources().getColor(R.color.button_color));
+					tv_right_text.setTextColor(getResources().getColor(R.color.black));
 				}
 			}
 
@@ -160,10 +155,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private void initAnimation() {
 		screanWidth = MyApplication.getInstance().getScreanWidth();
 		moveLeft = new TranslateAnimation(screanWidth / 2, 0, 0, 0);
-		moveLeft.setDuration(500);
+		moveLeft.setDuration(300);
 		moveLeft.setFillAfter(true);
 		moveRight = new TranslateAnimation(0, screanWidth / 2, 0, 0);
-		moveRight.setDuration(500);
+		moveRight.setDuration(300);
 		moveRight.setFillAfter(true);
 	}
 
@@ -195,10 +190,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 			// actionBar.setRightEnable();
 
 			break;
-		case R.id.rl_left:
+		case R.id.tv_left_text:
 			viewPager.setCurrentItem(0);
 			break;
-		case R.id.rl_right:
+		case R.id.tv_right_text:
 			viewPager.setCurrentItem(1);
 			break;
 		case R.id.btn_delete:
