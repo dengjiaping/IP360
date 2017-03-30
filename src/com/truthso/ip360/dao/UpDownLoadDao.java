@@ -76,13 +76,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,String status) {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType) values(?,?,?,?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType,status) values(?,?,?,?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"0", objectkey ,llsize,fileurlformatname,userId});
+						"0", objectkey ,llsize,fileurlformatname,userId,dataType,status});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -92,13 +92,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveUpLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey) {
+			int position, int resourceId, String objectkey,int status) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		db.execSQL(
-				"insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey,userId) values(?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(uploadfilepath,filename,filesize,position,sourceid,downorupload,objectkey,userId,status) values(?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"1", objectkey,userId });
+						"1", objectkey,userId ,status});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -224,6 +224,20 @@ public class UpDownLoadDao {
 		db.enableWriteAheadLogging();
 		db.execSQL("delete from updownloadlog where sourceid=?",
 				new Object[] { resourceId });
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
+						null);
+	}
+
+	public void updateStatusByResourceId(String status,String resourceId) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL(
+				"update updownloadlog set status=? where resourceId =?",
+				new Object[] { status,resourceId });
 		MyApplication
 				.getApplication()
 				.getContentResolver()

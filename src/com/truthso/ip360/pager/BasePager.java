@@ -37,10 +37,7 @@ public abstract class BasePager {
 	 * @return
 	 */
 	public abstract void initData(int position);
-	
-	public  abstract void deleteAll(); 
-	public  abstract void pauseAll(); 
-	public  abstract void startAll(); 
+
 	/**
 	 * 联接网络请求
 	 * @param method GET 或 post 请求方式
@@ -85,9 +82,6 @@ public abstract class BasePager {
 	public void printfErrorLog(Exception error){
 		error.printStackTrace();
 	}
-	
-	
-	public abstract void setAllSelect(boolean b);
-	public abstract void setChoice(boolean b);
+
 
 }

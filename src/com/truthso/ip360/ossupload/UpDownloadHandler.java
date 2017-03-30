@@ -35,7 +35,10 @@ public class UpDownloadHandler extends Handler {
                  if(msg.arg1==SUCCESS){
                      DbBean dbBean=(DbBean)msg.obj;
                      SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
-                     UpDownLoadDao.getDao().deleteDownInfoByResourceId(dbBean.getPkValue());
+                     UpDownLoadDao.getDao().updateStatusByResourceId("0",dbBean.getPkValue());
+                 }else{
+                     String pkvalue=(String)msg.obj;
+                     UpDownLoadDao.getDao().updateStatusByResourceId("1",pkvalue);
                  }
                  break;
          }
