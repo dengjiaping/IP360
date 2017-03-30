@@ -365,12 +365,10 @@ public class NativeAdapter extends BaseAdapter implements OnCheckedChangeListene
 					} else if (CheckUtil.isFormatPhoto(format)) {//照片
 						Intent intent2 = new Intent(context, PhotoDetailActivity.class);
 						intent2.putExtra("url", url);
-						intent2.putExtra("from", "native");//给个标记知道是云端的照片查看，不是本地的
 						context.startActivity(intent2);
 					} else if (CheckUtil.isFormatRadio(format)) {//音频
 						Intent intent2 = new Intent(context, RecordDetailActivity.class);
 						intent2.putExtra("url", url);
-						//intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 						context.startActivity(intent2);
 					} else if (CheckUtil.isFormatDoc(format)) {
 						String type = getFileType(format);

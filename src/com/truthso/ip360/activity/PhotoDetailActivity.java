@@ -38,17 +38,12 @@ import java.net.URL;
 
 public class PhotoDetailActivity extends BaseActivity {
 	private ImageView iv_photo,iv_chuo;
-	private String url,from;
+	private String url;
 	private Bitmap mBitmap;
 
 	@Override
 	public void initData() {
-
 		url=getIntent().getStringExtra("url");
-		from=getIntent().getStringExtra("from");
-
-
-
 	}
 
 	private Handler mHandler=new Handler(){
@@ -67,80 +62,51 @@ public class PhotoDetailActivity extends BaseActivity {
 	};
 
 	@Override
-	public void initView(){
-		 iv_photo = (ImageView) findViewById(R.id.iv_photo);
-		iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
-		/* BitmapUtils bitmap = new BitmapUtils(this);
-         bitmap.display(iv_photo, url);*/
-        if(from.equals("cloud")){
-			iv_chuo.setVisibility(View.GONE);
-			showProgress("加载中...");
+	public void initView() {
+		iv_photo = (ImageView) findViewById(R.id.iv_photo);
 
-			/*new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						URL u=new URL(url);
-						HttpURLConnection conn= (HttpURLConnection) u.openConnection();
-						conn.setRequestMethod("GET");
-						conn.setConnectTimeout(6000);
-						conn.addRequestProperty("Referer","http://appapi.truthso.com");
-						conn.connect();
-						if(conn.getResponseCode()==200){
-							InputStream inputStream = conn.getInputStream();
-							byte[] bytes = StreamTool.readInputStream(inputStream);
-							Message msg=new Message();
-							msg.obj=bytes;
-							mHandler.sendMessage(msg);
-						}
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+		if (url.contains("http")) {
+			iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
+				iv_chuo.setVisibility(View.GONE);
+				showProgress("加载中...");
+				ImageLoaderUtil.dispalyImage(url, iv_photo, new ImageLoadingListener() {
+
+					@Override
+					public void onLoadingStarted(String arg0, View arg1) {
+						showProgress("正在加载...");
 					}
-				}
-			}).start();*/
-			ImageLoaderUtil.dispalyImage(url,iv_photo,new ImageLoadingListener() {
 
-				@Override
-				public void onLoadingStarted(String arg0, View arg1) {
-					showProgress("正在加载...");
-				}
+					@Override
+					public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+						Toaster.showToast(PhotoDetailActivity.this, "加载失败");
+						finish();
+					}
 
-				@Override
-				public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
-					Toaster.showToast(PhotoDetailActivity.this, "加载失败");
-					finish();
-				}
+					@Override
+					public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+						hideProgress();
+						iv_chuo.setVisibility(View.VISIBLE);
 
-				@Override
-				public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-					hideProgress();
-					iv_chuo.setVisibility(View.VISIBLE);
+					}
 
-				}
+					@Override
+					public void onLoadingCancelled(String arg0, View arg1) {
 
-				@Override
-				public void onLoadingCancelled(String arg0, View arg1) {
-
-				}
-			});
-		}else {
-			ImageLoaderUtil.displayFromSDCardopt(url,iv_photo,null);
-
+					}
+				});
+			} else {
+				ImageLoaderUtil.displayFromSDCardopt(url, iv_photo, null);
+			}
+	}
+		@Override
+		public int setLayout () {
+			return R.layout.activity_photo_datail;
 		}
 
-	}
-
-	@Override
-	public int setLayout() {
-		return R.layout.activity_photo_datail;
-	}
-
-	@Override
-	public String setTitle() {
-		return "证据查看";
-	}
+		@Override
+		public String setTitle () {
+			return "证据查看";
+		}
 
 
 }

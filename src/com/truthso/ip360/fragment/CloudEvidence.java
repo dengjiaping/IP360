@@ -158,8 +158,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 				} else {
 					mHandler.removeMessages(101);
-
-
 					if (!CheckUtil.isEmpty(requestHandle)) {
 						requestHandle.cancel(true);
 					}
@@ -184,7 +182,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	private Handler mHandler = new Handler() {
 
-		public void handleMessage(android.os.Message msg) {
+		public void handleMessage(Message msg) {
 
 			list.clear();
 			getDatas((String)(msg.obj),type,mobileType,1);
@@ -636,7 +634,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					LinearLayout ll_option=	(LinearLayout) view.findViewById(R.id.ll_option);
 					if(ll_option.getVisibility()==View.VISIBLE){
 						ll_option.setVisibility(View.GONE);
-						CloudEvidenceAdapter.ViewHolder vh=(com.truthso.ip360.adapter.CloudEvidenceAdapter.ViewHolder) view.getTag();
+						CloudEvidenceAdapter.ViewHolder vh=(CloudEvidenceAdapter.ViewHolder) view.getTag();
 						vh.cb_option.setChecked(false);
 					}
 				}

@@ -30,6 +30,7 @@ import java.util.zip.ZipFile;
 
 import android.os.Environment;
 
+
 public class FileUtil {
 	 private String SDPATH;
 	/**
@@ -283,7 +284,7 @@ public class FileUtil {
 	 */
 	public static byte[] getPostData(InputStream ins) throws Exception {
 		java.io.DataInputStream servletIn = new java.io.DataInputStream(ins);
-		java.io.ByteArrayOutputStream bout = new java.io.ByteArrayOutputStream();
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		byte[] bufferByte = new byte[256];
 		int l = -1;
 		while ((l = servletIn.read(bufferByte)) > -1) {
@@ -346,7 +347,7 @@ public class FileUtil {
 	 */
 	public static byte[] getByteData(InputStream ins) throws Exception {
 		java.io.DataInputStream servletIn = new java.io.DataInputStream(ins);
-		java.io.ByteArrayOutputStream bout = new java.io.ByteArrayOutputStream();
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		byte[] bufferByte = new byte[256];
 		int l = -1;
 		while ((l = servletIn.read(bufferByte)) > -1) {
@@ -523,11 +524,9 @@ public class FileUtil {
 	public static boolean IsFileEmpty(String fileStr) {
 
 		File file = new File(fileStr);
-
 		if (file.exists()) {
 			return true;
 		}
-
 		return false;
 	}
 

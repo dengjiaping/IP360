@@ -132,6 +132,35 @@ public class SqlDao {
 		return dbBean;
 	}
 
+	/**
+	 * 查
+	 *
+	 * @param id
+	 *            需要查询的字段的ID值
+	 * @return
+	 */
+	public DbBean searchByPkValue(int pkvalue) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor cursor = db.query("IP360_media_detail", null, "pkvalue=?", new String[] { pkvalue +"" }, null, null, null);
+		DbBean  dbBean=null ;
+		if (cursor.moveToNext()) {
+			dbBean=new DbBean();
+			dbBean.setLable(cursor.getString(cursor.getColumnIndex("lable")));//标签
+			dbBean.setCreateTime(cursor.getString(cursor.getColumnIndex("createTime")));//生成日期
+			dbBean.setTitle(cursor.getString(cursor.getColumnIndex("title")));//标题
+			dbBean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));//文件大小
+			dbBean.setType(cursor.getInt(cursor.getColumnIndex("type")));//1 照片2视频3录音
+			dbBean.setJsonObject(cursor.getString(cursor.getColumnIndex("jsonObject")));//详细信息
+			dbBean.setRecordTime(cursor.getString(cursor.getColumnIndex("recordTime")));//录制时长
+			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
+			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
+			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态
+			dbBean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+		}
+		db.close();
+		return dbBean;
+	}
+
 
 	public boolean queryByPkValue(int pkvalue) {
 		SQLiteDatabase db = helper.getWritableDatabase();

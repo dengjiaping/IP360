@@ -37,8 +37,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	private ImageView iv_chuo;
 	@Override
 	public void initData() {
-		if (!io.vov.vitamio.LibsChecker.checkVitamioLibs(this))
-			return;
+
 		headers=new HashMap<>();
 		headers.put("Referer","http://appapi.truthso.com");
 

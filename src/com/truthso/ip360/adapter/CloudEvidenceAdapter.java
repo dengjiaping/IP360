@@ -31,6 +31,7 @@ import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
@@ -45,6 +46,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.FileUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -177,7 +179,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
 		}
 
-		boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(cloudEviItemBean.getPkValue());//已经下载
+		boolean queryByPkValue=isDownloaded(cloudEviItemBean.getPkValue());//是否已下载
+
 		if(queryByPkValue){
 			vh.tv_downloaded.setVisibility(View.VISIBLE);
 			vh.tv_delete.setVisibility(View.VISIBLE);
@@ -192,6 +195,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
 
 		return convertView;
+	}
+
+	//检查是否已下载
+	private boolean isDownloaded(int pkValue) {
+		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
+		if(!CheckUtil.isEmpty(dbBean)){
+			return FileUtil.IsFileEmpty(dbBean.getResourceUrl());
+		}
+		return false;
 	}
 
 	public class ViewHolder {
@@ -421,15 +433,22 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					return;
 				}
 
-		case R.id.tv_file_preview://文件预
+		case R.id.tv_file_preview://文件预览
 
 			if (mDatas.size() > 0) {
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
+				String url = null;
+				String format = null;
+
 				if (data1.getArreaStatus() == 1){//不欠费
-//					String urlHtps = data1.getOssUrl();
-//					String url =urlHtps.replace("http","https");
-					String url = data1.getOssUrl();
-					String format = data1.getFileFormat();
+					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());//已经下载
+					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
+						url=dbBean.getResourceUrl();
+						format=dbBean.getFileFormat();
+					}else{
+						 url = data1.getOssUrl();
+						 format = data1.getFileFormat();
+					}
 					format = format.toLowerCase();// 格式变小写
 					Log.i("djj", data1.getOssUrl());
 					if (CheckUtil.isFormatVideo(format)) {// 视频
@@ -441,13 +460,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						Intent intent2 = new Intent(context,
 								PhotoDetailActivity.class);
 						intent2.putExtra("url", url);
-						intent2.putExtra("from", "cloud");// 给个标记知道是云端的照片查看，不是本地的
 						context.startActivity(intent2);
 					} else if (CheckUtil.isFormatRadio(format)) {// 音频
 						Intent intent2 = new Intent(context,
 								RecordDetailActivity.class);
 						intent2.putExtra("url", url);
-						// intent2.putExtra("from","cloud");//给个标记知道是云端的照片查看，不是本地的
 						context.startActivity(intent2);
 					} else {
 						Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
@@ -474,6 +491,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		}
 	}
 
+	//删除本地文件
 	private void showDialog(final int position) {
 		alertDialog = new AlertDialog.Builder(context).
 				setTitle("温馨提示").
@@ -482,9 +500,21 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						String filePaht=null;
+						DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(mDatas.get(position).getPkValue());
+						if(!CheckUtil.isEmpty(dbBean)){
+							filePaht=dbBean.getResourceUrl();
+						}
 						int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,mDatas.get(position).getPkValue());
 						if(count>0){
 							EventBus.getDefault().post(new CEListRefreshEvent());
+							if(filePaht!=null){
+								try {
+									FileUtil.deleteFile(filePaht);
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
 						}
 					}
 				}).
