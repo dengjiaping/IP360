@@ -106,6 +106,7 @@ public class CertificationActivity extends BaseActivity {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						webview.loadUrl(bean.getDatas().getCertificateUrl());
+//						webview.loadUrl("https://www.baidu.com/");
 					}else{
 						Toaster.showToast(CertificationActivity.this,bean.getMsg());
 					}
