@@ -55,14 +55,12 @@ public class AccountMagActivity extends BaseActivity {
         //用量统计的数据
         statisticsyongliang();
 
-
-
-
         listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
     }
     private MyAdapter adapter =new MyAdapter();
 public class MyAdapter extends BaseAdapter{
+
     @Override
     public int getCount() {
         return listView.getCount();
@@ -80,15 +78,18 @@ public class MyAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      ViewHolder vh =  new ViewHolder();
+      ViewHolder vh =  null;
         if (convertView ==null){
+            vh=new ViewHolder();
+            convertView = inflater.inflate(R.layout.item_zengsong,null);
             vh.tv_yewu_name = (TextView) convertView.findViewById(R.id.tv_yewu_name);
             vh.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
             vh.tv_liang = (TextView) convertView.findViewById(R.id.tv_liang);
+            convertView.setTag(vh);
         }else{
             vh = (ViewHolder) convertView.getTag();
         }
-        convertView = inflater.inflate(R.layout.item_zengsong,null);
+
         return convertView;
     }
 }

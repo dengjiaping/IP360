@@ -220,6 +220,23 @@ public class FileUtil {
 			f.delete();
 		}
 	}
+
+	/**
+	 * 计算文件大小
+	 *
+	 * @param filePath
+	 * @throws Exception
+	 */
+	public static long getDirSize(final File file) {
+		if (file.isFile())
+			return file.length();
+		final File[] children = file.listFiles();
+		long total = 0;
+		if (children != null)
+			for (final File child : children)
+				total += getDirSize(child);
+		return total;
+	}
 	/**
 	 * 删除文件夹下的文件
 	 *

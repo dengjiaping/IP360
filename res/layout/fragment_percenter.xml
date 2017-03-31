@@ -482,6 +482,17 @@
         android:layout_marginLeft="@dimen/layout_marginLeft"
         android:textSize="@dimen/text_item"
         android:textColor="@color/item_text_color"/>
+
+        <TextView
+            android:id="@+id/tv_cache_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="123KB"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_marginLeft"
+            android:textSize="@dimen/text_item"
+            android:textColor="@color/item_text_color"/>
     </RelativeLayout>
         <Button
             android:id="@+id/btn_logout"

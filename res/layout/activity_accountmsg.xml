@@ -90,7 +90,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item"
             android:text="赠送用量统计:"/>
@@ -111,7 +110,7 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>
 
@@ -124,7 +123,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:layout_toRightOf="@id/iv_account_message"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item"
             android:text="用量统计:"/>

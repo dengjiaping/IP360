@@ -43,6 +43,7 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
@@ -69,7 +70,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private Button btn_logout,btn_count_pay;
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
-			tv_bindemail, tv_account;
+			tv_bindemail, tv_account,tv_cache_size;
 	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
 	private String unit_photo,unit_video,unit_record;
 	private List<product> list,list1;// 业务余量的集合
@@ -113,6 +114,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
+
+		tv_cache_size= (TextView) view.findViewById(R.id.tv_cache_size);
+		String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
+		tv_cache_size.setText(dirSize);
+
 //		iv_next_yue.setVisibility(View.INVISIBLE);
 		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
 		cb_iswifi.setChecked(true);
@@ -393,6 +399,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		SqlDao.getSQLiteOpenHelper().deleteAll(MyConstants.TABLE_MEDIA_DETAIL);
 		UpDownLoadDao.getDao().deleteAll();
 		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
+		tv_cache_size.setText("0KB");
 		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}
 	// 退出登录
@@ -540,7 +547,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 									isHaveCombo = false;
 								}
 								startActivity(intent);
-
 
 							}
 

@@ -24,11 +24,6 @@ import com.truthso.ip360.activity.R;
 		private RelativeLayout layout_container;
 		private View layout;
 
-
-
-
-
-
 		public MainActionBar(Context context, AttributeSet attrs) {
 			super(context, attrs);
 			this.context = context;
