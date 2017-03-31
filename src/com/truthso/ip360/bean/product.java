@@ -1,4 +1,7 @@
 package com.truthso.ip360.bean;
+
+import java.util.List;
+
 /**
  * @despriction :获取个人概要信息中的PersonalMsgBean中的泛型bean
  * 
@@ -36,7 +39,15 @@ public class product {
 	private String contractStart;//合同开始时间
 	private String contractEnd;//合同结束时间
 	private String buyCount;//买的量
+	private List<GiftsProduct> giftsProduct;//赠送量
 
+	public List<GiftsProduct> getGiftsProduct() {
+		return giftsProduct;
+	}
+
+	public void setGiftsProduct(List<GiftsProduct> giftsProduct) {
+		this.giftsProduct = giftsProduct;
+	}
 
 	public String getBuyCount() {
 		return buyCount;
