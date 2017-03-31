@@ -76,7 +76,7 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,String status) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,int status) {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		db.execSQL(
@@ -236,7 +236,7 @@ public class UpDownLoadDao {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.enableWriteAheadLogging();
 		db.execSQL(
-				"update updownloadlog set status=? where resourceId =?",
+				"update updownloadlog set status=? where sourceid =?",
 				new Object[] { status,resourceId });
 		MyApplication
 				.getApplication()

@@ -80,7 +80,7 @@ public class DownloadTask {
 								// 处理下载的数据
 								progress += len;
 								fos.write(buffer, 0, len);
-								//Log.i("djj", "progress" + progress);
+								Log.i("djj", "progress" + progress);
 								if (listener != null) {
 									listener.onProgress(progress);
 								}

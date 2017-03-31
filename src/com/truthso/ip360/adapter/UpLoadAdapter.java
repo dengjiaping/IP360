@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
@@ -34,16 +35,13 @@ import com.truthso.ip360.view.SpeedView;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListener {
+public class UpLoadAdapter extends BaseAdapter{
 	private LayoutInflater inflater;
 	private Context context;
-	private boolean isAllSelect = false;
-	private boolean isChoice = false;
 	private UpLoadManager instanse = UpLoadManager.getInstance();
 	private List<FileInfo> list;
-	private List<Integer> selectedList=new ArrayList<Integer>();
-	private long progress,lastProgress;
 	private ImageView iv_icon;
+	private int lastStatus;
 	public UpLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
@@ -51,20 +49,10 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 		this.list=list;
 	}
 
-	public void setChoice(Boolean isChoice) {
-		this.isAllSelect = false;
-		this.isChoice = isChoice;
-	}
-
 	public void notifyChange(List<FileInfo> datas){
 		list.clear();
 		list.addAll(datas);
 		this.notifyDataSetChanged();
-	}
-	
-	public void setAllSelect(Boolean isAllSelect) {
-		this.isChoice = true;
-		this.isAllSelect = isAllSelect;
 	}
 
 	@Override
@@ -89,105 +77,95 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 			convertView = inflater.inflate(R.layout.item_updownload, null);
 			vh = new ViewHolder();
 			vh.tv_size = (TextView) convertView.findViewById(R.id.tv_size);
-			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.iv_icon =(ImageView) convertView.findViewById(R.id.iv_icon);
 			vh.tv_fileName = (TextView) convertView.findViewById(R.id.tv_fileName);
 			vh.probar = (ProgressBar) convertView.findViewById(R.id.probar);
-			vh.btn_upload_download = (Button) convertView.findViewById(R.id.btn_upload_download);
+			vh.btn_upload_download_again = (Button) convertView.findViewById(R.id.btn_upload_download_again);
 			vh.tv_status=(SpeedView) convertView.findViewById(R.id.tv_status);
-			vh.cb_choice.setTag(position);
-			vh.cb_choice.setOnCheckedChangeListener(this);
+			vh.tv_desc=(TextView) convertView.findViewById(R.id.tv_desc);
+			vh.tv_title=(TextView) convertView.findViewById(R.id.tv_title);
+			vh.rl_progress= (RelativeLayout) convertView.findViewById(R.id.rl_progress);
+
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
 		}
 
-		if (isChoice) {
-			if (isAllSelect) {
-				vh.cb_choice.setChecked(true);
-			} else {
-				vh.cb_choice.setChecked(false);
+		FileInfo info = list.get(position);
+		vh.tv_fileName.setText(info.getFileName());
+		long l_size = Long.parseLong(info.getFileSize());
+		String s_size = FileSizeUtil.setFileSize(l_size);
+
+
+		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
+			vh.tv_title.setVisibility(View.VISIBLE);
+			if(info.getStatus()!=0){
+				vh.tv_title.setText("正在下载");
+			}else {
+				vh.tv_title.setText("下载成功("+(list.size()-position+1)+")");
 			}
-			vh.cb_choice.setVisibility(View.VISIBLE);
-		} else {
-			vh.cb_choice.setVisibility(View.GONE);
+		}else{
+			vh.tv_title.setVisibility(View.GONE);
 		}
 
-		final FileInfo upLoadInfo = list.get(position);
-		vh.tv_fileName.setText(upLoadInfo.getFileName());
-		long l_size = Long.parseLong(upLoadInfo.getFileSize());
-		String s_size = FileSizeUtil.setFileSize(l_size);
-		vh.tv_size.setText(s_size);
-		
-		vh.probar.setMax(Integer.parseInt(upLoadInfo.getFileSize()));
-		vh.probar.setProgress(upLoadInfo.getPosition());
-		final int resourceId = upLoadInfo.getResourceId();
-		instanse.setOnUpLoadProgressListener(upLoadInfo.getResourceId(),new ProgressListener() {
+		switch (info.getStatus()){
+			case 0://成功
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.GONE);
+				vh.tv_size.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.GONE);
 
-			@Override
-			public void onComplete() {
-				Log.i("progress", "complete");
-			}
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("2017.1.1 11:11:11");
+				vh.tv_size.setText(info.getFileSize());
+				break;
+			case 1://失败
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
-			@Override
-			public void onFailure() {
-				Log.i("djj","onFailure");
-				vh.tv_status.setStatus(false);
-			}
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
+				vh.tv_desc.setText("上传失败");
+				break;
+			case 2://运行
+				vh.rl_progress.setVisibility(View.VISIBLE);
+				vh.btn_upload_download_again.setVisibility(View.GONE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
-			@Override
-			public void onProgress(long progress) {
-				vh.probar.setProgress((int)progress);
-				vh.tv_status.setProgress(progress);
-			}
-		});
-      /*  TimerTask task=new TimerTask() {
-			
-			@Override
-			public void run() {
-			final long speed=(progress-lastProgress)/1024;
-			UpLoadAdapter.this.lastProgress=progress;
-			vh.tv_status.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					vh.tv_status.setText(speed+"k/s");
-				}
-			});
-			}
-		};
-		Timer timer=new Timer();
-		timer.schedule(task,0,1000);*/
-		int satus=upLoadInfo.getStatus();
-		//int currentStatus = instanse.getCurrentStatus(resourceId);
-		 if(satus==1){
-			 vh.tv_status.setText("暂停中");
-			// vh.btn_upload_download.setSelected(true);
-		 }else if(satus==0){
-			 //获取实时网速或者正在等待中
-			 vh.tv_status.setText("0b/s");
-			// vh.btn_upload_download.setSelected(false);
-		 }else if(satus==2){
-			 Log.i("djj","上传失败");
-			 vh.tv_status.setText("上传失败");
-			 //vh.btn_upload_download.setSelected(true);
-		 }
-		
-		vh.btn_upload_download.setOnClickListener(new OnClickListener() {
+				vh.probar.setProgress(info.getPosition());
+				vh.probar.setMax(Integer.parseInt(info.getLlsize()));
+				instanse.setOnUpLoadProgressListener(info.getResourceId(), new com.truthso.ip360.ossupload.ProgressListener() {
 
-			@Override
-			public void onClick(View v) {				
-			
-				if(vh.btn_upload_download.isSelected()){					
-					//vh.btn_upload_download.setSelected(false);
-					//instanse.restart(resourceId);
-				}else{
-					//vh.btn_upload_download.setSelected(true);
-					//instanse.pause(resourceId);
-				}
-			}
-		});
-	String str = upLoadInfo.getFileName();
+					@Override
+					public void onProgress(long progress) {
+						vh.probar.setProgress((int)progress);
+						vh.tv_status.setProgress(progress);
+					}
+					@Override
+					public void onComplete() {
+
+					}
+					@Override
+					public void onFailure() {
+						vh.tv_status.setStatus(false);
+					}
+				});
+				break;
+			case 3://等待wifi
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
+
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("等待wifi");
+				break;
+		}
+
+
+		String str = info.getFileName();
 	String	foramt1 = str.substring(str.lastIndexOf(".")+1);
 	String format= foramt1.toLowerCase();// 格式变小写
 	if (CheckUtil.isFormatPhoto(format)) {
@@ -199,30 +177,17 @@ public class UpLoadAdapter extends BaseAdapter implements OnCheckedChangeListene
 	} else if (CheckUtil.isFormatDoc(format)) {
 		vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
 	}
-		
+		lastStatus=info.getStatus();
 		return convertView;
 	}
 
 	class ViewHolder {
-		private CheckBox cb_choice;
-		private TextView tv_fileName,tv_size;
+		private TextView tv_fileName,tv_size,tv_title,tv_desc;
 		private SpeedView tv_status;
 		private ProgressBar probar;
 		private ImageView iv_icon;
-		private Button btn_upload_download;
+		private Button btn_upload_download_again;
+		private RelativeLayout rl_progress;
 	}
 
-	public List<Integer> getSelected(){
-		return selectedList;
-	}
-	
-	@Override
-	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-		int position = (Integer) arg0.getTag();
-		if(arg1){
-			selectedList.add(list.get(position).getResourceId());
-		}else{
-			selectedList.remove((Integer)list.get(position).getResourceId());
-		}	 
-	}
 }

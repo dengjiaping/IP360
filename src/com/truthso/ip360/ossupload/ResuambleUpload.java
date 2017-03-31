@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Message;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientException;
@@ -47,6 +48,7 @@ public class ResuambleUpload {
     private int status;
     private int RUNNING=0,PAUSE=1,ERROR=2;
     private int resourceId;
+    private int UPLOAD_CODE=201,SUCCESS=101,FAILE=102;
 
     private FileInfo info;
     private String token;
@@ -118,9 +120,11 @@ public class ResuambleUpload {
                 	progressListener.onComplete();               	
                 }
 
-                SqlDao dao = SqlDao.getSQLiteOpenHelper();
-                dao.updateStatus(info.getFileName(), "1");
-                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
+                Message msg=new Message();
+                msg.what=UPLOAD_CODE;
+                msg.arg1=SUCCESS;
+                msg.obj=info;
+                UpDownloadHandler.getInstance().sendMessage(msg);
                 LogUtils.e(info.getResourceId()+"上传成功回调rescordid");
             }
 
@@ -139,6 +143,12 @@ public class ResuambleUpload {
                     Log.e("HostId", serviceException.getHostId());
                     Log.e("RawMessage", serviceException.getRawMessage());
                 }
+
+                Message msg=new Message();
+                msg.what=UPLOAD_CODE;
+                msg.arg1=FAILE;
+                msg.obj=info;
+                UpDownloadHandler.getInstance().sendMessage(msg);
                 LogUtils.e(info.getResourceId()+"回调失败的rescordid");
             }
         });

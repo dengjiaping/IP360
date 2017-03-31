@@ -35,7 +35,7 @@ public class DownLoadListPager extends BasePager {
 	@Override
 	public View initView() {
 		List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-
+	    Log.i("djj",	queryDownLoadList.size()+"queryDownLoadList");
 		listView = new ListView(ctx);
 		adapter=new DownLoadAdapter(ctx,formatList(queryDownLoadList));
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；

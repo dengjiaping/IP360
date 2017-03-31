@@ -91,58 +91,74 @@ public class DownLoadAdapter extends BaseAdapter  {
 		}
 
 		FileInfo info = list.get(position);
+		vh.tv_fileName.setText(info.getFileName());
 
 		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
 			vh.tv_title.setVisibility(View.VISIBLE);
 			if(info.getStatus()!=0){
 				vh.tv_title.setText("正在下载");
 			}else {
-				vh.tv_title.setText("下载成功("+(list.size()-position+1)+")");
+				vh.tv_title.setText("下载成功("+(list.size()-position)+")");
 			}
 		}else{
 			vh.tv_title.setVisibility(View.GONE);
 		}
 
-		vh.tv_fileName.setText(info.getFileName());
-
 		switch (info.getStatus()){
 			case 0://成功
 				vh.rl_progress.setVisibility(View.GONE);
 				vh.btn_upload_download_again.setVisibility(View.GONE);
-				vh.tv_desc.setVisibility(View.VISIBLE);
 				vh.tv_size.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
 
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("2017.1.1 11:11:11");
+				vh.tv_size.setText(info.getFileSize());
 				break;
 			case 1://失败
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
+				vh.tv_desc.setText("上传失败");
 				break;
-			case 2://等待
+			case 2://运行
+				vh.rl_progress.setVisibility(View.VISIBLE);
+				vh.btn_upload_download_again.setVisibility(View.GONE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
+				vh.probar.setProgress(info.getPosition());
+				vh.probar.setMax(Integer.parseInt(info.getLlsize()));
+				helper.setOnprogressListener(info.getObjectKey(), new com.truthso.ip360.ossupload.ProgressListener() {
+
+					@Override
+					public void onProgress(long progress) {
+						vh.probar.setProgress((int)progress);
+						vh.tv_status.setProgress(progress);
+					}
+					@Override
+					public void onComplete() {
+
+					}
+					@Override
+					public void onFailure() {
+						vh.tv_status.setStatus(false);
+					}
+				});
 				break;
+			case 3://等待wifi
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("等待wifi");
+				break;
 		}
-		vh.tv_size.setText(info.getFileSize());
-
-
-		vh.probar.setProgress(info.getPosition());
-		vh.probar.setMax(Integer.parseInt(info.getLlsize()));
-		helper.setOnprogressListener(info.getObjectKey(), new com.truthso.ip360.ossupload.ProgressListener() {
-			
-			@Override
-			public void onProgress(long progress) {
-				vh.probar.setProgress((int)progress);
-				vh.tv_status.setProgress(progress);
-			}
-			@Override
-			public void onComplete() {
-				
-			}
-			@Override
-			public void onFailure() {
-				vh.tv_status.setStatus(false);
-			}
-		});
-
 
 
 		String str =info.getFileName();

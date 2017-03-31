@@ -56,7 +56,6 @@ public class UpLoadManager {
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 
 
-
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
          if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 			 Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
@@ -65,7 +64,7 @@ public class UpLoadManager {
 		Log.i("djj",info.getResourceId()+"ResourceId123");
 		resuambleUpload.putObject();
 		upLoadTaskMap.put(info.getResourceId(), resuambleUpload);
-		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey());
+		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),2);
 	}
 	
 	

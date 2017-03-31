@@ -8,6 +8,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.updownload.FileInfo;
 
 /**
  * Created by Administrator on 2017/1/13.
@@ -15,7 +16,7 @@ import com.truthso.ip360.dao.UpDownLoadDao;
 
 public class UpDownloadHandler extends Handler {
 
-    private final int DOWNLOAD_CODE=101,SUCCESS=102;
+    private final int DOWNLOAD_CODE=101,UPLOAD_CODE=201,SUCCESS=102;
     private static UpDownloadHandler mHandler;
     private UpDownloadHandler(Looper looper) {
         super(looper);
@@ -39,6 +40,15 @@ public class UpDownloadHandler extends Handler {
                  }else{
                      String pkvalue=(String)msg.obj;
                      UpDownLoadDao.getDao().updateStatusByResourceId("1",pkvalue);
+                 }
+                 break;
+             case UPLOAD_CODE:
+                 FileInfo info=(FileInfo)msg.obj;
+                 if(msg.arg1==SUCCESS){
+                     SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "0");
+                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),0);
+                 }else{
+                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),1);
                  }
                  break;
          }

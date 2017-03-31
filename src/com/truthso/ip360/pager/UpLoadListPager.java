@@ -30,7 +30,7 @@ public class UpLoadListPager extends BasePager {
 	private ListView listView;
 	private UpLoadAdapter adapter;
 	private UpDownLoadDao dao;
-	private List<FileInfo> list;
+
 
 	public UpLoadListPager(Context ctx) {
 		super(ctx);
@@ -44,26 +44,29 @@ public class UpLoadListPager extends BasePager {
 	@Override
 	public View initView() {
 		dao=UpDownLoadDao.getDao();
-		list=new ArrayList<FileInfo>();
 		List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
-		if(queryUpLoadList!=null){
-			list.addAll(queryUpLoadList); 			
-		}        
-		
+		Log.i("djj",queryUpLoadList.size()+"size");
 		listView = new ListView(ctx);
-
-		if(list.size()>0){
-			EventBus.getDefault().post(new UpEvent(true));
-		}else{
-			EventBus.getDefault().post(new UpEvent(false));
-		}
-		adapter=new UpLoadAdapter(ctx,list);
+		adapter=new UpLoadAdapter(ctx,formatList(queryUpLoadList));
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), true, new MyContentObserver(new Handler()));
 		return listView;
 	}
-	
+
+	//将已完成的条目放到集合最后
+	private List<FileInfo> formatList(List<FileInfo> list){
+		List<FileInfo> temp=new ArrayList<>();
+		for (int i=0;i<list.size();i++){
+			FileInfo fileInfo = list.get(i);
+			if(fileInfo.getStatus()==0){
+				temp.add(list.remove(i));
+			}
+		}
+		list.addAll(temp);
+		return list;
+	}
+
 	public class MyContentObserver extends ContentObserver{
 
 		public MyContentObserver(Handler handler) {
@@ -74,42 +77,8 @@ public class UpLoadListPager extends BasePager {
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
 			List<FileInfo> queryUpLoadList = dao.queryUpLoadList();
-			if(list.size()>0){
-				EventBus.getDefault().post(new UpEvent(true));
-			}else{
-				EventBus.getDefault().post(new UpEvent(false));
-			}
-			adapter.notifyChange(queryUpLoadList);
+			adapter.notifyChange(formatList(queryUpLoadList));
 		}
-	}
-	
-	public void setChoice(boolean b) {
-		adapter.setChoice(b);
-		listView.invalidateViews();
-	}
-	
-	
-
-	@Override
-	public void setAllSelect(boolean isAllSelect) {
-		adapter.setAllSelect(isAllSelect);
-		listView.invalidateViews();
-	}
-
-
-	@Override
-	public void deleteAll() {
-		UpLoadManager.getInstance().deleteAll( adapter.getSelected());
-	}
-
-	@Override
-	public void pauseAll() {
-		UpLoadManager.getInstance().pauseAll(adapter.getSelected());
-	}
-
-	@Override
-	public void startAll() {
-		UpLoadManager.getInstance().startAll(adapter.getSelected());
 	}
 
 }

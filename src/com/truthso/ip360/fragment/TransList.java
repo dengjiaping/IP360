@@ -146,13 +146,11 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void initData() {
-		EventBus.getDefault().register(this);
 	}
 
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
-		EventBus.getDefault().unregister(this);
 		super.onDestroy();
 	}
 	
@@ -198,7 +196,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 
 			return view;
 		}
-
 	}
 
 }
