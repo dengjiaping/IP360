@@ -14,8 +14,8 @@
             android:id="@+id/acition_bar_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:background="@null"
+            android:drawablePadding="10dp"
             android:button="@null"
             android:drawableRight="@drawable/leibie_selector"
             android:layout_alignParentLeft="true"

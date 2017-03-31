@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.lidroid.xutils.util.LogUtils;
@@ -50,7 +51,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
 	private String date, fileName, loc, fileSize, time, filePath,longlat;
-	private Button btn_title_right, btn_save,btn_title_left;
+	private Button btn_title_right, btn_save;
+	private ImageButton btn_title_left;
 	private boolean isPre=false;
 	private int useType;
 	private int mintime,pkValue;
@@ -87,7 +89,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
-		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);

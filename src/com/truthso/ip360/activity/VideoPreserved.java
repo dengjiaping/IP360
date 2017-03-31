@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,7 +58,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private ImageView iv_video;
 	private String mVideoSize, size, title,longlat;
 	private String mDate, loc, time;
-	private Button btn_preserved, btn_title_right,btn_title_left;
+	private Button btn_preserved, btn_title_right;
+	private  ImageButton btn_title_left;
 	private int minTime;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time, tv_account;
 	private String objectKey;
@@ -99,7 +101,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		btn_preserved.setOnClickListener(this);
