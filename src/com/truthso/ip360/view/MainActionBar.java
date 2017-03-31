@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,12 +17,17 @@ import com.truthso.ip360.activity.R;
 
 	public class MainActionBar extends LinearLayout {
 		private Context context;
-		private Button acition_bar_left;
+		private CheckBox acition_bar_left;
 		private Button acition_bar_right;
 		private TextView acition_bar_title;
 		private TextView acition_bar_msgnum;
 		private RelativeLayout layout_container;
 		private View layout;
+
+
+
+
+
 
 		public MainActionBar(Context context, AttributeSet attrs) {
 			super(context, attrs);
@@ -43,7 +49,7 @@ import com.truthso.ip360.activity.R;
 		private void initView() {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 			layout = inflater.inflate(R.layout.layout_action_bar, this);
-			acition_bar_left = (Button) layout.findViewById(R.id.acition_bar_left);// 返回
+			acition_bar_left = (CheckBox) layout.findViewById(R.id.acition_bar_left);// 返回
 			layout_container = (RelativeLayout) layout.findViewById(R.id.layout_container);
 			acition_bar_right = (Button) layout.findViewById(R.id.acition_bar_right);// 分享
 			acition_bar_title = (TextView) layout.findViewById(R.id.acition_bar_title);// 标题�?

@@ -32,6 +32,7 @@ import com.truthso.ip360.activity.ReBindEmailActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.activity.RealNameInfoActivity;
+import com.truthso.ip360.bean.GiftsProduct;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
@@ -72,6 +73,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
 	private String unit_photo,unit_video,unit_record;
 	private List<product> list,list1;// 业务余量的集合
+	private List<GiftsProduct> listZSong;//赠送业务量
 	private boolean isOk,isContractUser,isRefreshAccount;
 	private CheckBox cb_iswifi;
 	private boolean isHaveCombo = true;
@@ -136,6 +138,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 					if (bean.getCode() == 200) {
 //						isRefreshAccount = true;
 						list = bean.getDatas().getProductBalance();//业务量的集合
+						for (int i =0;i<list.size();i++){
+							listZSong= list.get(i).getGiftsProduct();
+							for (int j = 0;j<listZSong.size();j++){
+
+							}
+						}
+
 						isOk = true;
 						// 账户余额
 							int balance = bean.getDatas().getAccountBalance();
@@ -152,7 +161,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 							for (int i = 0; i < list.size(); i++) {
 								// 取证类型
 								type = list.get(i).getType();
-
 								if (type == MyConstants.PHOTOTYPE) {// 拍照
 									// 累积使用量
 									usedCount_photo = list.get(i).getUsedCount();
@@ -460,7 +468,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						list1 = bean.getDatas().getProductBalance();//业务量的集合
-
 						// 账户余额
 						int balance = bean.getDatas().getAccountBalance();
 						accountBalance = "余额￥" + balance / 100 + "." + balance
@@ -472,7 +479,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 //							contractEnd = contractEnd.replace("-", ".");
 //							tv_account_balance.setText("合同用户" + contractEnd
 //									+ "到期");
-						if (tag.equals("account")){//是账号信息调的
+						if (tag.equals("account")){//是账号信息调的，因为充值里也要余额
 							if (list1.size() != 0) {
 								for (int i = 0; i < list1.size(); i++) {
 									// 取证类型

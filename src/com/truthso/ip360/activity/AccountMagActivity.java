@@ -1,13 +1,21 @@
 package com.truthso.ip360.activity;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.truthso.ip360.adapter.CloudEvidenceAdapter;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.zip.Inflater;
 
 /**
  * @author wsx_summer Email:wangshaoxia@truthso.com
@@ -18,8 +26,9 @@ import java.util.Calendar;
  */
 
 public class AccountMagActivity extends BaseActivity {
+    private LayoutInflater inflater;
     //账户余额
-    private TextView tv_account_balance;
+    private TextView tv_account_balance,tv_account;
     private TextView tv_status_taocan;//套餐状态
     private TextView tv_date_photo;//拍照的套餐时间
     private TextView tv_account_photo;
@@ -33,6 +42,7 @@ public class AccountMagActivity extends BaseActivity {
     //    private RelativeLayout rl_taocan_detail;
     private LinearLayout ll_taocan;
     private  boolean isHaveCombo;
+    private ListView listView;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -42,6 +52,85 @@ public class AccountMagActivity extends BaseActivity {
     public void initData() {
         accountBalance = getIntent().getStringExtra("accountBalance");
         isHaveCombo =    getIntent().getBooleanExtra("isHaveCombo",false);
+        //用量统计的数据
+        statisticsyongliang();
+
+
+
+
+        listView = (ListView) findViewById(R.id.listview);
+        listView.setAdapter(adapter);
+    }
+    private MyAdapter adapter =new MyAdapter();
+public class MyAdapter extends BaseAdapter{
+    @Override
+    public int getCount() {
+        return listView.getCount();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      ViewHolder vh =  new ViewHolder();
+        if (convertView ==null){
+            vh.tv_yewu_name = (TextView) convertView.findViewById(R.id.tv_yewu_name);
+            vh.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
+            vh.tv_liang = (TextView) convertView.findViewById(R.id.tv_liang);
+        }else{
+            vh = (ViewHolder) convertView.getTag();
+        }
+        convertView = inflater.inflate(R.layout.item_zengsong,null);
+        return convertView;
+    }
+}
+    @Override
+   public void initView() {
+        tv_account = (TextView) findViewById(R.id.tv_account);
+        String userAccount = (String) SharePreferenceUtil.getAttributeByKey(AccountMagActivity.this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
+        tv_account.setText(userAccount);
+
+    }
+
+    @Override
+    public int setLayout() {
+        return R.layout.activity_accountmsg;
+    }
+
+    @Override
+    public String setTitle() {
+        return "账号信息";
+    }
+    public class ViewHolder{
+        private TextView tv_yewu_name,tv_date,tv_liang;
+    }
+
+    /**
+     * 用量统计的数据
+     */
+    private void  statisticsyongliang(){
+        ll_taocan = (LinearLayout) findViewById(R.id.ll_taocan);
+        tv_account_balance = (TextView) findViewById(R.id.tv_account_balance);
+        tv_status_taocan = (TextView) findViewById(R.id.tv_status_taocan);
+        tv_date_photo = (TextView) findViewById(R.id.tv_date_photo);
+        tv_account_photo = (TextView) findViewById(R.id.tv_account_photo);
+        tv_date_video = (TextView) findViewById(R.id.tv_date_video);
+        tv_account_video = (TextView) findViewById(R.id.tv_account_video);
+        tv_date_record = (TextView) findViewById(R.id.tv_date_record);
+        tv_account_record = (TextView) findViewById(R.id.tv_account_record);
+        tv_account_balance.setText(accountBalance);
+        //获取当前时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String currDate = dateFormat.format(Calendar.getInstance().getTime());
+        int icurrDate = Integer.parseInt(currDate);
         if (isHaveCombo){
             //业务的开始时间与结束时间
             contractStart_photo =  getIntent().getStringExtra("contractStart_photo");
@@ -64,24 +153,6 @@ public class AccountMagActivity extends BaseActivity {
             unit_record = getIntent().getStringExtra("unit_record");
         }
 
-//        rl_taocan_detail = (RelativeLayout) findViewById(R.id.rl_taocan_detail);
-        ll_taocan = (LinearLayout) findViewById(R.id.ll_taocan);
-        tv_account_balance = (TextView) findViewById(R.id.tv_account_balance);
-        tv_status_taocan = (TextView) findViewById(R.id.tv_status_taocan);
-        tv_date_photo = (TextView) findViewById(R.id.tv_date_photo);
-        tv_account_photo = (TextView) findViewById(R.id.tv_account_photo);
-        tv_date_video = (TextView) findViewById(R.id.tv_date_video);
-        tv_account_video = (TextView) findViewById(R.id.tv_account_video);
-        tv_date_record = (TextView) findViewById(R.id.tv_date_record);
-        tv_account_record = (TextView) findViewById(R.id.tv_account_record);
-
-        tv_account_balance.setText(accountBalance);
-        //获取当前时间
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String currDate = dateFormat.format(Calendar.getInstance().getTime());
-        int icurrDate = Integer.parseInt(currDate);
-//        LogUtils.e(icurrDate+"当前日期");
-
         if (isHaveCombo){
             //拍照
             String  str_contractEnd_photo = contractEnd_photo.replace("-","");
@@ -102,7 +173,7 @@ public class AccountMagActivity extends BaseActivity {
 
             }
             //录像
-          String  str_contractEnd_video = contractEnd_video.replace("-","");
+            String  str_contractEnd_video = contractEnd_video.replace("-","");
             if (buyCount_video.equals("0")){//合同不约定预购用量的情况，此时只显示已经使用的
                 tv_date_video.setText(contractStart_video.replace("-",".")+"-"+contractEnd_video.replace("-","."));
                 tv_account_video.setText(usedCount_video+unit_video);
@@ -119,7 +190,7 @@ public class AccountMagActivity extends BaseActivity {
                 tv_account_video.setText(usedCount_video+unit_video+"/"+buyCount_video+unit_video);
             }
             //录音
-           String  strcontractEnd_record = contractEnd_record.replace("-","");
+            String  strcontractEnd_record = contractEnd_record.replace("-","");
             if (buyCount_record.equals("0")){//合同不约定预购用量的情况，此时只显示已经使用的
                 tv_date_record.setText(contractStart_record.replace("-",".")+"-"+contractEnd_record.replace("-","."));
                 tv_account_record.setText(usedCount_record+unit_record);
@@ -140,22 +211,6 @@ public class AccountMagActivity extends BaseActivity {
             tv_status_taocan.setText("当前无套餐");
             ll_taocan.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-   public void initView() {
-
 
     }
-
-    @Override
-    public int setLayout() {
-        return R.layout.activity_accountmsg;
-    }
-
-    @Override
-    public String setTitle() {
-        return "账号信息";
-    }
-
 }
