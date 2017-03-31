@@ -37,6 +37,7 @@ public class product {
 	private String contractEnd;//合同结束时间
 	private String buyCount;//买的量
 
+
 	public String getBuyCount() {
 		return buyCount;
 	}

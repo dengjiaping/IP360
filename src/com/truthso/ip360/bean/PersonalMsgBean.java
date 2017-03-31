@@ -32,7 +32,7 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		private int accountType;//账户种类 1 个人 2 企业
 		private String realName;//已进行实名认证的真实姓名
 		private String cardId;//已进行实名认证的 身份证号
-
+		private List<GiftsProduct> giftsProduct;//赠送量
 		public String getRealName() {
 			return realName;
 		}
