@@ -73,7 +73,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			tv_bindemail, tv_account,tv_cache_size;
 	private String contractStart_photo,contractStart_video,contractStart_record,contractEnd_video,contractEnd_photo,contractEnd_record;
 	private String unit_photo,unit_video,unit_record;
-	private List<product> list,list1;// 业务余量的集合
+	private List<product> list;// 业务余量的集合
 	private List<GiftsProduct> listZSong;//赠送业务量
 	private boolean isOk,isContractUser,isRefreshAccount;
 	private CheckBox cb_iswifi;
@@ -81,6 +81,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private String tag;//表示是账户信息调的还是账户余额调的
 	private RelativeLayout rl_clearCache;//清除缓存
 	private String Tag;
+	private List<product> productBalance;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -142,29 +143,16 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				bean = (PersonalMsgBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-//						isRefreshAccount = true;
-						list = bean.getDatas().getProductBalance();//业务量的集合
-						for (int i =0;i<list.size();i++){
-							listZSong= list.get(i).getGiftsProduct();
-							for (int j = 0;j<listZSong.size();j++){
-
-							}
-						}
-
 						isOk = true;
 						// 账户余额
 							int balance = bean.getDatas().getAccountBalance();
 							accountBalance = "￥" + balance / 100 + "." + balance
 									% 100/10 +balance%100%10;
 							tv_account_balance.setText(accountBalance);
-//							isContractUser = true;
-//							contractStart = bean.getDatas().getContractStart();
-//							contractEnd = bean.getDatas().getContractEnd();
-//							contractEnd = contractEnd.replace("-", ".");
-//							tv_account_balance.setText("合同用户" + contractEnd
-//									+ "到期");
+						list=bean.getDatas().getProductBalance();
 						if (list.size()!=0){
-							for (int i = 0; i < list.size(); i++) {
+							 productBalance = bean.getDatas().getProductBalance();
+							/*for (int i = 0; i < list.size(); i++)
 								// 取证类型
 								type = list.get(i).getType();
 								if (type == MyConstants.PHOTOTYPE) {// 拍照
@@ -191,7 +179,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 									unit_record= list.get(i).getUnit();
 								}
 
-							}
+							}*/
+
+
 						}else{//当前无套餐
 							isHaveCombo = false;
 						}
@@ -258,12 +248,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.rl_account:// 账号信息
-			tag = "account";
-			getPersonalMsg1();
+			startActivity(new Intent(getActivity(),AccountMagActivity.class));
 			break;
 		case R.id.btn_count_pay:// 用户充值
-			tag = "chongzhi";
-			getPersonalMsg1();
 			if (isOk){
 					Intent intent1 = new Intent(getActivity(), AccountPayActivity.class);
 					intent1.putExtra("accountBalance",accountBalance);
@@ -464,104 +451,5 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		}
 		return false;
 	}*/
-	// 获取个人信息概要
-	public void getPersonalMsg1() {
-		showProgress("正在获取信息，请稍后...");
-		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
-			@Override
-			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-				hideProgress();
-				bean = (PersonalMsgBean) response;
-				if (!CheckUtil.isEmpty(bean)) {
-					if (bean.getCode() == 200) {
-						list1 = bean.getDatas().getProductBalance();//业务量的集合
-						// 账户余额
-						int balance = bean.getDatas().getAccountBalance();
-						accountBalance = "余额￥" + balance / 100 + "." + balance
-								% 100 / 10 + balance % 100 % 10 + "元";
-							tv_account_balance.setText(accountBalance);
-//							isContractUser = true;
-//							contractStart = bean.getDatas().getContractStart();
-//							contractEnd = bean.getDatas().getContractEnd();
-//							contractEnd = contractEnd.replace("-", ".");
-//							tv_account_balance.setText("合同用户" + contractEnd
-//									+ "到期");
-						if (tag.equals("account")){//是账号信息调的，因为充值里也要余额
-							if (list1.size() != 0) {
-								for (int i = 0; i < list1.size(); i++) {
-									// 取证类型
-									type = list1.get(i).getType();
 
-									if (type == MyConstants.PHOTOTYPE) {// 拍照
-										// 累积使用量
-										usedCount_photo = list1.get(i).getUsedCount();
-										//总共购买的量
-										buyCount_photo = list1.get(i).getBuyCount();
-										contractStart_photo = list1.get(i).getContractStart();
-										contractEnd_photo = list1.get(i).getContractEnd();
-										unit_photo = list1.get(i).getUnit();
-									} else if (type == MyConstants.VIDEOTYPE) {// 录像
-										usedCount_video = list1.get(i).getUsedCount();
-										buyCount_video = list1.get(i).getBuyCount();
-										contractStart_video = list1.get(i).getContractStart();
-										contractEnd_video = list1.get(i).getContractEnd();
-										unit_video = list1.get(i).getUnit();
-									} else if (type == MyConstants.RECORDTYPE) {// 录音
-										usedCount_record = list1.get(i)
-												.getUsedCount();
-										buyCount_record = list1.get(i).getBuyCount();
-										contractStart_record = list1.get(i).getContractStart();
-										contractEnd_record = list1.get(i).getContractEnd();
-										unit_record = list1.get(i).getUnit();
-									}
-
-								}
-								Intent intent = new Intent(getActivity(), AccountMagActivity.class);
-								// 传参
-								//余额
-								intent.putExtra("accountBalance", accountBalance);
-								intent.putExtra("isHaveCombo", isHaveCombo);
-								if (isHaveCombo) {//有套餐了传参
-									//业务的开始时间与结束时间
-									intent.putExtra("contractStart_photo", contractStart_photo);
-									intent.putExtra("contractEnd_photo", contractEnd_photo);
-
-									intent.putExtra("contractStart_video", contractStart_video);
-									intent.putExtra("contractEnd_video", contractEnd_video);
-
-									intent.putExtra("contractStart_record", contractStart_record);
-									intent.putExtra("contractEnd_record", contractEnd_record);
-									//套餐购买的量
-									intent.putExtra("buyCount_photo", buyCount_photo + "");
-									intent.putExtra("buyCount_video", buyCount_video + "");
-									intent.putExtra("buyCount_record", buyCount_record + "");
-									//业务已经使用的量
-									intent.putExtra("usedCount_photo", usedCount_photo + "");
-									intent.putExtra("usedCount_video", usedCount_video + "");
-									intent.putExtra("usedCount_record", usedCount_record + "");
-									//业务量单位
-									intent.putExtra("unit_photo", unit_photo);
-									intent.putExtra("unit_video", unit_video);
-									intent.putExtra("unit_record", unit_record);
-								} else {//当前无套餐
-									isHaveCombo = false;
-								}
-								startActivity(intent);
-
-							}
-
-						}else if(tag.equals("chongzhi")){//是充值调的
-							
-						}
-
-					}
-				}
-			}
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers,
-										   byte[] responseBody, Throwable error) {
-
-			}
-		});
-	}
 }

@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/top_title" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
     android:orientation="vertical" >
-
-     <include layout="@layout/top_title" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_hight"
@@ -108,11 +117,11 @@
             android:layout_height="1dp" />
     </LinearLayout>
 
-    <ListView
+    <com.truthso.ip360.view.MyListview
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </ListView>
+    </com.truthso.ip360.view.MyListview>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -294,4 +303,6 @@
             android:textSize="@dimen/text_item" />
     </RelativeLayout>
    </LinearLayout>
+</LinearLayout>
+</ScrollView>
 </LinearLayout>

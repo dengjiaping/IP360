@@ -33,9 +33,6 @@ public class PersonalMsgBean extends BaseHttpResponse{
 		private String realName;//已进行实名认证的真实姓名
 		private String cardId;//已进行实名认证的 身份证号
 
-
-
-
 		public String getRealName() {
 			return realName;
 		}

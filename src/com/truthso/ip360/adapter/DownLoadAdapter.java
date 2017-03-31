@@ -1,9 +1,12 @@
 package com.truthso.ip360.adapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +22,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.view.SpeedView;
 
 /**
@@ -112,7 +117,8 @@ public class DownLoadAdapter extends BaseAdapter  {
 				vh.tv_desc.setVisibility(View.VISIBLE);
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-				vh.tv_desc.setText("2017.1.1 11:11:11");
+				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
+				vh.tv_desc.setText(date);
 				vh.tv_size.setText(info.getFileSize());
 				break;
 			case 1://失败
@@ -126,6 +132,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 				vh.btn_upload_download_again.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getResourceId()+"");
 						DownLoadHelper.getInstance().downloadFile(info);
 					}
 				});

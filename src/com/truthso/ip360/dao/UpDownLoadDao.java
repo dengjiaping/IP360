@@ -251,12 +251,6 @@ public class UpDownLoadDao {
 				.notifyChange(
 						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
 						null);
-		MyApplication
-				.getApplication()
-				.getContentResolver()
-				.notifyChange(
-						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
-						null);
 	}
 
 	public void deleteUpInfoByResourceId(String resourceId) {

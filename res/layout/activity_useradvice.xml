@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
     android:orientation="vertical">
+    <include layout="@layout/top_title"/>
     <EditText
         android:id="@+id/et_useradvice"
         android:layout_width="match_parent"
