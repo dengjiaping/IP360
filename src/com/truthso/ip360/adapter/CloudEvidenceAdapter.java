@@ -200,7 +200,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	//检查是否已下载
 	private boolean isDownloaded(int pkValue) {
 		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
-		if(!CheckUtil.isEmpty(dbBean)){
+		if(!CheckUtil.isEmpty(dbBean)&&dbBean.getResourceUrl().contains("download")){
 			return FileUtil.IsFileEmpty(dbBean.getResourceUrl());
 		}
 		return false;
@@ -508,6 +508,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							filePaht=dbBean.getResourceUrl();
 						}
 						int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,mDatas.get(position).getPkValue());
+						Log.i("djj",mDatas.get(position).getPkValue()+"PkValue");
+						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
 						if(count>0){
 							EventBus.getDefault().post(new CEListRefreshEvent());
 							if(filePaht!=null){

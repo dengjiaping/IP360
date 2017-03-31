@@ -90,7 +90,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 			vh = (ViewHolder) convertView.getTag();
 		}
 
-		FileInfo info = list.get(position);
+		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
 
 		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
@@ -122,12 +122,18 @@ public class DownLoadAdapter extends BaseAdapter  {
 				vh.tv_size.setVisibility(View.GONE);
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
-				vh.tv_desc.setText("上传失败");
+				vh.tv_desc.setText("下载失败");
+				vh.btn_upload_download_again.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						DownLoadHelper.getInstance().downloadFile(info);
+					}
+				});
 				break;
 			case 2://运行
 				vh.rl_progress.setVisibility(View.VISIBLE);
 				vh.btn_upload_download_again.setVisibility(View.GONE);
-				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.GONE);
 
 				vh.probar.setProgress(info.getPosition());

@@ -45,9 +45,11 @@ import com.truthso.ip360.adapter.NativeAdapter.ViewHolder;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.CEListRefreshEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
@@ -57,6 +59,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.RefreshListView;
@@ -96,7 +99,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
-	private Button btn_download,acition_bar_left;
+	private Button btn_download,acition_bar_left,btn_delete;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
@@ -223,10 +226,59 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			case R.id.btn_download:
 				downloadAll();
 				break;
+			case R.id.btn_delete:
+				deleteAll();
+				break;
 			default:
 				break;
 		}
 
+	}
+
+	/**
+	 *删除选择的
+	 */
+	private void deleteAll() {
+		List<CloudEviItemBean> selected = adapter.getSelected();
+		if (selected.size()!=0){
+			for (int i = 0; i < selected.size(); i++) {
+				delete(selected.get(i));
+			}
+			adapter.setChoice(false);
+			adapter.notifyDataSetChanged();
+
+			if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
+				actionBar.setRightEnable();
+				cloudWindow.dismiss();
+			}
+			if (!CheckUtil.isEmpty(downLoadwindow)
+					&& downLoadwindow.isShowing()) {
+				cancelChoose();
+			}
+		}else{
+			Toaster.showToast(getActivity(),"请选择删除的条目");
+		}
+	}
+
+	private void delete(CloudEviItemBean cloudEviItemBean) {
+		String filePaht=null;
+		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(cloudEviItemBean.getPkValue());
+		if(!CheckUtil.isEmpty(dbBean)){
+			filePaht=dbBean.getResourceUrl();
+		}
+		int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,cloudEviItemBean.getPkValue());
+
+		UpDownLoadDao.getDao().deleteDownInfoByResourceId(cloudEviItemBean.getPkValue()+"");
+		if(count>0){
+			EventBus.getDefault().post(new CEListRefreshEvent());
+			if(filePaht!=null){
+				try {
+					FileUtil.deleteFile(filePaht);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**
@@ -499,7 +551,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		if (CheckUtil.isEmpty(downLoadwindow)) {
 			contentView = inflater.inflate(R.layout.pop_download, null);
 			btn_download = (Button) contentView.findViewById(R.id.btn_download);
+			btn_delete = (Button) contentView.findViewById(R.id.btn_delete);
+
 			btn_download.setOnClickListener(this);
+			btn_delete.setOnClickListener(this);
 			downLoadwindow = new PopupWindow(contentView,
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);

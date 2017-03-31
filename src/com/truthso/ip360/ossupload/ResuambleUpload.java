@@ -48,7 +48,7 @@ public class ResuambleUpload {
     private int status;
     private int RUNNING=0,PAUSE=1,ERROR=2;
     private int resourceId;
-    private int UPLOAD_CODE=201,SUCCESS=101,FAILE=102;
+    private int UPLOAD_CODE=201,SUCCESS=102,FAILE=103;
 
     private FileInfo info;
     private String token;
@@ -91,7 +91,6 @@ public class ResuambleUpload {
             {
                 put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
-                LogUtils.e(info.getResourceId()+"第一个rescordid");
             }
         });
         
@@ -143,13 +142,11 @@ public class ResuambleUpload {
                     Log.e("HostId", serviceException.getHostId());
                     Log.e("RawMessage", serviceException.getRawMessage());
                 }
-
                 Message msg=new Message();
                 msg.what=UPLOAD_CODE;
                 msg.arg1=FAILE;
                 msg.obj=info;
                 UpDownloadHandler.getInstance().sendMessage(msg);
-                LogUtils.e(info.getResourceId()+"回调失败的rescordid");
             }
         });
 
@@ -175,7 +172,6 @@ public class ResuambleUpload {
             {
                 put("x:resourceId", info.getResourceId()+"");
                 put("x:token", token);
-                LogUtils.e(info.getResourceId()+"第2个rescordid");
             }
        });
     	
@@ -187,7 +183,6 @@ public class ResuambleUpload {
 	                if(progressListener!=null){
 	                	progressListener.onProgress(currentSize);
 	                }
-                LogUtils.e(info.getResourceId()+"回调进程rescordid");
 			}
 		});
     	
@@ -199,25 +194,23 @@ public class ResuambleUpload {
 
 	                isDone=true;
 	                if(progressListener!=null){
-	                	progressListener.onComplete(); 
-	                	
+	                	progressListener.onComplete();
 	                }
-	                SqlDao dao = SqlDao.getSQLiteOpenHelper();
-	                dao.updateStatus(info.getFileName(), "1");
-	                UpDownLoadDao.getDao().deleteUploadInfoByUrl(info.getFilePath());
-                LogUtils.e(info.getResourceId()+"成功2rescordid");
+                Log.i("djj","uploadsuccess");
+                Message msg=new Message();
+                msg.what=UPLOAD_CODE;
+                msg.arg1=SUCCESS;
+                msg.obj=info;
+                UpDownloadHandler.getInstance().sendMessage(msg);
 			}
 			
 			@Override
 			public void onFailure(PutObjectRequest arg0, ClientException clientExcepion,
 					ServiceException serviceException) {
+                Log.i("djj","uploadfaile");
                     status=ERROR;
-                    SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "3");
-                    UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),2);
-
                 if(progressListener!=null){
                     progressListener.onFailure();
-
                 }
 	                // 请求异常
 	                if (clientExcepion != null) {
@@ -233,7 +226,11 @@ public class ResuambleUpload {
 	                    Log.e("HostId", serviceException.getHostId());
 	                    Log.e("RawMessage", serviceException.getRawMessage());
 	                }
-                LogUtils.e(info.getResourceId()+"失败rescordid");
+                Message msg=new Message();
+                msg.what=UPLOAD_CODE;
+                msg.arg1=FAILE;
+                msg.obj=info;
+                UpDownloadHandler.getInstance().sendMessage(msg);
 			}
 		});
 
