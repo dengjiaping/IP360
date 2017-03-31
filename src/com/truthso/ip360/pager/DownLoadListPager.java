@@ -37,11 +37,6 @@ public class DownLoadListPager extends BasePager {
 		List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
 
 		listView = new ListView(ctx);
-		if(queryDownLoadList.size()>0){
-			EventBus.getDefault().post(new DownEvent(true));
-		}else{
-			EventBus.getDefault().post(new DownEvent(false));
-		}
 		adapter=new DownLoadAdapter(ctx,formatList(queryDownLoadList));
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
@@ -49,6 +44,7 @@ public class DownLoadListPager extends BasePager {
 		return listView;
 	}
 
+	//将已完成的条目放到集合最后
 	private List<FileInfo> formatList(List<FileInfo> list){
 		List<FileInfo> temp=new ArrayList<>();
 		for (int i=0;i<list.size();i++){
@@ -65,19 +61,12 @@ public class DownLoadListPager extends BasePager {
 
 		public MyContentObserver(Handler handler) {
 			super(handler);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public void onChange(boolean selfChange) {
-			// TODO Auto-generated method stub
 			super.onChange(selfChange);
 			List<FileInfo> queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-			if(queryDownLoadList.size()>0){
-				EventBus.getDefault().post(new DownEvent(true));
-			}else{
-				EventBus.getDefault().post(new DownEvent(false));
-			}
 			adapter.notifyChange(formatList(queryDownLoadList));
 		}
 	}
@@ -85,33 +74,5 @@ public class DownLoadListPager extends BasePager {
 	@Override
 	public void initData(int position) {
 		
-	}
-
-	public void setChoice(boolean b) {
-		adapter.setChoice(b);
-		listView.invalidateViews();
-	}
-
-	@Override
-	public void setAllSelect(boolean isAllSelect) {
-		// TODO Auto-generated method stub
-		adapter.setAllSelect(isAllSelect);
-		listView.invalidateViews();
-	}
-
-	@Override
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		DownLoadHelper.getInstance().deleteAll(adapter.getSelected());
-	}
-
-	@Override
-	public void pauseAll() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void startAll() {
-		// TODO Auto-generated method stub
 	}
 }

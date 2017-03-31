@@ -33,7 +33,7 @@ public class DownloadTask {
 	private int progress = 0;
     private ProgressListener listener ;
     private FileInfo info;
-	private final int DOWNLOAD_CODE=101,SUCCESS=102;
+	private final int DOWNLOAD_CODE=101,SUCCESS=102,FAILE=103;
 
 	public DownloadTask(OSS oss, FileInfo info) {
 		this.objectKey = info.getObjectKey();
@@ -115,7 +115,7 @@ public class DownloadTask {
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
 								dbBean.setPkValue(info.getPkValue()+"");
-								dbBean.setStatus("2");
+								dbBean.setStatus("1");
 							    int userId=  (Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,"userId",SharePreferenceUtil.VALUE_IS_INT);
 								Log.i("djj",userId+"");
 								dbBean.setUserId(userId);
@@ -159,6 +159,11 @@ public class DownloadTask {
 									serviceException.getRawMessage());
 							Log.i("djj", "faile1");
 						}
+						Message msg=new Message();
+						msg.what=DOWNLOAD_CODE;
+						msg.arg1=FAILE;
+						msg.obj=info.getPkValue()+"";
+						UpDownloadHandler.getInstance().sendMessage(msg);
 					}
 
 				});

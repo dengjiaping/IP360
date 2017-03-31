@@ -92,19 +92,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 		pagerList.add(upLoadListPager);
 		pagerList.add(downLoadListPager);
 
-		
-	/*	for (int i = 0; i < pagerList.size(); i++) {
-			if (pagerList.get(i).equals(upLoadListPager)) {
-				actionBar.setRightDisEnable();
-			}else{
-				actionBar.setRightEnable();
-			}
-		}*/
 		mPageAdapter = new MyPageAdapter();
 		viewPager.setAdapter(mPageAdapter);
-		/*
-		 * // 初始化viewPager 中第一页的数据 pagerList.get(0).initData(0);
-		 */
+
+		 // 初始化viewPager 中第一页的数据 pagerList.get(0).initData(0);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -114,25 +105,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 				// 初始化本页数据
 			pagerList.get(position).initData(position);
 				if (position == 1) {//下载
-					if(isDownEmpty ){
-						actionBar.setRightVisible();
-						actionBar.setRightEnable();
-						actionBar.setRightText("选择");
-					}else{
-						actionBar.setRightGone();
-					}
 					line.startAnimation(moveRight);
 					tv_right_text.setTextColor(getResources().getColor(R.color.button_color));
 					tv_left_text.setTextColor(getResources().getColor(R.color.black));
 				} else {//上传不让用户删除
-				/*	if(isUpEmpty){
-						actionBar.setRightVisible();
-						actionBar.setRightDisEnable();
-						actionBar.setRightText("选择");
-					}else{
-						actionBar.setRightGone();
-					}*/
-					actionBar.setRightGone();
 					line.startAnimation(moveLeft);
 					tv_left_text.setTextColor(getResources().getColor(R.color.button_color));
 					tv_right_text.setTextColor(getResources().getColor(R.color.black));
@@ -183,116 +159,18 @@ public class TransList extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.acition_bar_right:
-			choice();
-			break;
-		case R.id.acition_bar_left:
-			// actionBar.setRightEnable();
-
-			break;
 		case R.id.tv_left_text:
 			viewPager.setCurrentItem(0);
 			break;
 		case R.id.tv_right_text:
 			viewPager.setCurrentItem(1);
 			break;
-		case R.id.btn_delete:
-			currentPager = (BasePager) pagerList.get(position);
-			currentPager.deleteAll();			
-			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
-				cancelChoose();
-			}
-			break;
-		case R.id.btn_start:
-			currentPager = (BasePager) pagerList.get(position);
-			currentPager.startAll();
-			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
-				cancelChoose();
-			}
-			break;
-		case R.id.btn_stop:
-			currentPager = (BasePager) pagerList.get(position);
-			currentPager.pauseAll();
-			if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
-				cancelChoose();
-			}
-			break;
-			
 		}
 	}
 
-	// 点击多选按钮
-	private void choice() {
-		currentPager = (BasePager) pagerList.get(position);
-		actionBar.setLeftText("全选");
-		actionBar.setRightText("取消");
-		actionBar.setActionBarOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.acition_bar_right:// 取消
-					cancelChoose();
-					break;
-				case R.id.acition_bar_left:// 全选
-					currentPager.setAllSelect(true);
-					break;
-				default:
-					break;
-				}
-
-			}
-
-		});
-		currentPager.setChoice(true);
-		showDownLoadPop();
-	}
-
-	// 取消选择
-	private void cancelChoose() {
-		currentPager.setChoice(false);
-		actionBar.setRightText("选择");
-		actionBar.setLeftText("");
-		actionBar.setActionBarOnClickListener(TransList.this);
-		if (downLoadwindow.isShowing()) {
-			downLoadwindow.dismiss();
-		}
-	}
-
-	private PopupWindow downLoadwindow;
-	private View contentView;
-	private BasePager currentPager;
 	private DownLoadListPager downLoadListPager;
 	private UpLoadListPager upLoadListPager;
-
-	// 显示底部下载按钮
-	private void showDownLoadPop() {
-		if (CheckUtil.isEmpty(downLoadwindow)) {
-			contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_translist, null);
-			downLoadwindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		}
-		// 进入退出的动画
-		// downLoadwindow.setAnimationStyle(R.style.mypopwindow_anim_style);
-	Button btn_delete=	(Button) contentView.findViewById(R.id.btn_delete);	
-	Button btn_start=	(Button) contentView.findViewById(R.id.btn_start);	
-	Button btn_stop=	(Button) contentView.findViewById(R.id.btn_stop);	
-	btn_delete.setOnClickListener(this);
-	btn_start.setOnClickListener(this);
-	btn_stop.setOnClickListener(this);
-	
-		downLoadwindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-		if (!CheckUtil.isEmpty(downLoadwindow) && downLoadwindow.isShowing()) {
-			cancelChoose();
-			return true;
-		}
-
-		return super.onKeyDown(keyCode, event);
-	}
 
 	private class MyPageAdapter extends PagerAdapter {
 
@@ -321,30 +199,6 @@ public class TransList extends BaseFragment implements OnClickListener {
 			return view;
 		}
 
-	}
-
-	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void  setActionBarRightVisibility(DownEvent event){
-		isDownEmpty=event.getFlag();
-		if(isDownEmpty&&position==0){
-			actionBar.setRightVisible();
-			actionBar.setRightEnable();
-			actionBar.setRightText("选择");
-		}else{
-			actionBar.setRightGone();
-		}
-	}
-
-	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void  setActionBarRightVisibility(UpEvent event){
-		isUpEmpty=event.getFlag();
-		if(isUpEmpty&&position==1){
-			actionBar.setRightVisible();
-			actionBar.setRightEnable();
-			actionBar.setRightText("选择");
-		}else{
-			actionBar.setRightGone();
-		}
 	}
 
 }
