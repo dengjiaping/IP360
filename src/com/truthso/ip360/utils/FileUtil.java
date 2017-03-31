@@ -220,6 +220,33 @@ public class FileUtil {
 			f.delete();
 		}
 	}
+	/**
+	 * 删除文件夹下的文件
+	 *
+	 * @param filePath
+	 * @throws Exception
+	 */
+	public static void deleteAllFiles(File root) {
+		File files[] = root.listFiles();
+		if (files != null)
+			for (File f : files) {
+				if (f.isDirectory()) { // 判断是否为文件夹
+					deleteAllFiles(f);
+					try {
+						f.delete();
+					} catch (Exception e) {
+					}
+				} else {
+					if (f.exists()) { // 判断是否存在
+						deleteAllFiles(f);
+						try {
+							f.delete();
+						} catch (Exception e) {
+						}
+					}
+				}
+			}
+	}
 
 	/**
 	 * 将输入流转换成字符串

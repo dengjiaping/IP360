@@ -60,7 +60,11 @@ public class MyConstants {
 	 * 是否是第一次进来
 	 */
 	public final static  String APP_ISFIRST_IN="app_isFirst_in";
-	
+
+	/**
+	 * 缓存路径
+	 */
+	public final static  String CACHE_PATH=Environment.getExternalStorageDirectory()+"/ip360";
 	/**
 	 * 照片保存路径
 	 */
@@ -78,7 +82,11 @@ public class MyConstants {
 	 * 数据库表名_media
 	 */
 	public final static  String TABLE_MEDIA_DETAIL="IP360_media_detail";
-	
+	/**
+	 * 数据库表名_updownload
+	 */
+	public final static  String TABLE_UPDOWNLOAD_LOG="updownloadlog";
+
 	public static int GPS_LOOP_TIME = 30;// gps轮询定位时间单位（秒）
 	public final static String SP_SYSTEM_CONFIG="IP360_services_system_sp";
 	/**

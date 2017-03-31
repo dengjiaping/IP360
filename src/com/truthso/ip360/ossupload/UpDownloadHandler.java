@@ -9,6 +9,7 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.FileUtil;
 
 /**
  * Created by Administrator on 2017/1/13.
@@ -45,8 +46,13 @@ public class UpDownloadHandler extends Handler {
              case UPLOAD_CODE:
                  FileInfo info=(FileInfo)msg.obj;
                  if(msg.arg1==SUCCESS){
-                     SqlDao.getSQLiteOpenHelper().updateStatus(info.getFileName(), "0");
+                     SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,info.getPkValue());
                      UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),0);
+                     try {
+                         FileUtil.deleteFile(info.getFilePath());
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
                  }else{
                      UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),1);
                  }

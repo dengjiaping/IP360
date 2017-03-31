@@ -131,10 +131,10 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private void initAnimation() {
 		screanWidth = MyApplication.getInstance().getScreanWidth();
 		moveLeft = new TranslateAnimation(screanWidth / 2, 0, 0, 0);
-		moveLeft.setDuration(300);
+		moveLeft.setDuration(200);
 		moveLeft.setFillAfter(true);
 		moveRight = new TranslateAnimation(0, screanWidth / 2, 0, 0);
-		moveRight.setDuration(300);
+		moveRight.setDuration(200);
 		moveRight.setFillAfter(true);
 	}
 

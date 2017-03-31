@@ -91,18 +91,15 @@ public class UpLoadAdapter extends BaseAdapter{
 			vh = (ViewHolder) convertView.getTag();
 		}
 
-		FileInfo info = list.get(position);
+		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
-		long l_size = Long.parseLong(info.getFileSize());
-		String s_size = FileSizeUtil.setFileSize(l_size);
-
 
 		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
 			vh.tv_title.setVisibility(View.VISIBLE);
 			if(info.getStatus()!=0){
-				vh.tv_title.setText("正在下载");
+				vh.tv_title.setText("正在上传");
 			}else {
-				vh.tv_title.setText("下载成功("+(list.size()-position+1)+")");
+				vh.tv_title.setText("上传成功("+(list.size()-position)+")");
 			}
 		}else{
 			vh.tv_title.setVisibility(View.GONE);
@@ -113,11 +110,11 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.rl_progress.setVisibility(View.GONE);
 				vh.btn_upload_download_again.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.VISIBLE);
-				vh.tv_desc.setVisibility(View.GONE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
 				vh.tv_desc.setText("2017.1.1 11:11:11");
-				vh.tv_size.setText(info.getFileSize());
+				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 				break;
 			case 1://失败
 				vh.rl_progress.setVisibility(View.GONE);
@@ -127,15 +124,21 @@ public class UpLoadAdapter extends BaseAdapter{
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
 				vh.tv_desc.setText("上传失败");
+				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						UpLoadManager.getInstance().resuambleUpload(info);
+					}
+				});
 				break;
 			case 2://运行
 				vh.rl_progress.setVisibility(View.VISIBLE);
 				vh.btn_upload_download_again.setVisibility(View.GONE);
-				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.GONE);
 
 				vh.probar.setProgress(info.getPosition());
-				vh.probar.setMax(Integer.parseInt(info.getLlsize()));
+				vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 				instanse.setOnUpLoadProgressListener(info.getResourceId(), new com.truthso.ip360.ossupload.ProgressListener() {
 
 					@Override

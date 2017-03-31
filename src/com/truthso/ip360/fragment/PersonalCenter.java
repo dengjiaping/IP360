@@ -1,5 +1,6 @@
 package com.truthso.ip360.fragment;
 
+import java.io.File;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.truthso.ip360.activity.AboutUsAcctivity;
 import com.truthso.ip360.activity.AccountMagActivity;
@@ -33,11 +35,14 @@ import com.truthso.ip360.activity.RealNameInfoActivity;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import cz.msebera.android.httpclient.Header;
@@ -377,7 +382,10 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	 * 清除缓存
 	 */
     private void clearCache(){
-
+		SqlDao.getSQLiteOpenHelper().deleteAll(MyConstants.TABLE_MEDIA_DETAIL);
+		UpDownLoadDao.getDao().deleteAll();
+		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
+		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}
 	// 退出登录
 	private void logOut() {

@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,7 +51,8 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class PhotoPreserved extends BaseActivity implements OnClickListener {
-	private Button btn_title_right, btn_preserved,btn_title_left;
+	private Button btn_title_right, btn_preserved;
+	private ImageButton btn_title_left;
 	private ImageView iv_photo;
 	private String path, title, size, date, loc,longlat;
 	private long length;
@@ -105,7 +107,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
-		btn_title_left = (Button) findViewById(R.id.btn_title_left);
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
