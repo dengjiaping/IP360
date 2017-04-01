@@ -153,11 +153,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 //		mFlowIndicator.setStrokeColor(0xFFE4848F);
 		mViewFlow.setAdapter(new ImagePagerAdapter(getActivity(), imageUrlList).setInfiniteLoop(true));
 		mViewFlow.setmSideBuffer(imageUrlList.size()); // 实际图片张数，
-		// 我的ImageAdapter实际图片张数为3
-//		mViewFlow.setFlowIndicator(mFlowIndicator);
-		mViewFlow.setTimeSpan(4500);
-		mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
-//		mViewFlow.startAutoFlowTimer(); // 启动自动播放
+		if (imageUrlList.size()>1){//说明不止一张，开始播放，一张就不播
+			mFlowIndicator.setFillColor(0xFFFFFFFF);
+			mFlowIndicator.setStrokeColor(0xFFE4848F);
+			mViewFlow.setFlowIndicator(mFlowIndicator);
+			mViewFlow.setTimeSpan(4500);
+			mViewFlow.setSelection(imageUrlList.size() * 1000); // 设置初始位置
+			mViewFlow.startAutoFlowTimer(); // 启动自动播放
+		}else{
+
+		}
+
+
 
 	}
 	@Override

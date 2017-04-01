@@ -12,7 +12,11 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.GiftsProduct;
 import com.truthso.ip360.constants.MyConstants;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.truthso.ip360.utils.UIUtils.getResources;
 
 /**
  * Created by Administrator on 2017/4/1.
@@ -45,6 +49,10 @@ public class AccountMagAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //获取当前时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String currDate = dateFormat.format(Calendar.getInstance().getTime());
+        int icurrDate = Integer.parseInt(currDate);
         ViewHolder vh = null;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -58,16 +66,24 @@ public class AccountMagAdapter extends BaseAdapter {
         }
         GiftsProduct giftsProduct = this.giftsProduct.get(position);
         int type = giftsProduct.getType();
-        if (type == MyConstants.PHOTOTYPE) {
-            vh.tv_yewu_name.setText("拍照取证");
-        } else if (type == MyConstants.RECORDTYPE) {
-            vh.tv_yewu_name.setText("录音取证");
-        } else {
-            vh.tv_yewu_name.setText("录像取证");
-        }
+            if (type == MyConstants.PHOTOTYPE) {
+                vh.tv_yewu_name.setText("拍照取证");
+            } else if (type == MyConstants.RECORDTYPE) {
+                vh.tv_yewu_name.setText("录音取证");
+            } else {
+                vh.tv_yewu_name.setText("录像取证");
+            }
+            if (icurrDate>Integer.parseInt(giftsProduct.getContractEnd().replace("-",""))){
+                vh.tv_date.setText("已过期");
+                vh.tv_date.setTextColor(getResources().getColor(R.color.red));
+                vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
+            }else{
+                vh.tv_date.setText(giftsProduct.getContractStart().replace("-",".") + "-" + giftsProduct.getContractEnd().replace("-","."));
+                vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
 
-        vh.tv_date.setText(giftsProduct.getContractStart() + "-" + giftsProduct.getContractEnd());
-        vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
+            }
+
+
 
         return convertView;
     }

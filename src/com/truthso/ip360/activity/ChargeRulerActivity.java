@@ -31,7 +31,7 @@ public class ChargeRulerActivity extends BaseActivity {
     @Override
     public void initView() {
         webview = (WebView) findViewById(R.id.webview);
-        WebSettings webSettings = webview.getSettings();
+       /* WebSettings webSettings = webview.getSettings();
 
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setUseWideViewPort(true);//关键点
@@ -60,11 +60,11 @@ public class ChargeRulerActivity extends BaseActivity {
         }else{
             webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        /**
+        *//**
          * 用WebView显示图片，可使用这个参数 设置网页布局类型： 1、LayoutAlgorithm.NARROW_COLUMNS ：
          * 适应内容大小 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
-         */
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+         *//*
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);*/
         //允许JavaScript执行
         webview.getSettings().setJavaScriptEnabled(true);
         //找到Html文件，也可以用网络上的文件

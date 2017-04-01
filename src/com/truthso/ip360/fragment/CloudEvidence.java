@@ -506,7 +506,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	// 点击多选按钮
 	private void choice() {
+		acition_bar_left.willNotCacheDrawing();
 		actionBar.setLeftText("全选");
+
 		actionBar.setRightText("取消");
 		actionBar.setActionBarOnClickListener(new OnClickListener() {
 

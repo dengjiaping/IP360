@@ -9,16 +9,12 @@ import com.truthso.ip360.utils.MD5Util;
 
 import cz.msebera.android.httpclient.Header;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 /**
  * @despriction :个人中心->修改密码
  * 
@@ -29,7 +25,7 @@ import android.widget.TextView;
  */
 
 public class AemndPsdActivity extends BaseActivity implements OnClickListener {
-	private Button btn_sure;
+	private Button btn_sure_amend;
 	private EditText et_oldpwd,et_newpwd,et_again_newpwd;
 	private String newPwd,oldPwd,newPwd2;
 	private  boolean  isOldPwdEmp,isNewPwdEmp,isNewPwd2Emp;
@@ -42,8 +38,8 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 		et_oldpwd = (EditText) findViewById(R.id.et_oldpwd);
 		et_newpwd = (EditText) findViewById(R.id.et_newpwd);
 		et_again_newpwd = (EditText) findViewById(R.id.et_again_newpwd);
-		btn_sure = (Button) findViewById(R.id.btn_sure);
-		btn_sure.setOnClickListener(this);
+		btn_sure_amend = (Button) findViewById(R.id.btn_sure_amend);
+		btn_sure_amend.setOnClickListener(this);
 		et_oldpwd.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -109,14 +105,14 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 	 * 按钮是否是彩色可点击
 	 */
 	private void checkButtonStatus() {
-		if (isNewPwd2Emp && isNewPwdEmp&&isOldPwdEmp) {
-			btn_sure.setEnabled(true);
-			btn_sure.setTextColor(Color.WHITE);
-			btn_sure.setBackgroundResource(R.drawable.round_corner_bg);
+		if (isNewPwd2Emp && isNewPwdEmp && isOldPwdEmp) {
+			btn_sure_amend.setEnabled(true);
+			btn_sure_amend.setTextColor(getResources().getColor(R.color.white));
+			btn_sure_amend.setBackgroundResource(R.drawable.round_corner_bg);
 		} else {
-			btn_sure.setEnabled(false);
-			btn_sure.setBackgroundResource(R.drawable.round_corner_white);
-			btn_sure.setTextColor(getResources().getColor(R.color.huise));
+			btn_sure_amend.setEnabled(false);
+			btn_sure_amend.setBackgroundResource(R.drawable.round_corner_white);
+			btn_sure_amend.setTextColor(getResources().getColor(R.color.huise));
 		}
 	}
 
