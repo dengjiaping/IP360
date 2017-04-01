@@ -54,8 +54,8 @@ public class FileRemarkActivity extends BaseActivity implements OnClickListener 
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
 		btn_title_right.setVisibility(View.VISIBLE);
 		btn_title_right.setText("保存");
+		btn_title_right.setTextColor(getResources().getColor(R.color.white));
 		btn_title_right.setOnClickListener(this);
-
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(fileName);
 		tv_type = (TextView) findViewById(R.id.tv_type);
