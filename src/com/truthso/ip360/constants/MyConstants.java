@@ -13,6 +13,10 @@ import android.os.Environment;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class MyConstants {
+
+	//数据库版本号
+	public static final int DATABASE_VERSION=2;
+
 	//回传时候的resultCode
 	
 	public static final int REALNAME_VERTIFICATION = 0;//实名认证

@@ -95,13 +95,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,int status) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,int status,String remark) {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType,status) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType,status,remark) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"0", objectkey ,llsize,fileurlformatname,userId,dataType,status});
+						"0", objectkey ,llsize,fileurlformatname,userId,dataType,status,remark});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -162,6 +162,7 @@ public class UpDownLoadDao {
 					.getColumnIndex("objectkey")));
 			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+			info.setReMark(cursor.getString(cursor.getColumnIndex("remark")));
 			list.add(info);
 		}
 		return list;

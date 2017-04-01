@@ -96,7 +96,11 @@ public class DownLoadAdapter extends BaseAdapter  {
 		}
 
 		final FileInfo info = list.get(position);
-		vh.tv_fileName.setText(info.getFileName());
+		if(!CheckUtil.isEmpty(info.getReMark())){
+			vh.tv_fileName.setText(info.getReMark());
+		}else{
+			vh.tv_fileName.setText(info.getFileName());
+		}
 
 		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
 			vh.tv_title.setVisibility(View.VISIBLE);
@@ -132,8 +136,9 @@ public class DownLoadAdapter extends BaseAdapter  {
 				vh.btn_upload_download_again.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getResourceId()+"");
-						DownLoadHelper.getInstance().downloadFile(info);
+						if(DownLoadHelper.getInstance().downloadFile(info)){
+							UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getResourceId()+"");
+						}
 					}
 				});
 				break;
