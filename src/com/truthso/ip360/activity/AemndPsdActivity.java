@@ -58,6 +58,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 			}else{
 				isOldPwdEmp = false;
 			}
+				checkButtonStatus();
 			}
 		});
 		et_newpwd.addTextChangedListener(new TextWatcher() {
@@ -78,6 +79,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 				}else{
 					isNewPwd2Emp = false;
 				}
+				checkButtonStatus();
 			}
 		});
 		et_again_newpwd.addTextChangedListener(new TextWatcher() {
@@ -98,7 +100,9 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 				}else{
 					isNewPwdEmp = false;
 				}
+				checkButtonStatus();
 			}
+
 		});
 	}
 	/**
