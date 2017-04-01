@@ -167,6 +167,33 @@ public class UpDownLoadDao {
 		}
 		return list;
 	}
+	public List<FileInfo> queryDownLoadListUnComplete() {
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
+		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"select * from updownloadlog where downorupload=? and userId=? and status<>?",
+				new String[] { "0" ,userId+"","0"});
+		List<FileInfo> list = new ArrayList<FileInfo>();
+
+		while (cursor.moveToNext()) {
+
+			FileInfo info = new FileInfo();
+			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
+			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
+			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
+			info.setFilePath(cursor.getString(cursor
+					.getColumnIndex("downloadurl")));
+			info.setLlsize(cursor.getString(cursor.getColumnIndex("llsize")));
+			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+			info.setObjectKey(cursor.getString(cursor
+					.getColumnIndex("objectkey")));
+			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
+			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+			info.setReMark(cursor.getString(cursor.getColumnIndex("remark")));
+			list.add(info);
+		}
+		return list;
+	}
 
 	public List<FileInfo> queryUpLoadList() {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
@@ -193,6 +220,34 @@ public class UpDownLoadDao {
 		}
 		return list;
 	}
+
+	public List<FileInfo> queryUpLoadListUnComplete() {
+		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
+		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"select * from updownloadlog where downorupload=? and userId=? and status<>? ",
+				new String[] { "1",userId+"","0"});
+
+		List<FileInfo> list = new ArrayList<FileInfo>();
+		while (cursor.moveToNext()) {
+			FileInfo info = new FileInfo();
+			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
+			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
+			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
+//			info.setLlsize(cursor.getString(cursor.getColumnIndex("llsize")));
+			info.setFilePath(cursor.getString(cursor
+					.getColumnIndex("uploadfilepath")));
+			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
+			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
+			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
+
+			list.add(info);
+		}
+		return list;
+	}
+
+
 
 	public FileInfo queryDownLoadInfoByResourceId(int resourceId) {
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();

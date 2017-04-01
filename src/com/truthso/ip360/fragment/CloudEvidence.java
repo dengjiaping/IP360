@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -220,8 +221,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
 				} else {
-					actionBar.setRightDisEnable();
-					actionBar.setRightText("");
+					actionBar.setRightGone();
 					showPop();
 				}
 				break;
@@ -397,6 +397,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onDismiss() {
 				acition_bar_left.setChecked(false);
+				actionBar.setRightVisible();
 			}
 		});
 
@@ -514,7 +515,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	// 点击多选按钮
 	private void choice() {
-		acition_bar_left.willNotCacheDrawing();
+		acition_bar_left.setCompoundDrawables(null,null,null,null);
 		actionBar.setLeftText("全选");
 
 		actionBar.setRightText("取消");
@@ -551,6 +552,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		listView.invalidateViews();
 		actionBar.setRightText("选择");
 		actionBar.setLeftText("类别");
+		Drawable dra= getResources().getDrawable(R.drawable.leibie_selector);
+		dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
+		acition_bar_left.setCompoundDrawables(null,null,dra,null);
 		actionBar.setActionBarOnClickListener(CloudEvidence.this);
 		listView.setOnLoad(true);
 		listView.setOnRefresh(true);
@@ -609,7 +613,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		if (keyCode == event.KEYCODE_BACK) {
 
 			if (cloudWindow!=null && cloudWindow.isShowing()) {
-				actionBar.setRightEnable();
 				cloudWindow.dismiss();
 				return true;
 			}

@@ -300,9 +300,9 @@ public class MainActivity extends FragmentActivity implements
 
 	private void checkIsUpDownload() {
 		queryUpLoadList = UpDownLoadDao.getDao()
-				.queryUpLoadList();
+				.queryUpLoadListUnComplete();
 		queryDownLoadList = UpDownLoadDao.getDao()
-				.queryDownLoadList();
+				.queryDownLoadListUnComplete();
 		
 		if(queryUpLoadList.size()>0||queryDownLoadList.size()>0){
 			boolean wifiValid = NetStatusUtil.isWifiValid(this);
