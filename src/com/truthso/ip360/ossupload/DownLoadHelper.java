@@ -42,11 +42,11 @@ public class DownLoadHelper {
 		
 	// 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的`访问控制`章节
 
-	public void downloadFile(FileInfo fileinfo) {
+	public boolean downloadFile(FileInfo fileinfo) {
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 			Toaster.showToast(MyApplication.getApplication(),"仅WIFI网络下可下载");
-			return;
+			return false;
 		}
 		//下载
 		DownloadTask task=new DownloadTask(oss,fileinfo);
@@ -54,7 +54,9 @@ public class DownLoadHelper {
 		task.start();
 		Toaster.showToast(MyApplication.getApplication(),"文件开始下载，请到传输列表中查看");
 		taskMap.put(fileinfo.getObjectKey(), task);
-		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName(),fileinfo.getDataType(),2);
+		Log.i("djj","downLoadfileinfo"+fileinfo.toString());
+		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName(),fileinfo.getDataType(),2,fileinfo.getReMark());
+		return true;
 	}
 	
 	public void downloadFileUnCaseNet(FileInfo fileinfo) {

@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -99,7 +100,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
-	private Button btn_download,acition_bar_left,btn_delete;
+	private Button btn_download,btn_delete;
+	private CheckBox acition_bar_left;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
@@ -114,7 +116,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		actionBar.setTitle("云端证据");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
-		acition_bar_left = (Button) view.findViewById(R.id.acition_bar_left);
+		acition_bar_left = (CheckBox) actionBar.findViewById(R.id.acition_bar_left);
 		listView =  (RefreshListView) view.findViewById(R.id.lv_cloudevidence);
 		listView.setOnRefreshListener(this);
 		listView.setOnLoadListener(this);
@@ -391,6 +393,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		// 设置弹出窗体的背景 this.setBackgroundDrawable(dw);
 		cloudWindow.setBackgroundDrawable(dw);
 		cloudWindow.setTouchable(true);
+		cloudWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+			@Override
+			public void onDismiss() {
+				acition_bar_left.setChecked(false);
+			}
+		});
 
 		tv_photo.setOnClickListener(new OnClickListener() {//拍照
 

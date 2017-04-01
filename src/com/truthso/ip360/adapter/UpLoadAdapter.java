@@ -132,8 +132,9 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						UpDownLoadDao.getDao().deleteUpInfoByResourceId(info.getResourceId()+"");
-						UpLoadManager.getInstance().resuambleUpload(info);
+						if(UpLoadManager.getInstance().resuambleUpload(info)){
+							UpDownLoadDao.getDao().deleteUpInfoByResourceId(info.getResourceId()+"");
+						}
 					}
 				});
 				break;

@@ -402,6 +402,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setDataType(data.getDataType());
 									String url = bean.getDatas().getFileUrl();//文件的下载路径
 									info.setObjectKey(url);
+									info.setReMark(data.getRemarkText());
 									// 下载
 									DownLoadHelper.getInstance().downloadFile(
 											info);

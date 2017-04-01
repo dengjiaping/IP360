@@ -16,6 +16,15 @@ public class FileInfo {
     private String fileFormat;
 	private int status;//成功0失败1等待2
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
+	private String reMark;
+
+	public String getReMark() {
+		return reMark;
+	}
+
+	public void setReMark(String reMark) {
+		this.reMark = reMark;
+	}
 
 	public int getDataType() {
 		return dataType;
@@ -133,16 +142,28 @@ public class FileInfo {
 	public void setFileSize(String fileSize) {
 		this.fileSize = fileSize;
 	}
+
 	@Override
 	public String toString() {
-		return "FileInfo [filePath=" + filePath + ", fileName=" + fileName
-				+ ", fileSize=" + fileSize + ", fileLoc=" + fileLoc
-				+ ", llsize=" + llsize + ", type=" + type + ", mobiletype="
-				+ mobiletype + ", fileCreatetime=" + fileCreatetime
-				+ ", fileTime=" + fileTime + ", position=" + position
-				+ ", resourceId=" + resourceId + ", objectKey=" + objectKey
-				+ "]";
+		return "FileInfo{" +
+				"filePath='" + filePath + '\'' +
+				", fileName='" + fileName + '\'' +
+				", fileUrlFormatName='" + fileUrlFormatName + '\'' +
+				", fileSize='" + fileSize + '\'' +
+				", fileLoc='" + fileLoc + '\'' +
+				", llsize='" + llsize + '\'' +
+				", type=" + type +
+				", mobiletype=" + mobiletype +
+				", fileCreatetime='" + fileCreatetime + '\'' +
+				", fileTime='" + fileTime + '\'' +
+				", pkValue=" + pkValue +
+				", fileFormat='" + fileFormat + '\'' +
+				", status=" + status +
+				", dataType=" + dataType +
+				", reMark='" + reMark + '\'' +
+				", position=" + position +
+				", resourceId=" + resourceId +
+				", objectKey='" + objectKey + '\'' +
+				'}';
 	}
-	
-	
 }
