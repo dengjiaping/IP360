@@ -31,6 +31,8 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.view.SpeedView;
 
+import static com.truthso.ip360.utils.UIUtils.getResources;
+
 /**
  * @despriction :下载列表的adapter
  * 
@@ -119,6 +121,7 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
 				vh.tv_desc.setText(date);
+				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
 				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 				break;
 			case 1://失败

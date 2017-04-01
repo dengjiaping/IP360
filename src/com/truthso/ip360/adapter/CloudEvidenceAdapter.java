@@ -157,10 +157,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
 		}
 		String fileName= mDatas.get(position).getFileTitle();
-		if (fileName.length()>25) {
-			fileName =fileName.substring(0,25)+"...";
-		}
-		vh.tv_filename.setText(fileName);
+			if (!CheckUtil.isEmpty(remarkText)){//有备注的，文件名显示备注
+				vh.tv_filename.setText(remarkText);
+			}else{
+				vh.tv_filename.setText(fileName);
+			}
+
 		vh.tv_filedate.setText(cloudEviItemBean.getFileDate());
 		//long l_size = Long.parseLong(cloudEviItemBean.getFileSize());
 		String s_size = FileSizeUtil.setFileSize(l_size);
