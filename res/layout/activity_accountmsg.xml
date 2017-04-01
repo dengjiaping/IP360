@@ -6,303 +6,323 @@
     android:orientation="vertical"
     >
     <include layout="@layout/top_title" />
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/activity_bg"
-    android:orientation="vertical" >
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:layout_marginTop="@dimen/button_margiontop_10"
-        android:background="@color/item_bg" >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:text="账户:"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_item" />
-
-        <TextView
-            android:id="@+id/tv_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/button_margiontop_10"
-            android:text=""
-            android:textColor="@color/black" />
-    </RelativeLayout>
-    <RelativeLayout
+        android:layout_height="match_parent"
+        >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:layout_marginTop="@dimen/button_margiontop_10"
-        android:background="@color/item_bg" >
-
-      <!--  <ImageView
-            android:id="@+id/iv_account_message1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:background="@drawable/zhzt" />-->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:text="账户余额"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_item" />
-
-        <TextView
-            android:id="@+id/tv_account_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:text=""
-            android:textColor="@color/black" />
-    </RelativeLayout>
-
-<!--    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity=""
-        android:background="@color/white">
-        <View
+        android:layout_height="match_parent"
+        android:background="@color/activity_bg"
+        android:orientation="vertical" >
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/gry"
-            android:layout_height="1dp" />
-    </LinearLayout>-->
+            android:layout_height="@dimen/item_hight"
+            android:layout_marginTop="@dimen/button_margiontop_10"
+            android:background="@color/item_bg" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:layout_marginTop="@dimen/button_margiontop_10"
-        android:background="@color/item_bg" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_item"
-            android:text="赠送用量统计:"/>
 
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity=""
-        android:background="@color/white">
-        <View
+            <TextView
+                android:id="@+id/tv_aa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:text="账户:"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item" />
+
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/button_margiontop_10"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"  />
+        </RelativeLayout>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/gry"
-            android:layout_height="1dp" />
-    </LinearLayout>
+            android:layout_height="@dimen/item_hight"
+            android:layout_marginTop="@dimen/button_margiontop_10"
+            android:background="@color/item_bg" >
 
-    <com.truthso.ip360.view.MyListview
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.truthso.ip360.view.MyListview>
+          <!--  <ImageView
+                android:id="@+id/iv_account_message1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:background="@drawable/zhzt" />-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:background="@color/item_bg" >
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:text="账户余额"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item" />
+
+            <TextView
+                android:id="@+id/tv_account_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/button_margiontop_10"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item" />
+        </RelativeLayout>
+
+    <!--    <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_item"
-            android:text="用量统计:"/>
+            android:layout_gravity=""
+            android:background="@color/white">
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gry"
+                android:layout_height="1dp" />
+        </LinearLayout>-->
 
-        <TextView
-            android:id="@+id/tv_status_taocan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:visibility="invisible"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:text="当前无套餐"
-            android:textColor="@color/black" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity=""
-        android:background="@color/white">
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/gry"
-            android:layout_height="1dp" />
+            android:layout_height="@dimen/item_hight"
+            android:layout_marginTop="@dimen/button_margiontop_10"
+            android:background="@color/item_bg" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"
+                android:text="赠送用量统计:"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity=""
+            android:background="@color/white">
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gry"
+                android:layout_height="1dp" />
+        </LinearLayout>
+
+        <com.truthso.ip360.view.MyListview
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.truthso.ip360.view.MyListview>
+
+        <RelativeLayout
+            android:id="@+id/rl_liang"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_hight"
+            android:background="@color/item_bg" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/layout_marginLeft"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_item"
+                android:text="用量统计:"/>
+
+            <TextView
+                android:id="@+id/tv_status_taocan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:visibility="invisible"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:text="当前无套餐"
+                android:textColor="@color/black" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity=""
+            android:background="@color/white">
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/gry"
+                android:layout_height="1dp" />
+        </LinearLayout>
+       <LinearLayout
+           android:id="@+id/ll_taocan"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="vertical">
+
+           <RelativeLayout
+               android:id="@+id/rl_paizhao"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/item_hight"
+               android:background="@color/item_bg" >
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:orientation="vertical">
+               <TextView
+                   android:id="@+id/tv_pai"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true"
+                   android:layout_marginLeft="@dimen/mar_left_20"
+                   android:text="拍照取证"
+                   android:textColor="@color/item_text_color"
+                   android:textSize="@dimen/text_item" />
+               <TextView
+                   android:id="@+id/tv_date_photo"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/tv_pai"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginLeft="20dp"
+                   android:textColor="@color/item_text_color"
+                   android:textSize="@dimen/text_item"
+                   />
+               </LinearLayout>
+
+               <TextView
+                   android:id="@+id/tv_account_photo"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:layout_marginRight="@dimen/layout_marginRight"
+                   android:textColor="@color/item_text_color"
+                   android:textSize="@dimen/text_item"/>
+           </RelativeLayout>
+
+           <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/activity_bg" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_shipin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_hight"
+            android:background="@color/item_bg" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/mar_left_20"
+                android:text="视频取证"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item"/>
+            <TextView
+                android:id="@+id/tv_date_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_video"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item"
+                />
     </LinearLayout>
-   <LinearLayout
-       android:id="@+id/ll_taocan"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:orientation="vertical">
-    <RelativeLayout
-        android:id="@+id/rl_taocan_detail"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:background="@color/item_bg" >
+            <TextView
+                android:id="@+id/tv_account_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item"/>
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_pai"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/mar_left_20"
-            android:text="拍照取证"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item" />
-        <TextView
-            android:id="@+id/tv_date_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_pai"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"
-            />
+            android:background="@color/white"
+            android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/tv_account_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"/>
-    </RelativeLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/activity_bg" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal" >
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/activity_bg" />
+        <RelativeLayout
+            android:id="@+id/rl_luyin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/item_bg">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/mar_left_20"
+                android:text="录音取证"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item" />
+            <TextView
+                android:id="@+id/tv_date_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_record"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:text=""
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item"
+                />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_account_record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_marginRight"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/text_item" />
+        </RelativeLayout>
+       </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:background="@color/item_bg" >
-
-        <TextView
-            android:id="@+id/tv_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/mar_left_20"
-            android:text="视频取证"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"/>
-        <TextView
-            android:id="@+id/tv_date_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_video"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"
-            />
-
-        <TextView
-            android:id="@+id/tv_account_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"/>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal" >
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/activity_bg" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_hight"
-        android:background="@color/item_bg">
-
-        <TextView
-            android:id="@+id/tv_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/mar_left_20"
-            android:text="录音取证"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item" />
-        <TextView
-            android:id="@+id/tv_date_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_record"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="@dimen/layout_marginLeft"
-            android:text=""
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item"
-            />
-        <TextView
-            android:id="@+id/tv_account_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/text_item" />
-    </RelativeLayout>
-   </LinearLayout>
-</LinearLayout>
-</ScrollView>
+    </ScrollView>
 </LinearLayout>
