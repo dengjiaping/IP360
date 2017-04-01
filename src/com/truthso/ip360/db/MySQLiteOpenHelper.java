@@ -26,14 +26,15 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE updownloadlog (_id integer primary key autoincrement,sourceid varchar(10), uploadfilepath varchar(100), downloadurl varchar(100),filename varchar(100),filesize varchar(100),position varchar(100),downorupload varchar (10),objectkey varchar(100), llsize varchar(10),status varchar(10),fileurlformatname varchar(100),userId Integer,dataType Integer,remark text)");
 	}
 
+/*	(sourceid,uploadfilepath,downloadurl,filename,filesize,position,downorupload,objectkey,llsize,status,fileurlformatname,userId,dataType)*/
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if(oldVersion==1){
 			db.beginTransaction();
 			try {
-				db.execSQL("ALERT TABLE updownloadlog RENAME TO updownloadlog_temp");
+				db.execSQL("ALTER  TABLE updownloadlog RENAME TO updownloadlog_temp");
 				db.execSQL("CREATE TABLE updownloadlog (_id integer primary key autoincrement,sourceid varchar(10), uploadfilepath varchar(100), downloadurl varchar(100),filename varchar(100),filesize varchar(100),position varchar(100),downorupload varchar (10),objectkey varchar(100), llsize varchar(10),status varchar(10),fileurlformatname varchar(100),userId Integer,dataType Integer,remark varchar)");
-				db.execSQL("INSERT INTO updownloadlog (_id, sourceid, uploadfilepath,downloadurl,filename,filesize,position,downorupload,objectkey,llsize,status,fileurlformatname ,userId ,dataType) SELECT (_id, sourceid, uploadfilepath,downloadurl,filename,filesize,position,downorupload,objectkey,llsize,status,fileurlformatname ,userId ,dataType) FROM updownloadlog_temp");
+				db.execSQL("INSERT INTO updownloadlog  SELECT *,'' FROM updownloadlog_temp");
 				db.execSQL("DROP TABLE updownloadlog_temp");
 				db.setTransactionSuccessful();
 			}finally {
