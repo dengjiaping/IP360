@@ -132,7 +132,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		
-		case R.id.btn_sure://确定修改
+		case R.id.btn_sure_amend://确定修改
 			oldPwd = et_oldpwd.getText().toString().trim();
 			newPwd = et_newpwd.getText().toString().trim();
 			newPwd2 = et_again_newpwd.getText().toString().trim();

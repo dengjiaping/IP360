@@ -3,6 +3,7 @@ package com.truthso.ip360.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -124,6 +125,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		btn_title_right.setOnClickListener(this);
 		btn_preserved.setOnClickListener(this);
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
+		iv_photo.setOnClickListener(this);
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
@@ -286,6 +288,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.iv_photo://点击查看详情
+			Intent intent = new Intent(PhotoPreserved.this,PhotoDetailActivity.class);
+			intent.putExtra("url",path);
+			startActivity(intent);
+				break;
 		case R.id.btn_title_right://标题右上角的放弃
 			showDialogIsCancel("是否确认放弃保全？");
 //			//取消上传文件

@@ -142,6 +142,7 @@ public class SqlDao {
 			dbBean.setRemark(cursor.getString(cursor.getColumnIndex("remark")));//备注
 			dbBean.setResourceUrl(cursor.getString(cursor.getColumnIndex("resourceUrl")));//资源路径
 			dbBean.setExpStatus(cursor.getInt(cursor.getColumnIndex("expStatus")));//扣费状态
+			dbBean.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 		}
 		db.close();
 		return dbBean;

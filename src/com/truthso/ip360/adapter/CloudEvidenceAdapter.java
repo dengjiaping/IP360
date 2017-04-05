@@ -383,7 +383,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									//因为有文件名相同的情况，把阿里云的objectkey路径当成文件名
 									String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + fileUrlformat;
 									info.setFilePath(nativePath);// 在本地的路径
-//									info.setFileName(data.getFileTitle());
 									info.setFileName(bean.getDatas().getFileName());
 									info.setFileUrlFormatName(fileUrlformat);
 									info.setType(type);// 取证类型
@@ -444,7 +443,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
 				String url = null;
 				String format = null;
-
 				if (data1.getArreaStatus() == 1){//不欠费
 					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());//已经下载
 					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){

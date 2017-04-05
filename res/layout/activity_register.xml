@@ -164,7 +164,7 @@
             android:layout_toRightOf="@id/tv_mima"
             android:layout_marginLeft="@dimen/mar_left_20"
             android:background="@null"
-            android:hint="6~18位的字母和数字的字符"
+            android:hint="请输入6~18位字母和数字的组合"
             android:inputType="textPassword"
             android:textSize="@dimen/text_item" />
 

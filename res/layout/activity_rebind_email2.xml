@@ -131,6 +131,7 @@
             android:layout_toRightOf="@id/tv_zhanghao"
             android:layout_marginLeft="@dimen/mar_left_20"
             android:layout_centerVertical="true"
+            android:phoneNumber="true"
             android:background="@null"
             android:hint="请输入绑定手机号"
             android:textSize="@dimen/text_item"

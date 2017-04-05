@@ -95,13 +95,13 @@ public class UpDownLoadDao {
 	}
 
 	public void saveDownLoadInfo(String url, String fileName, String fileSize,
-			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,int status,String remark) {
+			int position, int resourceId, String objectkey,String llsize,String fileurlformatname,int dataType,int status,String remark,String fileformat) {
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.execSQL(
-				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType,status,remark) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+				"insert into updownloadlog(downloadurl,filename,filesize,position,sourceid,downorupload,objectkey,llsize,fileurlformatname,userId,dataType,status,remark,fileformat) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 				new Object[] { url, fileName, fileSize, position, resourceId,
-						"0", objectkey ,llsize,fileurlformatname,userId,dataType,status,remark});
+						"0", objectkey ,llsize,fileurlformatname,userId,dataType,status,remark,fileformat});
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -154,15 +154,14 @@ public class UpDownLoadDao {
 			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
 			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
 			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
-			info.setFilePath(cursor.getString(cursor
-					.getColumnIndex("downloadurl")));
+			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
 			info.setLlsize(cursor.getString(cursor.getColumnIndex("llsize")));
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
-			info.setObjectKey(cursor.getString(cursor
-					.getColumnIndex("objectkey")));
+			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
 			info.setReMark(cursor.getString(cursor.getColumnIndex("remark")));
+			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 			list.add(info);
 		}
 		return list;
@@ -190,6 +189,7 @@ public class UpDownLoadDao {
 			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
 			info.setReMark(cursor.getString(cursor.getColumnIndex("remark")));
+			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 			list.add(info);
 		}
 		return list;
@@ -215,6 +215,7 @@ public class UpDownLoadDao {
 			info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
 			info.setFileUrlFormatName(cursor.getString(cursor.getColumnIndex("fileurlformatname")));
+			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 
 			list.add(info);
 		}
@@ -262,6 +263,7 @@ public class UpDownLoadDao {
 		info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
 		info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
 		info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+		info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
 
 		return info;
 	}

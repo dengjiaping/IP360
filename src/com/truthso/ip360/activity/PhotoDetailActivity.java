@@ -66,8 +66,8 @@ public class PhotoDetailActivity extends BaseActivity {
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
 
 		if (url.contains("http")) {
-			iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
-				iv_chuo.setVisibility(View.GONE);
+//			iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
+//				iv_chuo.setVisibility(View.GONE);
 				showProgress("加载中...");
 				ImageLoaderUtil.dispalyImage(url, iv_photo, new ImageLoadingListener() {
 
@@ -85,7 +85,7 @@ public class PhotoDetailActivity extends BaseActivity {
 					@Override
 					public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
 						hideProgress();
-						iv_chuo.setVisibility(View.VISIBLE);
+//						iv_chuo.setVisibility(View.VISIBLE);
 
 					}
 

@@ -74,9 +74,9 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/tv_mima"
             android:layout_marginLeft="@dimen/mar_left_20"
+            android:digits="0123456789xyzXYZ"
             android:background="@null"
             android:hint="请输入身份证号"
-            android:inputType="textPassword"
             android:textSize="@dimen/text_item" />
 
 

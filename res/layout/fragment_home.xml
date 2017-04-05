@@ -139,10 +139,7 @@
 				android:textSize="16sp"
 				android:textColor="#A12935"
 				/>
-
-
 		</RelativeLayout>
-
 	</RelativeLayout>
 	<RelativeLayout
 		android:layout_width="wrap_content"
@@ -150,8 +147,8 @@
 		android:background="#F6F6F6"
 		android:layout_marginTop="20dp">
 		<ImageView
-			android:layout_width="25dp"
-			android:layout_height="25dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_toLeftOf="@+id/tv_ruler"
 			android:src="@drawable/jifeiguize"/>
 		<TextView

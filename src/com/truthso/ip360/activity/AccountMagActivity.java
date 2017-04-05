@@ -177,17 +177,16 @@ public class AccountMagActivity extends BaseActivity {
                                  rl_liang.setVisibility(View.GONE);
                              }
                         }
-
-
-                        //
                         for (int i = 0; i < productBalance.size(); i++) {
                             giftsProduct.addAll(productBalance.get(i).getGiftsProduct());
+
                             if (productBalance.get(i).getGiftsProduct().size() > 0) {
                                 for (int j = 0; j < productBalance.get(i).getGiftsProduct().size(); j++) {
-                                    if (productBalance.get(i).getGiftsProduct().get(j).getGiftsCount() == 0) {
+                                    if(productBalance.get(i).getGiftsProduct().get(j).getGiftsCount() == 0||(productBalance.get(i).getGiftsProduct().get(j).getType()!= MyConstants.PHOTOTYPE && productBalance.get(i).getGiftsProduct().get(j).getType()!= MyConstants.RECORDTYPE && productBalance.get(i).getGiftsProduct().get(j).getType()!= MyConstants.VIDEOTYPE)){
                                         giftsProduct.remove(productBalance.get(i).getGiftsProduct().get(j));
-
                                     }
+
+
                                 }
                             }
 

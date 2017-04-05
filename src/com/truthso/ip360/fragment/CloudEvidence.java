@@ -406,7 +406,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-//				actionBar.setLeftText("拍照取证");
+				actionBar.setLeftText("拍照取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -426,7 +426,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-//				actionBar.setLeftText("录像取证");
+				actionBar.setLeftText("录像取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -446,7 +446,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-//				actionBar.setLeftText("录音取证");
+				actionBar.setLeftText("录音取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -465,7 +465,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-//				actionBar.setLeftText("线上取证");
+				actionBar.setLeftText("线上取证");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -485,7 +485,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-//				actionBar.setLeftText("确权文件");
+				actionBar.setLeftText("确权文件");
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();

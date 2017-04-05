@@ -55,7 +55,7 @@ public class DownLoadHelper {
 		Toaster.showToast(MyApplication.getApplication(),"文件开始下载，请到传输列表中查看");
 		taskMap.put(fileinfo.getObjectKey(), task);
 		Log.i("djj","downLoadfileinfo"+fileinfo.toString());
-		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName(),fileinfo.getDataType(),2,fileinfo.getReMark());
+		UpDownLoadDao.getDao().saveDownLoadInfo(fileinfo.getFilePath(),fileinfo.getFileName(),fileinfo.getFileSize(),fileinfo.getPosition(),fileinfo.getResourceId(),fileinfo.getObjectKey(),fileinfo.getLlsize(),fileinfo.getFileUrlFormatName(),fileinfo.getDataType(),2,fileinfo.getReMark(),fileinfo.getFileFormat());
 		return true;
 	}
 	

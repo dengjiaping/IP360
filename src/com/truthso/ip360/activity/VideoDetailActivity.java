@@ -45,7 +45,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 
 	@SuppressLint("NewApi") @Override
 	public void initView() {
-		iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
+//		iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
 		path = getIntent().getStringExtra("url");
 		viv = (MyVideoView) findViewById(R.id.videoView);
 		mController = new MediaController(this);
@@ -62,7 +62,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 			@Override
 			public void onPrepared(MediaPlayer arg0) {
 				 hideProgress();
-				iv_chuo.setVisibility(View.VISIBLE);
+//				iv_chuo.setVisibility(View.VISIBLE);//真相保全的戳
 			}
 		});
 		viv.setOnErrorListener(new MediaPlayer.OnErrorListener() {

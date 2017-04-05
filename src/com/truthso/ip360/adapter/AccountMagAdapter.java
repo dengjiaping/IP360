@@ -66,11 +66,12 @@ public class AccountMagAdapter extends BaseAdapter {
         }
         GiftsProduct giftsProduct = this.giftsProduct.get(position);
         int type = giftsProduct.getType();
+        if(type == MyConstants.PHOTOTYPE||type == MyConstants.RECORDTYPE||type == MyConstants.VIDEOTYPE){
             if (type == MyConstants.PHOTOTYPE) {
                 vh.tv_yewu_name.setText("拍照取证");
             } else if (type == MyConstants.RECORDTYPE) {
                 vh.tv_yewu_name.setText("录音取证");
-            } else {
+            } else if(type == MyConstants.VIDEOTYPE){
                 vh.tv_yewu_name.setText("录像取证");
             }
             if (icurrDate>Integer.parseInt(giftsProduct.getContractEnd().replace("-",""))){
@@ -82,6 +83,8 @@ public class AccountMagAdapter extends BaseAdapter {
                 vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
 
             }
+        }
+
 
 
 
