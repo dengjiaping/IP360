@@ -18,13 +18,30 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         >
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/luxiang" />
+        <RelativeLayout
+            android:id="@+id/rl_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+               >
+            <ImageView
+                android:id="@+id/iv_video"
+                android:layout_width="160dp"
+                android:layout_height="200dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/shipinbaoquan"/>
         </RelativeLayout>
+
+
+
+    </RelativeLayout>
        <!-- <RelativeLayout
             android:id="@+id/rl_filename"
             android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.util.LogUtils;
@@ -65,6 +66,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private boolean filePreIsok = false;
 	private  int expStatus;
 	private String hashCode;
+	private RelativeLayout rl_record;
 	/*private Handler handler = new Handler(){
 		 public void handleMessage(Message msg) {
 			 switch (msg.what) {
@@ -111,7 +113,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		longlat= getIntent().getStringExtra("longlat");
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-		
+		rl_record = (RelativeLayout) findViewById(R.id.rl_record);
+		rl_record.setOnClickListener(this);
 		btn_save = (Button) findViewById(R.id.btn_preserved);
 		btn_save.setOnClickListener(this);
 		tv_filename.setText(fileName);
@@ -172,6 +175,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.rl_record://录音
+				Intent intent = new Intent(LiveRecordPreActivity.this,RecordDetailActivity.class);
+				intent.putExtra("url",filePath);
+				startActivity(intent);
+				break;
 			case R.id.btn_title_right://放弃
 				showDialogIsCancel("是否确认放弃保全？");
 				//取消上传文件

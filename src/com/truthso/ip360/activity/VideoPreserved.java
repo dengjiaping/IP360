@@ -3,16 +3,19 @@ package com.truthso.ip360.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.application.MyApplication;
@@ -68,6 +71,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private int useType, pkValue;
 	private double video_fileSize_B;
 	private long ll;
+	private RelativeLayout rl_video;
 //	private double lat, longti;
 //	private String latitudeLongitude;
 	private int expStatus;
@@ -110,8 +114,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		btn_title_right.setOnClickListener(this);
 		btn_title_right.setText("放弃");
 		btn_title_right.setTextColor(getResources().getColor(R.color.white));
-
-//		iv_video = (ImageView) findViewById(R.id.iv_video);
+		rl_video = (RelativeLayout) findViewById(R.id.rl_video);
+		rl_video.setOnClickListener(this);
+		iv_video = (ImageView) findViewById(R.id.iv_video);
+//		iv_video.setOnClickListener(this);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
@@ -135,8 +141,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		ll = Math.round(video_fileSize_B);
 
 		mVideoName = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-//		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
-//				MediaStore.Images.Thumbnails.MICRO_KIND));
+		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
+				MediaStore.Images.Thumbnails.MICRO_KIND));
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
 
 		tv_filename.setText(mVideoName);
@@ -263,6 +269,12 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.rl_video://点击到播放详情
+				Intent intent = new Intent(VideoPreserved.this,VideoDetailActivity.class);
+				intent.putExtra("url",mVideoPath);
+				startActivity(intent);
+
+				break;
 			case R.id.btn_title_right://标题右上角放弃
 				showDialogIsCancel("是否确认放弃保全？");
 				//取消上传文件

@@ -16,16 +16,52 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">-->
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        >
         <RelativeLayout
+            android:id="@+id/rl_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            >
+            <ImageView
+
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/luyinl"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/shipinbaoquan"/>
+        </RelativeLayout>
+       <!-- <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="250dp"
            >
-            <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/luyinl" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/shipinbaoquan"/>
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/luyinl" />
+            </RelativeLayout>-->
+
         </RelativeLayout>
         <!-- <RelativeLayout
              android:id="@+id/rl_filename"
