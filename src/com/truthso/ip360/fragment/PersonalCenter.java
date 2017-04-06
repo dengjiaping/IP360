@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +33,7 @@ import com.truthso.ip360.activity.ReBindEmailActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.activity.RealNameInfoActivity;
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.GiftsProduct;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.product;
@@ -245,6 +247,14 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	}
 
 	@Override
+	public void onHiddenChanged(boolean hidden) {
+		if(!hidden&&tv_cache_size!=null){
+			String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
+			tv_cache_size.setText(dirSize);
+		}
+	}
+
+	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.rl_account:// 账号信息
@@ -384,8 +394,16 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	 */
     private void clearCache(){
 		SqlDao.getSQLiteOpenHelper().deleteAll(MyConstants.TABLE_MEDIA_DETAIL);
+		List<DbBean> dbBeen = SqlDao.getSQLiteOpenHelper().queryAll();
+		for (int i=0;i<dbBeen.size();i++){
+			DbBean dbBean = dbBeen.get(i);
+			dbBean.getResourceUrl();
+		}
+		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
+
 		UpDownLoadDao.getDao().deleteAll();
 		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
+
 		tv_cache_size.setText("0KB");
 		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}
@@ -457,8 +475,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		super.setUserVisibleHint(isVisibleToUser);
 		String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
 		tv_cache_size.setText(dirSize);
-
-
 	}*/
 
 }

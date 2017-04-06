@@ -46,7 +46,7 @@ public class UpDownloadHandler extends Handler {
              case UPLOAD_CODE:
                  FileInfo info=(FileInfo)msg.obj;
                  if(msg.arg1==SUCCESS){
-                     SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,info.getPkValue());
+                   //  SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,info.getPkValue());
                      UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),0);
                      try {
                          FileUtil.deleteFile(info.getFilePath());

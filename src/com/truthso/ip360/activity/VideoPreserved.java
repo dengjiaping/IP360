@@ -536,7 +536,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 						//上传文件
 						UpLoadFile();
 						//保全文件到数据库
-						saveToDB();
+						//saveToDB();
 						Toaster.showToast(VideoPreserved.this,"文件正在上传，请在传输列表查看");
 						finish();
 					}else{

@@ -2,7 +2,7 @@ package com.truthso.ip360.updownload;
 
 public class FileInfo {
 
-	private String filePath;
+	private String filePath;//下载成功的文件路径
 	private String fileName;
 	private String fileUrlFormatName;//
 	private String fileSize;
@@ -17,6 +17,15 @@ public class FileInfo {
 	private int status;//成功0失败1等待2
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
 	private String reMark;
+	private String upLoadFilePath;//上传的文件路径
+
+	public String getUpLoadFilePath() {
+		return upLoadFilePath;
+	}
+
+	public void setUpLoadFilePath(String upLoadFilePath) {
+		this.upLoadFilePath = upLoadFilePath;
+	}
 
 	public String getReMark() {
 		return reMark;

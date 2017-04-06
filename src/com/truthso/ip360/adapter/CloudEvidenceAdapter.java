@@ -202,9 +202,21 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
 	//检查是否已下载
 	private boolean isDownloaded(int pkValue) {
-		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
-		if(!CheckUtil.isEmpty(dbBean)&&dbBean.getResourceUrl().contains("download")){
-			return FileUtil.IsFileEmpty(dbBean.getResourceUrl());
+		//DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
+		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
+
+		if(!CheckUtil.isEmpty(fileInfo)&&fileInfo.getStatus()==0&&fileInfo.getFilePath()!=null){
+			return FileUtil.IsFileEmpty(fileInfo.getFilePath());
+		}
+		return false;
+	}
+	//检查是否正在下载
+	private boolean isDownloading(int pkValue) {
+		//DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
+		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
+
+		if(!CheckUtil.isEmpty(fileInfo)&&fileInfo.getStatus()!=0){
+			return true;
 		}
 		return false;
 	}
@@ -221,9 +233,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
 			//本地证据已经存在或者在传输列表里面或者欠费，禁止选择
-			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
-			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
-			Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
+		//	boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
+		//	boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
+		//	Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
 			/*if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
 				cb_choice.setBackgroundResource(R.drawable.cbox);
 				cb_choice.setClickable(false);
@@ -352,8 +364,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			break;
 		case R.id.tv_download:// 下载
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
-			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(data.getPkValue());//已经下载
-			boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(data.getPkValue());//正在下载
+			boolean queryByPkValue = isDownloaded(data.getPkValue());//已经下载
+			boolean queryByPkValue1 = isDownloading(data.getPkValue());//正在下载
 			if (data.getArreaStatus()==1){//不欠费
 			if(queryByPkValue){
 				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
@@ -445,10 +457,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				String url = null;
 				String format = null;
 				if (data1.getArreaStatus() == 1){//不欠费
-					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());//已经下载
-					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
-						url=dbBean.getResourceUrl();
-						format=dbBean.getFileFormat();
+					FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
+					if(fileInfo!=null&&FileUtil.IsFileEmpty(fileInfo.getFilePath())){
+						url=fileInfo.getFilePath();
+						format=fileInfo.getFileFormat();
 					}else{
 						 url = data1.getOssUrl();
 						 format = data1.getFileFormat();
@@ -516,17 +528,17 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						}
 						int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,mDatas.get(position).getPkValue());
 						Log.i("djj",mDatas.get(position).getPkValue()+"PkValue");
-						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
-						if(count>0){
-							EventBus.getDefault().post(new CEListRefreshEvent());
-							if(filePaht!=null){
+
+						FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(mDatas.get(position).getPkValue());
+						if(!CheckUtil.isEmpty(fileInfo)&&fileInfo.getFilePath()!=null){
 								try {
 									FileUtil.deleteFile(filePaht);
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
-							}
 						}
+						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
+						EventBus.getDefault().post(new CEListRefreshEvent());
 					}
 				}).
 				setNegativeButton("取消", new DialogInterface.OnClickListener() {

@@ -98,10 +98,10 @@ public class SqlDao {
 	 *
 	 * @param id
 	 *            唯一ID，根据ID删除字段数据。
-	 */
+	 */	//删除已完成的条目（清除缓存）
 	public int deleteAll(String table) {
 		SQLiteDatabase db = helper.getWritableDatabase();
-		int count=db.delete(table, null, null);
+		int count=db.delete(table, "status=?", new String[]{"0"});
 		db.close();
 		return count;
 	}

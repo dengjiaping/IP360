@@ -352,8 +352,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		dbBean.setDataType(3);//现场取证
 		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
 		dbBean.setExpStatus(expStatus);
-		SqlDao.getSQLiteOpenHelper().save(dbBean,
-				MyConstants.TABLE_MEDIA_DETAIL);
+		//SqlDao.getSQLiteOpenHelper().save(dbBean,MyConstants.TABLE_MEDIA_DETAIL);
 		
 	}
 
@@ -429,7 +428,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						//上传文件
 						UpLoadFile();
 						//保全文件到数据库
-						saveToDb();
+						//saveToDb();
 						Toaster.showToast(PhotoPreserved.this,"文件正在上传，请在传输列表查看");
 						finish();
 					}else{

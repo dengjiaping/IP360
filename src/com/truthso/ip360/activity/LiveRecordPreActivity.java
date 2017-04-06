@@ -454,7 +454,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						//上传文件
 						UpLoadFile();
 						//保全文件到数据库
-						saveData();
+						//saveData();
 						finish();
 						Toaster.showToast(LiveRecordPreActivity.this,"文件正在上传，请在传输列表查看");
 					}else{

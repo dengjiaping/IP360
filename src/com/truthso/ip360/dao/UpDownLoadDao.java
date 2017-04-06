@@ -53,9 +53,10 @@ public class UpDownLoadDao {
 				new Object[] { uploadFile.getAbsolutePath() });
 	}
 
+	//删除已完成的条目（清除缓存）
 	public void deleteAll() {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		db.execSQL("delete from updownloadlog");
+		db.execSQL("delete from updownloadlog where status=0");
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -248,23 +249,23 @@ public class UpDownLoadDao {
 		return list;
 	}
 
-
-
 	public FileInfo queryDownLoadInfoByResourceId(int resourceId) {
+		Log.i("djj","resourceId"+resourceId);
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
 				"select * from updownloadlog where sourceid=?",
 				new String[] { resourceId + "" });
 		FileInfo info = new FileInfo();
-		cursor.moveToNext();
-
-		info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
-		info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
-		info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
-		info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
-		info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
-		info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
-
+		if(cursor.moveToNext()){
+			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
+			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
+			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));
+			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
+			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
+			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
+			info.setUpLoadFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
+		}
 		return info;
 	}
 
@@ -299,6 +300,7 @@ public class UpDownLoadDao {
 	}
 
 	public void deleteDownInfoByResourceId(String resourceId) {
+		Log.i("djj","resourceId"+resourceId);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.enableWriteAheadLogging();
 		db.execSQL("delete from updownloadlog where sourceid=?",
@@ -383,4 +385,5 @@ public class UpDownLoadDao {
 		db.close();
 		return moveToNext;
 	}
+
 }
