@@ -130,6 +130,17 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
+				if(s.length()>10){
+
+					btn_send_code.setClickable(true);
+					btn_send_code.setTextColor(getResources().getColor(R.color.white));
+					btn_send_code.setBackgroundResource(R.drawable.round_corner_bg);
+				}else{
+					btn_send_code.setClickable(false);
+					btn_send_code.setBackgroundResource(R.drawable.round_corner_huise);
+					btn_send_code.setTextColor(getResources().getColor(R.color.white));
+				}
+
 				if (!CheckUtil.isEmpty(s.toString().trim())) {
 					isAccountEmpty = true;
 				} else {

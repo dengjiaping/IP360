@@ -92,7 +92,7 @@ public class ReBindEmailActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!CheckUtil.isEmpty(s.toString().trim())) {
+				if (!CheckUtil.isEmpty(s.toString().trim())&&s.length()>3) {
 					iscercodeIsEmpty = true;
 				} else {
 					iscercodeIsEmpty = false;

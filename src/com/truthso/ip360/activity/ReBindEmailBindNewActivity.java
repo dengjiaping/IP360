@@ -12,7 +12,10 @@ import com.truthso.ip360.view.xrefreshview.LogUtils;
 import cz.msebera.android.httpclient.Header;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +34,7 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 	private String newCerCode,email;
 	private Button btn_bind, btn_send_code;
 	private EditText et_account, et_cercode;
+	private boolean isAccountEmpty,iscercodeIsEmpty;
 	// 倒计时
 			private CountDownTimer timer = new CountDownTimer(60000, 1000) {
 
@@ -59,7 +63,82 @@ public class ReBindEmailBindNewActivity extends BaseActivity implements OnClickL
 		btn_send_code.setOnClickListener(this);
 		et_account = (EditText) findViewById(R.id.et_account);
 		et_cercode = (EditText) findViewById(R.id.et_cercode);
+
+		//监听编辑框
+		et_account.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				if(CheckUtil.isEmailFormat(s.toString().trim())){
+					btn_send_code.setClickable(true);
+					btn_send_code.setTextColor(getResources().getColor(R.color.white));
+					btn_send_code.setBackgroundResource(R.drawable.round_corner_bg);
+				}else{
+					btn_send_code.setClickable(false);
+					btn_send_code.setBackgroundResource(R.drawable.round_corner_huise);
+					btn_send_code.setTextColor(getResources().getColor(R.color.white));
+				}
+
+				if (!CheckUtil.isEmpty(s.toString().trim())) {
+					isAccountEmpty = true;
+				} else {
+					isAccountEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
+		//监听编辑框
+		et_cercode.addTextChangedListener(new TextWatcher() {
+
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+				if (!CheckUtil.isEmpty(s.toString().trim())&&s.length()>3) {
+					iscercodeIsEmpty = true;
+				} else {
+					iscercodeIsEmpty = false;
+				}
+				checkButtonStatus();
+			}
+		});
 	}
+	/**
+	 * 按钮是否是彩色可点击
+	 */
+	private void checkButtonStatus() {
+		if (isAccountEmpty && iscercodeIsEmpty) {
+			btn_bind.setEnabled(true);
+			btn_bind.setTextColor(Color.WHITE);
+			btn_bind.setBackgroundResource(R.drawable.round_corner_bg);
+		} else {
+			btn_bind.setEnabled(false);
+			btn_bind.setBackgroundResource(R.drawable.round_corner_white);
+			btn_bind.setTextColor(getResources().getColor(R.color.huise));
+		}
+	}
+
 
 	@Override
 	public int setLayout() {

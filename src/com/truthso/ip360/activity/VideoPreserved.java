@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -557,11 +558,17 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	 */
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();//不注释掉会立即返回，不提示弹框
 		showDialogIsCancel("是否确认放弃保全？");
 		//取消上传文件
-//		CancelUploadFile();
+		CancelUploadFile();
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		return super.onKeyDown(keyCode, event);
+	}
+
 	/**
 	 * 是否确认放弃保全
 	 * @param msg

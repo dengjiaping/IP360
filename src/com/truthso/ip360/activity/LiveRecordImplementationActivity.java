@@ -14,6 +14,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.truthso.ip360.bean.DbBean;
@@ -36,6 +37,7 @@ import com.truthso.ip360.view.xrefreshview.LogUtils;
  */
 public class LiveRecordImplementationActivity extends BaseActivity implements
 		OnClickListener {
+	private ImageButton btn_title_left;
 	private String loc;
 	private TextView mRecordTime;
 	private String timeUsed;
@@ -133,6 +135,14 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.btn_title_left:
+				if(isRecording){
+					stoprecordVoice();
+				}
+				finish();
+				break;
+
+
 		case R.id.btn_record:
 			if (!isRecording) {
 				isAlive = true;
@@ -276,7 +286,8 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	@Override
 	public void initView() {
 		getLocation();
-				
+		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
+		btn_title_left.setOnClickListener(this);
 
 		mButton = (Button) findViewById(R.id.btn_record);
 		voiceLineView = (VoiceLineView) findViewById(R.id.voicLine);
@@ -310,5 +321,17 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 
 		});
+	}
+	/**
+	 * 监听系统的返回键
+	 */
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if(isRecording){
+			stoprecordVoice();
+		}
+		finish();
+//		com.lidroid.xutils.util.LogUtils.e("返回键执行了555555555555555555555555555555555");
 	}
 }

@@ -495,7 +495,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	 */
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();
 		//取消上传文件
 //		CancelUploadFile();
 		showDialogIsCancel("是否确认放弃保全？");

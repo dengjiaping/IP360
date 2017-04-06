@@ -1,7 +1,9 @@
 package com.truthso.ip360.pager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,6 +34,7 @@ import com.truthso.ip360.event.DownEvent;
 import com.truthso.ip360.fragment.BaseFragment;
 import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.pager.UpLoadListPager.MyContentObserver;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.updownload.UpLoadManager;
@@ -43,7 +46,7 @@ import org.greenrobot.eventbus.EventBus;
 public class DownLoadListPager extends BasePager implements AdapterView.OnItemLongClickListener,  AdapterView.OnItemClickListener {
 	private ListView listView;
 	private DownLoadAdapter adapter;
-
+	private Map<String, String> formatMap=new HashMap<String, String>();
 	public DownLoadListPager(Context ctx) {
 		super(ctx);
 	}
@@ -66,6 +69,53 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 
 	@Override
 	public void initData(int position) {
+		formatMap.put("txt", "text/plain");
+		formatMap.put("rtf", "application/rtf");
+		formatMap.put("doc", "application/msword");
+		formatMap.put("xls", "application/vnd.ms-excel");
+		formatMap.put("ppt", "application/vnd.ms-powerpoint");
+		formatMap.put("htm", "text/html");
+		formatMap.put("html", "text/html");
+		//formatMap.put("wpd", "text/plain");
+		formatMap.put("pdf", "application/pdf");
+		//formatMap.put("chm", "text/plain");
+		//formatMap.put("pdg", "text/plain");
+		//formatMap.put("wdl", "text/plain");
+		//	formatMap.put("hlp", "text/plain");
+		formatMap.put("wps", "application/vnd.ms-works");
+		formatMap.put("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+		//formatMap.put("docm", "text/plain");
+		//formatMap.put("dotm", "text/plain");
+		//formatMap.put("dot", "text/plain");
+		//formatMap.put("xps", "text/plain");
+		//formatMap.put("mht", "text/plain");
+		//formatMap.put("mhtml", "text/plain");
+		formatMap.put("xml", "text/plain");
+		//formatMap.put("odt", "text/plain");
+		formatMap.put("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		//formatMap.put("xlsm", "text/plain");
+		//formatMap.put("xlsb", "text/plain");
+		//formatMap.put("xltx", "text/plain");
+		//formatMap.put("xltm", "text/plain");
+		//formatMap.put("xlt", "text/plain");
+		//formatMap.put("csv", "text/plain");
+		//formatMap.put("prn", "text/plain");
+		//formatMap.put("dif", "text/plain");
+		//formatMap.put("slk", "text/plain");
+		//formatMap.put("xlam", "text/plain");
+		//formatMap.put("ods", "text/plain");
+		formatMap.put("pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+		//formatMap.put("pptm", "text/plain");
+		//formatMap.put("potx", "text/plain");
+		//formatMap.put("potm", "text/plain");
+		//formatMap.put("pot", "text/plain");
+		//formatMap.put("thmx", "text/plain");
+		//formatMap.put("ppsx", "text/plain");
+		//formatMap.put("ppsm", "text/plain");
+		formatMap.put("pps", "application/vnd.ms-powerpoint");
+		//formatMap.put("ppam", "text/plain");
+		//formatMap.put("ppa", "text/plain");
+		//formatMap.put("odp", "text/plain");
 
 	}
 
@@ -139,10 +189,27 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 			recordIntent.putExtra("url", info.getFilePath());
 			recordIntent.putExtra("recordTime", info.getFileTime());
 			ctx.startActivity(recordIntent);
+		} else if (CheckUtil.isFormatDoc(format)) {
+			String type = getFileType(format);
+			if (type != null) {
+				Intent intent2 = new Intent("android.intent.action.VIEW");
+				intent2.addCategory("android.intent.category.DEFAULT");
+				intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Uri uri = Uri.parse(info.getFilePath());
+				intent2.setDataAndType(uri, type);
+				try {
+					ctx.startActivity(intent2);
+				} catch (Exception e) {
+					e.printStackTrace();
+					Toaster.showToast(ctx, "暂不支持打开此种类型的文件！");
+				}
+			}
 		}
 	}
 
-		public class MyContentObserver extends ContentObserver {
+
+
+	public class MyContentObserver extends ContentObserver {
 
 			public MyContentObserver(Handler handler) {
 				super(handler);
@@ -155,6 +222,11 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 				adapter.notifyChange(formatList(queryDownLoadList));
 			}
 		}
-
+	private String getFileType(String format){
+		if(formatMap.containsKey(format)){
+			return	formatMap.get(format);
+		}
+		return null;
+	}
 	}
 

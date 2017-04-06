@@ -179,13 +179,13 @@
 
         <TextView
             android:id="@+id/tv_binded_mobile"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_alignRight="@id/tv_shoujihao"
+            android:layout_toRightOf="@id/tv_shoujihao"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:gravity="center_vertical"
             android:text=""
-            android:textSize="@dimen/text_size" />
+            android:textSize="@dimen/text_item" />
     </RelativeLayout>
 
     <LinearLayout
@@ -244,7 +244,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            android:background="@drawable/round_corner_bg"
+            android:background="@drawable/round_corner_huise"
             android:text="发送验证码"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size" />

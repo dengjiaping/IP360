@@ -454,11 +454,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * @param keyCode
 	 * @param event
      * @return
-     *//*
-	@Override
+     */
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 			if (keyCode == KeyEvent.KEYCODE_BACK) {
 				//系统返回键调不上传的接口，通知后台清除数据
+				LogUtils.e("返回键执行了1111111111111111111111111111111");
 				CancelUploadFile();
 //				return false;
 			}
@@ -471,11 +472,12 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 */
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
-		LogUtils.e("返回键执行了");
+
+		LogUtils.e("返回键执行了222222222222222222222");
 		showDialogIsCancel("是否确认放弃保全？");
 		//取消上传文件
 		CancelUploadFile();
+//		super.onBackPressed();
 	}
 
 	/**

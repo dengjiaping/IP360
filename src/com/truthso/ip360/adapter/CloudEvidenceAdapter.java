@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
@@ -469,7 +470,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 								RecordDetailActivity.class);
 						intent2.putExtra("url", url);
 						context.startActivity(intent2);
-					} else {
+
+					}/*else if(format.equals(format)){
+						Intent intentDoc = new Intent(context, DocumentDetailActivity.class);
+						intentDoc.putExtra("url", url);
+						context.startActivity(intentDoc);
+					}*/ else {
 						Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
 					}
 				}else if(data1.getArreaStatus() == 0){//欠费

@@ -452,4 +452,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		return false;
 	}*/
 
+/*	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
+		tv_cache_size.setText(dirSize);
+
+
+	}*/
+
 }

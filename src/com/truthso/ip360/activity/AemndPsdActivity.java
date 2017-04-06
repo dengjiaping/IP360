@@ -74,7 +74,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!CheckUtil.isEmpty(s.toString().trim())){
+				if (!CheckUtil.isEmpty(s.toString().trim())&& s.length()<19 && s.length()>5){
 					isNewPwd2Emp = true;
 				}else{
 					isNewPwd2Emp = false;
@@ -95,7 +95,7 @@ public class AemndPsdActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (!CheckUtil.isEmpty(s.toString().trim())){
+				if (!CheckUtil.isEmpty(s.toString().trim()) && s.length()<19 && s.length()>5){
 					isNewPwdEmp = true;
 				}else{
 					isNewPwdEmp = false;

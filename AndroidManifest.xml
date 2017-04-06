@@ -188,6 +188,13 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <!-- 文档详情 -->
+        <activity
+            android:name="com.truthso.ip360.activity.DocumentDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <!-- 更改绑定邮箱页面 -->
         <activity
             android:name="com.truthso.ip360.activity.ReBindEmailActivity"
