@@ -313,11 +313,37 @@ public class UpDownLoadDao {
 						null);
 	}
 
+	public void deleteDownInfoByResourceIdAndStatus(String resourceId,int status) {
+		Log.i("djj","resourceId"+resourceId);
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where sourceid=? and status",
+				new Object[] { resourceId ,status});
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
+						null);
+	}
+
 	public void deleteUpInfoByResourceId(String resourceId) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.enableWriteAheadLogging();
 		db.execSQL("delete from updownloadlog where sourceid=?",
 				new Object[] { resourceId });
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
+	}
+	public void deleteUpInfoByResourceIdAndStatus(String resourceId,int status) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where sourceid=? and status=?",
+				new Object[] { resourceId ,status});
 		MyApplication
 				.getApplication()
 				.getContentResolver()

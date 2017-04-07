@@ -121,16 +121,16 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 
 
 	//将已完成的条目放到集合最后
-	private List<FileInfo> formatList(List<FileInfo> list) {
-		List<FileInfo> temp = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			FileInfo fileInfo = list.get(i);
-			if (fileInfo.getStatus() != 0) {
-				temp.add(list.remove(i));
+	private synchronized List<FileInfo> formatList(List<FileInfo> list) {
+			List<FileInfo> temp = new ArrayList<>();
+			for (int i = 0; i < list.size(); i++) {
+				FileInfo fileInfo = list.get(i);
+				if (fileInfo.getStatus() != 0) {
+					temp.add(list.remove(i));
+				}
 			}
-		}
-		list.addAll(0, temp);
-		return list;
+			list.addAll(0, temp);
+			return list;
 	}
 
 	@Override

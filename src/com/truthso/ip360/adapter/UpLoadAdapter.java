@@ -136,7 +136,7 @@ public class UpLoadAdapter extends BaseAdapter{
 					@Override
 					public void onClick(View v) {
 						if(UpLoadManager.getInstance().resuambleUpload(info)){
-							UpDownLoadDao.getDao().deleteUpInfoByResourceId(info.getResourceId()+"");
+							UpDownLoadDao.getDao().deleteUpInfoByResourceIdAndStatus(info.getResourceId()+"",1);
 						}
 					}
 				});

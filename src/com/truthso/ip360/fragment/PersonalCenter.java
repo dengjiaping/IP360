@@ -249,7 +249,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	@Override
 	public void onHiddenChanged(boolean hidden) {
 		if(!hidden&&tv_cache_size!=null){
-			String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
+			String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.DOWNLOAD_PATH);
 			tv_cache_size.setText(dirSize);
 		}
 	}
@@ -393,17 +393,16 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	 * 清除缓存
 	 */
     private void clearCache(){
-		SqlDao.getSQLiteOpenHelper().deleteAll(MyConstants.TABLE_MEDIA_DETAIL);
+
 		List<DbBean> dbBeen = SqlDao.getSQLiteOpenHelper().queryAll();
 		for (int i=0;i<dbBeen.size();i++){
 			DbBean dbBean = dbBeen.get(i);
-			dbBean.getResourceUrl();
+			try {
+				FileUtil.deleteFile(dbBean.getResourceUrl());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
-
-		UpDownLoadDao.getDao().deleteAll();
-		FileUtil.deleteAllFiles(new File(MyConstants.CACHE_PATH));
-
 		tv_cache_size.setText("0KB");
 		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}

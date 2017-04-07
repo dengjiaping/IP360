@@ -51,12 +51,13 @@ public class DownloadTask {
 //		String fileName=objectKey.substring(objectKey.lastIndexOf("/"));
 		String fileUrlFormatName=info.getFileUrlFormatName();
 	   final File file=new File(downloadFile, fileUrlFormatName);
-		if(!file.exists()){
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if(file.exists()){
+			file.delete();
+		}
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		 GetObjectRequest get = new GetObjectRequest("ip360-test",objectKey);
 

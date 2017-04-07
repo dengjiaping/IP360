@@ -140,7 +140,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 					@Override
 					public void onClick(View v) {
 						if(DownLoadHelper.getInstance().downloadFile(info)){
-							UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getResourceId()+"");
+							UpDownLoadDao.getDao().deleteDownInfoByResourceIdAndStatus(info.getResourceId()+"",1);
 						}
 					}
 				});
