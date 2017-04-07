@@ -233,6 +233,7 @@
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:singleLine="true"
             android:layout_weight="1"
             android:background="@null"
             android:hint="请输入验证码"

@@ -99,6 +99,7 @@
             android:layout_toRightOf="@id/tv_zhanghao"
             android:layout_marginLeft="@dimen/mar_left_20"
             android:layout_centerVertical="true"
+            android:singleLine="true"
             android:background="@null"
             android:hint="请输入绑定邮箱"
             android:textSize="@dimen/text_item"
@@ -147,6 +148,7 @@
             android:layout_toRightOf="@id/tv_yanzhengma"
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/layout_marginLeft"
+            android:singleLine="true"
             android:background="@null"
             android:hint="请输入验证码"
             android:textSize="@dimen/text_item" />

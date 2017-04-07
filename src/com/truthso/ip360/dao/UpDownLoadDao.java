@@ -263,7 +263,7 @@ public class UpDownLoadDao {
 			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
 			info.setPosition(cursor.getInt(cursor.getColumnIndex("position")));
 			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
-			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
+//			info.setFilePath(cursor.getString(cursor.getColumnIndex("downloadurl")));
 			info.setUpLoadFilePath(cursor.getString(cursor.getColumnIndex("uploadfilepath")));
 		}
 		return info;
@@ -317,7 +317,7 @@ public class UpDownLoadDao {
 		Log.i("djj","resourceId"+resourceId);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.enableWriteAheadLogging();
-		db.execSQL("delete from updownloadlog where sourceid=? and status",
+		db.execSQL("delete from updownloadlog where sourceid=? and status=?",
 				new Object[] { resourceId ,status});
 		MyApplication
 				.getApplication()
@@ -410,6 +410,24 @@ public class UpDownLoadDao {
 		boolean moveToNext = cursor.moveToNext();
 		db.close();
 		return moveToNext;
+	}
+	public void deleteByStatus(int status) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where status=?",
+				new Object[] { status});
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
+						null);
 	}
 
 }

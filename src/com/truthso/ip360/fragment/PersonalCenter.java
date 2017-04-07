@@ -403,6 +403,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 				e.printStackTrace();
 			}
 		}
+		UpDownLoadDao.getDao().deleteByStatus(0);
 		tv_cache_size.setText("0KB");
 		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}

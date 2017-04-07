@@ -127,6 +127,7 @@
             android:layout_marginLeft="@dimen/mar_left_20"
             android:layout_centerVertical="true"
             android:phoneNumber="true"
+            android:singleLine="true"
             android:background="@null"
             android:hint="请输入绑定手机号"
             android:textSize="@dimen/text_item"
@@ -176,6 +177,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:background="@null"
+            android:singleLine="true"
             android:hint="请输入验证码"
             android:textSize="@dimen/text_item" />
 

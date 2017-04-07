@@ -457,10 +457,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				String url = null;
 				String format = null;
 				if (data1.getArreaStatus() == 1){//不欠费
-					FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
-					if(fileInfo!=null&&FileUtil.IsFileEmpty(fileInfo.getFilePath())){
-						url=fileInfo.getFilePath();
-						format=fileInfo.getFileFormat();
+//					FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
+					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());
+					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
+//					if(fileInfo!=null&&CheckUtil.isEmpty(fileInfo.getFilePath())){
+						url=dbBean.getResourceUrl();
+						format=dbBean.getFileFormat();
 					}else{
 						 url = data1.getOssUrl();
 						 format = data1.getFileFormat();
@@ -483,11 +485,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						intent2.putExtra("url", url);
 						context.startActivity(intent2);
 
-					}/*else if(format.equals(format)){
+					}else if(format.equals(format)){
 						Intent intentDoc = new Intent(context, DocumentDetailActivity.class);
 						intentDoc.putExtra("url", url);
 						context.startActivity(intentDoc);
-					}*/ else {
+					} else {
 						Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
 					}
 				}else if(data1.getArreaStatus() == 0){//欠费
