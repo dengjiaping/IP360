@@ -123,8 +123,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 				vh.tv_desc.setVisibility(View.VISIBLE);
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
-				vh.tv_desc.setText(date);
+				vh.tv_desc.setText(info.getCompleteDate());
 				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
 				vh.tv_size.setText(info.getFileSize());
 				break;

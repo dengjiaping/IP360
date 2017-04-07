@@ -3,6 +3,7 @@ package com.truthso.ip360.ossupload;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.format.DateFormat;
 
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
@@ -10,6 +11,9 @@ import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.FileUtil;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 2017/1/13.
@@ -32,29 +36,30 @@ public class UpDownloadHandler extends Handler {
 
     @Override
     public void handleMessage(Message msg) {
+        String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
          switch (msg.what){
              case DOWNLOAD_CODE:
                  if(msg.arg1==SUCCESS){
                      DbBean dbBean=(DbBean)msg.obj;
                      SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
-                     UpDownLoadDao.getDao().updateStatusByResourceId("0",dbBean.getPkValue());
+                     UpDownLoadDao.getDao().updateStatusByResourceId("0",dbBean.getPkValue(),date);
                  }else{
                      String pkvalue=(String)msg.obj;
-                     UpDownLoadDao.getDao().updateStatusByResourceId("1",pkvalue);
+                     UpDownLoadDao.getDao().updateStatusByResourceId("1",pkvalue,date);
                  }
                  break;
              case UPLOAD_CODE:
                  FileInfo info=(FileInfo)msg.obj;
                  if(msg.arg1==SUCCESS){
                    //  SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,info.getPkValue());
-                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),0);
+                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),0,date);
                      try {
                          FileUtil.deleteFile(info.getFilePath());
                      } catch (Exception e) {
                          e.printStackTrace();
                      }
                  }else{
-                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),1);
+                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),1,date);
                  }
                  break;
          }

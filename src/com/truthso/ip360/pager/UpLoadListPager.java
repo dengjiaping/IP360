@@ -59,7 +59,7 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 	}
 
 	//将已完成的条目放到集合最后
-	private List<FileInfo> formatList(List<FileInfo> list){
+	private synchronized List<FileInfo> formatList(List<FileInfo> list){
 		List<FileInfo> temp=new ArrayList<>();
 		for (int i=0;i<list.size();i++){
 			FileInfo fileInfo = list.get(i);
