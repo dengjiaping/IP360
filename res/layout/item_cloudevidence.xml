@@ -101,7 +101,11 @@
             android:textColor="#666666"
             android:textSize="12sp" />
     </RelativeLayout>
-
+   <!-- <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/red">
+    </View>-->
     <!-- <View
          android:layout_width="match_parent"
          android:layout_height="0.1dp"
@@ -184,5 +188,10 @@
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gry">
 
+    </View>
 </LinearLayout>

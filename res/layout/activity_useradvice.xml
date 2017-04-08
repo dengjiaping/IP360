@@ -25,6 +25,7 @@
         android:hint="  QQ/手机号/邮箱"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        android:singleLine="true"
         android:layout_marginTop="@dimen/margin_top_20"
         android:background="@color/white"
         />

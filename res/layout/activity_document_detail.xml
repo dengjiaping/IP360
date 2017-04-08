@@ -5,9 +5,16 @@
     android:orientation="vertical">
     <include layout="@layout/top_title" />
 
+<!--    <com.truthso.ip360.utils.AdvancedWebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />-->
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="fill_parent">
+
+    </WebView>
 </LinearLayout>

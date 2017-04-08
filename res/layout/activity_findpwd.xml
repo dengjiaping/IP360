@@ -29,6 +29,7 @@
             android:layout_marginLeft="@dimen/mar_left_20"
             android:layout_centerVertical="true"
             android:phoneNumber="true"
+            android:singleLine="true"
             android:background="@null"
             android:hint="请输入手机号"
             android:textSize="@dimen/text_item"
@@ -79,6 +80,7 @@
             android:layout_marginLeft="@dimen/layout_marginLeft"
             android:background="@null"
             android:hint="请输入验证码"
+            android:singleLine="true"
             android:textSize="@dimen/text_item" />
 
         <Button
