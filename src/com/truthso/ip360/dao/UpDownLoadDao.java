@@ -163,6 +163,7 @@ public class UpDownLoadDao {
 			info.setStatus(cursor.getInt(cursor.getColumnIndex("status")));
 			info.setReMark(cursor.getString(cursor.getColumnIndex("remark")));
 			info.setFileFormat(cursor.getString(cursor.getColumnIndex("fileformat")));
+			info.setCompleteDate(cursor.getString(cursor.getColumnIndex("completedate")));
 			list.add(info);
 		}
 		return list;
@@ -352,12 +353,31 @@ public class UpDownLoadDao {
 						null);
 	}
 
-	public void updateStatusByResourceId(String status,String resourceId) {
+	public void deleteByStatus(int status) {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where status=?",
+				new Object[] { status});
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
+						null);
+	}
+
+	public void updateStatusByResourceId(String status,String resourceId,String completedate) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		db.enableWriteAheadLogging();
 		db.execSQL(
-				"update updownloadlog set status=? where sourceid =?",
-				new Object[] { status,resourceId });
+				"update updownloadlog set status=? and completedate=? where sourceid =?",
+				new Object[] { status,completedate,resourceId });
 		MyApplication
 				.getApplication()
 				.getContentResolver()
@@ -390,10 +410,10 @@ public class UpDownLoadDao {
 						null);
 	}
 
-	public void updateUploadInfoByUrl(String url,int status) {
+	public void updateUploadInfoByUrl(String url,int status,String completedate) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		db.execSQL("update updownloadlog set status =? where uploadfilepath=?",
-				new Object[] { status,url});
+		db.execSQL("update updownloadlog set status =? and  completedate=? where  uploadfilepath=?",
+				new Object[] { status,completedate,url});
 		MyApplication
 				.getApplication()
 				.getContentResolver()

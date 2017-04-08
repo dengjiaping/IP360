@@ -47,7 +47,9 @@ public class DocumentDetailActivity extends BaseActivity{
         webView.getSettings().setUseWideViewPort(true);
 
 //通过在线预览office文档的地址加载
-        webView.loadUrl(url+".html");
+
+        
+        webView.loadUrl(url);
 
     }
 

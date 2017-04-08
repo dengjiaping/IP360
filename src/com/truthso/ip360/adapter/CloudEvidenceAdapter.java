@@ -457,10 +457,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				String url = null;
 				String format = null;
 				if (data1.getArreaStatus() == 1){//不欠费
+<<<<<<< HEAD
 //					FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
 					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());
 					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
 //					if(fileInfo!=null&&CheckUtil.isEmpty(fileInfo.getFilePath())){
+=======
+				//	FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
+					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());
+					if(dbBean!=null&&!FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
+>>>>>>> 97865bcb051e4da55d42397c3919f867d7a4ae63
 						url=dbBean.getResourceUrl();
 						format=dbBean.getFileFormat();
 					}else{

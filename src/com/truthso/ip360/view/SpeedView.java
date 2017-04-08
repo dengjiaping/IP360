@@ -68,7 +68,6 @@ public class SpeedView extends TextView{
         if(isComplete){
          this.setText("已完成");
         }else{
-
             this.setText("失败");
         }
 

@@ -18,6 +18,15 @@ public class FileInfo {
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
 	private String reMark;
 	private String upLoadFilePath;//上传的文件路径
+	private String completeDate;
+
+	public String getCompleteDate() {
+		return completeDate;
+	}
+
+	public void setCompleteDate(String completeDate) {
+		this.completeDate = completeDate;
+	}
 
 	public String getUpLoadFilePath() {
 		return upLoadFilePath;
