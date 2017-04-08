@@ -49,6 +49,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="我的照片证据1.png"
+                    android:maxEms="15"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="#666666"
                     android:textSize="15sp"
                     />

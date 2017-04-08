@@ -73,6 +73,7 @@ public class DownloadTask {
 						// 请求成功
 						InputStream inputStream = result.getObjectContent();
 						long contentLength = result.getContentLength();
+						Log.i("progress", "contentLength" + contentLength);
 						byte[] buffer = new byte[2048];
 						int len;
 						try {
@@ -87,6 +88,7 @@ public class DownloadTask {
 								}
 							}
 							if(contentLength==progress){
+								Log.i("progress", "complete");
 								//下载完成，下载的文件信息存数据库
 								DbBean dbBean = new DbBean();
 								dbBean.setTitle(info.getFileName());
@@ -94,7 +96,6 @@ public class DownloadTask {
 								dbBean.setResourceUrl(info.getFilePath());
 								dbBean.setRecordTime(info.getFileTime());
 								dbBean.setFileFormat(info.getFileFormat());
-//								dbBean.setType(MyConstants.PHOTO);
 								int type = info.getType();//类型 1确权文件 2现场取证 3 线上取证
 								int mobileType = info.getMobiletype();//现场取证的类型 5001拍照 5002录音 5003录像
 //								文件类型 0照片，1视频，2录音 3云端拍照 4云端视频 5云端录音
@@ -115,14 +116,10 @@ public class DownloadTask {
 
 								dbBean.setFileSize(info.getFileSize());
 								dbBean.setLocation(info.getFileLoc());
-								dbBean.setPkValue(info.getPkValue()+"");
+								dbBean.setPkValue(info.getResourceId()+"");
 								dbBean.setStatus("1");
 							    int userId=  (Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,"userId",SharePreferenceUtil.VALUE_IS_INT);
-								Log.i("djj",userId+"");
 								dbBean.setUserId(userId);
-								Log.i("djj", "download"+dbBean.toString());
-								/*SqlDao.getSQLiteOpenHelper().save(dbBean, MyConstants.TABLE_MEDIA_DETAIL);
-								UpDownLoadDao.getDao().deleteDownInfoByResourceId(info.getPkValue());*/
 								dbBean.setDataType(info.getDataType());
 								Message msg=new Message();
 								msg.what=DOWNLOAD_CODE;
@@ -163,7 +160,7 @@ public class DownloadTask {
 						Message msg=new Message();
 						msg.what=DOWNLOAD_CODE;
 						msg.arg1=FAILE;
-						msg.obj=info.getPkValue()+"";
+						msg.obj=info.getResourceId()+"";
 						UpDownloadHandler.getInstance().sendMessage(msg);
 					}
 

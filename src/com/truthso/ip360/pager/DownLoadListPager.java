@@ -56,11 +56,14 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 
 	@Override
 	public View initView() {
-		queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
+		queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadListOrder();
 		listView = new ListView(ctx);
 		listView.setOnItemClickListener(this);
 		listView.setOnItemLongClickListener(this);
-		adapter = new DownLoadAdapter(ctx, formatList(queryDownLoadList));
+		for (int i=0;i<queryDownLoadList.size();i++){
+			Log.i("djj1",queryDownLoadList.get(i).getStatus()+"");
+		}
+		adapter = new DownLoadAdapter(ctx, queryDownLoadList);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/down"), true, new MyContentObserver(new Handler()));
@@ -121,7 +124,7 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 
 
 	//将已完成的条目放到集合最后
-	private synchronized List<FileInfo> formatList(List<FileInfo> list) {
+	private synchronized List<FileInfo> formatList1(List<FileInfo> list) {
 			List<FileInfo> temp = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
 				FileInfo fileInfo = list.get(i);
@@ -218,8 +221,8 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 			@Override
 			public void onChange(boolean selfChange) {
 				super.onChange(selfChange);
-				queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadList();
-				adapter.notifyChange(formatList(queryDownLoadList));
+				queryDownLoadList = UpDownLoadDao.getDao().queryDownLoadListOrder();
+				adapter.notifyChange(queryDownLoadList);
 			}
 		}
 	private String getFileType(String format){

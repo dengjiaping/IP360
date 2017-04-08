@@ -12,14 +12,15 @@ public class FileInfo {
 	private int mobiletype;//现场取证的文件类型
 	private String fileCreatetime;
 	private String fileTime;//文件时长
-	private int pkValue;
+	//private int pkValue;
     private String fileFormat;
 	private int status;//成功0失败1等待2
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
 	private String reMark;
 	private String upLoadFilePath;//上传的文件路径
 	private String completeDate;
-
+	private int position;
+	private int resourceId;
 	public String getCompleteDate() {
 		return completeDate;
 	}
@@ -76,13 +77,13 @@ public class FileInfo {
 		this.fileFormat = fileFormat;
 	}
 
-	public int getPkValue() {
+/*	public int getPkValue() {
 		return pkValue;
 	}
 
 	public void setPkValue(int pkValue) {
 		this.pkValue = pkValue;
-	}
+	}*/
 
 	public String getFileTime() {
 		return fileTime;
@@ -120,8 +121,7 @@ public class FileInfo {
 	public void setFileCreatetime(String fileCreatetime) {
 		this.fileCreatetime = fileCreatetime;
 	}
-	private int position;
-	private int resourceId;
+
 
 	private String objectKey;
 	public String getObjectKey() {
@@ -174,7 +174,6 @@ public class FileInfo {
 				", mobiletype=" + mobiletype +
 				", fileCreatetime='" + fileCreatetime + '\'' +
 				", fileTime='" + fileTime + '\'' +
-				", pkValue=" + pkValue +
 				", fileFormat='" + fileFormat + '\'' +
 				", status=" + status +
 				", dataType=" + dataType +

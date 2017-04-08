@@ -48,30 +48,14 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 
 	@Override
 	public View initView() {
-		queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadList();
+		queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
 		listView = new ListView(ctx);
 		listView.setOnItemLongClickListener(this);
-		adapter=new UpLoadAdapter(ctx,formatList(queryUpLoadList));
+		adapter=new UpLoadAdapter(ctx,queryUpLoadList);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), true, new MyContentObserver(new Handler()));
 		return listView;
-	}
-
-	//将已完成的条目放到集合最后
-	private synchronized List<FileInfo> formatList(List<FileInfo> list){
-		List<FileInfo> temp=new ArrayList<>();
-		for (int i=0;i<list.size();i++){
-			FileInfo fileInfo = list.get(i);
-			if(fileInfo.getStatus()!=0){
-				temp.add(list.remove(i));
-			}
-		}
-		list.addAll(0,temp);
-		for (int i=0;i<list.size();i++){
-			Log.i("djj",list.get(i).getStatus()+"");
-		}
-		return list;
 	}
 
 	@Override
@@ -113,8 +97,8 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 		@Override
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
-			queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadList();
-			adapter.notifyChange(formatList(queryUpLoadList));
+			queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
+			adapter.notifyChange(queryUpLoadList);
 		}
 	}
 

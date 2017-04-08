@@ -353,10 +353,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 								info.setResourceId(data.getPkValue());
 								info.setFileLoc(data.getFileLocation());
 								info.setFileCreatetime(data.getFileDate());
-								info.setPkValue(data.getPkValue());
+								info.setResourceId(data.getPkValue());
 								info.setFileFormat(data.getFileFormat());
 								String url = bean.getDatas().getFileUrl();//文件的下载路径
 								info.setObjectKey(url);
+								info.setReMark(data.getRemarkText());
 								// 下载
 								DownLoadHelper.getInstance().downloadFile(
 										info);

@@ -411,7 +411,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									info.setResourceId(data.getPkValue());
 									info.setFileLoc(data.getFileLocation());
 									info.setFileCreatetime(data.getFileDate());
-									info.setPkValue(data.getPkValue());
 									info.setFileFormat(data.getFileFormat());
 									info.setDataType(data.getDataType());
 									String url = bean.getDatas().getFileUrl();//文件的下载路径

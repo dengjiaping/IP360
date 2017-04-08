@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
@@ -32,8 +33,13 @@ public class DownLoadHelper {
     private Map<String, DownloadTask> taskMap=new ArrayMap<String, DownloadTask>();
     private Map<String ,ProgressListener> listenerMap=new ArrayMap<String, ProgressListener>();
 	private  DownLoadHelper() {
-		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");	
-		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider);	
+		OSSCredentialProvider credentialProvider = new OSSPlainTextAKSKCredentialProvider("LTAIIHLk9eURcRim", "6rXdqbwAShL0P8uR4L1zoLVX4eIUKj");
+		ClientConfiguration conf = new ClientConfiguration();
+		conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+		conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+		conf.setMaxConcurrentRequest(3); // 最大并发请求书，默认5个
+		conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+		oss = new OSSClient(MyApplication.getApplication(), endpoint, credentialProvider,conf);
 	}
 
 	public static DownLoadHelper  getInstance(){
