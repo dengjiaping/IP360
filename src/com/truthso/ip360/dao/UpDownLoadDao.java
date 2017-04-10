@@ -343,7 +343,7 @@ public class UpDownLoadDao {
 
 	public void updateUploadInfoByUrl(String url,int status,String completedate) {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-		db.execSQL("update updownloadlog set status =? and  completedate=? where  uploadfilepath=?",
+		db.execSQL("update updownloadlog set status =? , completedate=? where  uploadfilepath=?",
 				new Object[] { status,completedate,url});
 		MyApplication
 				.getApplication()

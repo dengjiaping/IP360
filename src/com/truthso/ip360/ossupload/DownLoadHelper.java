@@ -56,7 +56,6 @@ public class DownLoadHelper {
 		}
 		//下载
 		DownloadTask task=new DownloadTask(oss,fileinfo);
-
 		task.start();
 		Toaster.showToast(MyApplication.getApplication(),"文件开始下载，请到传输列表中查看");
 		taskMap.put(fileinfo.getObjectKey(), task);

@@ -119,8 +119,8 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setVisibility(View.VISIBLE);
 
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
-				vh.tv_desc.setText(date);
+//				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
+				vh.tv_desc.setText(info.getCompleteDate());
 				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
 				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 				break;
@@ -146,7 +146,6 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.btn_upload_download_again.setVisibility(View.GONE);
 				vh.tv_desc.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.GONE);
-
 				vh.probar.setProgress(info.getPosition());
 				vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 				instanse.setOnUpLoadProgressListener(info.getResourceId(), new com.truthso.ip360.ossupload.ProgressListener() {

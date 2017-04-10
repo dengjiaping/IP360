@@ -44,7 +44,10 @@ public class SpeedView extends TextView{
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             final  long speed= ( progress-lastProgress)/1024;
-            SpeedView.this.setText(speed+"k/s");
+            if(speed >= 0){
+                SpeedView.this.setText(speed+"k/s");
+            }
+
             SpeedView.this.lastProgress=progress;
             handler.sendEmptyMessageDelayed(0,1000);
         }
