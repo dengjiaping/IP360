@@ -62,14 +62,4 @@ public class SpeedView extends TextView{
         handler.removeMessages(0);
     }
 
-    public void setStatus(boolean isComplete){
-        handler.removeMessages(0);
-
-        if(isComplete){
-         this.setText("已完成");
-        }else{
-            this.setText("失败");
-        }
-
-    }
 }

@@ -165,7 +165,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 					}
 					@Override
 					public void onFailure() {
-						vh.tv_status.setStatus(false);
+
 					}
 				});
 				break;
