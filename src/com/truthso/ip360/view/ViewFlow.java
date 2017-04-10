@@ -49,7 +49,7 @@ import com.truthso.ip360.activity.R;
  * @author http://blog.csdn.net/finddreams
  */
 public class ViewFlow extends AdapterView<Adapter> {
-
+    private boolean isCanScroll = false;
 	private static final int SNAP_VELOCITY = 1000;
 	private static final int INVALID_SCREEN = -1;
 	private final static int TOUCH_STATE_REST = 0;
@@ -207,11 +207,15 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 		}
 	}
-
+	public void setScanScroll(boolean isCanScroll) {
+		this.isCanScroll = isCanScroll;
+	}
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (getChildCount() == 0||getChildCount()==3)
-			return false;
+		if (getChildCount() == 0||getChildCount()==3){
+			return true;
+		}
+
 
 		if (mVelocityTracker == null) {
 			mVelocityTracker = VelocityTracker.obtain();
@@ -242,8 +246,9 @@ public class ViewFlow extends AdapterView<Adapter> {
 			break;
 
 		case MotionEvent.ACTION_MOVE:
-			getParent().requestDisallowInterceptTouchEvent(true);
-			final int xDiff = (int) Math.abs(x - mLastMotionX);		
+			if(isCanScroll){//让滑动
+				getParent().requestDisallowInterceptTouchEvent(true);
+			final int xDiff = (int) Math.abs(x - mLastMotionX);
 			boolean xMoved = xDiff > mTouchSlop;
 
 			if (xMoved) {
@@ -271,6 +276,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 				return true;
 			}
+			}else{
+				//false  不能左右滑动
+			}
+
 			break;
 
 		case MotionEvent.ACTION_UP:
@@ -313,7 +322,6 @@ public class ViewFlow extends AdapterView<Adapter> {
 		if (getChildCount() == 0||getChildCount()==3)
 			return false;
 
-
 		if (mVelocityTracker == null) {
 			mVelocityTracker = VelocityTracker.obtain();
 		}
@@ -347,8 +355,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 			boolean xMoved = xDiff > mTouchSlop;
 			getParent().requestDisallowInterceptTouchEvent(true);
 			if (xMoved) {
-				// Scroll if the user moved far enough along the X axis
-				mTouchState = TOUCH_STATE_SCROLLING;				
+				mTouchState = TOUCH_STATE_SCROLLING;
 			}
 
 			if (mTouchState == TOUCH_STATE_SCROLLING) {

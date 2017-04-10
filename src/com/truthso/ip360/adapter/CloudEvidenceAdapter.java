@@ -76,6 +76,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		this.mDatas = mDatas;
 		this.type = type;
 		this.mobileType = mobileType;
+
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -142,7 +143,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
-
 			vh.cb_choice = (CheckBox) convertView.findViewById(R.id.cb_choice);
 			vh.cb_option = (CheckBox) convertView.findViewById(R.id.cb_option);
 			vh.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
@@ -305,7 +305,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					}			
 				}
 			});
-		
+
 			cb_option.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -320,6 +320,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					}
 				}
 			});
+
+
 		}
 	}
 
@@ -551,4 +553,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				create();
 		alertDialog.show();
 	}
+/*	public  boolean  isItemOpen(boolean isItemOpen){
+		*//*if (isItemOpen){
+			ll_option.setVisibility(View.GONE);
+		}*//*
+		return isItemOpen;*/
+//	}
+
 }

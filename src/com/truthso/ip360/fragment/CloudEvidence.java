@@ -213,8 +213,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		switch (v.getId()) {
 			case R.id.acition_bar_right:
 				if(list.size()>0){
+
 					choice();
 				}
+
 				break;
 			case R.id.acition_bar_left:
 				if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
