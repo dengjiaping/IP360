@@ -29,7 +29,8 @@
 			android:id="@+id/viewflow"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-			android:background="@color/white"/>
+			android:background="@drawable/lunbotu"
+			/>
 
 		<FrameLayout
 			android:layout_width="fill_parent"
