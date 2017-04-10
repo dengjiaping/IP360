@@ -95,6 +95,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	}
 
 	public void setChoice(Boolean isChoice) {
+		this.isOpen=Integer.MAX_VALUE;
 		this.isAllSelect = false;
 		this.isChoice = isChoice;
 		selectedList.clear();
@@ -229,20 +230,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
 	private void changeState(final int position, View view, CheckBox cb_choice,
 			final CheckBox cb_option) {
+		final LinearLayout ll_option = (LinearLayout) view
+				.findViewById(R.id.ll_option);
 		if (isChoice) {
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
-			//本地证据已经存在或者在传输列表里面或者欠费，禁止选择
-		//	boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(mDatas.get(position).getPkValue());
-		//	boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(mDatas.get(position).getPkValue());
-		//	Log.i("djj",""+queryByPkValue+queryByPkValue1+mDatas.get(position).getArreaStatus());
-			/*if(queryByPkValue||queryByPkValue1||mDatas.get(position).getArreaStatus()==0){
-				cb_choice.setBackgroundResource(R.drawable.cbox);
-				cb_choice.setClickable(false);
-			}else {
-				cb_choice.setClickable(true);
-				cb_choice.setBackgroundResource(R.drawable.cb_selector);
-			}*/
 			//1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，什么逻辑~
 			cb_choice.setClickable(true);
 			cb_choice.setBackgroundResource(R.drawable.cb_selector);
@@ -251,13 +243,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			} else {
 				cb_choice.setChecked(false);
 			}
+			if(ll_option.getVisibility()==View.VISIBLE){
+				ll_option.setVisibility(View.GONE);
+			}
 			cb_choice.setTag(position);
 			cb_choice.setOnCheckedChangeListener(this);
 		} else {
 			cb_choice.setVisibility(View.GONE);
 			cb_option.setVisibility(View.VISIBLE);
-			final LinearLayout ll_option = (LinearLayout) view
-					.findViewById(R.id.ll_option);
+
 			cb_option.setChecked(false);
 			ll_option.setVisibility(View.GONE);
 			if(position==isOpen){
