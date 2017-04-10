@@ -60,9 +60,6 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 		listView = new ListView(ctx);
 		listView.setOnItemClickListener(this);
 		listView.setOnItemLongClickListener(this);
-		for (int i=0;i<queryDownLoadList.size();i++){
-			Log.i("djj1",queryDownLoadList.get(i).getStatus()+"");
-		}
 		adapter = new DownLoadAdapter(ctx, queryDownLoadList);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 
@@ -122,22 +119,11 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 
 	}
 
-
-	//将已完成的条目放到集合最后
-	private synchronized List<FileInfo> formatList1(List<FileInfo> list) {
-			List<FileInfo> temp = new ArrayList<>();
-			for (int i = 0; i < list.size(); i++) {
-				FileInfo fileInfo = list.get(i);
-				if (fileInfo.getStatus() != 0) {
-					temp.add(list.remove(i));
-				}
-			}
-			list.addAll(0, temp);
-			return list;
-	}
-
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		if(queryDownLoadList.get(position).getStatus()!=0){
+			return true;
+		}
 		showDialog(position);
 		return true;
 	}

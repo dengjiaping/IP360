@@ -60,6 +60,9 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+		if(queryUpLoadList.get(position).getStatus()!=0){
+			return true;
+		}
 		showDialog(position);
 		return true;
 	}
