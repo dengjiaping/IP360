@@ -146,7 +146,8 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.btn_upload_download_again.setVisibility(View.GONE);
 				vh.tv_desc.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.GONE);
-				vh.probar.setProgress(info.getPosition());
+
+//				vh.probar.setProgress(info.getPosition());
 				vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 				instanse.setOnUpLoadProgressListener(info.getResourceId(), new com.truthso.ip360.ossupload.ProgressListener() {
 

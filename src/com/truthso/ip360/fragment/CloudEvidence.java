@@ -113,7 +113,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		vCode = getVersion();
 		cloudEviItemBean = new CloudEviItemBean();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
-		actionBar.setLeftText("类别");
+		actionBar.setLeftText("拍照取证");
 		actionBar.setTitle("云端证据");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
@@ -289,7 +289,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		if (selected.size()!=0){
 			for (int i = 0; i < selected.size(); i++) {
-				download(selected.get(i));
+			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(selected.get(i).getPkValue());
+				if (queryByPkValue){
+					Toaster.showToast(getActivity(),"文件已下载到本地");
+				}else{
+					download(selected.get(i));
+				}
+
 			}
 			adapter.setChoice(false);
 			adapter.notifyDataSetChanged();
@@ -517,7 +523,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private void choice() {
 		acition_bar_left.setCompoundDrawables(null,null,null,null);
 		actionBar.setLeftText("全选");
-
 		actionBar.setRightText("取消");
 		actionBar.setActionBarOnClickListener(new OnClickListener() {
 
@@ -651,14 +656,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						datas = bean.getDatas();
-
 						if (!CheckUtil.isEmpty(datas)) {
 							actionBar.setRightEnable();
 							actionBar.setRightText("选择");
 							list.addAll(datas);
 						} else {
-							actionBar.setRightDisEnable();
-							actionBar.setRightText("");
+							if(list.size()==0){
+								actionBar.setRightDisEnable();
+								actionBar.setRightText("");
+							}
+
 						}
 
 						if (list.size() >= 10) {
