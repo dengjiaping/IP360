@@ -109,20 +109,23 @@
             android:textSize="@dimen/text_item" />
 
         <RelativeLayout
+            android:id="@+id/rl_password_isshow"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true" >
+            android:layout_alignParentRight="true"
+            >
 
             <CheckBox
                 android:id="@+id/cb_password"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:button="@null"
-                android:background="@drawable/login_pwd_selector" />
+                android:background="@drawable/login_pwd_selector"
+                 />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -134,7 +137,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/activity_bg" >
 
-        <CheckBox
+      <!--  <CheckBox
             android:id="@+id/cb_checkbox"
             android:layout_width="10dp"
             android:layout_height="10dp"
@@ -149,7 +152,7 @@
             android:layout_toRightOf="@id/cb_checkbox"
             android:text="记住密码"
             android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size10" />
+            android:textSize="@dimen/text_size10" />-->
         <TextView
             android:id="@+id/tv_forget_pwd"
             android:layout_width="wrap_content"
@@ -157,7 +160,7 @@
             android:layout_alignParentRight="true"
             android:text="忘记密码？"
             android:textColor="@color/jiuhong"
-            android:textSize="@dimen/text_size10"/>
+            android:textSize="@dimen/text_12"/>
     </RelativeLayout>
 
     <Button

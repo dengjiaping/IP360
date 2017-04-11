@@ -79,16 +79,20 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 		case R.id.btn_ver:// 去认证
 			cardId = et_cardid.getText().toString().trim();
 			realName = et_realname.getText().toString().trim();
+
 			if (CheckUtil.isEmpty(cardId) || CheckUtil.isEmpty(realName)) {
+
 				Toaster.showToast(RealNameCertification.this, "身份证号或姓名不能为空");
+
 			} else if(!CheckUtil.iscardNum(cardId)){// 身份证正则
-					Toaster.showToast(RealNameCertification.this, "请输入正确的身份证号");
+				Toaster.showToast(RealNameCertification.this, "请输入正确的身份证号");
 			}else if(faceFile==null){
 				Toaster.showToast(RealNameCertification.this, "请先采集照片！");
 			}else{
 				// 调认证的接口
 				realNameVertification();
 			}
+
 
 			break;
 		default:

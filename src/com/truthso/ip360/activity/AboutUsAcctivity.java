@@ -2,6 +2,8 @@ package com.truthso.ip360.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,7 +23,7 @@ import android.widget.TextView;
 public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 //	private Button btn_title_left;
 	private Button btn_useragreement,btn_advice;
-
+	private TextView tv_versioncode;
 
 	@Override
 	public void initData() {
@@ -36,6 +38,8 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 		btn_useragreement.setOnClickListener(this);
 		btn_advice = (Button) findViewById(R.id.btn_advice);
 		btn_advice.setOnClickListener(this);
+		tv_versioncode = (TextView) findViewById(R.id.tv_versioncode);
+		tv_versioncode.setText("真相取证"+getVersion());
 
 	}
 
@@ -62,6 +66,19 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 				startActivity(intent);
 
 				break;
+		}
+
+	}
+	private String getVersion() {
+		try {
+			// 通过PackageManager获取安装包信息
+			PackageInfo packageInfo = getPackageManager().getPackageInfo(
+					getPackageName(), 0);
+
+			// 返回版本信息
+			return packageInfo.versionName;
+		} catch (PackageManager.NameNotFoundException e) {
+			return "";
 		}
 
 	}

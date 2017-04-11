@@ -108,13 +108,19 @@ public class UserAdviceActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         //提交
 //        调接口
+        String str = et_useradvice.getText().toString().trim();
+        String str1 = et_account.getText().toString().trim();
+            commit(str,str1);
+
 
     }
     //调接口提交反馈内容
     public void commit(String cotent,String contact){
+        showProgress("正在提交...");
         ApiManager.getInstance().UserAdvice(cotent, contact, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
                 if (!CheckUtil.isEmpty(response)){
                         if (response.getCode() == 200){
                             Toaster.showToast(UserAdviceActivity.this, "反馈提交成功！");

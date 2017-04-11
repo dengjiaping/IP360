@@ -245,7 +245,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            android:background="@drawable/round_corner_huise"
+            android:background="@drawable/round_corner_bg"
             android:text="发送验证码"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size" />

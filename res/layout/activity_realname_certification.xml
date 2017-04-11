@@ -22,7 +22,7 @@
             android:textColor="@color/item_text_color"
             />
         <EditText
-            android:id="@+id/et_cardid"
+            android:id="@+id/et_realname"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_toRightOf="@id/tv_zhanghao"
@@ -69,7 +69,7 @@
             android:textColor="@color/item_text_color"
             />
         <EditText
-            android:id="@+id/et_realname"
+            android:id="@+id/et_cardid"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_centerVertical="true"

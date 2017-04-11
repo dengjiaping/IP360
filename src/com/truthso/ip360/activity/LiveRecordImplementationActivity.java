@@ -1,30 +1,44 @@
 package com.truthso.ip360.activity;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
-import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
+import com.truthso.ip360.utils.CheckAudioPermission;
+import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.view.VoiceLineView;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * 
@@ -37,6 +51,7 @@ import com.truthso.ip360.view.xrefreshview.LogUtils;
  */
 public class LiveRecordImplementationActivity extends BaseActivity implements
 		OnClickListener {
+	private Dialog alertDialog;
 	private ImageButton btn_title_left;
 	private String loc;
 	private TextView mRecordTime;
@@ -285,6 +300,10 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
+	boolean  isHasPermission = CheckAudioPermission.isHasPermission(this);
+		if(!isHasPermission){
+			showDialog();
+		}
 		getLocation();
 		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
@@ -332,6 +351,203 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 			stoprecordVoice();
 		}
 		finish();
-//		com.lidroid.xutils.util.LogUtils.e("返回键执行了555555555555555555555555555555555");
+	}
+	private void showDialog() {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示").setCancelable(false)
+				.setMessage("您没有开启录音权限！").setIcon(R.drawable.ww)
+				.setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//去设置
+//						getAppDetailSettingIntent(LiveRecordImplementationActivity.this);
+						getPhoneleixing();
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+						finish();
+					}
+				}).create();
+		alertDialog.show();
+	}
+	/**
+	 * 跳转到权限设置界面
+	 */
+	private void getAppDetailSettingIntent(Context context){
+/*
+		// vivo 点击设置图标>加速白名单>我的app
+		//      点击软件管理>软件管理权限>软件>我的app>信任该软件
+		Intent appIntent = context.getPackageManager().getLaunchIntentForPackage("com.iqoo.secure");
+		if(appIntent != null){
+			context.startActivity(appIntent);
+			floatingView = new SettingFloatingView(this, "SETTING", getApplication(), 0);
+			floatingView.createFloatingView();
+			return;
+		}
+
+		// oppo 点击设置图标>应用权限管理>按应用程序管理>我的app>我信任该应用
+		//      点击权限隐私>自启动管理>我的app
+		appIntent = context.getPackageManager().getLaunchIntentForPackage("com.oppo.safe");
+		if(appIntent != null){
+			context.startActivity(appIntent);
+			floatingView = new SettingFloatingView(this, "SETTING", getApplication(), 1);
+			floatingView.createFloatingView();
+			return;
+		}*/
+
+		Intent intent = new Intent();
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		if(Build.VERSION.SDK_INT >= 9){
+			intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+			intent.setData(Uri.fromParts("package", getPackageName(), null));
+		} else if(Build.VERSION.SDK_INT <= 8){
+			intent.setAction(Intent.ACTION_VIEW);
+			intent.setClassName("com.android.settings","com.android.settings.InstalledAppDetails");
+			intent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+		}
+		startActivity(intent);
+	}
+	public  void getPhoneleixing(){
+		String name= Build.MANUFACTURER;
+		/**
+		 * HUAWEI，vivo，OPPO......手机机型标注不可以改变
+		 */
+		if("HUAWEI".equals(name)){
+			goHuaWeiMainager();
+		}else if ("vivo".equals(name)){
+			goVivoMainager();
+		}else if ("OPPO".equals(name)){
+			goOppoMainager();
+		}else if ("Coolpad".equals(name)){
+			goCoolpadMainager();
+		}else if ("Meizu".equals(name)){
+//			goMeizuMainager();
+			getAppDetailSettingIntent(LiveRecordImplementationActivity.this);
+		}else if ("Xiaomi".equals(name)){
+			goXiaoMiMainager();
+		}else if ("samsung".equals(name)){
+			goSangXinMainager();
+		}else{
+			goIntentSetting();
+		}
+	}
+	private void goHuaWeiMainager() {
+		try {
+			Intent intent = new Intent("demo.vincent.com.tiaozhuan");
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			ComponentName comp = new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");
+			intent.setComponent(comp);
+			startActivity(intent);
+		} catch (Exception e) {
+			Toaster.showToast(LiveRecordImplementationActivity.this, "跳转失败");
+			e.printStackTrace();
+			goIntentSetting();
+		}
+	}
+	private void goXiaoMiMainager(){
+		try {
+			Intent localIntent = new Intent(
+					"miui.intent.action.APP_PERM_EDITOR");
+			localIntent
+					.setClassName("com.miui.securitycenter",
+							"com.miui.permcenter.permissions.AppPermissionsEditorActivity");
+			localIntent.putExtra("extra_pkgname",getPackageName());
+			startActivity(localIntent);
+		} catch (ActivityNotFoundException localActivityNotFoundException) {
+			goIntentSetting();
+		}
+	}
+	private void goMeizuMainager(){
+		try {
+			Intent intent=new Intent("com.meizu.safe.security.SHOW_APPSEC");
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.putExtra("packageName", "xiang.settingpression");
+			startActivity(intent);
+		} catch (ActivityNotFoundException localActivityNotFoundException) {
+			localActivityNotFoundException.printStackTrace();
+			goIntentSetting();
+		}
+	}
+	private void goSangXinMainager(){
+		//三星4.3可以直接跳转
+		goIntentSetting();
+	}
+	private void goIntentSetting(){
+		Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+		Uri uri = Uri.fromParts("package",getPackageName(), null);
+		intent.setData(uri);
+		try {
+			startActivity(intent);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	private void goOppoMainager(){
+		doStartApplicationWithPackageName("com.coloros.safecenter");
+	}
+
+	/**
+	 * doStartApplicationWithPackageName("com.yulong.android.security:remote")
+	 * 和Intent open = getPackageManager().getLaunchIntentForPackage("com.yulong.android.security:remote");
+	 startActivity(open);
+	 本质上没有什么区别，通过Intent open...打开比调用doStartApplicationWithPackageName方法更快，也是android本身提供的方法
+	 */
+	private void goCoolpadMainager(){
+		doStartApplicationWithPackageName("com.yulong.android.security:remote");
+      /*  Intent openQQ = getPackageManager().getLaunchIntentForPackage("com.yulong.android.security:remote");
+        startActivity(openQQ);*/
+	}
+	//vivo
+	private void goVivoMainager(){
+		doStartApplicationWithPackageName("com.bairenkeji.icaller");
+     /*   Intent openQQ = getPackageManager().getLaunchIntentForPackage("com.vivo.securedaemonservice");
+        startActivity(openQQ);*/
+	}
+	private void doStartApplicationWithPackageName(String packagename) {
+
+		// 通过包名获取此APP详细信息，包括Activities、services、versioncode、name等等
+		PackageInfo packageinfo = null;
+		try {
+			packageinfo = getPackageManager().getPackageInfo(packagename, 0);
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (packageinfo == null) {
+			return;
+		}
+		// 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
+		Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+		resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		resolveIntent.setPackage(packageinfo.packageName);
+		// 通过getPackageManager()的queryIntentActivities方法遍历
+		List<ResolveInfo> resolveinfoList = getPackageManager()
+				.queryIntentActivities(resolveIntent, 0);
+		Log.i("MainActivity","resolveinfoList"+resolveinfoList.size());
+		for (int i = 0; i < resolveinfoList.size(); i++) {
+			Log.i("MainActivity",resolveinfoList.get(i).activityInfo.packageName+resolveinfoList.get(i).activityInfo.name);
+		}
+		ResolveInfo resolveinfo = resolveinfoList.iterator().next();
+		if (resolveinfo != null) {
+			// packagename = 参数packname
+			String packageName = resolveinfo.activityInfo.packageName;
+			// 这个就是我们要找的该APP的LAUNCHER的Activity[组织形式：packagename.mainActivityname]
+			String className = resolveinfo.activityInfo.name;
+			// LAUNCHER Intent
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_LAUNCHER);
+			// 设置ComponentName参数1:packagename参数2:MainActivity路径
+			ComponentName cn = new ComponentName(packageName, className);
+			intent.setComponent(cn);
+			try {
+				startActivity(intent);
+			}catch (Exception e){
+				goIntentSetting();
+				e.printStackTrace();
+			}
+		}
 	}
 }

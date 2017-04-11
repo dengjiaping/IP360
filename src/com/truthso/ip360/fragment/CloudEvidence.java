@@ -107,6 +107,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
 	private  int vCode;
+	private int leiBieTag = 1;//1拍照取证，2录像取证 ，3录音取证，4线上取证，5确权文件
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 							ViewGroup container, Bundle savedInstanceState) {
@@ -133,6 +134,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 //			进来显示第一个
 			type = 2;//现场取证
 			mobileType = 50001;
+			leiBieTag =1;
 			getDatas(keywork,type,mobileType,pagerNumber);
 		}
 
@@ -415,6 +417,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onClick(View arg0) {
 				et_find_service.setText("");
 				actionBar.setLeftText("拍照取证");
+				leiBieTag = 1;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -435,6 +438,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onClick(View arg0) {
 				et_find_service.setText("");
 				actionBar.setLeftText("录像取证");
+				leiBieTag = 2;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -455,6 +459,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onClick(View arg0) {
 				et_find_service.setText("");
 				actionBar.setLeftText("录音取证");
+				leiBieTag = 3;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -474,6 +479,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onClick(View arg0) {
 				et_find_service.setText("");
 				actionBar.setLeftText("线上取证");
+				leiBieTag = 4;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -494,6 +500,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			public void onClick(View arg0) {
 				et_find_service.setText("");
 				actionBar.setLeftText("确权文件");
+				leiBieTag = 5;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -558,7 +565,18 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		adapter.setChoice(false);
 		listView.invalidateViews();
 		actionBar.setRightText("选择");
-		actionBar.setLeftText("类别");
+		if (leiBieTag ==1){
+			actionBar.setLeftText("拍照取证");
+		}else if(leiBieTag ==2){
+			actionBar.setLeftText("录像取证");
+		}else if(leiBieTag ==3){
+			actionBar.setLeftText("录音取证");
+		}else if(leiBieTag ==4){
+			actionBar.setLeftText("线上取证");
+		}else if(leiBieTag ==5){
+			actionBar.setLeftText("");
+		}
+
 		Drawable dra= getResources().getDrawable(R.drawable.leibie_selector);
 		dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
 		acition_bar_left.setCompoundDrawables(null,null,dra,null);

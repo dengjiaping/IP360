@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.bean.DbBean;
@@ -44,9 +45,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private Button btn_loginin;
 	private ImageButton btn_title_left;
 	private String userAccount,userPwd;
-	private CheckBox cb_checkbox;
+	private CheckBox cb_checkbox,cb_password;
 	private EditText et_useraccount,et_userpwd;
-	private CheckBox cb_password;
+//	private RelativeLayout rl_password_isshow;
 //	private ImageView iv_account_delete,iv_password_delete;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				}
 			}
 		});
-		et_useraccount = (EditText) findViewById(R.id.et_useraccount);		
+		et_useraccount = (EditText) findViewById(R.id.et_useraccount);
 		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		if(!CheckUtil.isEmpty(userAccount)){
 			et_useraccount.setText(userAccount);
@@ -86,8 +87,8 @@ protected void onCreate(Bundle savedInstanceState) {
 		if(!CheckUtil.isEmpty(pwd)){			
 			et_userpwd.setText(pwd);
 		}
-		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
-		cb_checkbox.setChecked(true);
+//		cb_checkbox = (CheckBox) findViewById(R.id.cb_checkbox);
+//		cb_checkbox.setChecked(true);
 		
 		btn_register = (Button) findViewById(R.id.btn_register);
 		btn_register.setOnClickListener(this);
@@ -195,11 +196,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 
 	private void savePwd() {
-		if(cb_checkbox.isChecked()){
+		//1.1版本改为默认记住密码，自动登录
+		SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userPwd", userPwd);
+	/*	if(cb_checkbox.isChecked()){
 			SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userPwd", userPwd);
 		}else{
 			SharePreferenceUtil.saveOrUpdateAttribute(LoginActivity.this, MyConstants.SP_USER_KEY, "userPwd", null);
-		}
+		}*/
 	}
 	
 	

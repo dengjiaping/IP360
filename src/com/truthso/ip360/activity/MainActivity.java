@@ -68,6 +68,7 @@ import cz.msebera.android.httpclient.util.NetUtils;
 
 public class MainActivity extends FragmentActivity implements
 		OnRgsExtraCheckedChangedListener {
+	private String	accountBalance;
 	private RadioGroup radioGroup;
 	private SharedPreferences sp;
 	private PersonalCenter personalCenter;
@@ -405,6 +406,8 @@ public class MainActivity extends FragmentActivity implements
 					if(!CheckUtil.isEmpty(bean)){
 						if(bean.getCode()==200){
 							int balance = bean.getDatas().getAccountBalance();
+							accountBalance = "￥" + balance / 100 + "." + balance
+									% 100/10 +balance%100%10;
 							if (balance<0){//欠费
 								showDialog();
 							}
@@ -427,6 +430,7 @@ public class MainActivity extends FragmentActivity implements
 					public void onClick(DialogInterface dialog, int which) {
 						//跳转充值页面
 						Intent intent = new Intent(MainActivity.this,AccountPayActivity.class);
+						intent.putExtra("accountBalance",accountBalance);
 						startActivity(intent);
 					}
 				})
