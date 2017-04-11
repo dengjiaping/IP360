@@ -452,9 +452,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				String url = null;
 				String format = null;
 				if (data1.getArreaStatus() == 1){//不欠费
-				//	FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(data1.getPkValue());
 					DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(data1.getPkValue());
-					if(dbBean!=null&&!FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
+					if(dbBean!=null&&FileUtil.IsFileEmpty(dbBean.getResourceUrl())){
 						url=dbBean.getResourceUrl();
 						format=dbBean.getFileFormat();
 					}else{
@@ -462,7 +461,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						 format = data1.getFileFormat();
 					}
 					format = format.toLowerCase();// 格式变小写
-					Log.i("djj", data1.getOssUrl());
+					Log.i("djj", "url"+url);
 					if (CheckUtil.isFormatVideo(format)) {// 视频
 						Intent intent2 = new Intent(context,
 								VideoDetailActivity.class);
@@ -533,7 +532,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									e.printStackTrace();
 								}
 						}
-						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
+						//传输列表不删除
+						// 	UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
 						EventBus.getDefault().post(new CEListRefreshEvent());
 					}
 				}).

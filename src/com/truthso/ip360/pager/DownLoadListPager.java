@@ -1,5 +1,6 @@
 package com.truthso.ip360.pager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
@@ -162,7 +164,16 @@ public class DownLoadListPager extends BasePager implements AdapterView.OnItemLo
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		FileInfo info = queryDownLoadList.get(position);
-//		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(info.getPkValue());
+		//未下载的不让点击
+		if(info.getStatus()!=0){
+			return;
+		}
+		String filePath = info.getFilePath();
+		File file=new File(filePath);
+		if(!file.exists()){
+			Toaster.showToast(ctx,"本地文件不存在!");
+			return;
+		}
 		String format = info.getFileFormat().toLowerCase();
 		if (CheckUtil.isFormatPhoto(format)) {//条目类型照片
 			Intent intent = new Intent(ctx, PhotoDetailActivity.class);
