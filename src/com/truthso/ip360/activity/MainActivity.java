@@ -85,7 +85,7 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
-		checkIsUpDownload();
+		//checkIsUpDownload();
 		/*registWifiStatusListener();*/
 	}
 

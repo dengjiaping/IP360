@@ -1,5 +1,6 @@
 package com.truthso.ip360.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -267,22 +268,19 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	}
 
 	private void delete(CloudEviItemBean cloudEviItemBean) {
-		String filePaht=null;
-	/*	DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(cloudEviItemBean.getPkValue());
-		if(!CheckUtil.isEmpty(dbBean)){
-			filePaht=dbBean.getResourceUrl();
-		}
-		int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,cloudEviItemBean.getPkValue());
-*/
-		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(cloudEviItemBean.getPkValue());
-		if(fileInfo.getFilePath()!=null&&fileInfo.getStatus()==0){
+		String filePath=null;
+		//删除本地缓存
+		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(cloudEviItemBean.getPkValue());
+		if(dbBean.getResourceUrl()!=null){
+			filePath=dbBean.getResourceUrl();
 				try {
-					FileUtil.deleteFile(filePaht);
+					FileUtil.deleteFile(filePath);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
-		UpDownLoadDao.getDao().deleteDownInfoByResourceId(cloudEviItemBean.getPkValue()+"");
+		SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,cloudEviItemBean.getPkValue());
+	//	UpDownLoadDao.getDao().deleteDownInfoByResourceId(cloudEviItemBean.getPkValue()+"");
 		EventBus.getDefault().post(new CEListRefreshEvent());
 	}
 
@@ -293,13 +291,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		if (selected.size()!=0){
 			for (int i = 0; i < selected.size(); i++) {
-			boolean queryByPkValue = SqlDao.getSQLiteOpenHelper().queryByPkValue(selected.get(i).getPkValue());
-				if (queryByPkValue){
-					Toaster.showToast(getActivity(),"文件已下载到本地");
-				}else{
-					download(selected.get(i));
+				DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(selected.get(i).getPkValue());
+				if (dbBean!=null){
+					File file=new File(dbBean.getResourceUrl());
+					if(file.exists()){
+						Toaster.showToast(getActivity(),"文件已下载到本地");
+						continue;
+					}
 				}
-
+					download(selected.get(i));
 			}
 			adapter.setChoice(false);
 			adapter.notifyDataSetChanged();
