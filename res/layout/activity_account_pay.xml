@@ -100,6 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tv_jine"
         android:layout_centerVertical="true"
+        android:inputType="numberDecimal"
         android:hint="请输入充值金额"
         android:singleLine="true"
         android:background="@null"

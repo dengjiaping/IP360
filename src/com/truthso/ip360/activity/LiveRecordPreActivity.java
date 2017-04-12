@@ -49,7 +49,6 @@ import cz.msebera.android.httpclient.Header;
  */
 public class LiveRecordPreActivity extends BaseActivity implements
 		OnClickListener {
-
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
 	private String date, fileName, loc, fileSize, time, filePath,longlat;
 	private Button btn_title_right, btn_save;
@@ -118,7 +117,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		btn_save = (Button) findViewById(R.id.btn_preserved);
 		btn_save.setOnClickListener(this);
 		tv_filename.setText(fileName);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
+		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");

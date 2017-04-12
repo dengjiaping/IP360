@@ -117,6 +117,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
+
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_date.setText(date);
@@ -129,7 +130,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
+		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
 			tv_loc.setText(loc);
 		} else {
 			tv_loc.setText("获取位置信息失败");
@@ -472,7 +473,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	@Override
 	public void onBackPressed() {
 
-		LogUtils.e("返回键执行了222222222222222222222");
 		showDialogIsCancel("是否确认放弃保全？");
 		//取消上传文件
 		CancelUploadFile();

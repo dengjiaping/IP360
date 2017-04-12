@@ -160,7 +160,7 @@
 			android:layout_marginLeft="@dimen/layout_marginLeft"
 			android:layout_marginRight="20dp"
 			android:layout_centerVertical="true"
-			android:text="计价规则"
+			android:text="计费规则"
 			android:textSize="@dimen/text_12"
 			android:textColor="@color/jiuhong"/>
 	</RelativeLayout>

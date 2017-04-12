@@ -147,7 +147,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
 
 		tv_filename.setText(mVideoName);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("null")) {
+		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
 			tv_loc.setText(loc);
 		} else {
 			tv_loc.setText("获取位置信息失败");

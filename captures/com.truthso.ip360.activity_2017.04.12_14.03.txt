@@ -1,0 +1,68 @@
+TASK com.truthso.ip360.activity id=290
+  ACTIVITY com.truthso.ip360.activity/.MainActivity 19eaa3d8 pid=8424
+    Local FragmentActivity 2ccfa149 State:
+      mCreated=truemResumed=true mStopped=false mReallyStopped=false
+      mLoadersStarted=true
+    Active Fragments in c8c7e2c:
+      #0: HomeFragment{284b50f5 #0 id=0x7f0c0064}
+        mFragmentId=#7f0c0064 mContainerId=#7f0c0064 mTag=null
+        mState=5 mIndex=0 mWho=android:fragment:0 mBackStackNesting=0
+        mAdded=true mRemoving=false mFromLayout=false mInLayout=false
+        mHidden=false mDetached=false mMenuVisible=true mHasMenu=false
+        mRetainInstance=false mRetaining=false mUserVisibleHint=true
+        mFragmentManager=FragmentManager{c8c7e2c in HostCallbacks{2d3a4e8a}}
+        mHost=android.support.v4.app.FragmentActivity$HostCallbacks@2d3a4e8a
+        mContainer=android.widget.FrameLayout{1b58fb8d V.E..... ......ID 0,0-1080,1677 #7f0c0064 app:id/main_fragment}
+        mView=android.widget.LinearLayout{3bb2b933 V.E...C. ......ID 0,0-1080,1677}
+        mInnerView=android.widget.LinearLayout{3bb2b933 V.E...C. ......ID 0,0-1080,1677}
+        Child FragmentManager{e7dacfb in HomeFragment{284b50f5}}:
+          FragmentManager misc state:
+            mHost=android.support.v4.app.FragmentActivity$HostCallbacks@2d3a4e8a
+            mContainer=android.support.v4.app.Fragment$1@3b595118
+            mParent=HomeFragment{284b50f5 #0 id=0x7f0c0064}
+            mCurState=5 mStateSaved=false mDestroyed=false
+    Added Fragments:
+      #0: HomeFragment{284b50f5 #0 id=0x7f0c0064}
+    FragmentManager misc state:
+      mHost=android.support.v4.app.FragmentActivity$HostCallbacks@2d3a4e8a
+      mContainer=android.support.v4.app.FragmentActivity$HostCallbacks@2d3a4e8a
+      mCurState=5 mStateSaved=false mDestroyed=false
+    View Hierarchy:
+      com.android.internal.policy.impl.PhoneWindow$DecorView{1e399f8c V.E..... ... 0,0-1080,1920}
+        android.widget.LinearLayout{13a72878 V.E..... ... 0,0-1080,1920}
+          android.view.ViewStub{1150fb51 G.E..... ... 0,0-0,0 #1020375}
+          android.widget.FrameLayout{3db3dfb6 V.ED.... ... 0,75-1080,1920 #1020002 android:id/content}
+            android.widget.LinearLayout{14625424 V.E..... ... 0,0-1080,1845}
+              android.widget.FrameLayout{1b58fb8d V.E..... ... 0,0-1080,1677 #7f0c0064 app:id/main_fragment}
+                android.widget.LinearLayout{3bb2b933 V.E...C. ... 0,0-1080,1677}
+                  android.widget.RelativeLayout{ff894f0 V.E..... ... 0,0-1080,150}
+                    android.widget.TextView{2bd8ba69 V.ED.... ... 438,41-642,109}
+                  android.widget.FrameLayout{a498cee V.E..... ... 0,150-1080,708 #7f0c0096 app:id/framelayout}
+                    com.truthso.ip360.view.ViewFlow{b99425 V.E..... ... 0,0-1080,558 #7f0c0097 app:id/viewflow}
+                      android.widget.ImageView{100a2fce V.ED..C. ... 0,0-1080,558}
+                      android.widget.ImageView{25279dfc V.ED..C. ... 1080,0-2160,558}
+                      android.widget.ImageView{179d7ada V.ED..C. ... 2160,0-3240,558}
+                      android.widget.ImageView{314e9de8 V.ED..C. ... 3240,0-4320,558}
+                    android.widget.FrameLayout{c821bab V.E..... ... 0,540-1080,558}
+                      com.truthso.ip360.view.CircleFlowIndicator{9161208 G.ED.... ... 0,0-0,0 #7f0c0098 app:id/viewflowindic}
+                  android.widget.RelativeLayout{12144da1 V.E...C. ... 0,738-1080,918 #7f0c0099 app:id/ll_take_photo}
+                    android.widget.RelativeLayout{16c4c787 V.E..... ... 294,28-786,151}
+                      android.widget.ImageView{3ffe46b4 V.ED.... ... 0,0-138,123}
+                      android.widget.TextView{2f975e52 V.ED.... ... 300,29-492,94}
+                  android.widget.RelativeLayout{279c5523 V.E...C. ... 0,948-1080,1128 #7f0c009a app:id/ll_take_video}
+                    android.widget.RelativeLayout{3b931a20 V.E..... ... 294,28-786,151}
+                      android.widget.ImageView{4580fd9 V.ED.... ... 0,0-138,123}
+                      android.widget.TextView{ed5207f V.ED.... ... 300,29-492,94}
+                  android.widget.RelativeLayout{21dfb84c V.E...C. ... 0,1158-1080,1338 #7f0c009b app:id/ll_record}
+                    android.widget.RelativeLayout{2d30d095 V.E..... ... 294,28-786,151}
+                      android.widget.ImageView{59465aa V.ED.... ... 0,0-138,123}
+                      android.widget.TextView{c760d38 V.ED.... ... 300,29-492,94}
+                  android.widget.RelativeLayout{379ae111 V.E..... ... 0,1398-1080,1447}
+                    android.widget.ImageView{1ab3276 V.ED.... ... 807,0-846,39}
+                    android.widget.TextView{1a1ac4e4 V.ED..C. ... 876,0-1020,49 #7f0c009c app:id/tv_ruler}
+              android.widget.RadioGroup{1d964142 V.E..... ... 0,1677-1080,1845 #7f0c0065 app:id/main_RadioGroup}
+                android.widget.RadioButton{1be81553 VFED..C. ... 0,17-270,150 #1}
+                android.widget.RadioButton{3d54b3af VFED..C. ... 270,17-540,150 #2}
+                android.widget.RadioButton{1642dbcb VFED..C. ... 540,17-810,150 #3}
+                android.widget.RadioButton{1ca169a7 VFED..C. ... 810,17-1080,150 #7f0c0066 app:id/rb_pc}
+        android.view.View{3e3d276f V.ED.... ... 0,0-1080,79 #102002f android:id/statusBarBackground}

@@ -21,6 +21,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.PayResult;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -111,11 +112,18 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 		switch (v.getId()){
 			case R.id.btn_sure:
 				money= et_chongzhi_jine.getText().toString().trim();
-				if (!CheckUtil.isEmpty(money)){
-					if (CheckUtil.isFormatAccount(money)){
-						payment();
-					}else{
+				Float Money_float = Float.parseFloat(money);
+				LogUtils.e(Money_float+"float");
+				if (!CheckUtil.isEmpty(money) ){
+
+					if (!CheckUtil.isFormatAccount(money)){
+
 						Toaster.showToast(AccountPayActivity.this,"请输入正确的充值金额！");
+					}else if(Money_float < 0.01f){
+						Toaster.showToast(AccountPayActivity.this,"充值金额最小为0.01");
+					}else{
+						//充值
+						payment();
 					}
 				}else{
 					Toaster.showToast(AccountPayActivity.this,"请输入充值金额！");

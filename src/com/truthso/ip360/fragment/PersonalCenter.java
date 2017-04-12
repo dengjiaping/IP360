@@ -148,8 +148,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						isOk = true;
 						// 账户余额
 							int balance = bean.getDatas().getAccountBalance();
-							accountBalance = "￥" + balance / 100 + "." + balance
-									% 100/10 +balance%100%10;
+//							accountBalance = "￥" + balance / 100 + "." + balance % 100/10 +balance%100%10;
+						accountBalance = "￥"+balance*0.01;
 							tv_account_balance.setText(accountBalance);
 						list=bean.getDatas().getProductBalance();
 						if (list.size()!=0){
