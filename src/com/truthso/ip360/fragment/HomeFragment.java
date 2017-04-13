@@ -89,7 +89,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	private File photo;
 	private double lat,longti;
 	private File photoDir;
-
 	private String date1;
 	private String loc;
 	private boolean isUseable = false;
@@ -269,7 +268,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
 //							Toaster.showToast(getActivity(), "余额不足，请充值！");
+						int account = bean.getDatas().getAccountBalance();//余额
 
+
+							if (account == 0){
+								accountBalance = "￥0.00";
+							}else{
+								accountBalance = "￥"+account*0.01;
+							}
 						showDialog("余额不足，请充值！");
 						}
 					}else{
@@ -428,7 +434,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					public void onClick(DialogInterface dialog, int which) {
 						//跳转到充值
 				Intent intent = new Intent(getActivity(), AccountPayActivity.class);
-
+		               intent.putExtra("accountBalance",accountBalance);
 				startActivity(intent);
 					}
 				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -441,22 +447,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 		alertDialog.show();
 	}
 
-/*	*//**
-	 * 是否有权限
-	 * @param permisname
-	 * @return
-     *//*
-	private boolean checkWriteExternalPermission(String permisname) {
-//		String permission = "android.permission.WRITE_EXTERNAL_STORAGE"; //你要判断的权限名字
-//		String permission ="permisname";
-//		int res = getContext().checkCallingOrSelfPermission(permisname);
-		int res =  getContext().getPackageManager().checkPermission("android.permission.CAMERA", getActivity().getPackageName());
-//		int res = getContext().checkCallingOrSelfPermission(permisname);
-		boolean b = (res == PackageManager.PERMISSION_GRANTED);
-		LogUtils.e(b+"------------------------权限");
-		return (res == PackageManager.PERMISSION_GRANTED);
 
-	}*/
 	/**
 	 *  用户是否开了权限
 	 *  返回true 表示可以使用  返回false表示不可以使用

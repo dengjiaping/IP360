@@ -244,7 +244,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				} else if (!CheckUtil.isPassWordValidate(userPwd)) {
 					Toaster.showToast(this, "请输入6~18位字母与数字组成的密码");
 				} else {
-					String phoneReg = "^1\\d{10}";
+					String phoneReg = "1[3|5|7|8]\\d{9}$";
 					if (!phoneNum.matches(phoneReg)) {
 						Toaster.showToast(this, "请输入正确的手机号");
 					} else {
@@ -263,7 +263,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				if (CheckUtil.isEmpty(phoneNum)) {
 					Toaster.showToast(this, "手机号不能为空");
 				} else {
-					String phoneReg = "^1\\d{10}";
+					String phoneReg = "1[3|5|7|8]\\d{9}$";
 					if (!phoneNum.matches(phoneReg)) {
 						Toaster.showToast(RegisterActivity.this, "请输入正确的手机号");
 					} else {

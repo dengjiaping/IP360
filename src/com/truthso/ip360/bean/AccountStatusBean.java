@@ -32,6 +32,16 @@ public class AccountStatusBean extends BaseHttpResponse {
 	public class AccountStatus {
 		private int status;
 		private String showText;
+		private int accountBalance;
+
+		public int getAccountBalance() {
+			return accountBalance;
+		}
+
+		public void setAccountBalance(int accountBalance) {
+			this.accountBalance = accountBalance;
+		}
+
 		public String getShowText() {
 			return showText;
 		}

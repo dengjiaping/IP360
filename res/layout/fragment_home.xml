@@ -15,7 +15,6 @@
 			android:layout_height="wrap_content"
 			android:layout_centerInParent="true"
 			android:text="真相取证"
-			android:textStyle="bold"
 			android:textSize="@dimen/title_text_size"
 			android:textColor="@color/white"
 			/>

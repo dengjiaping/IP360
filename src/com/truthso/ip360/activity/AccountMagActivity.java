@@ -24,6 +24,7 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.MyListview;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,9 +108,14 @@ public class AccountMagActivity extends BaseActivity {
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
                         // 账户余额
+//                        accountBalance = "余额￥" + balance / 100 + "." + balance
+//                                % 100 / 10 + balance % 100 % 10 + "元";
+//                        accountBalance = "￥"+balance*0.01f;
+                        // 账户余额
                         int balance = bean.getDatas().getAccountBalance();
-                        accountBalance = "余额￥" + balance / 100 + "." + balance
-                                % 100 / 10 + balance % 100 % 10 + "元";
+                        double account = balance*0.01;
+                        DecimalFormat dec = new DecimalFormat("0.00");
+                        accountBalance = "￥"+ dec.format(account);
                         tv_account_balance.setText(accountBalance);
                         productBalance = bean.getDatas().getProductBalance();
                         for (int i = 0; i < productBalance.size(); i++) {

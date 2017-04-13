@@ -108,12 +108,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private List<CloudEviItemBean> datas;
 	private boolean isRefresh;
 	private  int vCode;
+	private CloudEvidenceBean bean;
 	private int leiBieTag = 1;//1拍照取证，2录像取证 ，3录音取证，4线上取证，5确权文件
 	@Override
-	protected void initView(View view, LayoutInflater inflater,
-							ViewGroup container, Bundle savedInstanceState) {
+	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		vCode = getVersion();
-		cloudEviItemBean = new CloudEviItemBean();
+
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("拍照取证");
 		actionBar.setTitle("云端证据");
@@ -269,6 +269,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	private void delete(CloudEviItemBean cloudEviItemBean) {
 		String filePath=null;
+		cloudEviItemBean = new CloudEviItemBean();
 		//删除本地缓存
 		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(cloudEviItemBean.getPkValue());
 		if(dbBean.getResourceUrl()!=null){
@@ -672,7 +673,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				listView.onLoadFinished();
 				hideProgress();
 
-				CloudEvidenceBean bean = (CloudEvidenceBean) response;
+				 bean = (CloudEvidenceBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
 						datas = bean.getDatas();

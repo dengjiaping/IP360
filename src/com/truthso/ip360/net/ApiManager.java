@@ -48,7 +48,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public void onRequestResult(RequestHandle requestHandle, int errorCode,
 			String message, BaseHttpResponse response) {
 
-		if (response.getCode() == 405||response.getCode()==400) {
+		if (response.getCode() == 405||response.getCode()==400) {//其他设备
 			/*SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
 					KeyConstant.SP_USER, KeyConstant.isTokenFail, true);
 			
@@ -74,10 +74,16 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		
 			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
+			intent.putExtra("tag","otherlogin");
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			MyApplication.getInstance().startActivity(intent);
-			
+			return;
+		}else if(response.getCode() == 501){//登陆失效
+			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
 
+			intent.putExtra("tag","ineffic");
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			MyApplication.getInstance().startActivity(intent);
 			return;
 		}
 
@@ -724,7 +730,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	/**
 	 *支付宝支付接口
 	 * @param money
-	 * @param text
+	 * @param
 	 * @param callback
      * @return
      */

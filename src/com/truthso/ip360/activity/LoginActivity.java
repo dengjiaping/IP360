@@ -1,5 +1,8 @@
 package com.truthso.ip360.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -47,16 +50,31 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private String userAccount,userPwd;
 	private CheckBox cb_checkbox,cb_password;
 	private EditText et_useraccount,et_userpwd;
+	private Dialog alertDialog;
+	private String tag;
 //	private RelativeLayout rl_password_isshow;
 //	private ImageView iv_account_delete,iv_password_delete;
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	initView();
+//	initView();
 
 }
 
 	public void initView() {
+		tag = getIntent().getStringExtra("tag");
+		if(!CheckUtil.isEmpty(tag)){
+			if (tag.equals("ineffic")){//登录失效
+
+				showDialog("您的账号信息已失效，请重新登录！");
+
+			}else if(tag.equals("otherlogin")){//其他设备登录
+
+				showDialog("您的账号在其他设备上登录，您已被迫下线！");
+
+			}
+		}
+
 		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setVisibility(View.INVISIBLE);
 //		iv_account_delete = (ImageView) findViewById(R.id.iv_account_delete);
@@ -218,6 +236,29 @@ protected void onCreate(Bundle savedInstanceState) {
 
 	@Override
 	public String setTitle() {
-		return "用户登录";
+		return "登录";
+	}
+	/**
+	 * 弹出框
+	 * @param msg
+	 */
+	private void showDialog(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				/*.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+//						alertDialog.dismiss();
+
+					}
+				}).create();*/
+		.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				}).create();
+		alertDialog.show();
 	}
 }

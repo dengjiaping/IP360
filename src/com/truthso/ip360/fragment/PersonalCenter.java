@@ -1,6 +1,7 @@
 package com.truthso.ip360.fragment;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -48,6 +49,7 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -147,10 +149,12 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 					if (bean.getCode() == 200) {
 						isOk = true;
 						// 账户余额
-							int balance = bean.getDatas().getAccountBalance();
-//							accountBalance = "￥" + balance / 100 + "." + balance % 100/10 +balance%100%10;
-						accountBalance = "￥"+balance*0.01;
-							tv_account_balance.setText(accountBalance);
+						int balance = bean.getDatas().getAccountBalance();
+						double account = balance*0.01;
+						DecimalFormat dec = new DecimalFormat("0.00");
+						accountBalance = "￥"+ dec.format(account);
+						tv_account_balance.setText(accountBalance);
+
 						list=bean.getDatas().getProductBalance();
 						if (list.size()!=0){
 							 productBalance = bean.getDatas().getProductBalance();

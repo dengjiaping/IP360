@@ -156,7 +156,8 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 			if (CheckUtil.isEmpty(phoneNum)||CheckUtil.isEmpty(cerCode)) {
 				Toaster.showToast(this, "手机号或验证码不能为空");
 			}else{
-				String phoneReg="^1\\d{10}";
+//				phoneNum = et_account.getText().toString().trim();
+				String phoneReg="^1[3|5|7|8]\\d{9}$";
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(this, "请输入正确的手机号");
 				}else{
@@ -170,7 +171,7 @@ public class BindPhoNumActivity extends BaseActivity implements OnClickListener 
 			if (CheckUtil.isEmpty(phoneNum)) {
 				Toaster.showToast(this, "手机号不能为空");
 			}else{
-				String phoneReg="^1\\d{10}";
+				String phoneReg="1[3|5|7|8]\\d{9}$";
 				if(!phoneNum.matches(phoneReg)){
 					Toaster.showToast(this, "请输入正确的手机号");
 				}else{

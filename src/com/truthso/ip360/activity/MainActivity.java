@@ -1,6 +1,7 @@
 package com.truthso.ip360.activity;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -406,8 +407,9 @@ public class MainActivity extends FragmentActivity implements
 					if(!CheckUtil.isEmpty(bean)){
 						if(bean.getCode()==200){
 							int balance = bean.getDatas().getAccountBalance();
-//							accountBalance = "￥" + balance / 100 + "." + balance % 100/10 +balance%100%10;
-							accountBalance = "￥"+balance*0.01;
+							double account = balance*0.01;
+							DecimalFormat dec = new DecimalFormat("0.00");
+							accountBalance = "￥"+ dec.format(account);
 								if (balance<0){//欠费
 								showDialog();
 							}

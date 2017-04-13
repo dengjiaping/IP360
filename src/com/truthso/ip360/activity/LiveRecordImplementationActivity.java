@@ -344,7 +344,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	 */
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
+//		super.onBackPressed();
 		showDialogIsCancel("是否确定放弃录音？");
 		/*if(isRecording){
 			stoprecordVoice();
