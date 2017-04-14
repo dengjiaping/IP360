@@ -192,8 +192,9 @@ public class UpDownLoadDao {
 		Cursor cursor = db.rawQuery(
 				"select * from updownloadlog where sourceid=?",
 				new String[] { resourceId + "" });
-		FileInfo info = new FileInfo();
+		FileInfo info = null;
 		if(cursor.moveToNext()){
+			info=new FileInfo();
 			info.setResourceId(cursor.getInt(cursor.getColumnIndex("sourceid")));
 			info.setFileName(cursor.getString(cursor.getColumnIndex("filename")));
 			info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));

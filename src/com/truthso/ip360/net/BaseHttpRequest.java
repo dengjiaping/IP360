@@ -13,6 +13,7 @@ import java.util.UUID;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
@@ -238,7 +239,12 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 						"Parse exception converting JSON to object");
 				ioe.initCause(jpe);
 				throw ioe;
-			} finally {
+			} catch (JSONException e){
+				ioe = new IOException(
+						"Parse exception converting JSON to object");
+				ioe.initCause(e);
+				throw ioe;
+			}finally {
 				try {
 					reader.close();
 				} catch (IOException localIOException2) {

@@ -269,17 +269,19 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	private void delete(CloudEviItemBean cloudEviItemBean) {
 		String filePath=null;
-		cloudEviItemBean = new CloudEviItemBean();
 		//删除本地缓存
 		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(cloudEviItemBean.getPkValue());
-		if(dbBean.getResourceUrl()!=null){
-			filePath=dbBean.getResourceUrl();
+		if(!CheckUtil.isEmpty(dbBean)){
+			if(dbBean.getResourceUrl()!=null){
+				filePath=dbBean.getResourceUrl();
 				try {
 					FileUtil.deleteFile(filePath);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
 		}
+
 		SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,cloudEviItemBean.getPkValue());
 	//	UpDownLoadDao.getDao().deleteDownInfoByResourceId(cloudEviItemBean.getPkValue()+"");
 		EventBus.getDefault().post(new CEListRefreshEvent());

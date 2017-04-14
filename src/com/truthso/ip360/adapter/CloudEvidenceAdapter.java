@@ -533,7 +533,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 								}
 						}
 						//传输列表不删除
-						// 	UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
+						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
 						EventBus.getDefault().post(new CEListRefreshEvent());
 					}
 				}).
