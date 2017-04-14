@@ -292,8 +292,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		if (selected.size()!=0){
 			for (int i = 0; i < selected.size(); i++) {
-				if(isDownloaded(selected.get(i).getPkValue())||isDownloading(selected.get(i).getPkValue())){
-
+				if(isDownloaded(selected.get(i).getPkValue())){//文件已经下载到本地
+					Toaster.showToast(getActivity(),"文件已经下载到本地");
+					continue;
+				}
+				if (isDownloading(selected.get(i).getPkValue())){
+					Toaster.showToast(getActivity(),"文件正在下载");
 					continue;
 				}
 					download(selected.get(i));
