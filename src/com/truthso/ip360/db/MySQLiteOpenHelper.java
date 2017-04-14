@@ -33,7 +33,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 			db.beginTransaction();
 			try {
 				db.execSQL("ALTER  TABLE updownloadlog RENAME TO updownloadlog_temp");
-				db.execSQL("CREATE TABLE updownloadlog (_id integer primary key autoincrement,sourceid varchar(10), uploadfilepath varchar(100), downloadurl varchar(100),filename varchar(100),filesize varchar(100),position varchar(100),downorupload varchar (10),objectkey varchar(100), llsize varchar(10),status varchar(10),fileurlformatname varchar(100),userId Integer,dataType Integer,remark varchar)");
+				db.execSQL("CREATE TABLE updownloadlog (_id integer primary key autoincrement,sourceid varchar(10), uploadfilepath varchar(100), downloadurl varchar(100),filename varchar(100),filesize varchar(100),position varchar(100),downorupload varchar (10),objectkey varchar(100), llsize varchar(10),status varchar(10),fileurlformatname varchar(100),userId Integer,dataType Integer,remark varchar,fileformat varchar(10),completedate varchar(100))");
 				db.execSQL("INSERT INTO updownloadlog  SELECT *,'' FROM updownloadlog_temp");
 				db.execSQL("DROP TABLE updownloadlog_temp");
 				db.setTransactionSuccessful();
