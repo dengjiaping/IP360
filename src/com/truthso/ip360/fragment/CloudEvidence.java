@@ -292,13 +292,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		if (selected.size()!=0){
 			for (int i = 0; i < selected.size(); i++) {
-				DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(selected.get(i).getPkValue());
-				if (dbBean!=null){
-					File file=new File(dbBean.getResourceUrl());
-					if(file.exists()){
-						Toaster.showToast(getActivity(),"文件已下载到本地");
-						continue;
-					}
+				if(isDownloaded(selected.get(i).getPkValue())||isDownloading(selected.get(i).getPkValue())){
+
+					continue;
 				}
 					download(selected.get(i));
 			}
@@ -318,6 +314,26 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}
 
 	}
+
+	//检查是否已下载
+	private boolean isDownloaded(int pkValue) {
+		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);
+		if(!CheckUtil.isEmpty(dbBean)&&dbBean.getResourceUrl()!=null){
+			return FileUtil.IsFileEmpty(dbBean.getResourceUrl());
+		}
+		return false;
+	}
+	//检查是否正在下载
+	private boolean isDownloading(int pkValue) {
+		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
+
+		if(!CheckUtil.isEmpty(fileInfo)&&fileInfo.getStatus()!=0){
+			return true;
+		}
+		return false;
+	}
+
+
 
 	/**
 	 * 下载的方法
