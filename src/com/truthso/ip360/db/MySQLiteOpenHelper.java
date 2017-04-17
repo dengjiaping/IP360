@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.truthso.ip360.config.Log;
 import com.truthso.ip360.constants.MyConstants;
 
 /**
@@ -30,6 +31,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		if(oldVersion==1){
+			Log.i("DB_Update");
 			db.beginTransaction();
 			try {
 				db.execSQL("ALTER  TABLE updownloadlog RENAME TO updownloadlog_temp");
