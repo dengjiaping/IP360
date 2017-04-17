@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_main);
 		initView();
 		checkUpdate();
-		//checkIsUpDownload();
+		checkIsUpDownload();
 		/*registWifiStatusListener();*/
 	}
 
@@ -304,7 +304,7 @@ public class MainActivity extends FragmentActivity implements
 		queryUpLoadList = UpDownLoadDao.getDao()
 				.queryUpLoadListUnComplete();
 		queryDownLoadList = UpDownLoadDao.getDao()
-				.queryDownLoadListOrder();
+				.queryDownLoadListUnComplete();
 		
 		if(queryUpLoadList.size()>0||queryDownLoadList.size()>0){
 			boolean wifiValid = NetStatusUtil.isWifiValid(this);
