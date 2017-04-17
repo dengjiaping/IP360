@@ -61,7 +61,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private String mVideoName;
 	private ImageView iv_video;
 	private String mVideoSize, size, title,longlat;
-	private String mDate, loc, time;
+	private String mDate, loc, time,fileDate;
 	private Button btn_preserved, btn_title_right;
 	private  ImageButton btn_title_left;
 	private int minTime;
@@ -151,9 +151,10 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 			tv_loc.setText(loc);
 		} else {
 			tv_loc.setText("获取位置信息失败");
+			loc = "获取位置信息失败";
 		}
 
-		tv_date.setText(mDate);
+//		tv_date.setText(mDate);
 		tv_filesize.setText(mVideoSize);
 		tv_time.setText(time.toString().trim());
 
@@ -331,9 +332,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 					new ApiCallback() {
 
 						@Override
-						public void onApiResultFailure(int statusCode,
-													   Header[] headers, byte[] responseBody,
-													   Throwable error) {
+						public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+						hideProgress();
+							showDialogNoNet("网络链接超时，是否重试？");
 						}
 
 						@Override
@@ -347,6 +348,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 									Upload datas = bean.getDatas();
 									pkValue = datas.getPkValue();
 									objectKey = datas.getFileUrl();
+									fileDate = datas.getFileDate();//从服务器获取的保全时间
+									tv_date.setText(fileDate);
 									//getPosition(pkValue);
 									//上传
 //								startUpLoad(0, pkValue);
@@ -436,7 +439,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private void saveToDB() {
 		DbBean dbBean = new DbBean();
 		dbBean.setTitle(mVideoName);
-		dbBean.setCreateTime(mDate);
+//		dbBean.setCreateTime(mDate);
+		dbBean.setCreateTime(fileDate);//从服务器获取的时间
 		dbBean.setResourceUrl(mVideoPath);
 		dbBean.setType(MyConstants.VIDEO);
 		dbBean.setFileSize(mVideoSize);
@@ -591,6 +595,31 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						CancelUploadFile();
+					}
+				}).create();
+		alertDialog.show();
+	}
+	/**
+	 * 网络加载失败，稍后重试
+	 * @param msg
+	 */
+	private void showDialogNoNet(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setCancelable(false)
+				.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						filePre();//上传文件信息
+
+					}
+				}).setNegativeButton("放弃保全", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
+						finish();
 					}
 				}).create();
 		alertDialog.show();

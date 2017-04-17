@@ -216,7 +216,8 @@ private void bind() {
 
 		@Override
 		public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-			// TODO Auto-generated method stub
+			hideProgress();
+			Toaster.showToast(BindEmialActivity.this,"网络链接超时，请重试！");
 			
 		}
 	});

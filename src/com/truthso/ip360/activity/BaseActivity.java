@@ -93,8 +93,8 @@ public abstract class BaseActivity extends Activity{
 					sleep(61000);
 					if(pDialog!=null){
 						if(pDialog.isShowing()){
-							hideProgress();
-							handler.sendEmptyMessage(NET_FIAL);
+//							hideProgress();
+//							handler.sendEmptyMessage(NET_FIAL);//因为保全页面的接口要弹框提示，不土司，每个接口单独提示网络链接超时
 						}
 					}
 

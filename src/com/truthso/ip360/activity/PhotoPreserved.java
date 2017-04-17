@@ -55,7 +55,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_title_right, btn_preserved;
 	private ImageButton btn_title_left;
 	private ImageView iv_photo;
-	private String path, title, size, date, loc,longlat;
+	private String path, title, size, date, loc,longlat,fileDate;
 	private long length;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_account;
 	private int useType,pkValue;
@@ -117,10 +117,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
 		tv_filename = (TextView) findViewById(R.id.tv_filename);
 		tv_filename.setText(title);
-
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
-		tv_date.setText(date);
+//		tv_date.setText(date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
 		tv_filesize.setText(size);
 		btn_title_right.setOnClickListener(this);
@@ -134,6 +133,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			tv_loc.setText(loc);
 		} else {
 			tv_loc.setText("获取位置信息失败");
+			loc ="获取位置信息失败";
 		}
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
@@ -211,6 +211,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * @return
 	 */
 	private void filePre() {
+		showProgress("正在加载...");
 		new Thread() {
 			@Override
 			public void run() {
@@ -228,7 +229,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 		String imei = MyApplication.getInstance().getDeviceImei();
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
-//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
+		//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
 				ll + "", hashCode, date, loc, null, imei,longlat,
 				new ApiCallback() {
@@ -237,6 +238,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
 							Throwable error) {
+						hideProgress();
+						//网络超时请重试
+						showDialogNoNet("网络链接超时，是否重试？");
+
 					}
 
 					@Override
@@ -249,8 +254,10 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 								filePreIsok = true;
 								Upload datas = bean.getDatas();
 								pkValue = datas.getPkValue();
-                               objectkey = datas.getFileUrl();//文件上传的objectKey
-									resourceId=datas.getPkValue();
+                                objectkey = datas.getFileUrl();//文件上传的objectKey
+								resourceId=datas.getPkValue();
+								fileDate = datas.getFileDate();//从服务器获取的保全时间
+								tv_date.setText(fileDate);
 
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
@@ -341,7 +348,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private void saveToDb() {
 		final DbBean dbBean = new DbBean();
 		dbBean.setTitle(title);
-		dbBean.setCreateTime(date);
+//		dbBean.setCreateTime(date);
+		dbBean.setCreateTime(fileDate);
 		dbBean.setResourceUrl(path);
 		dbBean.setType(MyConstants.PHOTO);
 		dbBean.setFileSize(size);
@@ -393,6 +401,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * 取消上传文件
 	 */
     private void CancelUploadFile() {
+//		LogUtils.e(pkValue+"pkvalue-------------------------------------------");
 		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
@@ -501,6 +510,32 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						CancelUploadFile();
+					}
+				}).create();
+		alertDialog.show();
+	}
+
+	/**
+	 * 网络加载失败，稍后重试
+	 * @param msg
+     */
+	private void showDialogNoNet(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setCancelable(false)
+				.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						filePre();//上传文件信息
+
+					}
+				}).setNegativeButton("放弃保全", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
+						finish();
 					}
 				}).create();
 		alertDialog.show();

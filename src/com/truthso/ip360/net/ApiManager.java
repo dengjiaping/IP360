@@ -103,7 +103,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	@Override
 	public void onFaile(RequestHandle requestHandle,int statusCode, Header[] headers,
 			byte[] responseBody, Throwable error) {
-		// TODO Auto-generated method stub
 		if (requestHandle != null) {
 			BaseHttpRequest request = requestHashMap.get(requestHandle);
 			// WeakReference callback = request.getApiCallback();

@@ -95,7 +95,8 @@ public class CertificationActivity extends BaseActivity {
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				
+				hideProgress();
+				Toaster.showToast(CertificationActivity.this,"网络链接超时，请重试！");
 			}
 			
 			@Override

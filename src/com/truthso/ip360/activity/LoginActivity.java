@@ -206,7 +206,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				
+				hideProgress();
+				Toaster.showToast(LoginActivity.this,"网络链接超时，请重试！");
 			}
 		});
 		

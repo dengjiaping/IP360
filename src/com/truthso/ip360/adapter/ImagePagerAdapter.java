@@ -1,5 +1,4 @@
 package com.truthso.ip360.adapter;
-
 import java.util.ArrayList;
 import java.util.List;
 

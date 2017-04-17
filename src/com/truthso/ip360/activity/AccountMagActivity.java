@@ -20,6 +20,7 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.MyListview;
@@ -195,7 +196,8 @@ public class AccountMagActivity extends BaseActivity {
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers,
                                            byte[] responseBody, Throwable error) {
-
+                hideProgress();
+                Toaster.showToast(AccountMagActivity.this,"加载失败，请重试！");
             }
         });
     }

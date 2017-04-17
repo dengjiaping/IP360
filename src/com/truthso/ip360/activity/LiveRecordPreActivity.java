@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
 public class LiveRecordPreActivity extends BaseActivity implements
 		OnClickListener {
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
-	private String date, fileName, loc, fileSize, time, filePath,longlat;
+	private String date, fileName, loc, fileSize, time, filePath,longlat,fileDate;
 	private Button btn_title_right, btn_save;
 	private ImageButton btn_title_left;
 	private boolean isPre=false;
@@ -121,9 +121,10 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			tv_loc.setText(loc);
 		}else{
 			tv_loc.setText("获取位置信息失败");
+			loc = "获取位置信息失败";
 		}
 		
-		tv_date.setText(date);
+//		tv_date.setText(date);
 		tv_filesize.setText(fileSize);
 		tv_time.setText(time);
 		
@@ -155,7 +156,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		SqlDao sqlDao = SqlDao.getSQLiteOpenHelper();
 		DbBean dbBean = new DbBean();
 		dbBean.setType(MyConstants.RECORD);// 文件类别
-		dbBean.setCreateTime(date);// 生成时间
+//		dbBean.setCreateTime(date);// 生成时间
+		dbBean.setCreateTime(fileDate);// 从服务器获取的保全时间
 		dbBean.setFileSize(fileSize);// 文件大小
 		dbBean.setResourceUrl(filePath);
 		dbBean.setTitle(fileName);// 名称
@@ -181,9 +183,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				break;
 			case R.id.btn_title_right://放弃
 				showDialogIsCancel("是否确认放弃保全？");
-				//取消上传文件
-//				CancelUploadFile();
-//				finish();
 				break;
 			case R.id.btn_preserved://保全
 				if (!filePreIsok) {//保全的接口调不成功，再掉一次
@@ -194,9 +193,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				break;
 			case R.id.btn_title_left://返回键
 				showDialogIsCancel("是否确认放弃保全？");
-				//取消上传文件
-//				CancelUploadFile();
-//				finish();
 				break;
 			default:
 				break;
@@ -227,30 +223,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-//								if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-//								/*yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
-//
-//									if (useType ==1 ) {//用户类型1-付费用户（C）；
-////										 String str = "此文件保存价格为："+yue+"是否确认支付？";
-//										  showDialog(bean.getDatas().getShowText());
-//									}else if(useType ==2 ){//2-合同用户（B）
-//									//上传文件信息，及存到数据库
-//										isPre=true;
-//									}*/
-//									showDialog(bean.getDatas().getShowText());
-//								}else if(bean.getDatas().getStatus()== 0){//不能用
-//
-//							/*		if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-////										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
-////										  showDialog(str1);
-//										  showDialog(bean.getDatas().getShowText());
-//									}else if(useType ==2 ){
-//										Toaster.showToast(LiveRecordPreActivity.this, "您已不能使用该项业务");
-//
-//									}*/
-//									Toaster.showToast(LiveRecordPreActivity.this, "您已不能使用该项业务");
-//
-//								}
 
 								showDialog(bean.getDatas().getShowText());
 								
@@ -299,6 +271,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 						public void onApiResultFailure(int statusCode,
 													   Header[] headers, byte[] responseBody,
 													   Throwable error) {
+							hideProgress();
+							showDialogNoNet("网络链接超时，是否重试？");
 						}
 
 						@Override
@@ -311,12 +285,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 									filePreIsok = true;
 									Upload datas = bean.getDatas();
 									pkValue = datas.getPkValue();
-									//getPosition(pkValue);
-									//上传
-//								startUpLoad(0, pkValue);
 									url = datas.getFileUrl();
 
-//                               	Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传请在传输列表查看");
+									fileDate = datas.getFileDate();//从服务器获取的保全时间
+									tv_date.setText(fileDate);
+
 
 
 								} else {
@@ -331,49 +304,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					});
 		}
 	};
-	/*private void getPosition(int pkValue) {
-		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-			}
-
-			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				FilePositionBean bean = (FilePositionBean) response;
-				if (!CheckUtil.isEmpty(bean)) {
-					if (bean.getCode() == 200) {
-						FilePosition datas = bean.getDatas();
-						startUpLoad(datas.getPosition(), datas.getResourceId());
-						finish();
-					} else {
-						Toaster.showToast(LiveRecordPreActivity.this, bean.getMsg());
-					}
-				} else {
-					Toaster.showToast(LiveRecordPreActivity.this, "请求失败");
-				}
-			}
-
-		});
-	}*/
-/*	*//**
-	 * 开始上传文件
-	 * 
-	 * @param position
-	 * @param resourceId
-	 *//*
-	private void startUpLoad(int position, int resourceId) {
-		Toaster.showToast(LiveRecordPreActivity.this, "文件正在上传，请在传输列表查看");
-		FileInfo info=new FileInfo();
-		info.setFileName(fileName);
-		info.setFilePath(filePath);
-		info.setFileSize(ll+"");
-		info.setPosition(position);
-		info.setResourceId(resourceId);
-		UpLoadManager.getInstance().startUpload(info);
-	}*/
 	/**
 	 * 弹出框
 	 */
@@ -398,26 +329,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 				}).create();
 		alertDialog.show();
 	}
-/*	*//**
-	 * 定位
-	 *//*
-	private void getLocation() {
-		BaiduLocationUtil.getLocation(getApplicationContext(),
-				new locationListener() {
 
-					@Override
-					public void location(String s, double latitude,
-							double longitude) {
-						loc = s;
-						lat = latitude;
-						longti =longitude;
-						Message message = handler .obtainMessage();
-						message.what = 1;
-						handler.sendMessage(message);	
-					}
-				
-				});
-	}*/
 	/**
 	 * 上传文件
 	 */
@@ -521,6 +433,31 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						CancelUploadFile();
+					}
+				}).create();
+		alertDialog.show();
+	}
+	/**
+	 * 网络加载失败，稍后重试
+	 * @param msg
+	 */
+	private void showDialogNoNet(String msg) {
+		alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+				.setMessage(msg).setIcon(R.drawable.ww)
+				.setCancelable(false)
+				.setPositiveButton("重试", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						filePre();//上传文件信息
+
+					}
+				}).setNegativeButton("放弃保全", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						CancelUploadFile();
+						finish();
 					}
 				}).create();
 		alertDialog.show();

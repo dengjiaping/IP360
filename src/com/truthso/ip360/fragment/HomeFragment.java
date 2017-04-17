@@ -21,6 +21,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -222,7 +224,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
-//								boolean isHasPremiss = checkWriteExternalPermission("android.permission.CAMERA");
 								boolean isHasPremiss =cameraIsCanUse();
 								if (isHasPremiss){//有权限
 									photoDir = new File(MyConstants.PHOTO_PATH);
@@ -231,10 +232,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									}
 									String name = "temp.jpg";
 									photo = new File(photoDir, name);
+									Log.i("djj","photo"+photo.exists());
+									Camera.open().release();
 									Uri photoUri = Uri.fromFile(photo);
 									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 									intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-//								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									startActivityForResult(intent, CAMERA);
 								}else{//没权限
 									PreshowDialog("您没有开启拍照权限！");
@@ -248,7 +250,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								if (isHasPremiss_video){//用户给了有权限
 									Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 									intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//								intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 									startActivityForResult(intent1, CASE_VIDEO);
 									SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 									Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
@@ -301,24 +302,24 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-				
-		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
-
-				 if (!CheckUtil.isEmpty(photo)&&photo.exists()){
-
+		Log.i("djj",requestCode+"requestCode"+resultCode);
+		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK ) {
+			Log.i("djj",photo.exists()+":"+(data==null));
+				 if (!CheckUtil.isEmpty(photo)){
+					 if(!photo.exists()){
+						 return;
+					 }
 				String name = new DateFormat().format("yyyyMMdd_HHmmss",
 						Calendar.getInstance(Locale.CHINA)) + ".jpg";
 				File newFile = new File(photoDir, name);
 				photo.renameTo(newFile);
 				String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
 						.getAbsolutePath());
-				
-
 				long length=newFile.length();
 				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",Calendar.getInstance(Locale.CHINA)).toString();
-				
-				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
+
+				 Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);

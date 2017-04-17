@@ -130,7 +130,8 @@ public class RealNameCertification extends BaseActivity implements OnClickListen
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
 							Throwable error) {
-
+						hideProgress();
+						Toaster.showToast(RealNameCertification.this,"网络链接超时，请重试！");
 					}
 				});
 	}
