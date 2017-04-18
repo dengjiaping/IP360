@@ -113,10 +113,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	@Override
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		vCode = getVersion();
-
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
 		actionBar.setLeftText("拍照取证");
-		actionBar.setTitle("云端证据");
+		actionBar.setTitle("证据列表");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
 		acition_bar_left = (CheckBox) actionBar.findViewById(R.id.acition_bar_left);

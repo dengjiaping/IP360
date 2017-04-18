@@ -121,6 +121,8 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 						Toaster.showToast(AccountPayActivity.this,"请输入正确的充值金额！");
 					}else if(Money_float < 0.01f){
 						Toaster.showToast(AccountPayActivity.this,"充值金额最小为0.01");
+					}else if(Money_float>10000000){
+						Toaster.showToast(AccountPayActivity.this,"最大充值金额不能大于等于999万");
 					}else{
 						//充值
 						payment();

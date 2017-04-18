@@ -234,6 +234,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									photo = new File(photoDir, name);
 									Log.i("djj","photo"+photo.exists());
 									Camera.open().release();
+
 									Uri photoUri = Uri.fromFile(photo);
 									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 									intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
