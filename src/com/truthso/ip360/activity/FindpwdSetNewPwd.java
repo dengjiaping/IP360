@@ -131,9 +131,6 @@ public class FindpwdSetNewPwd extends BaseActivity implements OnClickListener {
 		}
 		
 		
-//		Intent intent = new Intent(this,MainActivity.class);
-//		startActivity(intent);
-//		finish();
 	}
    //重置密码的接口
 	private void ResetPwd() {

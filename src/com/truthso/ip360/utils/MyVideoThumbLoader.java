@@ -12,17 +12,7 @@ public class MyVideoThumbLoader  {
     private String path;
     //创建cache
     private LruCache<String, Bitmap> lruCache;
-        
-//    public MyVideoThumbLoader(){
-//        int maxMemory = (int) Runtime.getRuntime().maxMemory();//获取最大的运行内存
-//        int maxSize = maxMemory /4 ;//拿到缓存的内存大小 35         lruCache = new LruCache<String, Bitmap>(maxSize){
-//            @Override
-//            protected int sizeOf(String key, Bitmap value) {
-//                //这个方法会在每次存入缓存的时候调用
-//                return value.getByteCount();
-//            }
-//        };
-    
+
     public MyVideoThumbLoader(){
         int maxMemory = (int) Runtime.getRuntime().maxMemory();//获取最大的运行内存
         int maxSize = maxMemory /4;

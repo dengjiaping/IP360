@@ -14,10 +14,7 @@ public class RealNameInfoActivity extends BaseActivity {
     private TextView tv_realname;
     private TextView tv_idcard;
     private String realName,cardId;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
 
     @Override
     public void initData() {

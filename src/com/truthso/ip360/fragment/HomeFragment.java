@@ -21,8 +21,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.hardware.Camera;
-import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,7 +32,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -232,8 +229,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									}
 									String name = "temp.jpg";
 									photo = new File(photoDir, name);
-									Log.i("djj","photo"+photo.exists());
-									Camera.open().release();
+//									Log.i("djj","photo"+photo.exists());
+//									Camera.open().release();
 
 									Uri photoUri = Uri.fromFile(photo);
 									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

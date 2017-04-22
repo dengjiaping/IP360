@@ -98,27 +98,7 @@ public class SplashActivty extends Activity {
 			default:
 				break;
 			}
-			/*
-			switch (msg.what) {
-			case UPDATA_NONEED:
-				Toaster.showToast(ctx, "不需要更新");
-			case UPDATA_CLIENT:
-				// 对话框通知用户升级程序
-				showUpdataDialog();
-				break;
-			case GET_UNDATAINFO_ERROR:
-				// 服务器超时
-				Toaster.showToast(ctx, "获取服务器更新信息失败");
-				break;
-			case DOWN_ERROR:
-				// 下载apk失败
-				Toaster.showToast(ctx, "下载新版本失败");
-				break;
-            case    99:
-				enterHome();
-				break;
-			}
-		*/};
+			};
 
 	};
 
@@ -207,33 +187,7 @@ public class SplashActivty extends Activity {
 		dialog.show();
 	}
 
-	/**
-	 * 从服务器中下载APK
-	 */
-/*	protected void downLoadApk() {
-		final ProgressDialog pd; // 进度条对话框
-		pd = new ProgressDialog(this);
-		pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		pd.setMessage("正在下载更新");
-		pd.show();
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					File file = DownLoadApkUtli.getFileFromServer(downloadUrl,
-							pd);
-					sleep(3000);
-					installApk(file);
-					pd.dismiss(); // 结束掉进度条对话框
-				} catch (Exception e) {
-					Message msg = new Message();
-//					msg.what = DOWN_ERROR;
-//					handler.sendMessage(msg);
-//					e.printStackTrace();
-				}
-			}
-		}.start();
-	}*/
+
 
 	// 安装apk
 	protected void installApk(File file) {
@@ -259,15 +213,8 @@ public class SplashActivty extends Activity {
 		} else {
 			// 第一次启动先进入引导页
 			intent = new Intent(ctx, GuideActivity.class);
-//			if (CheckUtil.isEmpty(token)) {
-//				// 进登录界面
-//				intent = new Intent(ctx, LoginActivity.class);
-//			} else {
-//				intent = new Intent(ctx, MainActivity.class);
-//			}
 			SharePreferenceUtil.saveOrUpdateAttribute(this, MyConstants.SP_USER_KEY,MyConstants.ISWIFI,true);
 		}
-
 		startActivity(intent);
 		finish();
 	}

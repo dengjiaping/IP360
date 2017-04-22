@@ -184,8 +184,6 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 		default:
 			break;
 		}
-//		Intent intent = new Intent(this, FindpwdSetNewPwd.class);
-//		startActivity(intent);
 	}
 	/**
 	 * 发送验证码
@@ -216,8 +214,7 @@ public class findPwdActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		

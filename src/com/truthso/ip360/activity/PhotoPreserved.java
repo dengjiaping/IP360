@@ -70,23 +70,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private int  expStatus;//扣费状态
 	private boolean filePreIsok = false;
 	private String hashCode;
-	/*private Handler handler = new Handler(){
-		 public void handleMessage(Message msg) {
-			 switch (msg.what) {
-			case 1:
-				if (!CheckUtil.isEmpty(loc)) {
-				tv_loc.setText(loc);
-			}else{
-				tv_loc.setText("获取位置信息失败");
-			}
-				latitudeLongitude = longti+","+lat;
-				break;
 
-			default:
-				break;
-			}
-		 };
-	};*/
 	@Override
 	public void initData() {
 		path = getIntent().getStringExtra("path");
@@ -99,11 +83,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-//		getLocation();
-//		LogUtils.e(ll+"wsx");
-	/*	getLocation();
-		//上传文件信息
-		filePre();*/
+
 	}
 
 	@Override
@@ -167,29 +147,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-							/*	if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
-
-							*//*		if (useType ==1 ) {//用户类型1-付费用户（C）；
-										//弹出提示框
-										  showDialog(bean.getDatas().getShowText());
-									}else if(useType ==2 ){//2-合同用户（B）
-//										//合同用户可用时，上传文件，保存文件信息到数据库
-											UpLoadFile();
-											saveToDb();
-									}*//*
-
-								}else if(bean.getDatas().getStatus()== 0){//不能用
-
-									Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
-
-									*//*if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-//										 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
-										  showDialog(bean.getDatas().getShowText());
-									}else if(useType ==2 ){
-										Toaster.showToast(PhotoPreserved.this, "您已不能使用该项业务");
-
-									}*//*
-								}*/
 
 								showDialog(bean.getDatas().getShowText());
 
@@ -325,24 +282,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	}
 
-/*	private void getLocation() {
 
-		BaiduLocationUtil.getLocation(getApplicationContext(),
-				new locationListener() {
-					@Override
-					public void location(String s, double latitude,
-							double longitude) {
-						loc = s;
-						lat = latitude;
-						longti =longitude;
-						Message message = handler .obtainMessage();
-						message.what = 1;
-						handler.sendMessage(message);
-
-					}
-				
-				});
-	}*/
 
 	// 保存照片信息到数据库
 	private void saveToDb() {
@@ -401,7 +341,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	 * 取消上传文件
 	 */
     private void CancelUploadFile() {
-//		LogUtils.e(pkValue+"pkvalue-------------------------------------------");
 		ApiManager.getInstance().DeleteFileInfo(pkValue, new ApiCallback() {
 			@Override
 			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
@@ -437,8 +376,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					   expStatus = bean.getDatas().getStatus();
 						//上传文件
 						UpLoadFile();
-						//保全文件到数据库
-						//saveToDb();
 						Toaster.showToast(PhotoPreserved.this,"文件正在上传，请在传输列表查看");
 						finish();
 					}else{
@@ -458,23 +395,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 		}
 
-	/**
-	 * 监听系统的返回键
-	 * @param keyCode
-	 * @param event
-     * @return
-     */
-	/*@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				//系统返回键调不上传的接口，通知后台清除数据
-				LogUtils.e("返回键执行了1111111111111111111111111111111");
-				CancelUploadFile();
-//				return false;
-			}
-				return super.onKeyDown(keyCode, event);
-
-		}*/
 
 	/**
 	 * 监听系统的返回键
@@ -485,7 +405,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		showDialogIsCancel("是否确认放弃保全？");
 		//取消上传文件
 		CancelUploadFile();
-//		super.onBackPressed();
+//		super.onBackPressed();//该句返回true不注释掉会立马返回
 	}
 
 	/**

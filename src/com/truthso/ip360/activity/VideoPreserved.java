@@ -77,31 +77,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 //	private String latitudeLongitude;
 	private int expStatus;
 	private String hashCode;
-/*	private Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case 1:
-					if (!CheckUtil.isEmpty(loc)) {
-						tv_loc.setText(loc);
-					} else {
-						tv_loc.setText("获取位置信息失败");
-					}
-					latitudeLongitude = longti + "," + lat;
-					break;
 
-				default:
-					break;
-			}
-		}
-
-		;
-	};*/
 	@Override
 	public void initData() {
 
-		/*getLocation();
-		//上传文件信息
-		filePre();*/
+
 	}
 
 	@Override
@@ -161,16 +141,11 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
-//		getLocation();
 		//上传文件信息
 	    filePre();
 	}
 
-/*	@Override
-	protected void onStart() {.
-		super.onStart();
-		filePre();
-	}*/
+
 
 	/**
 	 * 调接口，看是否可用，和当次消费
@@ -191,35 +166,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 				AccountStatusBean bean = (AccountStatusBean) response;
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode() == 200) {
-			/*			LogUtils.e(bean.getDatas().getStatus()+"是否可用");
-						if (bean.getDatas().getStatus() == 1) {//0-不能使用；1-可以使用。
-//							yue = "￥"+ bean.getDatas().getCount()/10 +"."+bean.getDatas().getCount()%10+"元";
-							
-							*//*if (useType ==1 ) {//用户类型1-付费用户（C）；
-//								 String str = "此文件保存价格为："+yue+"是否确认支付？";
-//								  showDialog(str);
-								  showDialog(bean.getDatas().getShowText());
-							}else if(useType ==2 ){//2-合同用户（B）
-							//上传文件信息，及存到数据库
-								//合同用户可用时，上传文件，保存文件信息到数据库
-								UpLoadFile();
-								saveToDB();
-//								isPre=true;
-								
-							}*//*
-							showDialog(bean.getDatas().getShowText());
-						} else if (bean.getDatas().getStatus() == 0) {//不能用
-							LogUtils.e(bean.getDatas().getStatus()+"是否可用");
-							Toaster.showToast(VideoPreserved.this, "余额不足，您已不能使用该项业务");
-						*//*	if (useType ==1 ) {//用户类型1-付费用户（C）；2-合同用户（B）
-//								 String str1 = "此文件保存价格为："+yue+"当前余额不足，是否仍要存证？";
-//								  showDialog(str1);
-								  showDialog(bean.getDatas().getShowText());
-							}else if(useType ==2 ){
-								Toaster.showToast(VideoPreserved.this, "您已不能使用该项业务");
-								
-							}*//*
-						}*/
+
 						showDialog(bean.getDatas().getShowText());
 
 					} else {
@@ -367,73 +314,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	};
 
 
-	/**
-	 * 获取文件上传到的位置
-	 *//*
-	private void getPosition(int pkValue) {
-		ApiManager.getInstance().getFilePosition(pkValue, new ApiCallback() {
 
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				FilePositionBean bean = (FilePositionBean) response;
-				if (!CheckUtil.isEmpty(bean)) {
-					if (bean.getCode() == 200) {
-						FilePosition datas = bean.getDatas();
-						startUpLoad(datas.getPosition(), datas.getResourceId());
-						finish();
-					} else {
-						Toaster.showToast(VideoPreserved.this, bean.getMsg());
-					}
-				} else {
-					Toaster.showToast(VideoPreserved.this, "请求失败");
-				}
-			}
-
-		});
-	}*/
-
-	/*
-	/**
-	 * 上传文件的接口
-	 * @param position
-	 * @param resourceId
-	 */
-	/*private void startUpLoad(int position, int resourceId) {
-		Toaster.showToast(VideoPreserved.this, "文件正在上传，请在传输列表查看");
-		FileInfo info=new FileInfo();
-		info.setFileName(mVideoName);
-		info.setFilePath(mVideoPath);
-		info.setFileSize(ll+"");
-		info.setPosition(position);
-		info.setResourceId(resourceId);
-	//	UpLoadManager.getInstance().startUpload(info);
-
-
-	}*/
-/*	private void getLocation() {
-		BaiduLocationUtil.getLocation(getApplicationContext(),
-				new locationListener() {
-
-					@Override
-					public void location(String s, double latitude,
-										 double longitude) {
-						loc = s;
-						lat = latitude;
-						longti = longitude;
-						Message message = handler.obtainMessage();
-						message.what = 1;
-						handler.sendMessage(message);
-					}
-
-				});
-	}*/
 
 	//保存录像的数据到数据库
 	private void saveToDB() {

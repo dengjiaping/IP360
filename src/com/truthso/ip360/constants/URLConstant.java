@@ -9,9 +9,7 @@ package com.truthso.ip360.constants;
  */
 
 public class URLConstant {
-//	static String str = "192.168.1.20:8081";
-//	static String str = "101.201.74.230:9091";
-   // static String str = "appapi.ip360.net.cn";
+
 	 static String str = "59.110.44.147:9020";//3.25测试环境
 
 //	static  String str ="101.201.112.127:9020";

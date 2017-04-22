@@ -24,22 +24,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
-import com.truthso.ip360.adapter.CommonAdapter;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.DbBean;
-import com.truthso.ip360.event.DownEvent;
-import com.truthso.ip360.event.UpEvent;
 import com.truthso.ip360.pager.BasePager;
 import com.truthso.ip360.pager.DownLoadListPager;
 import com.truthso.ip360.pager.UpLoadListPager;
-import com.truthso.ip360.updownload.UpLoadManager;
-import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.DisplayUtil;
 import com.truthso.ip360.view.MainActionBar;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * @despriction :传输列表的fragment

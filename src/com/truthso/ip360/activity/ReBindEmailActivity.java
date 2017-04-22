@@ -162,8 +162,7 @@ public class ReBindEmailActivity extends BaseActivity implements OnClickListener
 				if (!CheckUtil.isEmpty(response)) {
 					if (response.getCode() == 200) {
 						
-//						Toaster.showToast(ReBindEmailActivity.this, response.getMsg());
-						
+
 						Intent intent = new Intent(ReBindEmailActivity.this, ReBindEmailBindNewActivity.class);
 						startActivityForResult(intent, MyConstants.OFFBIND_BINDNEWEMAIL);
 						setResult(MyConstants.OFFBIND_BINDNEWEMAIL);

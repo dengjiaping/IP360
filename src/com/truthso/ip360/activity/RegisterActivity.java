@@ -57,10 +57,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			btn_send_code.setEnabled(true);
 		}
 	};
-	/**
-	 * ATTENTION: This was auto-generated to implement the App Indexing API.
-	 * See https://g.co/AppIndexing/AndroidStudio for more information.
-	 */
+
 
 	@Override
 	public void initData() {
@@ -79,15 +76,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		btn_send_code.setOnClickListener(this);
 		tv_yonghuxieyi = (TextView) findViewById(R.id.tv_yonghuxieyi);
 		tv_yonghuxieyi.setOnClickListener(this);
-		/*if (!CheckUtil.isEmpty(et_account.getText().toString().trim())){//输入手机号后，获取验证码的按钮才可点击
-			btn_send_code.setClickable(true);
-			btn_send_code.setTextColor(getResources().getColor(R.color.white));
-			btn_send_code.setBackgroundColor(Color.parseColor(R.color.jiuhong+""));
-		}else{
-			btn_send_code.setClickable(false);
-			btn_send_code.setBackgroundColor(Color.parseColor(R.color.white+""));
-			btn_send_code.setTextColor(getResources().getColor(R.color.black));
-		}*/
 
 		et_userpwd = (EditText) findViewById(R.id.et_userpwd);
 

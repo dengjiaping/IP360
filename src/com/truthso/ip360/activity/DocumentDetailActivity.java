@@ -25,7 +25,6 @@ public class DocumentDetailActivity extends BaseActivity{
     public void initView() {
         String url = getIntent().getStringExtra("url");
         webView = (WebView) findViewById(R.id.webview);
-//        webView.loadUrl("https://view.officeapps.live.com/op/view.aspx?src="+url);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

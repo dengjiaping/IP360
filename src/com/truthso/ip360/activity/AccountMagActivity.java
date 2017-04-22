@@ -54,10 +54,7 @@ public class AccountMagActivity extends BaseActivity {
     private TextView tv_account_video;
     private TextView tv_date_record;//录音的套餐时间
     private TextView tv_account_record;
-    private String usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
     private String buyCount_photo, buyCount_video, buyCount_record, accountBalance;//买的量
-    private String contractStart_photo, contractStart_video, contractStart_record, contractEnd_video, contractEnd_photo, contractEnd_record;
-    //    private RelativeLayout rl_taocan_detail;
     private LinearLayout ll_taocan;
     private boolean isHaveCombo;
     private MyListview listView;
@@ -108,10 +105,6 @@ public class AccountMagActivity extends BaseActivity {
                 PersonalMsgBean bean = (PersonalMsgBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
-                        // 账户余额
-//                        accountBalance = "余额￥" + balance / 100 + "." + balance
-//                                % 100 / 10 + balance % 100 % 10 + "元";
-//                        accountBalance = "￥"+balance*0.01f;
                         // 账户余额
                         int balance = bean.getDatas().getAccountBalance();
                         double account = balance*0.01;

@@ -166,18 +166,6 @@ public class AccountPayActivity extends BaseActivity implements View.OnClickList
 	 * @param
 	 */
 	public void payV2(final String orderInfo) {
-
-		/*if (TextUtils.isEmpty(APPID) || TextUtils.isEmpty(RSA_PRIVATE)) {
-			new AlertDialog.Builder(this).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
-					.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialoginterface, int i) {
-							//
-							finish();
-						}
-					}).show();
-			return;
-		}*/
-
 		/**
 		 * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
 		 * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
