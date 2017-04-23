@@ -55,10 +55,10 @@ public class UpLoadManager {
 	public boolean resuambleUpload(FileInfo info){
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 
-
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
          if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 			 Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
+			 UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),1);
             return false;
 		 }
 		resuambleUpload.putObject();
@@ -66,16 +66,26 @@ public class UpLoadManager {
 		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),2);
 		return true;
 	}
-	
+
+	public void resuambleUploadAgain(FileInfo info){
+
+		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+		if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
+			Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
+		}else {
+			ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
+			resuambleUpload.putObject();
+			upLoadTaskMap.put(info.getResourceId(), resuambleUpload);
+			//UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),2);
+			UpDownLoadDao.getDao().updateStatusByResourceId("2",info.getResourceId()+"",null);
+		}
+	}
 	
 	public void resuambleUploadUnCaseNet(FileInfo info){
 		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 		Log.i("djj",info.getResourceId()+"ResourceId");
-		//resuambleUpload.resumableUploadWithRecordPathSetting();
 		resuambleUpload.putObject();
 		upLoadTaskMap.put(info.getResourceId(), resuambleUpload);
-//		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getFileSize(), info.getPosition(), resourceId,info.getObjectKey());
-//		UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), resourceId,info.getObjectKey());
 	}
 	
 	
@@ -84,20 +94,7 @@ public class UpLoadManager {
 		upLoadTaskMap.get(resourceId).pause();
 		
 	}
-	
-	public void restart(int resourceId){
-		/*FileInfo info = UpDownLoadDao.getDao().queryUpLoadInfoByResourceId(resourceId);
-		ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info.getObjectKey(), info.getFilePath());
-		ProgressListener progressListener = progressListenerMap.get(resourceId);
-		Log.i("djj", CheckUtil.isEmpty(progressListener)+"");
-		if(progressListener!=null){
-			resuambleUpload.setProgressListener(progressListener);	
-		}*/
-		ResuambleUpload resuambleUpload = upLoadTaskMap.get(resourceId);
-		resuambleUpload.resumableUploadWithRecordPathSetting();
-	//	upLoadTaskMap.put(resourceId, resuambleUpload);
-	}
-	
+
 	public void setOnUpLoadProgressListener(int resourceId,ProgressListener progressListener){
 		ResuambleUpload resuambleUpload = upLoadTaskMap.get(resourceId);
 		if(resuambleUpload!=null){
@@ -105,15 +102,6 @@ public class UpLoadManager {
 		}else{
 			progressListenerMap.put(resourceId, progressListener);
 		}		
-	}
-
-	public int getCurrentStatus(int resourceId) {
-		int status=0;
-		ResuambleUpload resuambleUpload = upLoadTaskMap.get(resourceId);
-		if(resuambleUpload!=null){
-			status=resuambleUpload.getStatus();
-		}		
-		return status;
 	}
 
 	public void cancelAll(){

@@ -354,7 +354,12 @@ public class UpDownLoadDao {
 				.notifyChange(
 						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
 						null);
-		Log.i("progress","resourceId1"+resourceId);
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
 	}
 
 	public void deleteByResourceId(int resourceId) {
