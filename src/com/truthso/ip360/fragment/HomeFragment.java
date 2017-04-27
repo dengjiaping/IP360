@@ -229,8 +229,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									}
 									String name = "temp.jpg";
 									photo = new File(photoDir, name);
-//									Log.i("djj","photo"+photo.exists());
-//									Camera.open().release();
+									Camera.open().release();
 
 									Uri photoUri = Uri.fromFile(photo);
 									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -300,9 +299,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.i("djj",requestCode+"requestCode"+resultCode);
-		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK ) {
-			Log.i("djj",photo.exists()+":"+(data==null));
+		if (requestCode == CAMERA && resultCode == Activity.RESULT_OK && null != data ) {
 				 if (!CheckUtil.isEmpty(photo)){
 					 if(!photo.exists()){
 						 return;
