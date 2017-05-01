@@ -155,7 +155,8 @@ public void onClick(View v) {
 		if (CheckUtil.isEmpty(bindEmial)||CheckUtil.isEmpty(cerCode)) {
 			Toaster.showToast(this, "邮箱或验证码不能为空");
 		}else{
-			String phoneReg="^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+//			String phoneReg="^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+			String phoneReg = "^[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?$";
 			if(!bindEmial.matches(phoneReg)){
 				Toaster.showToast(this, "请输入正确的邮箱");
 			}else{
@@ -169,7 +170,8 @@ public void onClick(View v) {
 		if (CheckUtil.isEmpty(bindEmial)) {
 			Toaster.showToast(this, "邮箱不能为空");
 		}else{
-			String phoneReg="^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+//			String phoneReg="^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+			String phoneReg = "^[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?$";
 			if(!bindEmial.matches(phoneReg)){
 				Toaster.showToast(this, "请输入正确的邮箱");
 			}else{
