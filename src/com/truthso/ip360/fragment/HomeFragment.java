@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.truthso.ip360.activity.AboutUsAcctivity;
 import com.truthso.ip360.activity.AccountPayActivity;
+import com.truthso.ip360.activity.CameraAty;
 import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.LiveRecordImplementationActivity;
 import com.truthso.ip360.activity.MainActivity;
@@ -183,7 +184,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.ll_take_photo:// 拍照取证
-			getLocation();
+		    getLocation();
 			//调接口,看是否可以拍照
 			getPort(MyConstants.PHOTOTYPE,1);
 			break;
@@ -191,6 +192,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			getLocation();
 			//调接口,看是否可以录像
 			getPort(MyConstants.VIDEOTYPE,1);
+			Intent intent1=new Intent(getActivity(),CameraAty.class);
+			intent1.putExtra("flag", "video");
+			startActivity(intent1);
+
 			break;
 		case R.id.ll_record:// 录音取证
 			getLocation();
@@ -223,7 +228,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 							case MyConstants.PHOTOTYPE:
 								boolean isHasPremiss =cameraIsCanUse();
 								if (isHasPremiss){//有权限
-									photoDir = new File(MyConstants.PHOTO_PATH);
+									/*photoDir = new File(MyConstants.PHOTO_PATH);
 									if (!photoDir.exists()) {
 										photoDir.mkdirs();
 									}
@@ -235,7 +240,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									Uri photoUri = Uri.fromFile(photo);
 									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 									intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-									startActivityForResult(intent, CAMERA);
+									startActivityForResult(intent, CAMERA);*/
+									Intent intent=new Intent(getActivity(),CameraAty.class);
+									intent.putExtra("flag", "camera");
+									startActivity(intent);
 								}else{//没权限
 									PreshowDialog("您没有开启拍照权限！");
 								}
@@ -317,7 +325,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",Calendar.getInstance(Locale.CHINA)).toString();
 
-				 Intent intent = new Intent(getActivity(), PhotoPreserved.class);
+					 Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);

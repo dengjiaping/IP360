@@ -394,17 +394,27 @@
             android:exported="false"
             android:screenOrientation="behind" >
  </activity>
-
-        <!--vitamio  -->
-        <activity
-            android:name="io.vov.vitamio.activity.InitActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <!--上传下载服务  -->
         <service android:name="com.truthso.ip360.service.UpDownLoadService"
             />
+
+        //自定义相机
+        <activity
+            android:name="com.truthso.ip360.activity.CameraAty"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        //自定义相机预览
+        <activity
+            android:name="com.truthso.ip360.activity.PhotoPreAct"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoAnimationTheme"
+            >
+        </activity>
     </application>
 
 </manifest>

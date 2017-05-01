@@ -45,4 +45,7 @@
     <dimen name="text_date_size">12sp</dimen>
     <!--item 主题文字-->
     <dimen name="text_item">13sp</dimen>
+
+    <dimen name="bottom_bar_height">75.0dip</dimen>
+    <dimen name="top_menu_bar_height">45.0dip</dimen>
 </resources>

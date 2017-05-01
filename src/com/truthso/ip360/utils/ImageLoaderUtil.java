@@ -134,6 +134,9 @@ public class ImageLoaderUtil {
 	public static  void displayFromSDCardopt(String uri, ImageView imageView,DisplayImageOptions opt) {
 		// String imageUri = "content://media/external/audio/albumart/13"; //
 		// from content provider
+		if(opt==null){
+			opt=options;
+		}
 		imageLoader.displayImage("file://" + uri, imageView,opt);
 	}
 

@@ -41,17 +41,19 @@ public abstract class BaseActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(setLayout());
 		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
-		btn_title_left.setOnClickListener(new OnClickListener() {
-			
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		
+		if(btn_title_left!=null){
+			btn_title_left.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					finish();
+				}
+			});
+		}
 		tv_title = (TextView) findViewById(R.id.tv_title);
-		tv_title.setText(setTitle());
+		if(tv_title!=null){
+			tv_title.setText(setTitle());
+		}
 		initData();
 		initView();
 		compatStatusbar();
