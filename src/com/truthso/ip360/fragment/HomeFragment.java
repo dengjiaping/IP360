@@ -192,10 +192,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 			getLocation();
 			//调接口,看是否可以录像
 			getPort(MyConstants.VIDEOTYPE,1);
-			Intent intent1=new Intent(getActivity(),CameraAty.class);
-			intent1.putExtra("flag", "video");
-			startActivity(intent1);
-
 			break;
 		case R.id.ll_record:// 录音取证
 			getLocation();
@@ -253,9 +249,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 //								boolean isHasPremiss_video = checkWriteExternalPermission("android.permission.CAMERA");
 								boolean isHasPremiss_video =cameraIsCanUse();
 								if (isHasPremiss_video){//用户给了有权限
-									Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+								/*	Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 									intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-									startActivityForResult(intent1, CASE_VIDEO);
+									startActivityForResult(intent1, CASE_VIDEO);*/
+									Intent intent1=new Intent(getActivity(),CameraAty.class);
+									intent1.putExtra("flag", "video");
+									startActivity(intent1);
 									SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 									Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 									date1 = formatter.format(curDate);
