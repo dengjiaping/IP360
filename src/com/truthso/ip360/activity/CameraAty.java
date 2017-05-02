@@ -60,7 +60,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
 
 //        mSettingView = (ImageView) findViewById(R.id.btn_other_setting);
 
-
         mCameraShutterButton.setOnClickListener(this);
         mRecordShutterButton.setOnClickListener(this);
         mFlashView.setOnClickListener(this);
@@ -68,8 +67,12 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
 
 
         mContainer.setRootPath(mSaveRoot);
+<<<<<<< HEAD
 
 
+=======
+        //initThumbnail();
+>>>>>>> 77c787d9411ad7d733e46d6512ddd5ad0d9fc994
         if (flag.equals("video")) {
             mCameraShutterButton.setVisibility(View.GONE);
             mRecordShutterButton.setVisibility(View.VISIBLE);
@@ -77,7 +80,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
             mIsRecordMode = true;
             mContainer.switchMode(5);
         }
-
     }
 
 

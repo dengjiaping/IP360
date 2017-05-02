@@ -2,10 +2,13 @@ package com.truthso.ip360.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +24,9 @@ import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.ImageLoaderUtil;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -29,8 +35,10 @@ public class PhotoPreAct extends BaseActivity {
     private ImageView image;
     private Button cancel, confirm;
     private Button btn_play;
-    private String filepath,type,loc;
-    private double lat,longti;
+    private String filepath, type, loc;
+    private double lat, longti;
+    private double video_fileSize_B;
+    private String time;
 
     @Override
     public void initData() {
@@ -84,21 +92,63 @@ public class PhotoPreAct extends BaseActivity {
 
             @Override
             public void onClick(View arg0) {
-                File newFile = new File(filepath);
-                String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
-                        .getAbsolutePath());
-                long length=newFile.length();
-                double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
-                String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
-                Intent intent = new Intent(PhotoPreAct.this, PhotoPreserved.class);
-                intent.putExtra("path", newFile.getAbsolutePath());
-                intent.putExtra("title", newFile.getName());
-                intent.putExtra("size", fileSize);
-                intent.putExtra("date", date);
-                intent.putExtra("fileSize_B", fileSize_B);
-                intent.putExtra("loc",loc);
-                intent.putExtra("longlat",longti+","+lat);
-                startActivity(intent);
+                if (filepath == null) {
+                    return;
+                }
+                if (type.equals("photo")) {
+
+                    File newFile = new File(filepath);
+                    String fileSize = FileSizeUtil.getAutoFileOrFilesSize(newFile
+                            .getAbsolutePath());
+                    long length = newFile.length();
+                    double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
+                    String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
+                    Intent intent = new Intent(PhotoPreAct.this, PhotoPreserved.class);
+                    intent.putExtra("path", newFile.getAbsolutePath());
+                    intent.putExtra("title", newFile.getName());
+                    intent.putExtra("size", fileSize);
+                    intent.putExtra("date", date);
+                    intent.putExtra("fileSize_B", fileSize_B);
+                    intent.putExtra("loc", loc);
+                    intent.putExtra("longlat", longti + "," + lat);
+                    startActivity(intent);
+                } else {
+                    MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+                    mmr.setDataSource(filepath);
+                    String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION); // 播放时长单位为毫秒
+                    double duration = Double.parseDouble(durationStr);
+                    timeUsedInsec = (int) (duration / 1000);//秒
+                    time = getHor() + ":" + getMin() + ":" + getSec();
+                    if (sec > 0) {
+                        minTime = hor * 60 + min + 1;
+                    } else {
+                        minTime = hor * 60 + min;
+                    }
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
+                    String date1 = formatter.format(curDate);
+                    File file = new File(filepath);
+                    long length = file.length();
+                    video_fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
+                    long size = 0;
+                    try {
+                        size = FileSizeUtil.getFileSize(file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(PhotoPreAct.this, VideoPreserved.class);
+                    intent.putExtra("filePath", filepath);
+                    intent.putExtra("date", date1);
+                    intent.putExtra("loc", loc);
+                    intent.putExtra("time", time);
+                    intent.putExtra("minTime", minTime);
+                    intent.putExtra("size", size);
+                    intent.putExtra("video_fileSize_B", video_fileSize_B);
+                    intent.putExtra("title", file.getName());
+                    intent.putExtra("loc", loc);
+                    intent.putExtra("longlat", longti + "," + lat);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -113,16 +163,37 @@ public class PhotoPreAct extends BaseActivity {
         return null;
     }
 
+    private int sec;
+    private int hor;
+    private int min;
+    private int minTime;
+    private int timeUsedInsec;
+
+    public CharSequence getHor() {
+        hor = timeUsedInsec / 3600;
+        return hor < 10 ? "0" + hor : String.valueOf(hor);
+    }
+
+    public CharSequence getMin() {
+        min = timeUsedInsec / 60;
+        return min < 10 ? "0" + min : String.valueOf(min);
+    }
+
+    public CharSequence getSec() {
+        sec = timeUsedInsec % 60;
+        return sec < 10 ? "0" + sec : String.valueOf(sec);
+    }
+
 
     //获取位置
-    private void getLocation(){
+    private void getLocation() {
         BaiduLocationUtil.getLocation(this, new BaiduLocationUtil.locationListener() {
 
             @Override
             public void location(String s, double latitude, double longitude) {
                 loc = s;
                 lat = latitude;
-                longti =longitude;
+                longti = longitude;
             }
         });
     }
