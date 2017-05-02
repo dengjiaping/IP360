@@ -63,16 +63,12 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         mCameraShutterButton.setOnClickListener(this);
         mRecordShutterButton.setOnClickListener(this);
         mFlashView.setOnClickListener(this);
+        mContainer.setFlashMode(CameraView.FlashMode.OFF);
+        mFlashView.setImageResource(R.drawable.btn_flash_off);
         mSwitchCameraView.setOnClickListener(this);
 
 
         mContainer.setRootPath(mSaveRoot);
-<<<<<<< HEAD
-
-
-=======
-        //initThumbnail();
->>>>>>> 77c787d9411ad7d733e46d6512ddd5ad0d9fc994
         if (flag.equals("video")) {
             mCameraShutterButton.setVisibility(View.GONE);
             mRecordShutterButton.setVisibility(View.VISIBLE);

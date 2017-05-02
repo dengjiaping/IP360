@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.linj.DisplayUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
@@ -56,7 +57,8 @@ public class PhotoPreAct extends BaseActivity {
 
         if (type.equals("photo")) {
             btn_play.setVisibility(View.GONE);
-            ImageLoaderUtil.displayFromSDCardopt(filepath, image, null);
+           // ImageLoaderUtil.displayFromSDCardopt(filepath, image, null);
+            Glide.with(this).load(filepath).into(image);
         } else {
             btn_play.setVisibility(View.VISIBLE);
             btn_play.setOnClickListener(new OnClickListener() {
