@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.interfaces.RSAPrivateKey;
 
 import com.lidroid.xutils.util.LogUtils;
+import com.ta.utdid2.android.utils.Base64;
 
 /*import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -314,5 +314,50 @@ public class SecurityUtil {
 //		System.out.println(sha512);
 
 	}
+//	byte[] signbyte = rsaEncrypt.rsaSign(authInfo.toString(),rsaEncrypt.getPrivateKey());
+//	oriSign=com.truthso.api.util.RsaEncrypt.ByteToHex(signbyte);
+	/**
+	 * rsa签名
+	 *
+	 * @param content
+	 *            待签名的字符串
+	 * @param privateKey
+	 *            rsa私钥字符串
+	 * @param charset
+	 *            字符编码
+	 * @return 签名结果
+	 * @throws Exception
+	 *             签名失败则抛出异常
+	 */
+	public byte[] rsaSign(String content, RSAPrivateKey priKey)
+			throws SignatureException {
+		try {
+			Signature signature = Signature.getInstance("SHA1withRSA");
+			signature.initSign(priKey);
+			signature.update(content.getBytes("utf-8"));
 
+			byte[] signed = signature.sign();
+			return signed;
+		} catch (Exception e) {
+			throw new SignatureException("RSAcontent = " + content
+					+ "; charset = ", e);
+		}
+	}
+	// btye转换hex函数
+	public static String ByteToHex(byte[] byteArray) {
+//        StringBuffer StrBuff = new StringBuffer();
+//        for (int i = 0; i < byteArray.length; i++) {
+//            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+//                StrBuff.append("0").append(
+//                        Integer.toHexString(0xFF & byteArray[i]));
+//            } else {
+//                StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+//            }
+//        }
+//        return StrBuff.toString();
+		//return (new BASE64Encoder()).encodeBuffer(byteArray);
+		//return  Base64.encodeBase64String(byteArray);
+//		return Base64.encode(byteArray);
+		return Base64.encodeToString(byteArray, Base64.DEFAULT);
+	}
 }

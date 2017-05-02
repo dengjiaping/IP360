@@ -514,12 +514,13 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param fileDate 取证时间	
 	 * @param fileLocation 取证地点 可空
 	 * @param fileTime 取证时长 录像 录音不为空
-	 * @param  
+	 * @param  encrypted  加密的需要传密文  摘要规则: (文件名称+取证时间+取证地点+哈希值+秘钥) 拼接成字符串做一下 sha512
+			code返回508,表示文件信息不正确(可能被篡改)String encrypted ,
 	 * @param imei 手机的IMEI码
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileLocation,String fileTime,String imei,String latitudeLongitude, ApiCallback callback){
+	public RequestHandle uploadPreserveFile(String fileTitle,int fileType,String fileSize,String hashCode,String fileDate,String fileLocation,String fileTime,String imei,String latitudeLongitude,ApiCallback callback){
 		BaseHttpRequest<UpLoadBean> request = new BaseHttpRequest<UpLoadBean>(
 				UpLoadBean.class, this);
 		request.setPath(URLConstant.UploadPreserveFile);

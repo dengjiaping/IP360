@@ -253,12 +253,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 //								boolean isHasPremiss_video = checkWriteExternalPermission("android.permission.CAMERA");
 								boolean isHasPremiss_video =cameraIsCanUse();
 								if (isHasPremiss_video){//用户给了有权限
-									Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+									/*Intent intent1 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 									intent1.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 									startActivityForResult(intent1, CASE_VIDEO);
 									SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 									Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-									date1 = formatter.format(curDate);
+									date1 = formatter.format(curDate);*/
+									Intent intent=new Intent(getActivity(),CameraAty.class);
+									intent.putExtra("flag", "video");
+									startActivity(intent);
+
 								}else{//用户没给权限
 									PreshowDialog("您没有开启录像权限！");
 								}

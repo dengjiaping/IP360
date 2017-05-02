@@ -33,6 +33,25 @@ public class AccountStatusBean extends BaseHttpResponse {
 		private int status;
 		private String showText;
 		private int accountBalance;
+		private String privateKey;//私钥
+		private String rsaId;//秘钥id
+		private String servesTime;//服务器时间，返回秒
+
+		public String getRsaId() {
+			return rsaId;
+		}
+
+		public void setRsaId(String rsaId) {
+			this.rsaId = rsaId;
+		}
+
+		public String getPrivateKey() {
+			return privateKey;
+		}
+
+		public void setPrivateKey(String privateKey) {
+			this.privateKey = privateKey;
+		}
 
 		public int getAccountBalance() {
 			return accountBalance;

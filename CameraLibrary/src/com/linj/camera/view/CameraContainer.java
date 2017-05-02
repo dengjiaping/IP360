@@ -46,43 +46,43 @@ import android.widget.Toast;
 
 /** 
  * @ClassName: CameraContainer 
- * @Description:  Ïà»ú½çÃæµÄÈİÆ÷ °üº¬Ïà»ú°ó¶¨µÄsurfaceview¡¢ÅÄÕÕºóµÄÁÙÊ±Í¼Æ¬ViewºÍ¾Û½¹View 
+ * @Description:  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó¶¨µï¿½surfaceviewï¿½ï¿½ï¿½ï¿½ï¿½Õºï¿½ï¿½ï¿½ï¿½Ê±Í¼Æ¬Viewï¿½Í¾Û½ï¿½View 
  * @author LinJ
- * @date 2014-12-31 ÉÏÎç9:38:52 
+ * @date 2014-12-31 ï¿½ï¿½ï¿½ï¿½9:38:52 
  *  
  */
 public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 	public final static String TAG="CameraContainer";
 
-	/** Ïà»ú°ó¶¨µÄSurfaceView  */ 
+	/** ï¿½ï¿½ï¿½ï¿½ó¶¨µï¿½SurfaceView  */ 
 	private CameraView mCameraView;
 
-	/** ÅÄÕÕÉú³ÉµÄÍ¼Æ¬£¬²úÉúÒ»¸öÏÂÒÆµ½×óÏÂ½ÇµÄ¶¯»­Ğ§¹ûºóÒş²Ø */ 
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Â½ÇµÄ¶ï¿½ï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */ 
 	private TempImageView mTempImageView;
 
-	/** ´¥ÃşÆÁÄ»Ê±ÏÔÊ¾µÄ¾Û½¹Í¼°¸  */ 
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»Ê±ï¿½ï¿½Ê¾ï¿½Ä¾Û½ï¿½Í¼ï¿½ï¿½  */ 
 	private FocusImageView mFocusImageView;
 
-	/** ÏÔÊ¾Â¼ÏñÓÃÊ±µÄTextView  */ 
+	/** ï¿½ï¿½Ê¾Â¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½TextView  */ 
 	private TextView mRecordingInfoTextView;
 
-	/** ÏÔÊ¾Ë®Ó¡Í¼°¸  */ 
+	/** ï¿½ï¿½Ê¾Ë®Ó¡Í¼ï¿½ï¿½  */ 
 	private ImageView mWaterMarkImageView; 
 
-	/** ´æ·ÅÕÕÆ¬µÄ¸ùÄ¿Â¼ */ 
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½Ä¸ï¿½Ä¿Â¼ */ 
 	private String mSavePath;
 
-	/** ÕÕÆ¬×Ö½ÚÁ÷´¦ÀíÀà  */ 
+	/** ï¿½ï¿½Æ¬ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  */ 
 	private DataHandler mDataHandler;
 
-	/** ÅÄÕÕ¼àÌı½Ó¿Ú£¬ÓÃÒÔÔÚÅÄÕÕ¿ªÊ¼ºÍ½áÊøºóÖ´ĞĞÏàÓ¦²Ù×÷  */ 
+	/** ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½Ê¼ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½  */ 
 	private TakePictureListener mListener;
 
-	/** Ëõ·Å¼¶±ğÍÏ¶¯Ìõ */ 
+	/** ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ */ 
 	private SeekBar mZoomSeekBar;
 
-	/** ÓÃÒÔÖ´ĞĞ¶¨Ê±ÈÎÎñµÄHandler¶ÔÏó*/
+	/** ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğ¶ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Handlerï¿½ï¿½ï¿½ï¿½*/
 	private Handler mHandler;
 	private long mRecordStartTime;
 	private SimpleDateFormat mTimeFormat;
@@ -95,7 +95,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**  
-	 *  ³õÊ¼»¯×Ó¿Ø¼ş
+	 *  ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ó¿Ø¼ï¿½
 	 *  @param context   
 	 */
 	private void initView(Context context) {
@@ -111,7 +111,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		mWaterMarkImageView=(ImageView) findViewById(R.id.waterMark);
 
 		mZoomSeekBar=(SeekBar) findViewById(R.id.zoomSeekBar);
-		//»ñÈ¡µ±Ç°ÕÕÏà»úÖ§³ÖµÄ×î´óËõ·Å¼¶±ğ£¬ÖµĞ¡ÓÚ0±íÊ¾²»Ö§³ÖËõ·Å¡£µ±Ö§³ÖËõ·ÅÊ±£¬¼ÓÈëÍÏ¶¯Ìõ¡£
+		//ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ÖµĞ¡ï¿½ï¿½0ï¿½ï¿½Ê¾ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½
 		int maxZoom=mCameraView.getMaxZoom();
 		if(maxZoom>0){
 			mZoomSeekBar.setMax(maxZoom);
@@ -166,15 +166,15 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 	
 	/**  
-	 *  ¸Ä±äÏà»úÄ£Ê½ ÔÚÅÄÕÕÄ£Ê½ºÍÂ¼ÏñÄ£Ê½¼äÇĞ»» Á½¸öÄ£Ê½µÄ³õÊ¼Ëõ·Å¼¶±ğ²»Í¬
-	 *  @param zoom   Ëõ·Å¼¶±ğ
+	 *  ï¿½Ä±ï¿½ï¿½ï¿½ï¿½Ä£Ê½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Â¼ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½Ğ»ï¿½ ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½Í¬
+	 *  @param zoom   ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½
 	 */
 	public void switchMode(int zoom){
 		mZoomSeekBar.setProgress(zoom);
 		mCameraView.setZoom(zoom);
-		//×Ô¶¯¶Ô½¹
+		//ï¿½Ô¶ï¿½ï¿½Ô½ï¿½
 		mCameraView.onFocus(new Point(getWidth()/2, getHeight()/2), autoFocusCallback);   
-		//Òş²ØË®Ó¡
+		//ï¿½ï¿½ï¿½ï¿½Ë®Ó¡
 		mWaterMarkImageView.setVisibility(View.GONE);
 	}
 
@@ -189,14 +189,14 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**  
-	 *   Ç°ÖÃ¡¢ºóÖÃÉãÏñÍ·×ª»»
+	 *   Ç°ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·×ªï¿½ï¿½
 	 */
 	@Override
 	public void switchCamera(){
 		mCameraView.switchCamera();
 	}
 	/**  
-	 *  »ñÈ¡µ±Ç°ÉÁ¹âµÆÀàĞÍ
+	 *  ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *  @return   
 	 */
 	@Override
@@ -205,7 +205,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**  
-	 *  ÉèÖÃÉÁ¹âµÆÀàĞÍ
+	 *  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 *  @param flashMode   
 	 */
 	@Override
@@ -214,7 +214,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 * ÉèÖÃÎÄ¼ş±£´æÂ·¾¶
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 	 * @param rootPath
 	 */
 	public void setRootPath(String rootPath){
@@ -225,7 +225,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 
 	/**
-	 * ÅÄÕÕ·½·¨
+	 * ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½
 	 * @param callback
 	 */
 	public void takePicture(){
@@ -233,8 +233,8 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**  
-	 * @Description: ÅÄÕÕ·½·¨
-	 * @param @param listener ÅÄÕÕ¼àÌı½Ó¿Ú
+	 * @Description: ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½
+	 * @param @param listener ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ó¿ï¿½
 	 * @return void    
 	 * @throws 
 	 */
@@ -276,7 +276,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			// TODO Auto-generated method stub
 			mCameraView.setZoom(progress);
 			mHandler.removeCallbacksAndMessages(mZoomSeekBar);
-			//ZOOMÄ£Ê½ÏÂ ÔÚ½áÊøÁ½ÃëºóÒş²Øseekbar ÉèÖÃtokenÎªmZoomSeekBarÓÃÒÔÔÚÁ¬Ğøµã»÷Ê±ÒÆ³ıÇ°Ò»¸ö¶¨Ê±ÈÎÎñ
+			//ZOOMÄ£Ê½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½seekbar ï¿½ï¿½ï¿½ï¿½tokenÎªmZoomSeekBarï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Æ³ï¿½Ç°Ò»ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 			mHandler.postAtTime(new Runnable() {
 
 				@Override
@@ -308,11 +308,9 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 		@Override
 		public void onAutoFocus(boolean success, Camera camera) {
-			//¾Û½¹Ö®ºó¸ù¾İ½á¹ûĞŞ¸ÄÍ¼Æ¬
 			if (success) {
 				mFocusImageView.onFocusSuccess();
 			}else {
-				//¾Û½¹Ê§°ÜÏÔÊ¾µÄÍ¼Æ¬£¬ÓÉÓÚÎ´ÕÒµ½ºÏÊÊµÄ×ÊÔ´£¬ÕâÀïÈÔÏÔÊ¾Í¬Ò»ÕÅÍ¼Æ¬
 				mFocusImageView.onFocusFailed();
 
 			}
@@ -327,25 +325,25 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			if(mDataHandler==null) mDataHandler=new DataHandler();	
 			mDataHandler.setMaxSize(200);
 			String filePath=mDataHandler.save(data);
-			//ÖØĞÂ´ò¿ªÔ¤ÀÀÍ¼£¬½øĞĞÏÂÒ»´ÎµÄÅÄÕÕ×¼±¸
+			//ï¿½ï¿½ï¿½Â´ï¿½Ô¤ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½
 			camera.startPreview();
 			if(mListener!=null) mListener.onTakePictureEnd(filePath);
 		}
 	};
 	
 	 /**
-     * ½«Í¼Æ¬µÄĞı×ª½Ç¶ÈÖÃÎª0  £¬´Ë·½·¨¿ÉÒÔ½â¾öÄ³Ğ©»úĞÍÅÄÕÕºóÍ¼Ïñ£¬³öÏÖÁËĞı×ªÇé¿ö
+     * ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½×ªï¿½Ç¶ï¿½ï¿½ï¿½Îª0  ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½Ä³Ğ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õºï¿½Í¼ï¿½ñ£¬³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½
      *
      * @Title: setPictureDegreeZero
      * @param path
      * @return void
-     * @date 2012-12-10 ÉÏÎç10:54:46
+     * @date 2012-12-10 ï¿½ï¿½ï¿½ï¿½10:54:46
      */
     private void setPictureDegreeZero(String path,int degress) {
         try {
             ExifInterface exifInterface = new ExifInterface(path);
-            // ĞŞÕıÍ¼Æ¬µÄĞı×ª½Ç¶È£¬ÉèÖÃÆä²»Ğı×ª¡£ÕâÀïÒ²¿ÉÒÔÉèÖÃÆäĞı×ªµÄ½Ç¶È£¬¿ÉÒÔ´«Öµ¹ıÈ¥£¬
-            // ÀıÈçĞı×ª90¶È£¬´«ÖµExifInterface.ORIENTATION_ROTATE_90£¬ĞèÒª½«Õâ¸öÖµ×ª»»ÎªStringÀàĞÍµÄ
+            // ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½×ªï¿½Ç¶È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä²»ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½Ä½Ç¶È£ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Öµï¿½ï¿½È¥ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ª90ï¿½È£ï¿½ï¿½ï¿½ÖµExifInterface.ORIENTATION_ROTATE_90ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Öµ×ªï¿½ï¿½ÎªStringï¿½ï¿½ï¿½Íµï¿½
            // exifInterface.setAttribute(ExifInterface.TAG_ORIENTATION, "no");
             exifInterface.setAttribute(String.valueOf(ExifInterface.ORIENTATION_ROTATE_90), String.valueOf(degress));
             exifInterface.saveAttributes();
@@ -357,12 +355,12 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
     }
 
     /**
-     * »ñÈ¡Í¼Æ¬µÄĞı×ª½Ç¶È
+     * ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½ï¿½×ªï¿½Ç¶ï¿½
      * @Title: readPictureDegree
      * @param path
      * @return
      * @return int
-     * @date 2012-12-4 ÉÏÎç9:22:33
+     * @date 2012-12-4 ï¿½ï¿½ï¿½ï¿½9:22:33
      */
     private  int readPictureDegree(String path) {  
         int degree  = 0;  
@@ -391,65 +389,65 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
     
 	private final class TouchListener implements OnTouchListener {
 
-		/** ¼ÇÂ¼ÊÇÍÏÀ­ÕÕÆ¬Ä£Ê½»¹ÊÇ·Å´óËõĞ¡ÕÕÆ¬Ä£Ê½ */
+		/** ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬Ä£Ê½ï¿½ï¿½ï¿½Ç·Å´ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½Æ¬Ä£Ê½ */
 
 		private static final int MODE_INIT = 0;
-		/** ·Å´óËõĞ¡ÕÕÆ¬Ä£Ê½ */
+		/** ï¿½Å´ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½Æ¬Ä£Ê½ */
 		private static final int MODE_ZOOM = 1;
-		private int mode = MODE_INIT;// ³õÊ¼×´Ì¬ 
+		private int mode = MODE_INIT;// ï¿½ï¿½Ê¼×´Ì¬ 
 
-		/** ÓÃÓÚ¼ÇÂ¼ÍÏÀ­Í¼Æ¬ÒÆ¶¯µÄ×ø±êÎ»ÖÃ */
+		/** ï¿½ï¿½ï¿½Ú¼ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ */
 
 		private float startDis;
 
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			/** Í¨¹ıÓëÔËËã±£Áô×îºó°ËÎ» MotionEvent.ACTION_MASK = 255 */
+			/** Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã±£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î» MotionEvent.ACTION_MASK = 255 */
 			switch (event.getAction() & MotionEvent.ACTION_MASK) {
-			// ÊÖÖ¸Ñ¹ÏÂÆÁÄ»
+			// ï¿½ï¿½Ö¸Ñ¹ï¿½ï¿½ï¿½ï¿½Ä»
 			case MotionEvent.ACTION_DOWN:
 				mode = MODE_INIT;
 				break;
 			case MotionEvent.ACTION_POINTER_DOWN:
-				//Èç¹ûmZoomSeekBarÎªnull ±íÊ¾¸ÃÉè±¸²»Ö§³ÖËõ·Å Ö±½ÓÌø¹ıÉèÖÃmode MoveÖ¸ÁîÒ²ÎŞ·¨Ö´ĞĞ
+				//ï¿½ï¿½ï¿½mZoomSeekBarÎªnull ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½è±¸ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mode MoveÖ¸ï¿½ï¿½Ò²ï¿½Ş·ï¿½Ö´ï¿½ï¿½
 				if(mZoomSeekBar==null) return true;
-				//ÒÆ³ıtoken¶ÔÏóÎªmZoomSeekBarµÄÑÓÊ±ÈÎÎñ
+				//ï¿½Æ³ï¿½tokenï¿½ï¿½ï¿½ï¿½ÎªmZoomSeekBarï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 				mHandler.removeCallbacksAndMessages(mZoomSeekBar);
 				mZoomSeekBar.setVisibility(View.VISIBLE);
 
 				mode = MODE_ZOOM;
-				/** ¼ÆËãÁ½¸öÊÖÖ¸¼äµÄ¾àÀë */
+				/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
 				startDis = distance(event);
 				break;
 			case MotionEvent.ACTION_MOVE:
 				if (mode == MODE_ZOOM) {
-					//Ö»ÓĞÍ¬Ê±´¥ÆÁÁ½¸öµãµÄÊ±ºò²ÅÖ´ĞĞ
+					//Ö»ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
 					if(event.getPointerCount()<2) return true;
-					float endDis = distance(event);// ½áÊø¾àÀë
-					//Ã¿±ä»¯10f zoom±ä1
+					float endDis = distance(event);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					//Ã¿ï¿½ä»¯10f zoomï¿½ï¿½1
 					int scale=(int) ((endDis-startDis)/10f);
 					if(scale>=1||scale<=-1){
 						int zoom=mCameraView.getZoom()+scale;
-						//zoom²»ÄÜ³¬³ö·¶Î§
+						//zoomï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½ï¿½ï¿½Î§
 						if(zoom>mCameraView.getMaxZoom()) zoom=mCameraView.getMaxZoom();
 						if(zoom<0) zoom=0;
 						mCameraView.setZoom(zoom);
 						mZoomSeekBar.setProgress(zoom);
-						//½«×îºóÒ»´ÎµÄ¾àÀëÉèÎªµ±Ç°¾àÀë
+						//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ÎµÄ¾ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
 						startDis=endDis;
 					}
 				}
 				break;
-				// ÊÖÖ¸Àë¿ªÆÁÄ»
+				// ï¿½ï¿½Ö¸ï¿½ë¿ªï¿½ï¿½Ä»
 			case MotionEvent.ACTION_UP:
 				if(mode!=MODE_ZOOM){
-					//ÉèÖÃ¾Û½¹
+					//ï¿½ï¿½ï¿½Ã¾Û½ï¿½
 					Point point=new Point((int)event.getX(), (int)event.getY());
 					mCameraView.onFocus(point,autoFocusCallback);
 					mFocusImageView.startFocus(point);
 				}else {
-					//ZOOMÄ£Ê½ÏÂ ÔÚ½áÊøÁ½ÃëºóÒş²Øseekbar ÉèÖÃtokenÎªmZoomSeekBarÓÃÒÔÔÚÁ¬Ğøµã»÷Ê±ÒÆ³ıÇ°Ò»¸ö¶¨Ê±ÈÎÎñ
+					//ZOOMÄ£Ê½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½seekbar ï¿½ï¿½ï¿½ï¿½tokenÎªmZoomSeekBarï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Æ³ï¿½Ç°Ò»ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 					mHandler.postAtTime(new Runnable() {
 
 						@Override
@@ -463,27 +461,27 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			}
 			return true;
 		}
-		/** ¼ÆËãÁ½¸öÊÖÖ¸¼äµÄ¾àÀë */
+		/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
 		private float distance(MotionEvent event) {
 			float dx = event.getX(1) - event.getX(0);
 			float dy = event.getY(1) - event.getY(0);
-			/** Ê¹ÓÃ¹´¹É¶¨Àí·µ»ØÁ½µãÖ®¼äµÄ¾àÀë */
+			/** Ê¹ï¿½Ã¹ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½ */
 			return (float) Math.sqrt(dx * dx + dy * dy);
 		}
 
 	}
 
 	/**
-	 * ÅÄÕÕ·µ»ØµÄbyteÊı¾İ´¦ÀíÀà
+	 * ï¿½ï¿½ï¿½Õ·ï¿½ï¿½Øµï¿½byteï¿½ï¿½ï¿½İ´ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @author linj
 	 *
 	 */
 	private final class DataHandler{
-		/** ´óÍ¼´æ·ÅÂ·¾¶  */
+		/** ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½  */
 		//private String mThumbnailFolder;
-		/** Ğ¡Í¼´æ·ÅÂ·¾¶ */
+		/** Ğ¡Í¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½ */
 		//private String mImageFolder;
-		/** Ñ¹ËõºóµÄÍ¼Æ¬×î´óÖµ µ¥Î»KB*/
+		/** Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½Öµ ï¿½ï¿½Î»KB*/
 		private int maxSize=200;
 
 		public DataHandler(){
@@ -500,13 +498,13 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		}
 
 		/**
-		 * ±£´æÍ¼Æ¬
-		 * @param Ïà»ú·µ»ØµÄÎÄ¼şÁ÷
-		 * @return ½âÎöÁ÷Éú³ÉµÄËõÂÔÍ¼
+		 * ï¿½ï¿½ï¿½ï¿½Í¼Æ¬
+		 * @param ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+		 * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½Í¼
 		 */
 		public String save(byte[] data)  {
 			if(data!=null){
-				//²úÉúĞÂµÄÎÄ¼şÃû
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 				String imgName=FileOperateUtil.createFileNmae(".jpg");
 				File folder=new File(mSavePath+"/photo");
 				if(!folder.exists()){
@@ -526,7 +524,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 					}
 				}
 				try{
-					//´æÍ¼Æ¬´óÍ¼
+					//ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Í¼
 					FileOutputStream fos=new FileOutputStream(file);
 					fos.write(data);
 					fos.flush();
@@ -534,10 +532,10 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 					return file.getAbsolutePath();
 				}catch(Exception e){
 					Log.e(TAG, e.toString());
-					Toast.makeText(getContext(), "½âÎöÏà»ú·µ»ØÁ÷Ê§°Ü", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getContext(), "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 				}
 			}else{
-				Toast.makeText(getContext(), "ÅÄÕÕÊ§°Ü£¬ÇëÖØÊÔ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), "ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -560,15 +558,15 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			Canvas canvas=new Canvas(newb);
 			//draw src into
 
-			canvas.drawBitmap( bm, 0, 0, null );//ÔÚ 0£¬0×ø±ê¿ªÊ¼»­Èësrc
-			canvas.drawBitmap( wBitmap, w - ww + 5, h - wh + 5, null );//ÔÚsrcµÄÓÒÏÂ½Ç»­ÈëË®Ó¡
+			canvas.drawBitmap( bm, 0, 0, null );//ï¿½ï¿½ 0ï¿½ï¿½0ï¿½ï¿½ï¿½ê¿ªÊ¼ï¿½ï¿½ï¿½ï¿½src
+			canvas.drawBitmap( wBitmap, w - ww + 5, h - wh + 5, null );//ï¿½ï¿½srcï¿½ï¿½ï¿½ï¿½ï¿½Â½Ç»ï¿½ï¿½ï¿½Ë®Ó¡
 			//save all clip
 
-			canvas.save( Canvas.ALL_SAVE_FLAG );//±£´æ
+			canvas.save( Canvas.ALL_SAVE_FLAG );//ï¿½ï¿½ï¿½ï¿½
 
 			//store
 
-			canvas.restore();//´æ´¢
+			canvas.restore();//ï¿½æ´¢
 			bm.recycle();
 			bm=null;
 			wBitmap.recycle();
@@ -588,25 +586,25 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			return bitmap;
 		}
 		/**
-		 * Í¼Æ¬Ñ¹Ëõ·½·¨
-		 * @param bitmap Í¼Æ¬ÎÄ¼ş
-		 * @param max ÎÄ¼ş´óĞ¡×î´óÖµ
-		 * @return Ñ¹ËõºóµÄ×Ö½ÚÁ÷
+		 * Í¼Æ¬Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		 * @param bitmap Í¼Æ¬ï¿½Ä¼ï¿½
+		 * @param max ï¿½Ä¼ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½Öµ
+		 * @return Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½
 		 * @throws Exception
 		 */
 		public ByteArrayOutputStream compress(Bitmap bitmap){
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);// ÖÊÁ¿Ñ¹Ëõ·½·¨£¬ÕâÀï100±íÊ¾²»Ñ¹Ëõ£¬°ÑÑ¹ËõºóµÄÊı¾İ´æ·Åµ½baosÖĞ
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);// ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½100ï¿½ï¿½Ê¾ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ´ï¿½Åµï¿½baosï¿½ï¿½
 			int options = 99;
-			while ( baos.toByteArray().length / 1024 > maxSize) { // Ñ­»·ÅĞ¶ÏÈç¹ûÑ¹ËõºóÍ¼Æ¬ÊÇ·ñ´óÓÚ100kb,´óÓÚ¼ÌĞøÑ¹Ëõ
-				options -= 3;// Ã¿´Î¶¼¼õÉÙ10
-				//Ñ¹Ëõ±ÈĞ¡ÓÚ0£¬²»ÔÙÑ¹Ëõ
+			while ( baos.toByteArray().length / 1024 > maxSize) { // Ñ­ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Ç·ï¿½ï¿½ï¿½ï¿½100kb,ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½
+				options -= 3;// Ã¿ï¿½Î¶ï¿½ï¿½ï¿½ï¿½ï¿½10
+				//Ñ¹ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½
 				if (options<0) {
 					break;
 				}
 				Log.i(TAG,baos.toByteArray().length / 1024+"");
-				baos.reset();// ÖØÖÃbaos¼´Çå¿Õbaos
-				bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);// ÕâÀïÑ¹Ëõoptions%£¬°ÑÑ¹ËõºóµÄÊı¾İ´æ·Åµ½baosÖĞ
+				baos.reset();// ï¿½ï¿½ï¿½ï¿½baosï¿½ï¿½ï¿½ï¿½ï¿½baos
+				bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);// ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½options%ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ´ï¿½Åµï¿½baosï¿½ï¿½
 			}
 			return baos;
 		}
@@ -618,21 +616,21 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 	/** 
 	 * @ClassName: TakePictureListener 
-	 * @Description:  ÅÄÕÕ¼àÌı½Ó¿Ú£¬ÓÃÒÔÔÚÅÄÕÕ¿ªÊ¼ºÍ½áÊøºóÖ´ĞĞÏàÓ¦²Ù×÷
+	 * @Description:  ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½Ó¿Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½Ê¼ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
 	 * @author LinJ
-	 * @date 2014-12-31 ÉÏÎç9:50:33 
+	 * @date 2014-12-31 ï¿½ï¿½ï¿½ï¿½9:50:33 
 	 *  
 	 */
 	public static interface TakePictureListener{		
 		/**  
-		 *ÅÄÕÕ½áÊøÖ´ĞĞµÄ¶¯×÷£¬¸Ã·½·¨»áÔÚonPictureTakenº¯ÊıÖ´ĞĞºó´¥·¢
-		 *  @param bm ÅÄÕÕÉú³ÉµÄÍ¼Æ¬ 
+		 *ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½Ö´ï¿½ĞµÄ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½onPictureTakenï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğºó´¥·ï¿½
+		 *  @param bm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Í¼Æ¬ 
 		 */
 		public void onTakePictureEnd(String filePath);
 
-		/**  ÁÙÊ±Í¼Æ¬¶¯»­½áÊøºó´¥·¢
-		 * @param bm ÅÄÕÕÉú³ÉµÄÍ¼Æ¬ 
-		 * @param isVideo true£ºµ±Ç°ÎªÂ¼ÏñËõÂÔÍ¼ false:ÎªÅÄÕÕËõÂÔÍ¼
+		/**  ï¿½ï¿½Ê±Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó´¥·ï¿½
+		 * @param bm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½Í¼Æ¬ 
+		 * @param isVideo trueï¿½ï¿½ï¿½ï¿½Ç°ÎªÂ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ false:Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼
 		 * */
 		public void onAnimtionEnd(Bitmap bm,boolean isVideo);
 	}

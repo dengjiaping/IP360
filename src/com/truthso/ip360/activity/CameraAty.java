@@ -19,10 +19,12 @@ import com.truthso.ip360.constants.MyConstants;
 import java.io.File;
 
 /**
- * @author LinJ
- * @ClassName: CameraAty
- * @Description: 自定义照相机类
- * @date 2014-12-31 上午9:44:25
+ * @despriction :自定义拍照录像
+ *
+ * @author wsx_summer Email:wangshaoxia@truthso.com
+ * @date 创建时间：2017/5/2 14:12
+ * @version
+ * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class CameraAty extends Activity implements View.OnClickListener, CameraContainer.TakePictureListener {
     public final static String TAG = "CameraAty";
@@ -38,7 +40,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     private boolean isRecording = false;
     private String flag;
     private String mSaveRoot = MyConstants.CACHE_PATH;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,17 +58,16 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         mSwitchCameraView = (ImageView) findViewById(R.id.btn_switch_camera);
         mFlashView = (ImageView) findViewById(R.id.btn_flash_mode);
 
-        mSettingView = (ImageView) findViewById(R.id.btn_other_setting);
+//        mSettingView = (ImageView) findViewById(R.id.btn_other_setting);
 
 
         mCameraShutterButton.setOnClickListener(this);
         mRecordShutterButton.setOnClickListener(this);
         mFlashView.setOnClickListener(this);
         mSwitchCameraView.setOnClickListener(this);
-        mSettingView.setOnClickListener(this);
+
 
         mContainer.setRootPath(mSaveRoot);
-        //initThumbnail();
 
 
         if (flag.equals("video")) {
@@ -83,7 +83,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
 
     @Override
     public void onClick(View view) {
-        // TODO Auto-generated method stub
         switch (view.getId()) {
             case R.id.btn_shutter_camera:
                 mCameraShutterButton.setClickable(false);
@@ -120,9 +119,9 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
             case R.id.btn_switch_camera:
                 mContainer.switchCamera();
                 break;
-            case R.id.btn_other_setting:
+            /*case R.id.btn_other_setting:
                 mContainer.setWaterMark();
-                break;
+                break;*/
             default:
                 break;
         }
