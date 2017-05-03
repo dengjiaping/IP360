@@ -322,7 +322,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		@Override
 		public void onPictureTaken(byte[] data, Camera camera) {
 			if(mSavePath==null) throw new RuntimeException("mSavePath is null");
-			if(mDataHandler==null) mDataHandler=new DataHandler();	
+			if(mDataHandler==null) mDataHandler=new DataHandler();
 			mDataHandler.setMaxSize(200);
 			String filePath=mDataHandler.save(data);
 			//���´�Ԥ��ͼ��������һ�ε�����׼��

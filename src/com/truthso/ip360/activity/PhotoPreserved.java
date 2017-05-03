@@ -121,7 +121,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				tv_loc.setText("获取位置信息失败");
 				loc ="获取位置信息失败";
 			}
-
 		}
 
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
@@ -194,9 +193,11 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 		String imei = MyApplication.getInstance().getDeviceImei();
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
-		//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
-		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				ll + "", hashCode, date, loc, null, imei,longlat,null,0,
+
+				//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
+				Integer i = null;
+				ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
+				ll + "", hashCode, date, loc, null, imei,longlat,null,i,
 				new ApiCallback() {
 
 					@Override

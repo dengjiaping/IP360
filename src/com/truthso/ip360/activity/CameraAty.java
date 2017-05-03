@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.linj.camera.view.CameraContainer;
 import com.linj.camera.view.CameraView;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.utils.TimeUtil;
 
 import java.io.File;
 
@@ -137,10 +138,12 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     @Override
     public void onTakePictureEnd(String filePath) {
         mCameraShutterButton.setClickable(true);
+        int currentTime = TimeUtil.getCurrentTime();
+        long date=serviceTime+currentTime*1000;
         Intent intent = new Intent(this, PhotoPreAct.class);
         intent.putExtra("type", "photo");
         intent.putExtra("filepath", filePath);
-        Log.i("djj","filePath"+filePath);
+        intent.putExtra("date", date);
         startActivity(intent);
     }
 

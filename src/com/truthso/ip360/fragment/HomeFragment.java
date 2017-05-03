@@ -60,6 +60,8 @@ import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.SharePreferenceUtil;
+import com.truthso.ip360.utils.TimeUtil;
 import com.truthso.ip360.view.CircleFlowIndicator;
 import com.truthso.ip360.view.ViewFlow;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -221,22 +223,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
 							Long serviceTime = bean.getDatas().getServesTime();//返回多少秒
+							String rsaId =bean.getDatas().getRsaId();//siyaoid
+							String  priKey = bean.getDatas().getPrivateKey();
+							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.RSAID,rsaId);
+							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.PRIKEY,priKey);
+							TimeUtil.startTime();
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
 								boolean isHasPremiss =cameraIsCanUse();
 								if (isHasPremiss){//有权限
-									/*photoDir = new File(MyConstants.PHOTO_PATH);
-									if (!photoDir.exists()) {
-										photoDir.mkdirs();
-									}
-									String name = "temp.jpg";
-									photo = new File(photoDir, name);
-									Camera.open().release();
-
-									Uri photoUri = Uri.fromFile(photo);
-									Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-									intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-									startActivityForResult(intent, CAMERA);*/
 									Intent intent=new Intent(getActivity(),CameraAty.class);
 									intent.putExtra("serviceTime",serviceTime);
 									intent.putExtra("flag", "camera");
@@ -248,7 +243,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 
 							case MyConstants.VIDEOTYPE:
-//								boolean isHasPremiss_video = checkWriteExternalPermission("android.permission.CAMERA");
 								boolean isHasPremiss_video =cameraIsCanUse();
 								if (isHasPremiss_video){//用户给了有权限
 									Intent intent1=new Intent(getActivity(),CameraAty.class);
@@ -270,14 +264,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								Intent intent2 = new Intent(getActivity(), LiveRecordImplementationActivity.class);
 								intent2.putExtra("serviceTime",serviceTime);//服務器時間
 								intent2.putExtra("loc", loc);
-//								intent2.putExtra("longlat",longti+","+lat);
+
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
- //								addTimeUsed();
 								startActivity(intent2);
 								break;
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
-//							Toaster.showToast(getActivity(), "余额不足，请充值！");
 						int account = bean.getDatas().getAccountBalance();//余额
 
 
