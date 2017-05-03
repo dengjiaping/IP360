@@ -21,8 +21,6 @@ import com.bumptech.glide.Glide;
 import com.linj.DisplayUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
-import com.truthso.ip360.utils.FileUtil;
-import com.truthso.ip360.utils.ImageLoaderUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +28,14 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
+/**
+ * @despriction :拍照录像后的页面
+ *
+ * @author wsx_summer Email:wangshaoxia@truthso.com
+ * @date 创建时间：2017/5/3 14:03
+ * @version
+ * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
+ */
 public class PhotoPreAct extends BaseActivity {
 
     private ImageView image;

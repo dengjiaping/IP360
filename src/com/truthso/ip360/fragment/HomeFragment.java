@@ -220,6 +220,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				if (!CheckUtil.isEmpty(bean)) {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
+							Long serviceTime = bean.getDatas().getServesTime();//返回多少秒
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
 								boolean isHasPremiss =cameraIsCanUse();
@@ -237,6 +238,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 									startActivityForResult(intent, CAMERA);*/
 									Intent intent=new Intent(getActivity(),CameraAty.class);
+									intent.putExtra("serviceTime",serviceTime);
 									intent.putExtra("flag", "camera");
 									startActivity(intent);
 								}else{//没权限
@@ -257,6 +259,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									date1 = formatter.format(curDate);
 									Intent intent=new Intent(getActivity(),CameraAty.class);
 									intent.putExtra("flag", "video");
+									intent.putExtra("serviceTime",serviceTime);
 									startActivity(intent);
 
 								}else{//用户没给权限
@@ -265,6 +268,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 							case MyConstants.RECORDTYPE:
 								Intent intent2 = new Intent(getActivity(), LiveRecordImplementationActivity.class);
+								intent2.putExtra("serviceTime",serviceTime);//服務器時間
 								intent2.putExtra("loc", loc);
 //								intent2.putExtra("longlat",longti+","+lat);
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -393,9 +397,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				loc = s;
 				lat = latitude;
 				longti =longitude;
-//				Message message = handler .obtainMessage();
-//				message.what = 1;
-//				handler.sendMessage(message);
 			}
 
 

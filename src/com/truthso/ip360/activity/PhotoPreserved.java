@@ -55,7 +55,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private Button btn_title_right, btn_preserved;
 	private ImageButton btn_title_left;
 	private ImageView iv_photo;
-	private String path, title, size, date, loc,longlat,fileDate;
+	private String path, title, size, date, loc,currLoc,currLonglat,longlat,fileDate;
 	private long length;
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_account;
 	private int useType,pkValue;
@@ -83,7 +83,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
-
+		getLocation();
 	}
 
 	@Override
@@ -109,16 +109,25 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 //		tv_account = (TextView) findViewById(R.id.tv_account);
 		Bitmap decodeFile = BitmapFactory.decodeFile(path);
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
+		if(!CheckUtil.isEmpty(currLoc)&&!currLoc.equals("nullnull")){//当前能获取位置用当前的位置，
+			loc = currLoc;
+			longlat = currLonglat;
 			tv_loc.setText(loc);
-		} else {
-			tv_loc.setText("获取位置信息失败");
-			loc ="获取位置信息失败";
+		}else{//当前没有位置,用取证前时候的位置
+
+			if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
+				tv_loc.setText(loc);
+			} else {
+				tv_loc.setText("获取位置信息失败");
+				loc ="获取位置信息失败";
+			}
+
 		}
+
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(
 				PhotoPreserved.this, MyConstants.SP_USER_KEY, "userType",
 				SharePreferenceUtil.VALUE_IS_INT);
-//		getLocation();
+
 		//上传文件信息
 		filePre();
 		
@@ -131,7 +140,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1,
 				new ApiCallback() {
 
-//					private String yue;
 
 					@Override
 					public void onApiResultFailure(int statusCode,
@@ -188,7 +196,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
 		//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
 		ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				ll + "", hashCode, date, loc, null, imei,longlat,
+				ll + "", hashCode, date, loc, null, imei,longlat,null,0,
 				new ApiCallback() {
 
 					@Override
@@ -450,15 +458,35 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						filePre();//上传文件信息
 
 					}
-				}).setNegativeButton("放弃保全", new DialogInterface.OnClickListener() {
+				}).setNegativeButton("稍后保全", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						CancelUploadFile();
+						//上传列表等待上传
+
+						Toaster.showToast(PhotoPreserved.this,"已进入上传列表等待上传");
+						Intent intent = new Intent(PhotoPreserved.this,MainActivity.class);
+						startActivity(intent);
 						finish();
 					}
 				}).create();
 		alertDialog.show();
+	}
+
+	/**
+	 * 定位
+	 */
+	private void getLocation(){
+		BaiduLocationUtil.getLocation(PhotoPreserved.this, new locationListener() {
+
+			@Override
+			public void location(String s, double latitude, double longitude) {
+			currLoc = s;
+			currLonglat = longitude+","+latitude;
+			}
+
+
+		});
 	}
 }
 

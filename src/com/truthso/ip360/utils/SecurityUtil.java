@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 
 import com.lidroid.xutils.util.LogUtils;
 import com.ta.utdid2.android.utils.Base64;
@@ -314,8 +317,29 @@ public class SecurityUtil {
 //		System.out.println(sha512);
 
 	}
-//	byte[] signbyte = rsaEncrypt.rsaSign(authInfo.toString(),rsaEncrypt.getPrivateKey());
-//	oriSign=com.truthso.api.util.RsaEncrypt.ByteToHex(signbyte);
+
+	/**
+	 * 验签
+	 * @param str 待签字符串
+	 * @param priavteKey 私钥
+     * @return
+     */
+  		public String  RSAFileInfo(String str,String priavteKey) throws Exception {
+
+			byte[] signbyte = rsaSign(str.toString(), (RSAPrivateKey) getPrivateKey(priavteKey));
+			str=ByteToHex(signbyte);
+	  return str;
+  }
+
+	/** * 得到私钥 * * @param key * 密钥字符串（经过base64编码） * @throws Exception */
+
+	protected static PrivateKey getPrivateKey(String key) throws Exception {
+		byte[] keyBytes = Base64.decode(key,0);
+		PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+		return privateKey;
+	}
 	/**
 	 * rsa签名
 	 *
@@ -329,13 +353,11 @@ public class SecurityUtil {
 	 * @throws Exception
 	 *             签名失败则抛出异常
 	 */
-	public byte[] rsaSign(String content, RSAPrivateKey priKey)
-			throws SignatureException {
+	public byte[] rsaSign(String content, RSAPrivateKey priKey) throws SignatureException {
 		try {
 			Signature signature = Signature.getInstance("SHA1withRSA");
 			signature.initSign(priKey);
 			signature.update(content.getBytes("utf-8"));
-
 			byte[] signed = signature.sign();
 			return signed;
 		} catch (Exception e) {
@@ -345,18 +367,6 @@ public class SecurityUtil {
 	}
 	// btye转换hex函数
 	public static String ByteToHex(byte[] byteArray) {
-//        StringBuffer StrBuff = new StringBuffer();
-//        for (int i = 0; i < byteArray.length; i++) {
-//            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
-//                StrBuff.append("0").append(
-//                        Integer.toHexString(0xFF & byteArray[i]));
-//            } else {
-//                StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
-//            }
-//        }
-//        return StrBuff.toString();
-		//return (new BASE64Encoder()).encodeBuffer(byteArray);
-		//return  Base64.encodeBase64String(byteArray);
 //		return Base64.encode(byteArray);
 		return Base64.encodeToString(byteArray, Base64.DEFAULT);
 	}

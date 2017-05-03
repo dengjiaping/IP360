@@ -39,6 +39,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     private View mHeaderBar;
     private boolean isRecording = false;
     private String flag;
+    private Long serviceTime;
     private String mSaveRoot = MyConstants.CACHE_PATH;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         setContentView(R.layout.camera);
 
         flag = getIntent().getStringExtra("flag");
-
+        serviceTime = getIntent().getLongExtra("serviceTime",0);//服務器初始時間
         mHeaderBar = findViewById(R.id.camera_header_bar);
         mContainer = (CameraContainer) findViewById(R.id.container);
         mVideoIconView = (ImageView) findViewById(R.id.videoicon);
@@ -58,7 +59,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         mSwitchCameraView = (ImageView) findViewById(R.id.btn_switch_camera);
         mFlashView = (ImageView) findViewById(R.id.btn_flash_mode);
 
-//        mSettingView = (ImageView) findViewById(R.id.btn_other_setting);
 
         mCameraShutterButton.setOnClickListener(this);
         mRecordShutterButton.setOnClickListener(this);
@@ -117,9 +117,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
             case R.id.btn_switch_camera:
                 mContainer.switchCamera();
                 break;
-            /*case R.id.btn_other_setting:
-                mContainer.setWaterMark();
-                break;*/
             default:
                 break;
         }

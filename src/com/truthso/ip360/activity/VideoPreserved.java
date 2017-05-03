@@ -61,7 +61,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 	private String mVideoName;
 	private ImageView iv_video;
 	private String mVideoSize, size, title,longlat;
-	private String mDate, loc, time,fileDate;
+	private String mDate, loc,currLoc,currLonglat, time,fileDate;
 	private Button btn_preserved, btn_title_right;
 	private  ImageButton btn_title_left;
 	private int minTime;
@@ -86,6 +86,8 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void initView() {
+		//更新位置
+		getLocation();
 		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
 		btn_preserved = (Button) findViewById(R.id.btn_preserved);
@@ -125,28 +127,28 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		iv_video.setImageBitmap(getVideoThumbnail(mVideoPath, 80, 80,
 				MediaStore.Images.Thumbnails.MICRO_KIND));
 		mVideoSize = GetFileSizeUtil.FormatFileSize(mVideoPath);
-
 		tv_filename.setText(mVideoName);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
+		if(!CheckUtil.isEmpty(currLoc)&&!currLoc.equals("nullnull")){//当前能获取位置用当前的位置，
+			loc = currLoc;
+			longlat = currLonglat;
 			tv_loc.setText(loc);
-		} else {
-			tv_loc.setText("获取位置信息失败");
-			loc = "获取位置信息失败";
+
+		}else {//当前没有位置,用取证前时候的位置
+
+			if (!CheckUtil.isEmpty(loc) && !loc.equals("nullnull")) {
+				tv_loc.setText(loc);
+			} else {
+				tv_loc.setText("获取位置信息失败");
+				loc = "获取位置信息失败";
+			}
 		}
 
-//		tv_date.setText(mDate);
 		tv_filesize.setText(mVideoSize);
 		tv_time.setText(time.toString().trim());
-
-
-
 		useType = (Integer) SharePreferenceUtil.getAttributeByKey(VideoPreserved.this, MyConstants.SP_USER_KEY, "userType", SharePreferenceUtil.VALUE_IS_INT);
 		//上传文件信息
 	    filePre();
 	}
-
-
-
 	/**
 	 * 调接口，看是否可用，和当次消费
 	 */
@@ -275,7 +277,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			String imei = MyApplication.getInstance().getDeviceImei();
 			ApiManager.getInstance().uploadPreserveFile(mVideoName, MyConstants.VIDEOTYPE,
-					ll +"", hashCode, mDate, loc, time, imei, longlat,
+					ll +"", hashCode, mDate, loc, time, imei, longlat,null,0,
 					new ApiCallback() {
 
 						@Override
@@ -504,5 +506,20 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 					}
 				}).create();
 		alertDialog.show();
+	}
+	/**
+	 * 定位
+	 */
+	private void getLocation(){
+		BaiduLocationUtil.getLocation(VideoPreserved.this, new locationListener() {
+
+			@Override
+			public void location(String s, double latitude, double longitude) {
+				currLoc = s;
+				currLonglat = longitude+","+latitude;
+			}
+
+
+		});
 	}
 }

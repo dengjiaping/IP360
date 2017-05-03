@@ -50,7 +50,7 @@ import cz.msebera.android.httpclient.Header;
 public class LiveRecordPreActivity extends BaseActivity implements
 		OnClickListener {
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
-	private String date, fileName, loc, fileSize, time, filePath,longlat,fileDate;
+	private String date, fileName, loc, currLoc,fileSize, time, filePath,currLonglat,longlat,fileDate;
 	private Button btn_title_right, btn_save;
 	private ImageButton btn_title_left;
 	private boolean isPre=false;
@@ -60,29 +60,11 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private long ll;
 	private String url;
 	private Dialog alertDialog;
-//	private double lat,longti;
-//	private String latitudeLongitude;
 	private boolean filePreIsok = false;
 	private  int expStatus;
 	private String hashCode;
 	private RelativeLayout rl_record;
-	/*private Handler handler = new Handler(){
-		 public void handleMessage(Message msg) {
-			 switch (msg.what) {
-			case 1:
-				if (!CheckUtil.isEmpty(loc)) {
-				tv_loc.setText(loc);
-			}else{
-				tv_loc.setText("获取位置信息失败");
-			}
-				latitudeLongitude = longti+","+lat;
-				break;
 
-			default:
-				break;
-			}
-		 };
-	};*/
 	@Override
 	public void initData() {
 
@@ -90,6 +72,8 @@ public class LiveRecordPreActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
+		//更新位置
+		getLocation();
 		btn_title_left = (ImageButton) findViewById(R.id.btn_title_left);
 		btn_title_left.setOnClickListener(this);
 		btn_title_right = (Button) findViewById(R.id.btn_title_right);
@@ -117,13 +101,21 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		btn_save = (Button) findViewById(R.id.btn_preserved);
 		btn_save.setOnClickListener(this);
 		tv_filename.setText(fileName);
-		if (!CheckUtil.isEmpty(loc)&&!loc.equals("nullnull")) {
+
+		if(!CheckUtil.isEmpty(currLoc)&&!currLoc.equals("nullnull")){//当前能获取位置用当前的位置，
+			loc = currLoc;
+			longlat = currLonglat;
 			tv_loc.setText(loc);
-		}else{
-			tv_loc.setText("获取位置信息失败");
-			loc = "获取位置信息失败";
+
+		}else {//当前没有位置,用取证前时候的位置
+
+			if (!CheckUtil.isEmpty(loc) && !loc.equals("nullnull")) {
+				tv_loc.setText(loc);
+			} else {
+				tv_loc.setText("获取位置信息失败");
+				loc = "获取位置信息失败";
+			}
 		}
-		
 //		tv_date.setText(date);
 		tv_filesize.setText(fileSize);
 		tv_time.setText(time);
@@ -264,7 +256,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			LogUtils.e("录音文件的hashcode" + hashCode);
 			String imei = MyApplication.getInstance().getDeviceImei();
 			ApiManager.getInstance().uploadPreserveFile(fileName, MyConstants.RECORDTYPE,
-					ll + "", hashCode, date, loc, time, imei, longlat,
+					ll + "", hashCode, date, loc, time, imei, longlat,null,0,
 					new ApiCallback() {
 
 						@Override
@@ -461,5 +453,21 @@ public class LiveRecordPreActivity extends BaseActivity implements
 					}
 				}).create();
 		alertDialog.show();
+	}
+
+	/**
+	 * 定位
+	 */
+	private void getLocation(){
+		BaiduLocationUtil.getLocation(LiveRecordPreActivity.this, new locationListener() {
+
+			@Override
+			public void location(String s, double latitude, double longitude) {
+				currLoc = s;
+				currLonglat = longitude+","+latitude;
+			}
+
+
+		});
 	}
 }

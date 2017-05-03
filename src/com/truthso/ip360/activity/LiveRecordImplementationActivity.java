@@ -110,7 +110,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private int sec;
 	private int mintime;
 	private int i;
-
+	private Long serviceTime;
 
 
 	private void startTime() {
@@ -298,6 +298,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 
 	@Override
 	public void initView() {
+		serviceTime = getIntent().getLongExtra("serviceTime",0);//服務器初始時間
 	boolean  isHasPermission = CheckAudioPermission.isHasPermission(this);
 		if(!isHasPermission){
 			showDialog();
