@@ -227,12 +227,13 @@ public class TransList extends BaseFragment implements OnClickListener {
 						switch (caseNum){
 							case NONET://没网
 								//调上传文件信息的接口
+
 								break;
 							case  PRE_FILE://保全文件
-
+								//扣费，上传文件
 								break;
 							case IS_REMEND://文件是否被篡改
-
+								//删除文件
 								break;
 
 						}

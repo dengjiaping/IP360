@@ -325,8 +325,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				long length=newFile.length();
 				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",Calendar.getInstance(Locale.CHINA)).toString();
-
-					 Intent intent = new Intent(getActivity(), PhotoPreserved.class);
+				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);
