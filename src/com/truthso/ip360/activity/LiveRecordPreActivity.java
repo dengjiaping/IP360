@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,9 +34,12 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+
+import java.sql.Date;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -50,7 +54,7 @@ import cz.msebera.android.httpclient.Header;
 public class LiveRecordPreActivity extends BaseActivity implements
 		OnClickListener {
 	private TextView tv_filename, tv_loc, tv_date, tv_filesize, tv_time;
-	private String date, fileName, loc, currLoc,fileSize, time, filePath,currLonglat,longlat,fileDate;
+	private String fileName, loc, currLoc,fileSize, time, filePath,currLonglat,longlat,fileDate;
 	private Button btn_title_right, btn_save;
 	private ImageButton btn_title_left;
 	private boolean isPre=false;
@@ -64,10 +68,19 @@ public class LiveRecordPreActivity extends BaseActivity implements
 	private  int expStatus;
 	private String hashCode;
 	private RelativeLayout rl_record;
+	private long date;
 
 	@Override
 	public void initData() {
-
+		mintime = getIntent().getIntExtra("mintime", 0);
+		fileName = getIntent().getStringExtra("fileName");
+		date = getIntent().getLongExtra("date",0);
+		fileSize = getIntent().getStringExtra("fileSize");
+		time = getIntent().getStringExtra("fileTime");
+		filePath = getIntent().getStringExtra("filePath");
+		loc = getIntent().getStringExtra("loc");
+		longlat= getIntent().getStringExtra("longlat");
+		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 	}
 
 	@Override
@@ -86,15 +99,7 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		tv_date = (TextView) findViewById(R.id.tv_date);
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
 		tv_time = (TextView) findViewById(R.id.tv_time);
-		mintime = getIntent().getIntExtra("mintime", 0);
-		fileName = getIntent().getStringExtra("fileName");
-		date = getIntent().getStringExtra("date");
-		fileSize = getIntent().getStringExtra("fileSize");
-		time = getIntent().getStringExtra("fileTime");
-		filePath = getIntent().getStringExtra("filePath");
-		loc = getIntent().getStringExtra("loc");
-		longlat= getIntent().getStringExtra("longlat");
-		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
+
 		ll = Math.round(fileSize_B);
 		rl_record = (RelativeLayout) findViewById(R.id.rl_record);
 		rl_record.setOnClickListener(this);
@@ -254,9 +259,10 @@ public class LiveRecordPreActivity extends BaseActivity implements
 		public void handleMessage(Message msg) {
 			String hashCode = SecurityUtil.SHA512(filePath);
 			LogUtils.e("录音文件的hashcode" + hashCode);
+			String dateStr= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
 			String imei = MyApplication.getInstance().getDeviceImei();
 			ApiManager.getInstance().uploadPreserveFile(fileName, MyConstants.RECORDTYPE,
-					ll + "", hashCode, date, loc, time, imei, longlat,null,0,
+					ll + "", hashCode, dateStr, loc, time, imei, longlat,null,0,
 					new ApiCallback() {
 
 						@Override

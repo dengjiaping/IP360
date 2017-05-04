@@ -485,7 +485,6 @@ public class CameraView extends SurfaceView implements CameraOperation{
 				optimalWidth=size.width;
 				optimalHeigth=size.height;
 			}
-			Log.i("djj","prew"+size.width+"preh"+size.height);
 		}
 		parameters.setPreviewSize(optimalWidth,optimalHeigth);
 
@@ -497,7 +496,6 @@ public class CameraView extends SurfaceView implements CameraOperation{
 				optimalWidth=size.width;
 				optimalHeigth=size.height;
 			}
-			Log.i("djj","w"+size.width+"h"+size.height);
 		}
 		parameters.setPictureSize(optimalWidth, optimalHeigth);
 

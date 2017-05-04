@@ -24,8 +24,10 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.UpLoadBean;
 import com.truthso.ip360.bean.UpLoadBean.Upload;
+import com.truthso.ip360.bean.WaituploadBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.dao.WaituploadDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -65,8 +67,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 	private Dialog alertDialog;
 	private int resourceId;
 	private String objectkey;
-	private double lat,longti;
-	private String latitudeLongitude;
+
 	private int  expStatus;//扣费状态
 	private boolean filePreIsok = false;
 	private String hashCode;
@@ -79,8 +80,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		date = getIntent().getStringExtra("date");
 		loc = getIntent().getStringExtra("loc");
 		longlat= getIntent().getStringExtra("longlat");
-
-//		length = getIntent().getLongExtra("length", 0);
 		fileSize_B = getIntent().getDoubleExtra("fileSize_B",0);
 		ll = Math.round(fileSize_B);
 		getLocation();
@@ -99,15 +98,14 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		tv_filename.setText(title);
 		tv_loc = (TextView) findViewById(R.id.tv_loc);
 		tv_date = (TextView) findViewById(R.id.tv_date);
-//		tv_date.setText(date);
+
 		tv_filesize = (TextView) findViewById(R.id.tv_filesize);
 		tv_filesize.setText(size);
 		btn_title_right.setOnClickListener(this);
 		btn_preserved.setOnClickListener(this);
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
 		iv_photo.setOnClickListener(this);
-//		tv_account = (TextView) findViewById(R.id.tv_account);
-		Bitmap decodeFile = BitmapFactory.decodeFile(path);
+
 		ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
 		if(!CheckUtil.isEmpty(currLoc)&&!currLoc.equals("nullnull")){//当前能获取位置用当前的位置，
 			loc = currLoc;
@@ -140,7 +138,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		ApiManager.getInstance().getAccountStatus(MyConstants.PHOTOTYPE, 1,
 				new ApiCallback() {
 
-
 					@Override
 					public void onApiResultFailure(int statusCode,
 							Header[] headers, byte[] responseBody,
@@ -155,9 +152,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 						AccountStatusBean bean = (AccountStatusBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-
 								showDialog(bean.getDatas().getShowText());
-
 							} else {
 								Toaster.showToast(PhotoPreserved.this,
 										bean.getMsg());
@@ -185,7 +180,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 				if (hashCode != null) {
 					handler.sendEmptyMessage(0);
 				}
-
 			}
 		}.start();
 	}
@@ -289,31 +283,6 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 		}
 
 	}
-
-
-
-	// 保存照片信息到数据库
-	private void saveToDb() {
-		final DbBean dbBean = new DbBean();
-		dbBean.setTitle(title);
-//		dbBean.setCreateTime(date);
-		dbBean.setCreateTime(fileDate);
-		dbBean.setResourceUrl(path);
-		dbBean.setType(MyConstants.PHOTO);
-		dbBean.setFileSize(size);
-		dbBean.setLlsize(ll+"");
-		dbBean.setLocation(loc);
-		dbBean.setPkValue(pkValue+"");
-		dbBean.setFileFormat("jpg");
-		dbBean.setStatus("0");
-		dbBean.setDataType(3);//现场取证
-		dbBean.setUserId((Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT));
-		dbBean.setExpStatus(expStatus);
-		//SqlDao.getSQLiteOpenHelper().save(dbBean,MyConstants.TABLE_MEDIA_DETAIL);
-		
-	}
-
-
 
 	@Override
 	public String setTitle() {
@@ -463,7 +432,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						//上传列表等待上传
-
+						saveToDb();
 						Toaster.showToast(PhotoPreserved.this,"已进入上传列表等待上传");
 						Intent intent = new Intent(PhotoPreserved.this,MainActivity.class);
 						startActivity(intent);
@@ -471,6 +440,22 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 					}
 				}).create();
 		alertDialog.show();
+	}
+
+	// 保存照片信息到数据库
+	private void saveToDb() {
+		WaituploadBean bean = new WaituploadBean();
+		bean.setFilePath(path);
+		bean.setFileTitle(title);
+		bean.setFileType(MyConstants.PHOTOTYPE);
+		bean.setFileSize(size);
+		bean.setHashCode(hashCode);
+		bean.setFileDate(date);
+		bean.setFileLocation(loc);
+		bean.setPriKey((String)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.PRIKEY,SharePreferenceUtil.VALUE_IS_STRING));
+		bean.setRsaId((int)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.RSAID,SharePreferenceUtil.VALUE_IS_INT));
+		bean.setLatitudeLongitude(longlat);
+		WaituploadDao.getDao().save(bean);
 	}
 
 	/**

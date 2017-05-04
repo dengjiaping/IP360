@@ -29,6 +29,7 @@ import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckAudioPermission;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.TimeUtile;
 import com.truthso.ip360.view.VoiceLineView;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
 
@@ -97,9 +98,6 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 	private String filePath;
 
 	private boolean isRecording = false;
-	private SimpleDateFormat formatter;
-	private Date curDate;
-	private String date;
 	private String fileSize;
 	private String fileName;
 	private String recTotalTime;
@@ -180,15 +178,15 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 						}
 					}
 				}).start();
-				formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				curDate = new Date(System.currentTimeMillis());
-				date = formatter.format(curDate);
+
 			} else {
 				isAlive = false;
 				isRecording = false;
 				mButton.setSelected(false);
 				mButton.setVisibility(View.GONE);
 				stoprecordVoice();
+				int currentTime = TimeUtile.getCurrentTime();
+				long date= serviceTime+currentTime*1000;//服务器返回的时间加上本地计时器时间
 
 				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
 				File file = new File(filePath);
@@ -548,4 +546,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 		alertDialog.show();
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		TimeUtile.cancelTime();
+	}
 }
