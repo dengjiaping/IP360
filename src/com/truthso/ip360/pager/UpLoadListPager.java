@@ -21,6 +21,7 @@ import android.widget.ListView;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.dao.WaituploadDao;
 import com.truthso.ip360.event.UpEvent;
 import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
@@ -35,6 +36,7 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 	private ListView listView;
 	private UpLoadAdapter adapter;
 	private List<FileInfo> queryUpLoadList;
+	private List<FileInfo> waitUploadList;
 	private Dialog alertDialog;
 
 	public UpLoadListPager(Context ctx) {
@@ -49,9 +51,11 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 	@Override
 	public View initView() {
 		queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
+		waitUploadList = WaituploadDao.getDao().queryAll();
+		waitUploadList.addAll(queryUpLoadList);
 		listView = new ListView(ctx);
 		listView.setOnItemLongClickListener(this);
-		adapter=new UpLoadAdapter(ctx,queryUpLoadList);
+		adapter=new UpLoadAdapter(ctx,waitUploadList);
 		listView.setAdapter(adapter);  //new 这个DownLoadListPager时候执行这个方法 这时候都要设置listview的adapter 要不返回的是个空listview；
 	
 		ctx.getContentResolver().registerContentObserver(Uri.parse("content://com.truthso.ip360/updownloadlog/up"), true, new MyContentObserver(new Handler()));
@@ -101,7 +105,9 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 		public void onChange(boolean selfChange) {
 			super.onChange(selfChange);
 			queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
-			adapter.notifyChange(queryUpLoadList);
+			waitUploadList = WaituploadDao.getDao().queryAll();
+			waitUploadList.addAll(queryUpLoadList);
+			adapter.notifyChange(waitUploadList);
 		}
 	}
 

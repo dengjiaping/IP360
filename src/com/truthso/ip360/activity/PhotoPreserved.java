@@ -188,9 +188,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 			public void handleMessage(Message msg) {
 		String imei = MyApplication.getInstance().getDeviceImei();
 		//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
-				Integer  i = null;
+
 				ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-				ll + "", hashCode, date, loc, null, imei,longlat,null,i,
+				ll + "", hashCode, date, loc, null, imei,longlat,null,0,
 				new ApiCallback() {
 
 					@Override
@@ -444,18 +444,18 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
 
 	// 保存照片信息到数据库
 	private void saveToDb() {
-		WaituploadBean bean = new WaituploadBean();
-		bean.setFilePath(path);
-		bean.setFileTitle(title);
-		bean.setFileType(MyConstants.PHOTOTYPE);
-		bean.setFileSize(size);
-		bean.setHashCode(hashCode);
-		bean.setFileDate(date);
-		bean.setFileLocation(loc);
-		bean.setPriKey((String)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.PRIKEY,SharePreferenceUtil.VALUE_IS_STRING));
-		bean.setRsaId((int)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.RSAID,SharePreferenceUtil.VALUE_IS_INT));
-		bean.setLatitudeLongitude(longlat);
-		WaituploadDao.getDao().save(bean);
+		FileInfo info = new FileInfo();
+		info.setFilePath(path);
+		info.setFileName(title);
+		info.setType(MyConstants.PHOTOTYPE);
+		info.setFileSize(size);
+		info.setHashCode(hashCode);
+		info.setFileCreatetime(date);
+		info.setFileLoc(loc);
+		info.setPriKey((String)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.PRIKEY,SharePreferenceUtil.VALUE_IS_STRING));
+		info.setRsaId((int)SharePreferenceUtil.getAttributeByKey(this,MyConstants.RSAINFO,MyConstants.RSAID,SharePreferenceUtil.VALUE_IS_INT));
+		info.setLatitudeLongitude(longlat);
+		WaituploadDao.getDao().save(info);
 	}
 
 	/**

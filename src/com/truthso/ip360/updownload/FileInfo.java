@@ -21,6 +21,44 @@ public class FileInfo {
 	private String completeDate;
 	private int position;
 	private int resourceId;
+	private String latitudeLongitude;//经纬度
+	private String priKey;//私钥
+	private int rsaId;//私钥ID
+	private String hashCode;//hashcode
+
+
+	public String getLatitudeLongitude() {
+		return latitudeLongitude;
+	}
+
+	public void setLatitudeLongitude(String latitudeLongitude) {
+		this.latitudeLongitude = latitudeLongitude;
+	}
+
+	public String getPriKey() {
+		return priKey;
+	}
+
+	public void setPriKey(String priKey) {
+		this.priKey = priKey;
+	}
+
+	public int getRsaId() {
+		return rsaId;
+	}
+
+	public void setRsaId(int rsaId) {
+		this.rsaId = rsaId;
+	}
+
+	public String getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(String hashCode) {
+		this.hashCode = hashCode;
+	}
+
 	public String getCompleteDate() {
 		return completeDate;
 	}

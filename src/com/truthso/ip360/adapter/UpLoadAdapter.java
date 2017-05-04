@@ -26,6 +26,7 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.ossupload.ProgressListener;
 import com.truthso.ip360.ossupload.UpLoadManager;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
@@ -100,10 +101,12 @@ public class UpLoadAdapter extends BaseAdapter{
 		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
 
-		if(position==0||(info.getStatus()==0&&lastStatus!=0)){
+		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==1&&lastStatus==4)){
 			vh.tv_title.setVisibility(View.VISIBLE);
-			if(info.getStatus()!=0){
+			if(info.getStatus()==1){
 				vh.tv_title.setText("正在上传");
+			}else if(info.getStatus()==4){
+				vh.tv_title.setText("等待上传");
 			}else {
 				vh.tv_title.setText("上传成功("+(list.size()-position)+")");
 			}
@@ -173,8 +176,22 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
 				vh.tv_desc.setText("等待wifi");
 				break;
-		}
+			case 4:
+				vh.rl_progress.setVisibility(View.GONE);
+				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.tv_desc.setVisibility(View.VISIBLE);
+				vh.tv_size.setVisibility(View.GONE);
 
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("等待上传");
+				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Toaster.showToast(context,"重新上传");
+					}
+				});
+				break;
+		}
 
 		String str = info.getFileName();
 	String	foramt1 = str.substring(str.lastIndexOf(".")+1);

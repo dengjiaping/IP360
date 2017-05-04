@@ -9,6 +9,7 @@ import android.util.Log;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.WaituploadBean;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
+import com.truthso.ip360.updownload.FileInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,23 +37,23 @@ public class WaituploadDao {
      *
      * @param
      */
-    public void save(WaituploadBean bean) {
+    public void save(FileInfo fileInfo) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("filepath", bean.getFilePath());
-        values.put("filetitle", bean.getFileTitle());
-        values.put("filetype", bean.getFileType());
-        values.put("filesize", bean.getFileSize());
-        values.put("hashcode", bean.getHashCode());
-        values.put("filedate", bean.getFileDate());
-        values.put("filelocation", bean.getFileLocation());
-        values.put("filetime", bean.getFileTime());
-        values.put("latitudelongitude", bean.getLatitudeLongitude());
-        values.put("prikey", bean.getPriKey());
-        values.put("rsaid",bean.getRsaId());
+        values.put("filepath", fileInfo.getFilePath());
+        values.put("filetitle", fileInfo.getFileName());
+        values.put("filetype", fileInfo.getType());
+        values.put("filesize", fileInfo.getFileSize());
+        values.put("hashcode", fileInfo.getHashCode());
+        values.put("filedate", fileInfo.getFileCreatetime());
+        values.put("filelocation", fileInfo.getFileLoc());
+        values.put("filetime", fileInfo.getFileTime());
+        values.put("latitudelongitude", fileInfo.getLatitudeLongitude());
+        values.put("prikey", fileInfo.getPriKey());
+        values.put("rsaid",fileInfo.getRsaId());
         db.insert(TABLE_NAME, null, values);
         db.close();
-        Log.i("djj",bean.toString());
+        Log.i("djj",fileInfo.toString());
     }
 
     /**
@@ -88,26 +89,26 @@ public class WaituploadDao {
      *            需要查询的字段的ID值
      * @return
      */
-    public WaituploadBean queryById(int id) {
+    public FileInfo queryById(int id) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, "id=?", new String[] { id +"" }, null, null, null);
-        WaituploadBean  bean=null;
+        FileInfo  info=null;
         if (cursor.moveToNext()) {
-            bean= new WaituploadBean();
-            bean.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
-            bean.setFileTitle(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
-            bean.setFileType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
-            bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));//文件大小
-            bean.setHashCode(cursor.getString(cursor.getColumnIndex("hashcode")));//hashcode
-            bean.setFileDate(cursor.getString(cursor.getColumnIndex("filedate")));//文件创建时间
-            bean.setFileLocation(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
-            bean.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
-            bean.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
-            bean.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
-            bean.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
+            info= new FileInfo();
+            info.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
+            info.setFileName(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
+            info.setType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
+            info.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));//文件大小
+            info.setHashCode(cursor.getString(cursor.getColumnIndex("hashcode")));//hashcode
+            info.setFileCreatetime(cursor.getString(cursor.getColumnIndex("filedate")));//文件创建时间
+            info.setFileLoc(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
+            info.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
+            info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
+            info.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
+            info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
         }
         db.close();
-        return bean;
+        return info;
     }
 
     /**
@@ -115,24 +116,25 @@ public class WaituploadDao {
      *
      * @return
      */
-    public List<WaituploadBean> queryAll( ) {
+    public List<FileInfo> queryAll( ) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        List<WaituploadBean> list=new ArrayList<>();
+        List<FileInfo> list=new ArrayList<>();
         if (cursor.moveToNext()) {
-            WaituploadBean  bean= new WaituploadBean();
-            bean.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
-            bean.setFileTitle(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
-            bean.setFileType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
-            bean.setFileSize(cursor.getString(cursor.getColumnIndex("fileSize")));//文件大小
-            bean.setHashCode(cursor.getString(cursor.getColumnIndex("hashcode")));//hashcode
-            bean.setFileDate(cursor.getString(cursor.getColumnIndex("filedate")));//文件创建时间
-            bean.setFileLocation(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
-            bean.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
-            bean.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
-            bean.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
-            bean.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
-            list.add(bean);
+            FileInfo info= new FileInfo();
+            info.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
+            info.setFileName(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
+            info.setType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
+            info.setFileSize(cursor.getString(cursor.getColumnIndex("filesize")));//文件大小
+            info.setHashCode(cursor.getString(cursor.getColumnIndex("hashcode")));//hashcode
+            info.setFileCreatetime(cursor.getString(cursor.getColumnIndex("filedate")));//文件创建时间
+            info.setFileLoc(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
+            info.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
+            info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
+            info.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
+            info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
+            info.setStatus(4);//状态码4等待重新上传
+            list.add(info);
         }
         db.close();
         return list;
