@@ -34,7 +34,7 @@ public class AccountStatusBean extends BaseHttpResponse {
 		private String showText;
 		private int accountBalance;
 		private String privateKey;//私钥
-		private String rsaId;//秘钥id
+		private int rsaId;//秘钥id
 		private long servesTime;//服务器时间，返回秒
 
 		public long getServesTime() {
@@ -45,11 +45,11 @@ public class AccountStatusBean extends BaseHttpResponse {
 			this.servesTime = servesTime;
 		}
 
-		public String getRsaId() {
+		public int getRsaId() {
 			return rsaId;
 		}
 
-		public void setRsaId(String rsaId) {
+		public void setRsaId(int rsaId) {
 			this.rsaId = rsaId;
 		}
 

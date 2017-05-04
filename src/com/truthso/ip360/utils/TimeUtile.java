@@ -2,6 +2,7 @@ package com.truthso.ip360.utils;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * Created by Administrator on 2017/5/2.
@@ -14,6 +15,7 @@ public class TimeUtile {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             time+=1;
+            handler.sendEmptyMessageDelayed(0,1000);
         }
     };
 
@@ -22,6 +24,7 @@ public class TimeUtile {
         handler.sendEmptyMessageDelayed(0,1000);
     }
     public static int getCurrentTime(){
+        handler.removeMessages(0);
         return time;
     }
     public static void cancelTime(){

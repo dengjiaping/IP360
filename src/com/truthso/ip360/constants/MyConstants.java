@@ -102,6 +102,16 @@ public class MyConstants {
 	 * 是否wifi下上传
 	 */
 	public final static String ISWIFI = "IsWifi";
-	
-
+	/**
+	 * rsaInfo
+	 */
+	public final static String RSAINFO = "RsaInfo";
+	/**
+	 * rsaId
+	 */
+	public final static String RSAID = "rsaId";
+	/**
+	 * priKey
+	 */
+	public final static String PRIKEY = "priKey";
 }
