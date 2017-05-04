@@ -103,17 +103,15 @@ public class MyConstants {
 	 */
 	public final static String ISWIFI = "IsWifi";
 	/**
-	 * rsa信息
+	 * rsaInfo
 	 */
 	public final static String RSAINFO = "RsaInfo";
-
 	/**
 	 * rsaId
 	 */
-	public final static String RSAID = "RsaId";
-
+	public final static String RSAID = "rsaId";
 	/**
-	 * rsaId
+	 * priKey
 	 */
-	public final static String PRIKEY = "PriKey";
+	public final static String PRIKEY = "priKey";
 }

@@ -16,6 +16,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -59,9 +60,10 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
-import com.truthso.ip360.utils.TimeUtil;
+import com.truthso.ip360.utils.TimeUtile;
 import com.truthso.ip360.view.CircleFlowIndicator;
 import com.truthso.ip360.view.ViewFlow;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
@@ -223,11 +225,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
 							Long serviceTime = bean.getDatas().getServesTime();//返回多少秒
-							String rsaId =bean.getDatas().getRsaId();//siyaoid
-							String  priKey = bean.getDatas().getPrivateKey();
-							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.RSAID,rsaId);
-							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.PRIKEY,priKey);
-							TimeUtil.startTime();
+							//保存rsa信息
+							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.RSAID,bean.getDatas().getRsaId());
+							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.PRIKEY,bean.getDatas().getPrivateKey());
 							switch (type) {
 							case MyConstants.PHOTOTYPE:
 								boolean isHasPremiss =cameraIsCanUse();
@@ -236,26 +236,20 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 									intent.putExtra("serviceTime",serviceTime);
 									intent.putExtra("flag", "camera");
 									startActivity(intent);
+									TimeUtile.startTime();//开始计时
 								}else{//没权限
 									PreshowDialog("您没有开启拍照权限！");
 								}
-
 								break;
 
 							case MyConstants.VIDEOTYPE:
 								boolean isHasPremiss_video =cameraIsCanUse();
 								if (isHasPremiss_video){//用户给了有权限
-									Intent intent1=new Intent(getActivity(),CameraAty.class);
-									intent1.putExtra("flag", "video");
-									startActivity(intent1);
-									SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-									Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-									date1 = formatter.format(curDate);
 									Intent intent=new Intent(getActivity(),CameraAty.class);
 									intent.putExtra("flag", "video");
 									intent.putExtra("serviceTime",serviceTime);
 									startActivity(intent);
-
+									TimeUtile.startTime();//开始计时
 								}else{//用户没给权限
 									PreshowDialog("您没有开启录像权限！");
 								}
@@ -264,15 +258,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								Intent intent2 = new Intent(getActivity(), LiveRecordImplementationActivity.class);
 								intent2.putExtra("serviceTime",serviceTime);//服務器時間
 								intent2.putExtra("loc", loc);
-
 								intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 								startActivity(intent2);
+								TimeUtile.startTime();//开始计时
 								break;
 							}
 						}else if(bean.getDatas().getStatus()== 0){//不可用
+//							Toaster.showToast(getActivity(), "余额不足，请充值！");
 						int account = bean.getDatas().getAccountBalance();//余额
-
-
 							if (account == 0){
 								accountBalance = "￥0.00";
 							}else{
@@ -317,8 +310,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 				long length=newFile.length();
 				double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss",Calendar.getInstance(Locale.CHINA)).toString();
-
-					 Intent intent = new Intent(getActivity(), PhotoPreserved.class);
+				Intent intent = new Intent(getActivity(), PhotoPreserved.class);
 				intent.putExtra("path", newFile.getAbsolutePath());
 				intent.putExtra("title", name);
 				intent.putExtra("size", fileSize);

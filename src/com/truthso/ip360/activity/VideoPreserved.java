@@ -276,8 +276,9 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 			String imei = MyApplication.getInstance().getDeviceImei();
+			Integer i = null;
 			ApiManager.getInstance().uploadPreserveFile(mVideoName, MyConstants.VIDEOTYPE,
-					ll +"", hashCode, mDate, loc, time, imei, longlat,null,0,
+					ll +"", hashCode, mDate, loc, time, imei, longlat,null,i,
 					new ApiCallback() {
 
 						@Override

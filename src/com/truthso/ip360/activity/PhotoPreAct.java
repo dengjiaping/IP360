@@ -65,7 +65,6 @@ public class PhotoPreAct extends BaseActivity {
 
         if (type.equals("photo")) {
             btn_play.setVisibility(View.GONE);
-           // ImageLoaderUtil.displayFromSDCardopt(filepath, image, null);
             Glide.with(this).load(filepath).into(image);
         } else {
             btn_play.setVisibility(View.VISIBLE);
@@ -112,13 +111,13 @@ public class PhotoPreAct extends BaseActivity {
                             .getAbsolutePath());
                     long length = newFile.length();
                     double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
-                   // String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
-                    String formatDate= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
+                    String dateStr= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
+
                     Intent intent = new Intent(PhotoPreAct.this, PhotoPreserved.class);
                     intent.putExtra("path", newFile.getAbsolutePath());
                     intent.putExtra("title", newFile.getName());
                     intent.putExtra("size", fileSize);
-                    intent.putExtra("date", formatDate);
+                    intent.putExtra("date", dateStr);
                     intent.putExtra("fileSize_B", fileSize_B);
                     intent.putExtra("loc", loc);
                     intent.putExtra("longlat", longti + "," + lat);
@@ -135,9 +134,8 @@ public class PhotoPreAct extends BaseActivity {
                     } else {
                         minTime = hor * 60 + min;
                     }
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-                    String date1 = formatter.format(curDate);
+                    String dateStr= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
+
                     File file = new File(filepath);
                     long length = file.length();
                     video_fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
@@ -149,7 +147,7 @@ public class PhotoPreAct extends BaseActivity {
                     }
                     Intent intent = new Intent(PhotoPreAct.this, VideoPreserved.class);
                     intent.putExtra("filePath", filepath);
-                    intent.putExtra("date", date1);
+                    intent.putExtra("date", dateStr);
                     intent.putExtra("loc", loc);
                     intent.putExtra("time", time);
                     intent.putExtra("minTime", minTime);

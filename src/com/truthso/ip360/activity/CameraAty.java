@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import com.linj.camera.view.CameraContainer;
 import com.linj.camera.view.CameraView;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.utils.TimeUtil;
+import com.truthso.ip360.utils.DateUtil;
+import com.truthso.ip360.utils.TimeUtile;
 
 import java.io.File;
+import java.sql.Date;
 
 /**
  * @despriction :自定义拍照录像
@@ -87,9 +89,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
                 mCameraShutterButton.setClickable(false);
                 mContainer.takePicture(this);
                 break;
-        /*case R.id.btn_thumbnail:
-			startActivity(new Intent(this,AlbumAty.class));
-			break;*/
             case R.id.btn_flash_mode:
                 if (mContainer.getFlashMode() == CameraView.FlashMode.ON) {
                     mContainer.setFlashMode(CameraView.FlashMode.OFF);
@@ -128,18 +127,20 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         String path = mContainer.stopRecord(this);
         isRecording = false;
         mRecordShutterButton.setBackgroundResource(R.drawable.btn_shutter_record);
-        Log.i("djj", "path" + path);
+        int currentTime = TimeUtile.getCurrentTime();
+        long date= serviceTime+currentTime*1000;//服务器返回的时间加上本地计时器时间
         Intent intent = new Intent(this, PhotoPreAct.class);
         intent.putExtra("type", "video");
         intent.putExtra("filepath", path);
+        intent.putExtra("date", date);
         startActivity(intent);
     }
 
     @Override
     public void onTakePictureEnd(String filePath) {
         mCameraShutterButton.setClickable(true);
-        int currentTime = TimeUtil.getCurrentTime();
-        long date=serviceTime+currentTime*1000;
+        int currentTime = TimeUtile.getCurrentTime();
+        long date= serviceTime+currentTime*1000;//服务器返回的时间加上本地计时器时间
         Intent intent = new Intent(this, PhotoPreAct.class);
         intent.putExtra("type", "photo");
         intent.putExtra("filepath", filePath);
@@ -149,14 +150,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
 
     @Override
     public void onAnimtionEnd(Bitmap bm, boolean isVideo) {
-		/*if(bm!=null){
-			
-			if(isVideo)
-				mVideoIconView.setVisibility(View.VISIBLE);
-			else {
-				mVideoIconView.setVisibility(View.GONE);
-			}
-		}*/
+
     }
 
     @Override
@@ -164,4 +158,9 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         super.onResume();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        TimeUtile.cancelTime();
+    }
 }

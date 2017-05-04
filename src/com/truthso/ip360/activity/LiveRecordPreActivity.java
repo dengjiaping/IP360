@@ -255,8 +255,9 @@ public class LiveRecordPreActivity extends BaseActivity implements
 			String hashCode = SecurityUtil.SHA512(filePath);
 			LogUtils.e("录音文件的hashcode" + hashCode);
 			String imei = MyApplication.getInstance().getDeviceImei();
+			Integer i = null;
 			ApiManager.getInstance().uploadPreserveFile(fileName, MyConstants.RECORDTYPE,
-					ll + "", hashCode, date, loc, time, imei, longlat,null,0,
+					ll + "", hashCode, date, loc, time, imei, longlat,null,i,
 					new ApiCallback() {
 
 						@Override
@@ -278,7 +279,6 @@ public class LiveRecordPreActivity extends BaseActivity implements
 									Upload datas = bean.getDatas();
 									pkValue = datas.getPkValue();
 									url = datas.getFileUrl();
-
 									fileDate = datas.getFileDate();//从服务器获取的保全时间
 									tv_date.setText(fileDate);
 
