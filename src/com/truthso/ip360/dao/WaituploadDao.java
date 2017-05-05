@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
@@ -49,10 +50,17 @@ public class WaituploadDao {
         values.put("filelocation", fileInfo.getFileLoc());
         values.put("filetime", fileInfo.getFileTime());
         values.put("latitudelongitude", fileInfo.getLatitudeLongitude());
-        values.put("prikey", fileInfo.getPriKey());
+        values.put("encrypte", fileInfo.getEncrypte());
         values.put("rsaid",fileInfo.getRsaId());
         db.insert(TABLE_NAME, null, values);
         db.close();
+
+        MyApplication
+                .getApplication()
+                .getContentResolver()
+                .notifyChange(
+                        Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+                        null);
         Log.i("djj",fileInfo.toString());
     }
 
@@ -66,6 +74,12 @@ public class WaituploadDao {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         db.delete(TABLE_NAME, "_id=?", new String[] { String.valueOf(id)});
         db.close();
+        MyApplication
+                .getApplication()
+                .getContentResolver()
+                .notifyChange(
+                        Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+                        null);
     }
 
     /**
@@ -95,6 +109,7 @@ public class WaituploadDao {
         FileInfo  info=null;
         if (cursor.moveToNext()) {
             info= new FileInfo();
+            info.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             info.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
             info.setFileName(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
             info.setType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
@@ -104,7 +119,7 @@ public class WaituploadDao {
             info.setFileLoc(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
             info.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
             info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
-            info.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
+            info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
         }
         db.close();
@@ -122,6 +137,7 @@ public class WaituploadDao {
         List<FileInfo> list=new ArrayList<>();
         if (cursor.moveToNext()) {
             FileInfo info= new FileInfo();
+            info.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             info.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
             info.setFileName(cursor.getString(cursor.getColumnIndex("filetitle")));//文件title
             info.setType(cursor.getInt(cursor.getColumnIndex("filetype")));//文件类型
@@ -131,7 +147,7 @@ public class WaituploadDao {
             info.setFileLoc(cursor.getString(cursor.getColumnIndex("filelocation")));//文件地点
             info.setFileTime(cursor.getString(cursor.getColumnIndex("filetime")));//录制时长
             info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
-            info.setPriKey(cursor.getString(cursor.getColumnIndex("prikey")));//加签后的字符串
+            info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
             info.setStatus(4);//状态码4等待重新上传
             list.add(info);

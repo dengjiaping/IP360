@@ -28,6 +28,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
 import com.truthso.ip360.utils.CheckAudioPermission;
+import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.TimeUtile;
 import com.truthso.ip360.view.VoiceLineView;
@@ -187,8 +188,9 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				stoprecordVoice();
 				int currentTime = TimeUtile.getCurrentTime();
 				long date= serviceTime+currentTime*1000;//服务器返回的时间加上本地计时器时间
+				String dateStr= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
 
-				fileSize = FileSizeUtil.getAutoFileOrFilesSize(filePath);
+				fileSize = FileSizeUtil.getAutoFileOrFilesSize(new File(filePath).getAbsolutePath());
 				File file = new File(filePath);
 				   long length = file.length();
 				   double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
@@ -206,7 +208,7 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				timeUsedInsec = 0;
 				Intent intent = new Intent(this,LiveRecordPreActivity.class);
 				intent.putExtra("fileTime", recTotalTime);
-				intent.putExtra("date", date);
+				intent.putExtra("date", dateStr);
 				intent.putExtra("fileSize", fileSize);
 				intent.putExtra("fileSize_B", fileSize_B);
 				intent.putExtra("fileName", fileName);

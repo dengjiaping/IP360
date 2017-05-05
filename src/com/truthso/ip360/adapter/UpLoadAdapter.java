@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -18,12 +19,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.dao.WaituploadDao;
+import com.truthso.ip360.ossupload.FileUploadHelper;
 import com.truthso.ip360.ossupload.ProgressListener;
 import com.truthso.ip360.ossupload.UpLoadManager;
 import com.truthso.ip360.system.Toaster;
@@ -49,9 +53,11 @@ public class UpLoadAdapter extends BaseAdapter{
 	private List<FileInfo> list;
 	private ImageView iv_icon;
 	private int lastStatus;
+	private FileUploadHelper fileUploadHelper;
 	public UpLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
+		fileUploadHelper=new FileUploadHelper((Activity)context);
 		inflater = LayoutInflater.from(context);
 		this.list=list;
 	}
@@ -92,7 +98,7 @@ public class UpLoadAdapter extends BaseAdapter{
 			vh.tv_desc=(TextView) convertView.findViewById(R.id.tv_desc);
 			vh.tv_title=(TextView) convertView.findViewById(R.id.tv_title);
 			vh.rl_progress= (RelativeLayout) convertView.findViewById(R.id.rl_progress);
-
+			vh.ll_item_updownload= (LinearLayout) convertView.findViewById(R.id.ll_item_updownload);
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -101,9 +107,9 @@ public class UpLoadAdapter extends BaseAdapter{
 		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
 
-		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==1&&lastStatus==4)){
+		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==2&&lastStatus==4)){
 			vh.tv_title.setVisibility(View.VISIBLE);
-			if(info.getStatus()==1){
+			if(info.getStatus()==2){
 				vh.tv_title.setText("正在上传");
 			}else if(info.getStatus()==4){
 				vh.tv_title.setText("等待上传");
@@ -121,10 +127,8 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_size.setVisibility(View.VISIBLE);
 				vh.tv_desc.setVisibility(View.VISIBLE);
 
-				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-//				String date = new DateFormat().format("yyyy-MM-dd HH:mm:ss", Calendar.getInstance(Locale.CHINA)).toString();
-				vh.tv_desc.setText(info.getCompleteDate());
 				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
+				vh.tv_desc.setText(info.getCompleteDate());
 				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 				break;
 			case 1://失败
@@ -148,7 +152,6 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setVisibility(View.GONE);
 				vh.tv_size.setVisibility(View.GONE);
 
-//				vh.probar.setProgress(info.getPosition());
 				vh.probar.setMax(Integer.parseInt(info.getFileSize()));
 				instanse.setOnUpLoadProgressListener(info.getResourceId(), new com.truthso.ip360.ossupload.ProgressListener() {
 
@@ -176,18 +179,19 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
 				vh.tv_desc.setText("等待wifi");
 				break;
-			case 4:
+			case 4://等待上传
 				vh.rl_progress.setVisibility(View.GONE);
-				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
+				vh.btn_upload_download_again.setVisibility(View.GONE);
 				vh.tv_desc.setVisibility(View.VISIBLE);
-				vh.tv_size.setVisibility(View.GONE);
+				vh.tv_size.setVisibility(View.VISIBLE);
+				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 
-				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-				vh.tv_desc.setText("等待上传");
-				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
+				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
+				vh.tv_desc.setText("点击保全");
+				vh.ll_item_updownload.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Toaster.showToast(context,"重新上传");
+						fileUploadHelper.uploadFileAgain(info);
 					}
 				});
 				break;
@@ -216,6 +220,7 @@ public class UpLoadAdapter extends BaseAdapter{
 		private ImageView iv_icon;
 		private Button btn_upload_download_again;
 		private RelativeLayout rl_progress;
+		private LinearLayout ll_item_updownload;
 	}
 
 }

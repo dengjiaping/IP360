@@ -2,17 +2,26 @@ package com.truthso.ip360.updownload;
 
 public class FileInfo {
 
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	private String filePath;//下载成功的文件路径
 	private String fileName;
 	private String fileUrlFormatName;//
 	private String fileSize;
 	private String fileLoc;
-	private String llsize;
+	private String llsize;//byte单位的文件大小
 	private int type;//文件类型 
 	private int mobiletype;//现场取证的文件类型
 	private String fileCreatetime;
 	private String fileTime;//文件时长
-	//private int pkValue;
     private String fileFormat;
 	private int status;//成功0失败1等待2
 	private int dataType;//文件类型1-url确权  2-其他确权  3-现场取证 4-pc取证
@@ -25,7 +34,32 @@ public class FileInfo {
 	private String priKey;//私钥
 	private int rsaId;//私钥ID
 	private String hashCode;//hashcode
+	private String encrypte;//文件加签后的字符串
+	private int minTime;//视频录音的计费时长，照片为1
 
+	public int getMinTime() {
+		return minTime;
+	}
+
+	public void setMinTime(int minTime) {
+		this.minTime = minTime;
+	}
+
+	public String getLlsize() {
+		return llsize;
+	}
+
+	public void setLlsize(String llsize) {
+		this.llsize = llsize;
+	}
+
+	public String getEncrypte() {
+		return encrypte;
+	}
+
+	public void setEncrypte(String encrypte) {
+		this.encrypte = encrypte;
+	}
 
 	public String getLatitudeLongitude() {
 		return latitudeLongitude;
@@ -141,12 +175,7 @@ public class FileInfo {
 	public void setType(int type) {
 		this.type = type;
 	}
-	public String getLlsize() {
-		return llsize;
-	}
-	public void setLlsize(String llsize) {
-		this.llsize = llsize;
-	}
+
 	public String getFileLoc() {
 		return fileLoc;
 	}

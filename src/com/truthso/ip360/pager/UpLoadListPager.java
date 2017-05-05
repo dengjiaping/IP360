@@ -1,19 +1,12 @@
 package com.truthso.ip360.pager;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.ContentObservable;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,15 +15,9 @@ import com.truthso.ip360.activity.R;
 import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.dao.WaituploadDao;
-import com.truthso.ip360.event.UpEvent;
-import com.truthso.ip360.event.UpLoadFaileEvent;
 import com.truthso.ip360.updownload.FileInfo;
-import com.truthso.ip360.updownload.UpLoadManager;
-import com.truthso.ip360.utils.CheckUtil;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.List;
 
 public class UpLoadListPager extends BasePager implements AdapterView.OnItemLongClickListener {
 	private ListView listView;
@@ -64,7 +51,7 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		if(queryUpLoadList.get(position).getStatus()!=0){
+		if(queryUpLoadList.size()>position&&queryUpLoadList.get(position).getStatus()!=0){
 			return true;
 		}
 		showDialog(position);

@@ -324,7 +324,7 @@ public class SecurityUtil {
 	 * @param priavteKey 私钥
      * @return
      */
-  		public String  RSAFileInfo(String str,String priavteKey) throws Exception {
+  		public static String  RSAFileInfo(String str,String priavteKey) throws Exception {
 
 			byte[] signbyte = rsaSign(str.toString(), (RSAPrivateKey) getPrivateKey(priavteKey));
 			str=ByteToHex(signbyte);
@@ -353,7 +353,7 @@ public class SecurityUtil {
 	 * @throws Exception
 	 *             签名失败则抛出异常
 	 */
-	public byte[] rsaSign(String content, RSAPrivateKey priKey) throws SignatureException {
+	public static byte[] rsaSign(String content, RSAPrivateKey priKey) throws SignatureException {
 		try {
 			Signature signature = Signature.getInstance("SHA1withRSA");
 			signature.initSign(priKey);
