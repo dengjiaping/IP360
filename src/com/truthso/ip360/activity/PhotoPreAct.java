@@ -122,7 +122,6 @@ public class PhotoPreAct extends BaseActivity {
                     intent.putExtra("loc", loc);
                     intent.putExtra("longlat", longti + "," + lat);
                     startActivity(intent);
-
                 } else {
                     MediaMetadataRetriever mmr = new MediaMetadataRetriever();
                     mmr.setDataSource(filepath);

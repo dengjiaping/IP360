@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -195,8 +196,12 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				   long length = file.length();
 				   double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
 				   fileName = filePath.substring(filePath.lastIndexOf("/")+1);
-//				   LogUtils.e(fileName+"录音的文件名");
 				recTotalTime = mRecordTime.getText().toString().trim();
+				MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+				mmr.setDataSource(filePath);
+				String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION); // 播放时长单位为毫秒
+				double duration = Double.parseDouble(durationStr);
+				timeUsedInsec = (int) (duration / 1000);//秒
 				i = timeUsedInsec%60;
 				if (i > 0) {
 					mintime = timeUsedInsec/60+1;

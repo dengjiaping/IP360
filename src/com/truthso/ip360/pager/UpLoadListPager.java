@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import com.truthso.ip360.adapter.UpLoadAdapter;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.dao.WaituploadDao;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.FileUtil;
 
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 	public View initView() {
 		queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
 		waitUploadList = WaituploadDao.getDao().queryAll();
+		for (int i=0;i<waitUploadList.size();i++){
+			Log.i("djj",waitUploadList.get(i).getFileName());
+		}
 		waitUploadList.addAll(queryUpLoadList);
 		listView = new ListView(ctx);
 		listView.setOnItemLongClickListener(this);
@@ -51,11 +56,14 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		if(queryUpLoadList.size()>position&&queryUpLoadList.get(position).getStatus()!=0){
-			return true;
+		if(waitUploadList.size()>position){
+			FileInfo fileInfo = waitUploadList.get(position);
+			if(fileInfo.getStatus()==4||fileInfo.getStatus()==0){
+				showDialog(position);
+				return true;
+			}
 		}
-		showDialog(position);
-		return true;
+		return false;
 	}
 
 
@@ -68,7 +76,10 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 				setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						UpDownLoadDao.getDao().deleteUpInfoByResourceId(queryUpLoadList.get(position).getResourceId()+"");
+						int temp=waitUploadList.size()-queryUpLoadList.size();
+						if(position>=temp){
+							UpDownLoadDao.getDao().deleteUpInfoByResourceId(queryUpLoadList.get(position-temp).getResourceId()+"");
+						}
 					}
 				}).
 				setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -93,6 +104,9 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 			super.onChange(selfChange);
 			queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
 			waitUploadList = WaituploadDao.getDao().queryAll();
+			for (int i=0;i<waitUploadList.size();i++){
+				Log.i("djj",waitUploadList.get(i).getFileName());
+			}
 			waitUploadList.addAll(queryUpLoadList);
 			adapter.notifyChange(waitUploadList);
 		}

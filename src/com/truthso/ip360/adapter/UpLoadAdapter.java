@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +37,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.view.SpeedView;
 
 import static com.truthso.ip360.utils.UIUtils.getResources;
@@ -54,6 +58,7 @@ public class UpLoadAdapter extends BaseAdapter{
 	private ImageView iv_icon;
 	private int lastStatus;
 	private FileUploadHelper fileUploadHelper;
+	private Dialog alertDialog;
 	public UpLoadAdapter(Context context, List<FileInfo> list) {
 		super();
 		this.context = context;
@@ -103,6 +108,8 @@ public class UpLoadAdapter extends BaseAdapter{
 		} else {
 			vh = (ViewHolder) convertView.getTag();
 		}
+		vh.ll_item_updownload.setOnLongClickListener(null);
+		vh.ll_item_updownload.setOnClickListener(null);
 
 		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
@@ -194,6 +201,14 @@ public class UpLoadAdapter extends BaseAdapter{
 						fileUploadHelper.uploadFileAgain(info);
 					}
 				});
+				vh.ll_item_updownload.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(View v) {
+
+						showDialog(info);
+						return true;
+					}
+				});
 				break;
 		}
 
@@ -222,5 +237,35 @@ public class UpLoadAdapter extends BaseAdapter{
 		private RelativeLayout rl_progress;
 		private LinearLayout ll_item_updownload;
 	}
+
+
+	//删除本地文件
+	private void showDialog(final FileInfo info) {
+	            alertDialog = new AlertDialog.Builder(context).
+				setTitle("温馨提示").
+				setMessage("是否确认删除？").
+				setIcon(R.drawable.ww).
+				setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						WaituploadDao.getDao().delete(info.getId());
+						try {
+							FileUtil.deletefile(info.getFilePath());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}).
+				setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).
+				create();
+		alertDialog.show();
+	}
+
 
 }

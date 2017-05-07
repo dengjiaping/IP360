@@ -52,6 +52,7 @@ public class WaituploadDao {
         values.put("latitudelongitude", fileInfo.getLatitudeLongitude());
         values.put("encrypte", fileInfo.getEncrypte());
         values.put("rsaid",fileInfo.getRsaId());
+        values.put("mintime",fileInfo.getMinTime());
         db.insert(TABLE_NAME, null, values);
         db.close();
 
@@ -121,6 +122,7 @@ public class WaituploadDao {
             info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
             info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
+            info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
         }
         db.close();
         return info;
@@ -135,7 +137,7 @@ public class WaituploadDao {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         List<FileInfo> list=new ArrayList<>();
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             FileInfo info= new FileInfo();
             info.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             info.setFilePath(cursor.getString(cursor.getColumnIndex("filepath")));//文件路径
@@ -149,6 +151,7 @@ public class WaituploadDao {
             info.setLatitudeLongitude(cursor.getString(cursor.getColumnIndex("latitudelongitude")));
             info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
+            info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
             info.setStatus(4);//状态码4等待重新上传
             list.add(info);
         }

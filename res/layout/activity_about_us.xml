@@ -102,4 +102,13 @@
         android:layout_marginTop="30dp"
         android:text="真相网络科技（北京）有限公司"
         android:textColor="@color/huise"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="联系客服：kf@truthso.com"
+        android:textColor="@color/huise"
+        android:textSize="10sp"
+        />
 </LinearLayout>
