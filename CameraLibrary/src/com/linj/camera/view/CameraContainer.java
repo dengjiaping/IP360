@@ -124,7 +124,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	public boolean startRecord(){
 		mRecordStartTime=SystemClock.uptimeMillis();
 		mRecordingInfoTextView.setVisibility(View.VISIBLE);
-		mRecordingInfoTextView.setText("00:00");
+		mRecordingInfoTextView.setText("00:00:00");
 		if(mCameraView.startRecord()){
 			mHandler.postAtTime(recordRunnable, mRecordingInfoTextView, SystemClock.uptimeMillis()+1000);
 			return true;
@@ -136,10 +136,10 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	Runnable recordRunnable=new Runnable() {	
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+
 			if(mCameraView.isRecording()){
 				long recordTime=SystemClock.uptimeMillis()-mRecordStartTime;
-				mRecordingInfoTextView.setText(mTimeFormat.format(new Date(recordTime)));
+				mRecordingInfoTextView.setText("00:"+mTimeFormat.format(new Date(recordTime)));
 				mHandler.postAtTime(this,mRecordingInfoTextView, SystemClock.uptimeMillis()+500);
 			}else {
 				mRecordingInfoTextView.setVisibility(View.GONE);

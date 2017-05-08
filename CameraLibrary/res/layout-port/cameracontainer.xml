@@ -26,15 +26,15 @@
         android:id="@+id/recordInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="25dip"
         android:layout_marginTop="25dip"
-        android:drawableLeft="@drawable/icon_rec"
         android:drawablePadding="8dip"
         android:textColor="#ffffffff"
         android:textSize="20sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <ImageView
         android:id="@+id/waterMark"

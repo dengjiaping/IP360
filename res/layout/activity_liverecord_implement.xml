@@ -75,13 +75,15 @@
             voiceView:fineness="three"
             voiceView:lineSpeed="90"
             voiceView:maxVolume="300"
-            voiceView:middleLine="@android:color/black"
+            voiceView:middleLine="@color/jiuhong"
             voiceView:middleLineHeight="1dp"
             voiceView:rectSpace="2dp"
             voiceView:rectWidth="5dp"
             voiceView:sensibility="four"
             voiceView:viewMode="line"
-            voiceView:voiceLine="@android:color/holo_green_dark" />
+            voiceView:voiceLine="@color/jiuhong"
+           />
+        <!--voiceView:voiceLine="@android:color/holo_green_dark"-->
     </LinearLayout>
 
 </RelativeLayout>

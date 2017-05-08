@@ -24,6 +24,7 @@
             android:id="@+id/rl_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/line_bg"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             >
@@ -33,7 +34,7 @@
                 android:layout_height="160dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/luyinl"/>
+                android:background="@drawable/lyqz"/>
 
             <ImageView
                 android:layout_width="50dp"

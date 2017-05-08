@@ -10,7 +10,7 @@
         android:layout_width="140dp"
         android:layout_height="180dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/luyinl" />
+        android:background="@drawable/lyqz" />
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
@@ -28,8 +28,8 @@
 
         <CheckBox
             android:id="@+id/btn_start"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_recorddetail"
             android:button="@null"

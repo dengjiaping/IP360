@@ -20,10 +20,10 @@ public class MyAsyncHttpClient {
 	static private AsyncHttpClient httpClient = new AsyncHttpClient();
 
 	static {
-		httpClient.setTimeout(5000); // 设置链接超时，如果不设置，默认为10s
+		httpClient.setMaxRetriesAndTimeout(2,1000);
+//		httpClient.setTimeout(5000); // 设置链接超时，如果不设置，默认为10s
 		httpClient.addHeader("apikey", "643155d0a5ccf57b76c1cb501ac798f5");
 	}
-
 	public static AsyncHttpClient getClient() {
 		return httpClient;
 	}

@@ -115,7 +115,10 @@ public class AccountMagActivity extends BaseActivity {
                         for (int i = 0; i < productBalance.size(); i++) {
                             int type = productBalance.get(i).getType();
                             String bugCount = productBalance.get(i).getBuyCount();
+                            int usedCount = productBalance.get(i).getUsedCount();
                             String contractend = productBalance.get(i).getContractEnd().replace("-", "");
+                            int bugCountInt = Integer.parseInt(bugCount);
+
                             if (type == MyConstants.PHOTOTYPE) {// 拍照
                                 if (bugCount.equals("0")) {//没有时不显示
                                     rl_paizhao.setVisibility(View.GONE);
@@ -124,11 +127,14 @@ public class AccountMagActivity extends BaseActivity {
                                             if (icurrDate > Integer.parseInt(contractend)) {//过期
                                                 tv_date_photo.setText("已过期");
                                                 tv_date_photo.setTextColor(getResources().getColor(R.color.red));
-                                                tv_account_photo.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                                tv_account_photo.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                             } else {
                                                 tv_date_photo.setText(productBalance.get(i).getContractStart().replace("-", ".") + "-" + productBalance.get(i).getContractEnd().replace("-", "."));
-                                                tv_account_photo.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                                tv_account_photo.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                             }
+                                    if (usedCount> bugCountInt){
+                                        tv_account_photo.setTextColor(getResources().getColor(R.color.red));
+                                    }
                                      }
 
 
@@ -140,11 +146,15 @@ public class AccountMagActivity extends BaseActivity {
                                     if (icurrDate > Integer.parseInt(contractend)) {//过期
                                         tv_date_video.setText("已过期");
                                         tv_date_video.setTextColor(getResources().getColor(R.color.red));
-                                        tv_account_video.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                        tv_account_video.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                     } else {
                                         tv_date_video.setText(productBalance.get(i).getContractStart().replace("-", ".") + "-" + productBalance.get(i).getContractEnd().replace("-", "."));
-                                        tv_account_video.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                        tv_account_video.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                     }
+                                    if (usedCount> bugCountInt){
+                                        tv_account_video.setTextColor(getResources().getColor(R.color.red));
+                                    }
+
                                 }
                             } else if (type == MyConstants.RECORDTYPE) {// 录音
 
@@ -155,11 +165,14 @@ public class AccountMagActivity extends BaseActivity {
                                         if (icurrDate > Integer.parseInt(contractend)) {//过期
                                             tv_date_record.setText("已过期");
                                             tv_date_record.setTextColor(getResources().getColor(R.color.red));
-                                            tv_account_record.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                            tv_account_record.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                         } else {
                                             tv_date_record.setText(productBalance.get(i).getContractStart().replace("-", ".") + "-" + productBalance.get(i).getContractEnd().replace("-", "."));
-                                            tv_account_record.setText(productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
+                                            tv_account_record.setText("已取证"+productBalance.get(i).getUsedCount() + productBalance.get(i).getUnit() + "/" + productBalance.get(i).getBuyCount() + productBalance.get(i).getUnit());
                                         }
+                                    if (usedCount> bugCountInt){
+                                        tv_account_record.setTextColor(getResources().getColor(R.color.red));
+                                    }
                                 }
 
                             }

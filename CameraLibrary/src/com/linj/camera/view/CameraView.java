@@ -166,7 +166,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 		if(!directory.exists())
 			directory.mkdirs();
 		try {
-			String name="video"+FileOperateUtil.createFileNmae(".3gp");
+			String name=FileOperateUtil.createFileNmae(".mp4");
 			mRecordPath=path+File.separator+name;
 			File mRecAudioFile = new File(mRecordPath);
 			mMediaRecorder.setOutputFile(mRecAudioFile

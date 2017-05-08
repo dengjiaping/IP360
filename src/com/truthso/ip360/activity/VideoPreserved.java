@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -109,12 +110,12 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
 
         tv_filesize.setText(mVideoSize);
         tv_time.setText(time.toString().trim());
-        //上传文件信息
         // filePre();
         info = new FileInfo();
         info.setFileName(title);
         info.setFilePath(mVideoPath);
         info.setFileSize(ll + "");
+        info.setFileTime(time.toString().trim());
         info.setType(MyConstants.VIDEOTYPE);
         info.setFileCreatetime(mDate);
         info.setFileLoc(loc);
@@ -122,6 +123,7 @@ public class VideoPreserved extends BaseActivity implements OnClickListener {
         info.setRsaId((int) SharePreferenceUtil.getAttributeByKey(this, MyConstants.RSAINFO, MyConstants.RSAID, SharePreferenceUtil.VALUE_IS_INT));
         info.setLatitudeLongitude(longlat);
         info.setMinTime(minTime);
+        //保全文件信息
         fileUploadHelper = new FileUploadHelper(this);
         fileUploadHelper.uploadFileInfo(info);
     }
