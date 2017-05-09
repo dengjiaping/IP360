@@ -196,6 +196,10 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	public void switchCamera(){
 		mCameraView.switchCamera();
 	}
+	//獲取是否是前置攝像頭
+	public boolean getIsFrontCamera(){
+		return mCameraView.getIsFrontCamera();
+	}
 	/**
 	 *  ��ȡ��ǰ���������
 	 *  @return
@@ -508,6 +512,9 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 				//�����µ��ļ���
 				String imgName=FileOperateUtil.createFileNmae(".jpg");
 				File folder=new File(mSavePath+"/photo");
+				if(!folder.isDirectory()){
+					folder.delete();
+				}
 				if(!folder.exists()){
 					folder.mkdirs();
 					Log.e(TAG, "folder");

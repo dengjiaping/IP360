@@ -54,6 +54,7 @@ public class WaituploadDao {
         values.put("rsaid",fileInfo.getRsaId());
         values.put("mintime",fileInfo.getMinTime());
         values.put("resourceid",fileInfo.getResourceId());
+        values.put("objectkey",fileInfo.getObjectKey());
         db.insert(TABLE_NAME, null, values);
         db.close();
 
@@ -125,6 +126,7 @@ public class WaituploadDao {
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
             info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
             info.setResourceId(cursor.getInt(cursor.getColumnIndex("resourceid")));
+            info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
         }
         db.close();
         return info;
@@ -155,6 +157,7 @@ public class WaituploadDao {
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
             info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
             info.setResourceId(cursor.getInt(cursor.getColumnIndex("resourceid")));
+            info.setObjectKey(cursor.getString(cursor.getColumnIndex("objectkey")));
             info.setStatus(4);//状态码4等待重新上传
             list.add(info);
         }

@@ -321,6 +321,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 		}
 
 		if(mIsFrontCamera){
+
 			Camera.CameraInfo cameraInfo=new CameraInfo();
 			for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
 				Camera.getCameraInfo(i, cameraInfo);
@@ -344,6 +345,14 @@ public class CameraView extends SurfaceView implements CameraOperation{
 
 		}
 		return true;
+	}
+
+	/**
+	 *  获取当前闪光灯类型
+	 *  @return
+	 */
+	public boolean getIsFrontCamera() {
+		return mIsFrontCamera;
 	}
 
 	/**

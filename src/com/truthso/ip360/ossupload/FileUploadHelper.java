@@ -336,7 +336,7 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        cancelUploadFile();
+
                     }
                 }).create();
         alertDialog.show();
@@ -364,6 +364,7 @@ public class FileUploadHelper {
                             return;
                         }
                         if(upload_type==UPLOAD_FILE){
+                            activity.startActivity(new Intent(activity,MainActivity.class));
                             activity.finish();
                         }else {
                             WaituploadDao.getDao().delete(info.getId());
@@ -386,7 +387,6 @@ public class FileUploadHelper {
      * 取消上传文件
      */
     public void cancelUploadFile() {
-        WaituploadDao.getDao().delete(info.getId());
         requestHandle=ApiManager.getInstance().DeleteFileInfo(info.getResourceId(), new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {

@@ -105,6 +105,18 @@ public class MainActivity extends FragmentActivity implements
 				fragmentList, R.id.main_fragment, radioGroup);
 		isNeedPay();
 
+		makDirs();//創建所需文件夾
+	}
+
+	private void makDirs() {
+		File downloadFile = new File(MyConstants.DOWNLOAD_PATH);
+		if (!downloadFile.exists()) {
+			downloadFile.mkdirs();
+		}
+		File folder=new File(MyConstants.PHOTO_PATH);
+		if(!folder.exists()){
+			folder.mkdirs();
+		}
 	}
 
 	@Override

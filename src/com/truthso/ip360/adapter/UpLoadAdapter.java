@@ -195,9 +195,9 @@ public class UpLoadAdapter extends BaseAdapter{
 					@Override
 					public void onClick(View v) {
 						if(info.getResourceId()==0){
-							fileUploadHelper.uploadFileAgain(info);
-						}else{
 							fileUploadHelper.uploadFileInfoAgain(info);
+						}else{
+							fileUploadHelper.uploadFileAgain(info);
 						}
 
 					}

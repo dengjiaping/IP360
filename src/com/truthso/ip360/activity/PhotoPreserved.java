@@ -11,7 +11,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.WaituploadDao;
 import com.truthso.ip360.ossupload.FileUploadHelper;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.BaiduLocationUtil;
@@ -76,7 +78,8 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
         iv_photo = (ImageView) findViewById(R.id.iv_photo);
         iv_photo.setOnClickListener(this);
 
-        ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
+        //ImageLoaderUtil.displayFromSDCardopt(path, iv_photo, null);
+        Glide.with(this).load(path).into(iv_photo);
         if (!CheckUtil.isEmpty(currLoc) && !currLoc.equals("nullnull")) {//当前能获取位置用当前的位置，
             loc = currLoc;
             longlat = currLonglat;
@@ -168,8 +171,9 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //取消上传文件
+                        WaituploadDao.getDao().delete(info.getId());
                         fileUploadHelper.cancelUploadFile();
-
+                        startActivity(new Intent(PhotoPreserved.this,MainActivity.class));
                         finish();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {

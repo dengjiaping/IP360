@@ -111,6 +111,11 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
                 break;
             case R.id.btn_switch_camera:
                 mContainer.switchCamera();
+                if(mContainer.getIsFrontCamera()){
+                    mFlashView.setVisibility(View.GONE);
+                }else {
+                    mFlashView.setVisibility(View.VISIBLE);
+                }
             /*    CameraView c = new CameraView(CameraAty.this);
                 if ( c.openCamera()){
                     mFlashView.setVisibility(View.INVISIBLE);
@@ -139,8 +144,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
 //        intent.putExtra("fileTime",fileTime);
         intent.putExtra("date", date);
         startActivity(intent);
-        finish();
-
     }
 
     @Override
