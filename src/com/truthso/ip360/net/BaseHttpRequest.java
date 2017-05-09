@@ -283,8 +283,6 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 	public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 		try {
 			this.responseData = parseJson(responseBody, this.classType);
-
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -309,7 +307,6 @@ public class BaseHttpRequest <T extends BaseHttpResponse>{
 		// TODO: 15/12/19 callback
 		if (this.resultCallback != null) {
 			this.resultCallback.onFaile(this.handle,statusCode, headers, responseBody, error);
-
 		}
 	}
 	

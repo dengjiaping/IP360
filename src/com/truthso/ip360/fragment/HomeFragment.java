@@ -225,6 +225,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 					if (bean.getCode()== 200) {
 						if (bean.getDatas().getStatus()== 1) {//0-不能使用；1-可以使用。
 							Long serviceTime = bean.getDatas().getServesTime();//返回多少秒
+							String dateStr= DateUtil.formatDate(new Date(serviceTime),"yyyy-MM-dd HH:mm:ss");
+							Log.i("djj","dateStr"+dateStr);
 							//保存rsa信息
 							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.RSAID,bean.getDatas().getRsaId());
 							SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.RSAINFO,MyConstants.PRIKEY,bean.getDatas().getPrivateKey());

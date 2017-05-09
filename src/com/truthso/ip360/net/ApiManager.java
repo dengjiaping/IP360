@@ -50,30 +50,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			String message, BaseHttpResponse response) {
 		//被挤掉的时候，调证据列表的接口会闪退一下，因为response为空
 		if (CheckUtil.isEmpty(response)||response.getCode() == 405||response.getCode()==400) {//其他设备
-			/*SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.isTokenFail, true);
-			
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.imgSmallUrl, null);
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.imgLargeUrl, null);
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.imgMiddleUrl, null);
-
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.accountName, null);
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.certificateType, null);
-			SharePreferenceUtil.saveOrUpdateAttribute(App.getInstance(),
-					KeyConstant.SP_USER, KeyConstant.certificateNumber, null);
-
-			Toast.makeText(App.getInstance(), response.getMessage(),
-					Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent(App.getInstance(), LoginActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			App.getInstance().startActivity(intent);*/
-
-		
 			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
 			intent.putExtra("tag","otherlogin");
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -81,7 +57,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			return;
 		}else if(response.getCode() == 501){//登陆失效
 			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
-
 			intent.putExtra("tag","ineffic");
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			MyApplication.getInstance().startActivity(intent);
@@ -90,7 +65,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 
 		if (requestHandle != null) {
 			BaseHttpRequest request = requestHashMap.get(requestHandle);
-			// WeakReference callback = request.getApiCallback();
 			ApiCallback callback = request.getApiCallback();
 
 			if (callback != null) {
@@ -99,7 +73,6 @@ public class ApiManager implements BaseHttpRequestCallBack {
 			requestHashMap.remove(requestHandle);
 		}
 	}
-
 	
 	@Override
 	public void onFaile(RequestHandle requestHandle,int statusCode, Header[] headers,
