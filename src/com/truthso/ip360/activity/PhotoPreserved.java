@@ -151,10 +151,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
      */
     @Override
     public void onBackPressed() {
-
         showDialogIsCancel("是否确认放弃保全？");
-        //取消上传文件
-        fileUploadHelper.cancelUploadFile();
     }
 
     /**
@@ -171,6 +168,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         //取消上传文件
                         fileUploadHelper.cancelUploadFile();
+
                         finish();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {

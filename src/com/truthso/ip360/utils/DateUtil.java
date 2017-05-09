@@ -53,6 +53,7 @@ public class DateUtil {
 		if (source != null) {
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat(format);
+				sdf.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
 				result = sdf.format(source);
 			} catch (Exception e) {
 				Log.e("DateUtil.formatDate", "格式化日期错误" + format);

@@ -147,7 +147,6 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         intent.putExtra("filepath", filePath);
         intent.putExtra("date", date);
         startActivity(intent);
-        finish();
     }
 
     @Override
@@ -161,8 +160,8 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         TimeUtile.cancelTime();
     }
 }

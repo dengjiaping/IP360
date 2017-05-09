@@ -49,6 +49,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 		viv = (MyVideoView) findViewById(R.id.videoView);
 		mController = new MediaController(this);
 		viv.setMediaController(mController);
+		iv_chuo= (ImageView) findViewById(R.id.iv_chuo);
 		//viv.setVideoPath(path);
 
 		Uri uri= Uri.parse(path);

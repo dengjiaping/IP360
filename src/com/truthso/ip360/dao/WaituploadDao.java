@@ -53,6 +53,7 @@ public class WaituploadDao {
         values.put("encrypte", fileInfo.getEncrypte());
         values.put("rsaid",fileInfo.getRsaId());
         values.put("mintime",fileInfo.getMinTime());
+        values.put("resourceid",fileInfo.getResourceId());
         db.insert(TABLE_NAME, null, values);
         db.close();
 
@@ -123,6 +124,7 @@ public class WaituploadDao {
             info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
             info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
+            info.setResourceId(cursor.getInt(cursor.getColumnIndex("resourceid")));
         }
         db.close();
         return info;
@@ -152,6 +154,7 @@ public class WaituploadDao {
             info.setEncrypte(cursor.getString(cursor.getColumnIndex("encrypte")));//加签后的字符串
             info.setRsaId(cursor.getInt(cursor.getColumnIndex("rsaid")));//私钥id
             info.setMinTime(cursor.getInt(cursor.getColumnIndex("mintime")));//计费时长
+            info.setResourceId(cursor.getInt(cursor.getColumnIndex("resourceid")));
             info.setStatus(4);//状态码4等待重新上传
             list.add(info);
         }

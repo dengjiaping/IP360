@@ -22,6 +22,7 @@ import com.linj.DisplayUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
+import com.truthso.ip360.utils.TimeUtile;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,6 +113,7 @@ public class PhotoPreAct extends BaseActivity {
                     long length = newFile.length();
                     double fileSize_B = FileSizeUtil.FormetFileSize(length, FileSizeUtil.SIZETYPE_B);
                     String dateStr= DateUtil.formatDate(new Date(date),"yyyy-MM-dd HH:mm:ss");
+                    Log.i("djj","dateStr"+dateStr);
 
                     Intent intent = new Intent(PhotoPreAct.this, PhotoPreserved.class);
                     intent.putExtra("path", newFile.getAbsolutePath());
@@ -158,6 +160,7 @@ public class PhotoPreAct extends BaseActivity {
                     intent.putExtra("longlat", longti + "," + lat);
                     startActivity(intent);
                 }
+                TimeUtile.cancelTime();
                 finish();
             }
         });

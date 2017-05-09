@@ -24,9 +24,9 @@ public class TimeUtile {
         handler.sendEmptyMessageDelayed(0,1000);
     }
     public static int getCurrentTime(){
-        handler.removeMessages(0);
         return time;
     }
+
     public static void cancelTime(){
         handler.removeMessages(0);
     }

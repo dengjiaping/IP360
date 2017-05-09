@@ -198,7 +198,12 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.ll_item_updownload.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						fileUploadHelper.uploadFileAgain(info);
+						if(info.getResourceId()==0){
+							fileUploadHelper.uploadFileAgain(info);
+						}else{
+							fileUploadHelper.uploadFileInfoAgain(info);
+						}
+
 					}
 				});
 				vh.ll_item_updownload.setOnLongClickListener(new View.OnLongClickListener() {

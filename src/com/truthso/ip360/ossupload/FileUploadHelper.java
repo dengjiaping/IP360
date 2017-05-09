@@ -29,6 +29,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 
 import cz.msebera.android.httpclient.Header;
@@ -42,19 +43,31 @@ public class FileUploadHelper {
     private FileInfo info;
     private boolean filePreIsok;
     private Dialog alertDialog;
-    private boolean isUploadAgain;
+
     private  RequestHandle requestHandle;
+    private int upload_type;//上传操作的类型
+    private int UPLOAD_FILEINFO=0;//上传文件信息
+    private int UPLOAD_FILE=1;//上传文件
+    private int UPLOAD_FILEINFO_AGAIN=2;//重新上传文件信息
+    private int UPLOAD_FILE_AGAIN=3;//重新上传文件
 
 
     public FileUploadHelper(Activity activity) {
         this.activity = activity;
     }
+    //上传文件信息
     public void uploadFileInfo(FileInfo info){
+        this.info=info;
+        upload_type=UPLOAD_FILEINFO;
         if(CheckUtil.isEmpty(activity)||CheckUtil.isEmpty(info)){
             return ;
         }
-        this.info=info;
-        isUploadAgain=false;
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络不可用，是否重试？");
+            return;
+        }
+
         if(CheckUtil.isEmpty(info.getHashCode())){
            getHashCode(info.getFilePath());
         }else{
@@ -64,15 +77,39 @@ public class FileUploadHelper {
 
     //上传文件  获取交易金额--是否支付--支付成功--上传文件
     public void uploadFile(){
+        upload_type=UPLOAD_FILE;
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络不可用，是否重试？");
+            return;
+        }
         getport();
     }
 
-    //重新上传 需要加签
+    //上传文件  获取交易金额--是否支付--支付成功--上传文件
     public void uploadFileAgain(FileInfo info){
+         upload_type=UPLOAD_FILE_AGAIN;
+         this.info=info;
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络不可用，是否重试？");
+            return;
+        }
+        getport();
+    }
+
+    //重新上传文件信息
+    public void uploadFileInfoAgain(FileInfo info){
+        upload_type=UPLOAD_FILEINFO_AGAIN;
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络链接超时，是否重试？");
+            return;
+        }
         this.info=info;
-        isUploadAgain=true;
         uploadInfo();
     }
+
 
     public boolean isFileInfoUpload(){
         return filePreIsok;
@@ -102,6 +139,7 @@ public class FileUploadHelper {
         }
     };
 
+    //上传文件信息
     private void uploadInfo(){
         showProgress("努力加载中...");
         String imei = MyApplication.getInstance().getDeviceImei();
@@ -131,9 +169,9 @@ public class FileUploadHelper {
                                 UpLoadBean.Upload datas = bean.getDatas();
                                 info.setResourceId(datas.getPkValue());
                                 info.setObjectKey(datas.getFileUrl());//文件上传的objectKey
-                                //  info.setFileCreatetime(datas.getFileDate());//从服务器获取的保全时间
-                                if (isUploadAgain) {
-                                    getport();
+                                //如果是重新上传 直接调上传文件的接口
+                                if(upload_type==UPLOAD_FILEINFO_AGAIN){
+                                    uploadFile();
                                 }
                             } else if (bean.getCode() == 502) {
                                 showDialogFileTamper("当前文件被篡改，不可保全");
@@ -157,8 +195,11 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        uploadFileInfo(info);//上传文件信息
-
+                        if(upload_type==UPLOAD_FILEINFO_AGAIN){
+                            uploadFileInfoAgain(info);
+                        }else{
+                            uploadFileInfo(info);//上传文件信息
+                        }
                     }
                 }).setNegativeButton("确定删除", new DialogInterface.OnClickListener() {
 
@@ -187,6 +228,7 @@ public class FileUploadHelper {
                                                    Header[] headers, byte[] responseBody,
                                                    Throwable error) {
                         hideProgress();
+                        showDialogNoNet("网络链接超时，是否重试？");
                     }
 
                     @Override
@@ -220,15 +262,24 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        uploadFileInfo(info);//上传文件信息
+                        //上传文件信息失败 重试
+                        if(upload_type==UPLOAD_FILEINFO){
+                            uploadFileInfo(info);
+                        }else if (upload_type==UPLOAD_FILE){//上传文件失败重试
+                            uploadFile();
+                        }else if(upload_type==UPLOAD_FILEINFO_AGAIN){//重新上传文件信息失败重试
+                            uploadFileInfoAgain(info);
+                        }else{
+                            uploadFileAgain(info);
+                        }
 
                     }
                 }).setNegativeButton("稍后保全", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //上传列表等待上传
-                        if(!isUploadAgain){
+                        //上传文件信息失败，保存数据库等待重新上传
+                        if(upload_type==UPLOAD_FILEINFO||upload_type==UPLOAD_FILE){
                             saveToDb();
                             Toaster.showToast(activity, "已进入上传列表等待上传");
                             Intent intent = new Intent(activity, MainActivity.class);
@@ -243,26 +294,23 @@ public class FileUploadHelper {
 
     // 保存照片信息加签后到数据库
     private void saveToDb() {
-       /* FileInfo info = new FileInfo();
-        info.setFilePath(path);
-        info.setFileName(title);
-        info.setType(MyConstants.PHOTOTYPE);
-        info.setFileSize(size);
-        info.setHashCode(hashCode);
-        info.setFileCreatetime(date);
-        info.setFileLoc(loc);
-        info.setPriKey((String) SharePreferenceUtil.getAttributeByKey(this, MyConstants.RSAINFO, MyConstants.PRIKEY, SharePreferenceUtil.VALUE_IS_STRING));
-        info.setRsaId((int) SharePreferenceUtil.getAttributeByKey(this, MyConstants.RSAINFO, MyConstants.RSAID, SharePreferenceUtil.VALUE_IS_INT));
-        info.setLatitudeLongitude(longlat);*/
-        String priKey = info.getPriKey();
-        try {
-            String encrypte = SecurityUtil.RSAFileInfo(info.getFileName() + info.getFileCreatetime() + info.getFileLoc() + info.getHashCode(), priKey);
-            info.setEncrypte(encrypte);
-            WaituploadDao.getDao().save(info);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i("djj",e.getMessage());
+        if(upload_type==UPLOAD_FILE){
+            //无需加签 保存数据库
+            Log.i("djj","UPLOAD_FILE");
+                WaituploadDao.getDao().save(info);
+        }else {
+            //文件加签 保存数据库
+            String priKey = info.getPriKey();
+            try {
+                String encrypte = SecurityUtil.RSAFileInfo(info.getFileName() + info.getFileCreatetime() + info.getFileLoc() + info.getHashCode(), priKey);
+                info.setEncrypte(encrypte);
+                WaituploadDao.getDao().save(info);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.i("djj",e.getMessage());
+            }
         }
+
     }
 
     /**
@@ -314,7 +362,7 @@ public class FileUploadHelper {
                         if(!resuambleUpload){
                             return;
                         }
-                        if(!isUploadAgain){
+                        if(upload_type==UPLOAD_FILE){
                             activity.finish();
                         }else {
                             WaituploadDao.getDao().delete(info.getId());
@@ -328,7 +376,7 @@ public class FileUploadHelper {
             }
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                showDialogNoNet("网络链接超时，是否重试？");
             }
         });
     }
@@ -337,11 +385,12 @@ public class FileUploadHelper {
      * 取消上传文件
      */
     public void cancelUploadFile() {
+        WaituploadDao.getDao().delete(info.getId());
         requestHandle=ApiManager.getInstance().DeleteFileInfo(info.getResourceId(), new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 if (response.getCode() == 200) {
-                    hideProgress();
+
                 }
             }
 

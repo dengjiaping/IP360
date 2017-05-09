@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 /** 
  * @ClassName: CameraContainer 
- * @Description:  ������������ ��������󶨵�surfaceview�����պ����ʱͼƬView�;۽�View 
+ * @Description: 相机界面的容器 包含相机绑定的surfaceview、拍照后的临时图片View和聚焦View
  * @author LinJ
  * @date 2014-12-31 ����9:38:52 
  *  
@@ -55,34 +55,34 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 	public final static String TAG="CameraContainer";
 
-	/** ����󶨵�SurfaceView  */ 
+	/** 相机绑定的SurfaceView  */
 	private CameraView mCameraView;
 
-	/** �������ɵ�ͼƬ������һ�����Ƶ����½ǵĶ���Ч�������� */ 
+	/** 拍照生成的图片，产生一个下移到左下角的动画效果后隐藏 */
 	private TempImageView mTempImageView;
 
-	/** ������Ļʱ��ʾ�ľ۽�ͼ��  */ 
+	/** 触摸屏幕时显示的聚焦图案  */
 	private FocusImageView mFocusImageView;
 
-	/** ��ʾ¼����ʱ��TextView  */ 
+	/** 显示录像用时的TextView  */
 	private TextView mRecordingInfoTextView;
 
-	/** ��ʾˮӡͼ��  */ 
-	private ImageView mWaterMarkImageView; 
+	/** 显示水印图案  */
+	private ImageView mWaterMarkImageView;
 
-	/** �����Ƭ�ĸ�Ŀ¼ */ 
+	/** 存放照片的根目录 */
 	private String mSavePath;
 
-	/** ��Ƭ�ֽ���������  */ 
+	/** 照片字节流处理类  */
 	private DataHandler mDataHandler;
 
-	/** ���ռ����ӿڣ����������տ�ʼ�ͽ�����ִ����Ӧ����  */ 
+	/** 拍照监听接口，用以在拍照开始和结束后执行相应操作  */
 	private TakePictureListener mListener;
 
-	/** ���ż����϶��� */ 
+	/** 缩放级别拖动条 */
 	private SeekBar mZoomSeekBar;
 
-	/** ����ִ�ж�ʱ�����Handler����*/
+	/** 用以执行定时任务的Handler对象*/
 	private Handler mHandler;
 	private long mRecordStartTime;
 	private SimpleDateFormat mTimeFormat;
@@ -95,7 +95,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**  
-	 *  ��ʼ���ӿؼ�
+	 *  初始化子控件
 	 *  @param context   
 	 */
 	private void initView(Context context) {
@@ -111,7 +111,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		mWaterMarkImageView=(ImageView) findViewById(R.id.waterMark);
 
 		mZoomSeekBar=(SeekBar) findViewById(R.id.zoomSeekBar);
-		//��ȡ��ǰ�����֧�ֵ�������ż���ֵС��0��ʾ��֧�����š���֧������ʱ�������϶�����
+		//获取当前照相机支持的最大缩放级别，值小于0表示不支持缩放。当支持缩放时，加入拖动条。
 		int maxZoom=mCameraView.getMaxZoom();
 		if(maxZoom>0){
 			mZoomSeekBar.setMax(maxZoom);
@@ -164,10 +164,10 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		}*/
 		return path;
 	}
-	
-	/**  
-	 *  �ı����ģʽ ������ģʽ��¼��ģʽ���л� ����ģʽ�ĳ�ʼ���ż���ͬ
-	 *  @param zoom   ���ż���
+
+	/**
+	 *  改变相机模式 在拍照模式和录像模式间切换 两个模式的初始缩放级别不同
+	 *  @param zoom   缩放级别
 	 */
 	public void switchMode(int zoom){
 		mZoomSeekBar.setProgress(zoom);
@@ -188,25 +188,25 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		}
 	}
 
-	/**  
-	 *   ǰ�á���������ͷת��
+	/**
+	 *   前置、后置摄像头转换
 	 */
 	@Override
 	public void switchCamera(){
 		mCameraView.switchCamera();
 	}
-	/**  
-	 *  ��ȡ��ǰ���������
-	 *  @return   
+	/**
+	 *  获取当前闪光灯类型
+	 *  @return
 	 */
 	@Override
 	public FlashMode getFlashMode() {
 		return mCameraView.getFlashMode();
 	}
 
-	/**  
-	 *  �������������
-	 *  @param flashMode   
+	/**
+	 *  设置闪光灯类型
+	 *  @param flashMode
 	 */
 	@Override
 	public void setFlashMode(FlashMode flashMode) {
@@ -214,7 +214,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 * �����ļ�����·��
+	 * 设置文件保存路径
 	 * @param rootPath
 	 */
 	public void setRootPath(String rootPath){
@@ -225,18 +225,18 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 
 	/**
-	 * ���շ���
+	 * 拍照方法
 	 * @param callback
 	 */
 	public void takePicture(){
 		takePicture(pictureCallback,mListener);
 	}
 
-	/**  
-	 * @Description: ���շ���
-	 * @param @param listener ���ռ����ӿ�
-	 * @return void    
-	 * @throws 
+	/**
+	 * @Description: 拍照方法
+	 * @param @param listener 拍照监听接口
+	 * @return void
+	 * @throws
 	 */
 	public void takePicture(TakePictureListener listener){
 		this.mListener=listener;

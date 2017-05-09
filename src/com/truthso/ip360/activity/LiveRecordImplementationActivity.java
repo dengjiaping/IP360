@@ -222,7 +222,8 @@ public class LiveRecordImplementationActivity extends BaseActivity implements
 				intent.putExtra("loc", loc);
 				intent.putExtra("longlat",longti+","+lat);
 				startActivity(intent);
-				finish();		
+				TimeUtile.cancelTime();
+				finish();
 			}
 			break;
 
