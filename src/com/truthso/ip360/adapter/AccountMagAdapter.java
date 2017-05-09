@@ -77,11 +77,14 @@ public class AccountMagAdapter extends BaseAdapter {
             if (icurrDate>Integer.parseInt(giftsProduct.getContractEnd().replace("-",""))){
                 vh.tv_date.setText("已过期");
                 vh.tv_date.setTextColor(getResources().getColor(R.color.red));
-                vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
+                vh.tv_liang.setText("已取证"+giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
             }else{
                 vh.tv_date.setText(giftsProduct.getContractStart().replace("-",".") + "-" + giftsProduct.getContractEnd().replace("-","."));
-                vh.tv_liang.setText(giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
+                vh.tv_liang.setText("已取证"+giftsProduct.getUsedCount() + giftsProduct.getUnit() + "/" + giftsProduct.getGiftsCount() + giftsProduct.getUnit());
 
+            }
+            if (giftsProduct.getUsedCount() > giftsProduct.getGiftsCount() ){//透支置红
+                vh.tv_liang.setTextColor(getResources().getColor(R.color.red));
             }
         }
 

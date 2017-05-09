@@ -12,6 +12,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.view.MyVideoView;
 
 
@@ -34,7 +35,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	int progress = 0;
 	private String path;
 	private Map<String,String> headers ;
-	private ImageView iv_chuo;
+//	private ImageView iv_chuo;
 	@Override
 	public void initData() {
 
@@ -45,6 +46,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 
 	@SuppressLint("NewApi") @Override
 	public void initView() {
+//		iv_chuo= (ImageView) findViewById(R.id.iv_chuo);
 		path = getIntent().getStringExtra("url");
 		viv = (MyVideoView) findViewById(R.id.videoView);
 		mController = new MediaController(this);
@@ -64,11 +66,11 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 				 hideProgress();
 //				iv_chuo.setVisibility(View.VISIBLE);//真相保全的戳
 			}
-		});
+	});
 		viv.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             //视频无法播放监听
             public boolean onError(MediaPlayer mp, int what, int extra) {
-            	Toast.makeText(VideoDetailActivity.this, "视频无法播放", 0).show();
+				Toaster.showToast(VideoDetailActivity.this,"视频无法播放");
 				hideProgress();
                 finish();  
                 return true;  
@@ -83,10 +85,10 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
                 }else if(arg1 == MediaPlayer.MEDIA_INFO_BUFFERING_END){  
                     //此接口每次回调完START就回调END,若不加上判断就会出现缓冲图标一闪一闪的卡顿现象  
                 	  hideProgress();
-					iv_chuo.setVisibility(View.VISIBLE);
+//					iv_chuo.setVisibility(View.VISIBLE);
                     if(mp.isPlaying()){  
                        hideProgress();
-						iv_chuo.setVisibility(View.VISIBLE);
+//						iv_chuo.setVisibility(View.VISIBLE);
                     }  
                 }  
 				return true;

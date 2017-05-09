@@ -145,6 +145,7 @@ public class FileUploadHelper {
         String imei = MyApplication.getInstance().getDeviceImei();
         //	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
         // fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
+
          requestHandle = ApiManager.getInstance().uploadPreserveFile(info.getFileName(), info.getType(),
                 info.getFileSize(), info.getHashCode(), info.getFileCreatetime(), info.getFileLoc(), info.getFileTime(), imei, info.getLatitudeLongitude(), info.getEncrypte(), info.getRsaId(),
                 new ApiCallback() {

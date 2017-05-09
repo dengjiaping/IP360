@@ -22,9 +22,9 @@ import android.widget.RelativeLayout;
 
 /** 
  * @ClassName: FocusImageView 
- * @Description:¾Û½¹Ê±ÏÔÊ¾µÄImagView  
+ * @Description:ï¿½Û½ï¿½Ê±ï¿½ï¿½Ê¾ï¿½ï¿½ImagView  
  * @author LinJ
- * @date 2015-1-4 ÏÂÎç2:55:34 
+ * @date 2015-1-4 ï¿½ï¿½ï¿½ï¿½2:55:34 
  *  
  */
 public class FocusImageView extends ImageView {
@@ -53,29 +53,29 @@ public class FocusImageView extends ImageView {
 		mFocusFailedImg=a.getResourceId(R.styleable.FocusImageView_focus_fail_id, NO_ID);
 		a.recycle();
 
-		//¾Û½¹Í¼Æ¬²»ÄÜÎª¿Õ
+		//ï¿½Û½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
 		if (mFocusImg==NO_ID||mFocusSucceedImg==NO_ID||mFocusFailedImg==NO_ID) 
 			throw new RuntimeException("Animation is null");
 	}
 
 	/**  
-	 *  ÏÔÊ¾¾Û½¹Í¼°¸
-	 *  @param x ´¥ÆÁµÄx×ø±ê
-	 *  @param y ´¥ÆÁµÄy×ø±ê
+	 *  ï¿½ï¿½Ê¾ï¿½Û½ï¿½Í¼ï¿½ï¿½
+	 *  @param ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½
+	 *  @param ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½ï¿½
 	 */
 	public void startFocus(Point point){
 		if (mFocusImg==NO_ID||mFocusSucceedImg==NO_ID||mFocusFailedImg==NO_ID) 
 			throw new RuntimeException("focus image is null");
-		//¸ù¾Ý´¥ÃþµÄ×ø±êÉèÖÃ¾Û½¹Í¼°¸µÄÎ»ÖÃ
+		//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾Û½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 		RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams) getLayoutParams();
 		params.topMargin= point.y-getHeight()/2;
 		params.leftMargin=point.x-getWidth()/2;
 		setLayoutParams(params);	
-		//ÉèÖÃ¿Ø¼þ¿É¼û£¬²¢¿ªÊ¼¶¯»­
+		//ï¿½ï¿½ï¿½Ã¿Ø¼ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 		setVisibility(View.VISIBLE);
 		setImageResource(mFocusImg);
 		startAnimation(mAnimation);	
-		//3ÃëºóÒþ²ØView¡£ÔÚ´Ë´¦ÉèÖÃÊÇÓÉÓÚ¿ÉÄÜ¾Û½¹ÊÂ¼þ¿ÉÄÜ²»´¥·¢¡£
+		//3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Viewï¿½ï¿½ï¿½Ú´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ü¾Û½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mHandler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -86,11 +86,11 @@ public class FocusImageView extends ImageView {
 	}
 	
 	/**  
-	*   ¾Û½¹³É¹¦»Øµ÷
+	*   ï¿½Û½ï¿½ï¿½É¹ï¿½ï¿½Øµï¿½
 	*/
 	public void onFocusSuccess(){
 		setImageResource(mFocusSucceedImg);
-		//ÒÆ³ýÔÚstartFocusÖÐÉèÖÃµÄcallback£¬1ÃëºóÒþ²Ø¸Ã¿Ø¼þ
+		//ï¿½Æ³ï¿½ï¿½ï¿½startFocusï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½callbackï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸Ã¿Ø¼ï¿½
 		mHandler.removeCallbacks(null, null);
 		mHandler.postDelayed(new Runnable() {
 			@Override
@@ -103,11 +103,11 @@ public class FocusImageView extends ImageView {
 	}
 	
 	/**  
-	*   ¾Û½¹Ê§°Ü»Øµ÷
+	*   ï¿½Û½ï¿½Ê§ï¿½Ü»Øµï¿½
 	*/
 	public void onFocusFailed(){
 		setImageResource(mFocusFailedImg);
-		//ÒÆ³ýÔÚstartFocusÖÐÉèÖÃµÄcallback£¬1ÃëºóÒþ²Ø¸Ã¿Ø¼þ
+		//ï¿½Æ³ï¿½ï¿½ï¿½startFocusï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½callbackï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸Ã¿Ø¼ï¿½
 		mHandler.removeCallbacks(null, null);
 		mHandler.postDelayed(new Runnable() {
 			@Override
@@ -119,7 +119,7 @@ public class FocusImageView extends ImageView {
 	}
 
 	/**  
-	 * ÉèÖÃ¿ªÊ¼¾Û½¹Ê±µÄÍ¼Æ¬
+	 * ï¿½ï¿½ï¿½Ã¿ï¿½Ê¼ï¿½Û½ï¿½Ê±ï¿½ï¿½Í¼Æ¬
 	 *  @param focus   
 	 */
 	public void setFocusImg(int focus) {
@@ -127,7 +127,7 @@ public class FocusImageView extends ImageView {
 	}
 
 	/**  
-	 *  ÉèÖÃ¾Û½¹³É¹¦ÏÔÊ¾µÄÍ¼Æ¬
+	 *  ï¿½ï¿½ï¿½Ã¾Û½ï¿½ï¿½É¹ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Í¼Æ¬
 	 *  @param focusSucceed   
 	 */
 	public void setFocusSucceedImg(int focusSucceed) {

@@ -24,7 +24,6 @@ public class MyAsyncHttpClient {
 		httpClient.setMaxRetriesAndTimeout(2,1000);
 		httpClient.addHeader("apikey", "643155d0a5ccf57b76c1cb501ac798f5");
 	}
-
 	public static AsyncHttpClient getClient() {
 		return httpClient;
 	}

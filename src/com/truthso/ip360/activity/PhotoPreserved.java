@@ -94,6 +94,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
         info = new FileInfo();
         info.setFileName(title);
         info.setFilePath(path);
+        info.setFileTime(null);
         info.setFileSize(ll + "");
         info.setType(MyConstants.PHOTOTYPE);
         info.setFileCreatetime(date);

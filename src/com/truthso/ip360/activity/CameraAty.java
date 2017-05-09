@@ -132,6 +132,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         Intent intent = new Intent(this, PhotoPreAct.class);
         intent.putExtra("type", "video");
         intent.putExtra("filepath", path);
+//        intent.putExtra("fileTime",fileTime);
         intent.putExtra("date", date);
         startActivity(intent);
         finish();

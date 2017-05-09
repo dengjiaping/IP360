@@ -48,7 +48,6 @@ public class PhotoPreAct extends BaseActivity {
     private double video_fileSize_B;
     private String time;
     private long date;
-
     @Override
     public void initData() {
         type = getIntent().getStringExtra("type");

@@ -242,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/mar_left_20"
-                android:text="视频取证"
+                android:text="录像取证"
                 android:textColor="@color/item_text_color"
                 android:textSize="@dimen/text_item"/>
             <TextView
