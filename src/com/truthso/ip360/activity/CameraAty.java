@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,11 +13,8 @@ import android.widget.ImageView;
 import com.linj.camera.view.CameraContainer;
 import com.linj.camera.view.CameraView;
 import com.truthso.ip360.constants.MyConstants;
-import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.TimeUtile;
 
-import java.io.File;
-import java.sql.Date;
 
 /**
  * @despriction :自定义拍照录像
@@ -116,6 +111,15 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
                 break;
             case R.id.btn_switch_camera:
                 mContainer.switchCamera();
+            /*    CameraView c = new CameraView(CameraAty.this);
+                if ( c.openCamera()){
+                    mFlashView.setVisibility(View.INVISIBLE);
+                }*/
+              /*  CameraView c = new CameraView(CameraAty.this);
+                boolean   isFrontCamera = c.IsFrontCamera();
+                if (isFrontCamera){
+                    mFlashView.setVisibility(View.INVISIBLE);
+                }*/
                 break;
             default:
                 break;
@@ -136,6 +140,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         intent.putExtra("date", date);
         startActivity(intent);
         finish();
+
     }
 
     @Override

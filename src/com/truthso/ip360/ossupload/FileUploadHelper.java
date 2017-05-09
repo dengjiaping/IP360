@@ -29,6 +29,7 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
 import com.truthso.ip360.utils.SecurityUtil;
 
 import cz.msebera.android.httpclient.Header;
@@ -50,11 +51,16 @@ public class FileUploadHelper {
         this.activity = activity;
     }
     public void uploadFileInfo(FileInfo info){
+        isUploadAgain=false;
         if(CheckUtil.isEmpty(activity)||CheckUtil.isEmpty(info)){
             return ;
         }
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络链接超时，是否重试？");
+            return;
+        }
         this.info=info;
-        isUploadAgain=false;
         if(CheckUtil.isEmpty(info.getHashCode())){
            getHashCode(info.getFilePath());
         }else{
@@ -69,8 +75,13 @@ public class FileUploadHelper {
 
     //重新上传 需要加签
     public void uploadFileAgain(FileInfo info){
-        this.info=info;
         isUploadAgain=true;
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络链接超时，是否重试？");
+            return;
+        }
+        this.info=info;
         uploadInfo();
     }
 
@@ -107,7 +118,6 @@ public class FileUploadHelper {
         String imei = MyApplication.getInstance().getDeviceImei();
         //	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
         // fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
-
          requestHandle = ApiManager.getInstance().uploadPreserveFile(info.getFileName(), info.getType(),
                 info.getFileSize(), info.getHashCode(), info.getFileCreatetime(), info.getFileLoc(), info.getFileTime(), imei, info.getLatitudeLongitude(), info.getEncrypte(), info.getRsaId(),
                 new ApiCallback() {
@@ -158,8 +168,11 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        uploadFileInfo(info);//上传文件信息
-
+                        if(isUploadAgain){
+                            uploadFileAgain(info);
+                        }else{
+                            uploadFileInfo(info);//上传文件信息
+                        }
                     }
                 }).setNegativeButton("确定删除", new DialogInterface.OnClickListener() {
 
@@ -188,6 +201,7 @@ public class FileUploadHelper {
                                                    Header[] headers, byte[] responseBody,
                                                    Throwable error) {
                         hideProgress();
+
                     }
 
                     @Override
@@ -221,7 +235,11 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        uploadFileInfo(info);//上传文件信息
+                        if(isUploadAgain){
+                            uploadFileAgain(info);
+                        }else{
+                            uploadFileInfo(info);//上传文件信息
+                        }
 
                     }
                 }).setNegativeButton("稍后保全", new DialogInterface.OnClickListener() {

@@ -1,9 +1,6 @@
 package com.truthso.ip360.adapter;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -192,7 +189,6 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setVisibility(View.VISIBLE);
 				vh.tv_size.setVisibility(View.VISIBLE);
 				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
-
 				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
 				vh.tv_desc.setText("点击保全");
 				vh.ll_item_updownload.setOnClickListener(new OnClickListener() {

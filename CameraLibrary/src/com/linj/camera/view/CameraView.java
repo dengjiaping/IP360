@@ -86,6 +86,17 @@ public class CameraView extends SurfaceView implements CameraOperation{
 		mIsFrontCamera=false;
 	}
 
+/*	*//**
+	 * 是否是前置摄像头
+	 * @return
+     *//*
+    public boolean IsFrontCamera (){
+	if(mIsFrontCamera){
+		return true;
+	}else{
+		return false;
+	}
+}*/
 	public CameraView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		//初始化容器
@@ -294,7 +305,6 @@ public class CameraView extends SurfaceView implements CameraOperation{
 				mCamera.setPreviewDisplay(getHolder());
 				mCamera.startPreview();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -303,7 +313,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 	/**
 	 *   根据当前照相机状态(前置或后置)，打开对应相机
 	 */
-	private boolean openCamera()  {
+	public boolean openCamera()  {
 		if (mCamera != null) {
 			mCamera.stopPreview();
 			mCamera.release();

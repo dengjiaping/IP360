@@ -1,16 +1,9 @@
 package com.truthso.ip360.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,11 +17,7 @@ import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 /**
  * @despriction :拍照录像后的页面
  *
@@ -71,7 +60,6 @@ public class PhotoPreAct extends BaseActivity {
 
                 @Override
                 public void onClick(View arg0) {
-                    // TODO Auto-generated method stub
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     Uri data = Uri.parse("file://" + filepath);
                     intent.setDataAndType(data, "video/mp4");
@@ -79,7 +67,6 @@ public class PhotoPreAct extends BaseActivity {
                     try {
                         startActivity(intent);
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                         Toast.makeText(PhotoPreAct.this, "播放失败", Toast.LENGTH_SHORT).show();
                     }
@@ -92,7 +79,9 @@ public class PhotoPreAct extends BaseActivity {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
+//                Intent intent = new Intent(PhotoPreAct.this,CameraAty.class);
+//                intent.putExtra("flag", "camera");
+//                startActivity(intent);
                 finish();
             }
         });
