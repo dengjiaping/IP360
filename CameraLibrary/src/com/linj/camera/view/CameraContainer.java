@@ -44,45 +44,46 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;
 
 
-/** 
- * @ClassName: CameraContainer 
- * @Description: 相机界面的容器 包含相机绑定的surfaceview、拍照后的临时图片View和聚焦View
+
+/**
+ * @ClassName: CameraContainer
+ * @Description:  相机界面的容器 包含相机绑定的surfaceview、拍照后的临时图片View和聚焦View
  * @author LinJ
- * @date 2014-12-31 ����9:38:52 
- *  
+ * @date 2014-12-31 上午9:38:52
+ *
  */
 public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 	public final static String TAG="CameraContainer";
 
-	/** 相机绑定的SurfaceView  */
+	/** ����󶨵�SurfaceView  */
 	private CameraView mCameraView;
 
-	/** 拍照生成的图片，产生一个下移到左下角的动画效果后隐藏 */
+	/** �������ɵ�ͼƬ������һ�����Ƶ����½ǵĶ���Ч�������� */
 	private TempImageView mTempImageView;
 
-	/** 触摸屏幕时显示的聚焦图案  */
+	/** ������Ļʱ��ʾ�ľ۽�ͼ��  */
 	private FocusImageView mFocusImageView;
 
-	/** 显示录像用时的TextView  */
+	/** ��ʾ¼����ʱ��TextView  */
 	private TextView mRecordingInfoTextView;
 
-	/** 显示水印图案  */
+	/** ��ʾˮӡͼ��  */
 	private ImageView mWaterMarkImageView;
 
-	/** 存放照片的根目录 */
+	/** �����Ƭ�ĸ�Ŀ¼ */
 	private String mSavePath;
 
-	/** 照片字节流处理类  */
+	/** ��Ƭ�ֽ���������  */
 	private DataHandler mDataHandler;
 
-	/** 拍照监听接口，用以在拍照开始和结束后执行相应操作  */
+	/** ���ռ����ӿڣ����������տ�ʼ�ͽ�����ִ����Ӧ����  */
 	private TakePictureListener mListener;
 
-	/** 缩放级别拖动条 */
+	/** ���ż����϶��� */
 	private SeekBar mZoomSeekBar;
 
-	/** 用以执行定时任务的Handler对象*/
+	/** ����ִ�ж�ʱ�����Handler����*/
 	private Handler mHandler;
 	private long mRecordStartTime;
 	private SimpleDateFormat mTimeFormat;
@@ -94,9 +95,9 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		setOnTouchListener(new TouchListener());
 	}
 
-	/**  
-	 *  初始化子控件
-	 *  @param context   
+	/**
+	 *  ��ʼ���ӿؼ�
+	 *  @param context
 	 */
 	private void initView(Context context) {
 		inflate(context, R.layout.cameracontainer, this);
@@ -111,7 +112,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		mWaterMarkImageView=(ImageView) findViewById(R.id.waterMark);
 
 		mZoomSeekBar=(SeekBar) findViewById(R.id.zoomSeekBar);
-		//获取当前照相机支持的最大缩放级别，值小于0表示不支持缩放。当支持缩放时，加入拖动条。
+		//��ȡ��ǰ�����֧�ֵ�������ż���ֵС��0��ʾ��֧�����š���֧������ʱ�������϶�����
 		int maxZoom=mCameraView.getMaxZoom();
 		if(maxZoom>0){
 			mZoomSeekBar.setMax(maxZoom);
@@ -133,7 +134,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		}
 	}
 
-	Runnable recordRunnable=new Runnable() {	
+	Runnable recordRunnable=new Runnable() {
 		@Override
 		public void run() {
 
@@ -151,7 +152,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		mListener=listener;
 		return stopRecord();
 	}
-	
+
 	@Override
 	public String stopRecord(){
 		mRecordingInfoTextView.setVisibility(View.GONE);
@@ -166,14 +167,14 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 *  改变相机模式 在拍照模式和录像模式间切换 两个模式的初始缩放级别不同
-	 *  @param zoom   缩放级别
+	 *  �ı����ģʽ ������ģʽ��¼��ģʽ���л� ����ģʽ�ĳ�ʼ���ż���ͬ
+	 *  @param zoom   ���ż���
 	 */
 	public void switchMode(int zoom){
 		mZoomSeekBar.setProgress(zoom);
 		mCameraView.setZoom(zoom);
 		//�Զ��Խ�
-		mCameraView.onFocus(new Point(getWidth()/2, getHeight()/2), autoFocusCallback);   
+		mCameraView.onFocus(new Point(getWidth()/2, getHeight()/2), autoFocusCallback);
 		//����ˮӡ
 		mWaterMarkImageView.setVisibility(View.GONE);
 	}
@@ -189,14 +190,14 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 *   前置、后置摄像头转换
+	 *   ǰ�á���������ͷת��
 	 */
 	@Override
 	public void switchCamera(){
 		mCameraView.switchCamera();
 	}
 	/**
-	 *  获取当前闪光灯类型
+	 *  ��ȡ��ǰ���������
 	 *  @return
 	 */
 	@Override
@@ -205,7 +206,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 *  设置闪光灯类型
+	 *  �������������
 	 *  @param flashMode
 	 */
 	@Override
@@ -214,7 +215,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 * 设置文件保存路径
+	 * �����ļ�����·��
 	 * @param rootPath
 	 */
 	public void setRootPath(String rootPath){
@@ -225,7 +226,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 
 	/**
-	 * 拍照方法
+	 * ���շ���
 	 * @param callback
 	 */
 	public void takePicture(){
@@ -233,8 +234,8 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	}
 
 	/**
-	 * @Description: 拍照方法
-	 * @param @param listener 拍照监听接口
+	 * @Description: ���շ���
+	 * @param @param listener ���ռ����ӿ�
 	 * @return void
 	 * @throws
 	 */
@@ -266,7 +267,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	public int getZoom() {
 		// TODO Auto-generated method stub
 		return mCameraView.getZoom();
-	} 
+	}
 
 	private final OnSeekBarChangeListener onSeekBarChangeListener=new OnSeekBarChangeListener() {
 
@@ -330,7 +331,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			if(mListener!=null) mListener.onTakePictureEnd(filePath);
 		}
 	};
-	
+
 	 /**
      * ��ͼƬ����ת�Ƕ���Ϊ0  ���˷������Խ��ĳЩ�������պ�ͼ�񣬳�������ת���
      *
@@ -351,7 +352,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
- 
+
     }
 
     /**
@@ -362,31 +363,31 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
      * @return int
      * @date 2012-12-4 ����9:22:33
      */
-    private  int readPictureDegree(String path) {  
-        int degree  = 0;  
-        try {  
-                ExifInterface exifInterface = new ExifInterface(path);  
-               
-                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);  
-                switch (orientation) {  
-                case ExifInterface.ORIENTATION_ROTATE_90:  
-                        degree = 90;  
-                        break;  
-                case ExifInterface.ORIENTATION_ROTATE_180:  
-                        degree = 180;  
-                        break;  
-                case ExifInterface.ORIENTATION_ROTATE_270:  
-                        degree = 270;  
-                        break;  
+    private  int readPictureDegree(String path) {
+        int degree  = 0;
+        try {
+                ExifInterface exifInterface = new ExifInterface(path);
+
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                        degree = 90;
+                        break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                        degree = 180;
+                        break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                        degree = 270;
+                        break;
                 default:
                    degree = 0;
-                }  
-        } catch (Exception e) {  
-                e.printStackTrace();  
-        }  
-        return degree;  
-    }  
-    
+                }
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return degree;
+    }
+
 	private final class TouchListener implements OnTouchListener {
 
 		/** ��¼��������Ƭģʽ���ǷŴ���С��Ƭģʽ */
@@ -394,7 +395,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		private static final int MODE_INIT = 0;
 		/** �Ŵ���С��Ƭģʽ */
 		private static final int MODE_ZOOM = 1;
-		private int mode = MODE_INIT;// ��ʼ״̬ 
+		private int mode = MODE_INIT;// ��ʼ״̬
 
 		/** ���ڼ�¼����ͼƬ�ƶ�������λ�� */
 
@@ -532,10 +533,10 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 					return file.getAbsolutePath();
 				}catch(Exception e){
 					Log.e(TAG, e.toString());
-					Toast.makeText(getContext(), "�������������ʧ��", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getContext(), "解析相机返回流失败", Toast.LENGTH_SHORT).show();
 				}
 			}else{
-				Toast.makeText(getContext(), "����ʧ�ܣ�������", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), "拍照失败，请重试", Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -574,7 +575,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 			return newb;
 
 		}
-		public  Bitmap drawableToBitmap(Drawable drawable) {       
+		public  Bitmap drawableToBitmap(Drawable drawable) {
 			Bitmap bitmap = Bitmap.createBitmap(
 					drawable.getIntrinsicWidth(),
 					drawable.getIntrinsicHeight(),
@@ -614,35 +615,35 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		}
 	}
 
-	/** 
-	 * @ClassName: TakePictureListener 
+	/**
+	 * @ClassName: TakePictureListener
 	 * @Description:  ���ռ����ӿڣ����������տ�ʼ�ͽ�����ִ����Ӧ����
 	 * @author LinJ
-	 * @date 2014-12-31 ����9:50:33 
-	 *  
+	 * @date 2014-12-31 ����9:50:33
+	 *
 	 */
-	public static interface TakePictureListener{		
-		/**  
+	public static interface TakePictureListener{
+		/**
 		 *���ս���ִ�еĶ������÷�������onPictureTaken����ִ�к󴥷�
-		 *  @param bm �������ɵ�ͼƬ 
+		 *  @param bm �������ɵ�ͼƬ
 		 */
 		public void onTakePictureEnd(String filePath);
 
 		/**  ��ʱͼƬ���������󴥷�
-		 * @param bm �������ɵ�ͼƬ 
+		 * @param bm �������ɵ�ͼƬ
 		 * @param isVideo true����ǰΪ¼������ͼ false:Ϊ��������ͼ
 		 * */
 		public void onAnimtionEnd(Bitmap bm,boolean isVideo);
 	}
 
 
-	/**  
+	/**
 	 * dipתpx
 	 *  @param dipValue
-	 *  @return   
+	 *  @return
 	 */
-	private  int dip2px(float dipValue){ 
-		final float scale = getResources().getDisplayMetrics().density; 
-		return (int)(dipValue * scale + 0.5f); 
+	private  int dip2px(float dipValue){
+		final float scale = getResources().getDisplayMetrics().density;
+		return (int)(dipValue * scale + 0.5f);
 	}
 }

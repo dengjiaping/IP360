@@ -75,9 +75,9 @@ public class TransList extends BaseFragment implements OnClickListener {
 	private int position;
 	private String hashCode;
 	private boolean isDownEmpty,isUpEmpty;
-	private  final static  int NONET = 1;//没网的弹框
-	private final static  int PRE_FILE = 2;//可保全
-	private final static int IS_REMEND = 3;//被篡改
+//	private  final static  int NONET = 1;//没网的弹框
+//	private final static  int PRE_FILE = 2;//可保全
+//	private final static int IS_REMEND = 3;//被篡改
 	@Override
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_tranlist);
@@ -211,99 +211,4 @@ public class TransList extends BaseFragment implements OnClickListener {
 		}
 	}
 
-	/**
-	 * 弹框提示
-	 * @param msg
-	 * @param buttMsg
-	 * @param caseNum
-     */
-	private void showDialog(String msg, String buttMsg, final int caseNum) {
-		alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
-				.setMessage(msg).setIcon(R.drawable.ww)
-				.setPositiveButton(buttMsg, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (caseNum){
-							case NONET://没网
-								//调上传文件信息的接口
-
-								break;
-							case  PRE_FILE://保全文件
-								//扣费，上传文件
-								break;
-							case IS_REMEND://文件是否被篡改
-								//删除文件
-								break;
-
-						}
-
-					}
-				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).create();
-		alertDialog.show();
-	}
-	/**
-	 * 文件保全（这个接口只传文件hashcode等信息，不上传文件）
-	 *
-	 * @return
-	 */
-/*	private void filePre() {
-		showProgress("正在加载...");
-		new Thread() {
-			@Override
-			public void run() {
-				super.run();
-			hashCode = SecurityUtil.SHA512(path);
-				if (hashCode != null) {
-					handler.sendEmptyMessage(0);
-				}
-
-			}
-		}.start();
-	}
-	private Handler handler=new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			String imei = MyApplication.getInstance().getDeviceImei();
-			//	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
-			//fileDate 取证时间 fileUrl 上传oss的文件路径 fileLocation 取证地点 可空 fileTime 取证时长 录像 录音不为空 imei手机的IMEI码
-			ApiManager.getInstance().uploadPreserveFile(title,MyConstants.PHOTOTYPE,
-					ll + "", hashCode, date, loc, null, imei,longlat,
-					new ApiCallback() {
-
-						@Override
-						public void onApiResultFailure(int statusCode,
-													   Header[] headers, byte[] responseBody,
-													   Throwable error) {
-							hideProgress();
-							//网络超时请重试
-							showDialog("网络超时，是否重试？","重试",NONET);
-
-						}
-
-						@Override
-						public void onApiResult(int errorCode, String message,
-												BaseHttpResponse response) {
-							hideProgress();
-							UpLoadBean bean = (UpLoadBean) response;
-							if (!CheckUtil.isEmpty(bean)) {
-								if (bean.getCode() == 200) {
-
-								} else {
-									Toaster.showToast(getActivity(),
-											bean.getMsg());
-								}
-							} else {
-								Toaster.showToast(getActivity(), "请求失败");
-							}
-						}
-
-					});
-		}
-	};*/
 }
