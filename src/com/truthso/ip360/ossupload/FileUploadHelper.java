@@ -62,12 +62,6 @@ public class FileUploadHelper {
         if(CheckUtil.isEmpty(activity)||CheckUtil.isEmpty(info)){
             return ;
         }
-        //判断网络
-        if(!NetStatusUtil.isNetValid(activity)){
-            showDialogNoNet("网络不可用，是否重试？");
-            return;
-        }
-
         if(CheckUtil.isEmpty(info.getHashCode())){
            getHashCode(info.getFilePath());
         }else{
@@ -78,11 +72,6 @@ public class FileUploadHelper {
     //上传文件  获取交易金额--是否支付--支付成功--上传文件
     public void uploadFile(){
         upload_type=UPLOAD_FILE;
-        //判断网络
-        if(!NetStatusUtil.isNetValid(activity)){
-            showDialogNoNet("网络不可用，是否重试？");
-            return;
-        }
         getport();
     }
 
@@ -90,24 +79,19 @@ public class FileUploadHelper {
     public void uploadFileAgain(FileInfo info){
          upload_type=UPLOAD_FILE_AGAIN;
          this.info=info;
-        //判断网络
-        if(!NetStatusUtil.isNetValid(activity)){
-            showDialogNoNet("网络不可用，是否重试？");
-            return;
-        }
-        getport();
+         getport();
     }
 
     //重新上传文件信息
     public void uploadFileInfoAgain(FileInfo info){
         upload_type=UPLOAD_FILEINFO_AGAIN;
-        //判断网络
-        if(!NetStatusUtil.isNetValid(activity)){
-            showDialogNoNet("网络链接超时，是否重试？");
-            return;
-        }
+
         this.info=info;
-        uploadInfo();
+        if(CheckUtil.isEmpty(info.getHashCode())){
+            getHashCode(info.getFilePath());
+        }else {
+            uploadInfo();
+        }
     }
 
 
@@ -141,6 +125,11 @@ public class FileUploadHelper {
 
     //上传文件信息
     private void uploadInfo(){
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络不可用，是否重试？");
+            return;
+        }
         showProgress("努力加载中...");
         String imei = MyApplication.getInstance().getDeviceImei();
         //	 * @param fileType文件类型 文件类型 （拍照（50001）、录像（50003）、录音（50002） 非空 fileSize 文件大小，单位为BhashCode哈希值 非空
@@ -220,6 +209,11 @@ public class FileUploadHelper {
 
     // 调接口获取当次交易的金额
     private void getport() {
+        //判断网络
+        if(!NetStatusUtil.isNetValid(activity)){
+            showDialogNoNet("网络不可用，是否重试？");
+            return;
+        }
         showProgress("正在加载...");
         requestHandle=ApiManager.getInstance().getAccountStatus(info.getType(),info.getMinTime(),
                 new ApiCallback() {
@@ -273,7 +267,6 @@ public class FileUploadHelper {
                         }else{
                             uploadFileAgain(info);
                         }
-
                     }
                 }).setNegativeButton("稍后保全", new DialogInterface.OnClickListener() {
 
@@ -329,6 +322,11 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //判断网络
+                        if(!NetStatusUtil.isNetValid(activity)){
+                            showDialogNoNet("网络不可用，是否重试？");
+                            return;
+                        }
                         //调扣费的接口
                         GetPayment(info.getResourceId(), info.getType(), 1);
                     }
