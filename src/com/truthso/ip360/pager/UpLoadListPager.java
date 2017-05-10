@@ -104,10 +104,11 @@ public class UpLoadListPager extends BasePager implements AdapterView.OnItemLong
 			super.onChange(selfChange);
 			queryUpLoadList = UpDownLoadDao.getDao().queryUpLoadListOrder();
 			waitUploadList = WaituploadDao.getDao().queryAll();
-			for (int i=0;i<waitUploadList.size();i++){
-				Log.i("djj",waitUploadList.get(i).getFileName());
-			}
+
 			waitUploadList.addAll(queryUpLoadList);
+			for (int i=0;i<waitUploadList.size();i++){
+				Log.i("djj",waitUploadList.get(i).getFileName()+"status"+waitUploadList.get(i).getStatus());
+			}
 			adapter.notifyChange(waitUploadList);
 		}
 	}

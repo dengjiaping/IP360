@@ -111,11 +111,11 @@ public class UpLoadAdapter extends BaseAdapter{
 		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
 
-		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==2&&lastStatus==4)){
+		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==2&&lastStatus!=2)){
 			vh.tv_title.setVisibility(View.VISIBLE);
 			if(info.getStatus()==2){
 				vh.tv_title.setText("正在上传");
-			}else if(info.getStatus()==4||info.getStatus()==1){
+			}else if(info.getStatus()==4||info.getStatus()==3){
 				vh.tv_title.setText("等待上传");
 			} else {
 				vh.tv_title.setText("上传成功("+(list.size()-position)+")");
@@ -135,20 +135,14 @@ public class UpLoadAdapter extends BaseAdapter{
 				vh.tv_desc.setText(info.getCompleteDate());
 				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
 				break;
-			case 1://失败
+			case 1://等待wifi
 				vh.rl_progress.setVisibility(View.GONE);
 				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
 				vh.tv_desc.setVisibility(View.VISIBLE);
 				vh.tv_size.setVisibility(View.GONE);
 
-				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
-				vh.tv_desc.setText("上传失败");
-				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						UpLoadManager.getInstance().resuambleUploadAgain(info);
-					}
-				});
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
+				vh.tv_desc.setText("等待wifi");
 				break;
 			case 2://运行
 				vh.rl_progress.setVisibility(View.VISIBLE);
@@ -174,14 +168,20 @@ public class UpLoadAdapter extends BaseAdapter{
 					}
 				});
 				break;
-			case 3://等待wifi
+			case 3://失败
 				vh.rl_progress.setVisibility(View.GONE);
 				vh.btn_upload_download_again.setVisibility(View.VISIBLE);
 				vh.tv_desc.setVisibility(View.VISIBLE);
 				vh.tv_size.setVisibility(View.GONE);
 
-				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.black));
-				vh.tv_desc.setText("等待wifi");
+				vh.tv_desc.setTextColor(context.getResources().getColor(R.color.jiuhong));
+				vh.tv_desc.setText("上传失败");
+				vh.btn_upload_download_again.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						UpLoadManager.getInstance().resuambleUploadAgain(info);
+					}
+				});
 				break;
 			case 4://等待上传
 				vh.rl_progress.setVisibility(View.GONE);

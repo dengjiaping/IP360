@@ -500,15 +500,8 @@ public class CameraView extends SurfaceView implements CameraOperation{
 		int  optimalHeigth=0;
 		for (int i = 0; i < sizeList.size(); i++) {
 			Size size=sizeList.get(i);
-			if(size.width>=optimalWidth&&size.height>=optimalHeigth){
-				optimalWidth=size.width;
-				optimalHeigth=size.height;
-			}
+			Log.i("djj","pre:"+size.width+":"+size.height);
 		}
-		parameters.setPreviewSize(optimalWidth,optimalHeigth);
-
-		//设置生成合适的图片大小
-		sizeList = parameters.getSupportedPictureSizes();
 		for (int i = 0; i < sizeList.size(); i++) {
 			Size size=sizeList.get(i);
 			if(size.width>=optimalWidth&&size.height>=optimalHeigth){
@@ -516,7 +509,24 @@ public class CameraView extends SurfaceView implements CameraOperation{
 				optimalHeigth=size.height;
 			}
 		}
-		parameters.setPictureSize(optimalWidth, optimalHeigth);
+		Log.i("djj","setpre"+optimalWidth+":"+optimalHeigth);
+		parameters.setPreviewSize(640,480);
+
+		//设置生成合适的图片大小
+		sizeList = parameters.getSupportedPictureSizes();
+		for (int i = 0; i < sizeList.size(); i++) {
+			Size size=sizeList.get(i);
+			Log.i("djj","pic:"+size.width+":"+size.height);
+		}
+		for (int i = 0; i < sizeList.size(); i++) {
+			Size size=sizeList.get(i);
+			if(size.width>=optimalWidth&&size.height>=optimalHeigth){
+				optimalWidth=size.width;
+				optimalHeigth=size.height;
+			}
+		}
+		Log.i("djj","setpic"+optimalWidth+":"+optimalHeigth);
+		parameters.setPictureSize(640,480);
 
 		//设置图片格式
 		parameters.setPictureFormat(ImageFormat.JPEG);

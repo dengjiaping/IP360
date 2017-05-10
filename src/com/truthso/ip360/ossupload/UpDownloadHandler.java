@@ -45,7 +45,7 @@ public class UpDownloadHandler extends Handler {
                      UpDownLoadDao.getDao().updateStatusByResourceId("0",dbBean.getPkValue(),date);
                  }else{
                      String pkvalue=(String)msg.obj;
-                     UpDownLoadDao.getDao().updateStatusByResourceId("1",pkvalue,date);
+                     UpDownLoadDao.getDao().updateStatusByResourceId("3",pkvalue,date);
                  }
                  break;
              case UPLOAD_CODE:
@@ -59,7 +59,7 @@ public class UpDownloadHandler extends Handler {
                          e.printStackTrace();
                      }
                  }else{
-                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),1,date);
+                     UpDownLoadDao.getDao().updateUploadInfoByUrl(info.getFilePath(),3,date);
                  }
                  break;
          }
