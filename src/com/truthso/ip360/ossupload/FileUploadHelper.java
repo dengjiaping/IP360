@@ -127,7 +127,10 @@ public class FileUploadHelper {
     private void uploadInfo(){
         //判断网络
         if(!NetStatusUtil.isNetValid(activity)){
+<<<<<<< HEAD
             showDialogNoNet("网络超时，是否重试？");
+=======
+>>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
             return;
         }
         showProgress("努力加载中...");
@@ -161,7 +164,7 @@ public class FileUploadHelper {
                                 info.setObjectKey(datas.getFileUrl());//文件上传的objectKey
                                 //如果是重新上传 直接调上传文件的接口
                                 if(upload_type==UPLOAD_FILEINFO_AGAIN){
-                                    uploadFile();
+                                    uploadFileAgain(info);
                                 }
                             } else if (bean.getCode() == 502) {
                                 showDialogFileTamper("当前文件被篡改，不可保全");
@@ -211,7 +214,11 @@ public class FileUploadHelper {
     private void getport() {
         //判断网络
         if(!NetStatusUtil.isNetValid(activity)){
+<<<<<<< HEAD
             showDialogNoNet("网络超时，是否重试？");
+=======
+            showDialogNoNet("网络不可用，是否重试？");
+>>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
             return;
         }
         showProgress("正在加载...");
@@ -324,7 +331,11 @@ public class FileUploadHelper {
                     public void onClick(DialogInterface dialog, int which) {
                         //判断网络
                         if(!NetStatusUtil.isNetValid(activity)){
+<<<<<<< HEAD
                             showDialogNoNet("网络超时，是否重试？");
+=======
+                            showDialogNoNet("网络不可用，是否重试？");
+>>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
                             return;
                         }
                         //调扣费的接口
