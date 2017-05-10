@@ -356,13 +356,16 @@ public class FileUploadHelper {
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
                         hideProgress();
-                        Toaster.showToast(activity, "文件正在上传，请在传输列表查看");
+                        if(upload_type==UPLOAD_FILE){
+                            Toaster.showToast(activity, "文件正在上传，请在传输列表查看");
+                        }
                         //上传文件
                         boolean resuambleUpload = UpLoadManager.getInstance().resuambleUpload(info);
                         if(!resuambleUpload){
                             return;
                         }
                         if(upload_type==UPLOAD_FILE){
+                            activity.startActivity(new Intent(activity,MainActivity.class));
                             activity.finish();
                         }else {
                             WaituploadDao.getDao().delete(info.getId());
