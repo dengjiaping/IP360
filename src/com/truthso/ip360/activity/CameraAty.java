@@ -1,9 +1,22 @@
 package com.truthso.ip360.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,7 +26,10 @@ import android.widget.ImageView;
 import com.linj.camera.view.CameraContainer;
 import com.linj.camera.view.CameraView;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.TimeUtile;
+
+import java.util.List;
 
 
 /**
@@ -35,6 +51,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     private ImageView mSettingView;
     private ImageView mVideoIconView;
     private View mHeaderBar;
+    private Dialog alertDialog;
     private boolean isRecording = false;
     private String flag;
     private Long serviceTime;
@@ -100,14 +117,17 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
                 }
                 break;
             case R.id.btn_shutter_record:
-                if (!isRecording) {
-                    isRecording = mContainer.startRecord();
-                    if (isRecording) {
-                        mRecordShutterButton.setBackgroundResource(R.drawable.btn_shutter_recording);
+
+                    if (!isRecording) {
+                        isRecording = mContainer.startRecord();
+                        if (isRecording) {
+                            mRecordShutterButton.setBackgroundResource(R.drawable.btn_shutter_recording);
+                        }
+                    } else {
+                        stopRecord();
                     }
-                } else {
-                    stopRecord();
-                }
+
+
                 break;
             case R.id.btn_switch_camera:
                 mContainer.switchCamera();
@@ -175,4 +195,5 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         super.onDestroy();
         TimeUtile.cancelTime();
     }
+
 }

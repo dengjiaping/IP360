@@ -59,6 +59,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.BaiduLocationUtil;
 import com.truthso.ip360.utils.BaiduLocationUtil.locationListener;
+import com.truthso.ip360.utils.CheckAudioPermission;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.DateUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
@@ -245,15 +246,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener {
 								break;
 
 							case MyConstants.VIDEOTYPE:
+								boolean  isHasPermission = CheckAudioPermission.isHasPermission(getActivity());
 								boolean isHasPremiss_video =cameraIsCanUse();
-								if (isHasPremiss_video){//用户给了有权限
+								if (isHasPremiss_video && isHasPermission){//用户给了有权限
 									Intent intent=new Intent(getActivity(),CameraAty.class);
 									intent.putExtra("flag", "video");
 									intent.putExtra("serviceTime",serviceTime);
 									startActivity(intent);
 									TimeUtile.startTime();//开始计时
 								}else{//用户没给权限
-									PreshowDialog("您没有开启录像权限！");
+									PreshowDialog("您没有开启录像或录音权限！");
 								}
 								break;
 							case MyConstants.RECORDTYPE:

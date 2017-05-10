@@ -115,9 +115,9 @@ public class UpLoadAdapter extends BaseAdapter{
 			vh.tv_title.setVisibility(View.VISIBLE);
 			if(info.getStatus()==2){
 				vh.tv_title.setText("正在上传");
-			}else if(info.getStatus()==4){
+			}else if(info.getStatus()==4||info.getStatus()==1){
 				vh.tv_title.setText("等待上传");
-			}else {
+			} else {
 				vh.tv_title.setText("上传成功("+(list.size()-position)+")");
 			}
 		}else{
@@ -256,8 +256,7 @@ public class UpLoadAdapter extends BaseAdapter{
 							e.printStackTrace();
 						}
 					}
-				}).
-				setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

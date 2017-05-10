@@ -251,6 +251,12 @@ public class FileUploadHelper {
      * @param msg
      */
     private void showDialogNoNet(String msg) {
+        String msg2 = "";
+        if(upload_type==UPLOAD_FILEINFO||upload_type==UPLOAD_FILE){
+            msg2 = "稍后保全";
+        }else{
+            msg2 = "取消";
+        }
         alertDialog = new AlertDialog.Builder(activity).setTitle("温馨提示")
                 .setMessage(msg).setIcon(R.drawable.ww)
                 .setCancelable(false)
@@ -258,7 +264,7 @@ public class FileUploadHelper {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //上传文件信息失败 重试
+                        //上传文件信息失败重试
                         if(upload_type==UPLOAD_FILEINFO){
                             uploadFileInfo(info);
                         }else if (upload_type==UPLOAD_FILE){//上传文件失败重试
@@ -269,7 +275,7 @@ public class FileUploadHelper {
                             uploadFileAgain(info);
                         }
                     }
-                }).setNegativeButton("稍后保全", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(msg2, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
