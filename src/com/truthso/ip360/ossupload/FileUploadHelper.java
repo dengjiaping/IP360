@@ -127,10 +127,8 @@ public class FileUploadHelper {
     private void uploadInfo(){
         //判断网络
         if(!NetStatusUtil.isNetValid(activity)){
-<<<<<<< HEAD
+
             showDialogNoNet("网络超时，是否重试？");
-=======
->>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
             return;
         }
         showProgress("努力加载中...");
@@ -214,11 +212,7 @@ public class FileUploadHelper {
     private void getport() {
         //判断网络
         if(!NetStatusUtil.isNetValid(activity)){
-<<<<<<< HEAD
             showDialogNoNet("网络超时，是否重试？");
-=======
-            showDialogNoNet("网络不可用，是否重试？");
->>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
             return;
         }
         showProgress("正在加载...");
@@ -331,11 +325,7 @@ public class FileUploadHelper {
                     public void onClick(DialogInterface dialog, int which) {
                         //判断网络
                         if(!NetStatusUtil.isNetValid(activity)){
-<<<<<<< HEAD
                             showDialogNoNet("网络超时，是否重试？");
-=======
-                            showDialogNoNet("网络不可用，是否重试？");
->>>>>>> 5880f1febdbac4d2c34ac3c5d899464c8a42ab9e
                             return;
                         }
                         //调扣费的接口
