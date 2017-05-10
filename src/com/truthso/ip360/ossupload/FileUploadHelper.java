@@ -161,7 +161,7 @@ public class FileUploadHelper {
                                 info.setObjectKey(datas.getFileUrl());//文件上传的objectKey
                                 //如果是重新上传 直接调上传文件的接口
                                 if(upload_type==UPLOAD_FILEINFO_AGAIN){
-                                    uploadFile();
+                                    uploadFileAgain(info);
                                 }
                             } else if (bean.getCode() == 502) {
                                 showDialogFileTamper("当前文件被篡改，不可保全");
