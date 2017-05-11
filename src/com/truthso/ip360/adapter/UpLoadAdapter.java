@@ -111,11 +111,11 @@ public class UpLoadAdapter extends BaseAdapter{
 		final FileInfo info = list.get(position);
 		vh.tv_fileName.setText(info.getFileName());
 
-		if(position==0||(info.getStatus()==0&&lastStatus!=0)||(info.getStatus()==2&&lastStatus!=2)){
+		if(position==0||(info.getStatus()==3&&lastStatus==4)||info.getStatus()==0&&lastStatus!=0){
 			vh.tv_title.setVisibility(View.VISIBLE);
-			if(info.getStatus()==2){
+			if(info.getStatus()==2||info.getStatus()==3){
 				vh.tv_title.setText("正在上传");
-			}else if(info.getStatus()==4||info.getStatus()==3){
+			}else if(info.getStatus()==4){
 				vh.tv_title.setText("等待上传");
 			} else {
 				vh.tv_title.setText("上传成功("+(list.size()-position)+")");
