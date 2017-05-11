@@ -510,7 +510,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 			}
 		}
 		Log.i("djj","setpre"+optimalWidth+":"+optimalHeigth);
-		parameters.setPreviewSize(640,480);
+		parameters.setPreviewSize(optimalWidth,optimalHeigth);
 
 		//设置生成合适的图片大小
 		sizeList = parameters.getSupportedPictureSizes();
@@ -526,7 +526,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 			}
 		}
 		Log.i("djj","setpic"+optimalWidth+":"+optimalHeigth);
-		parameters.setPictureSize(640,480);
+		parameters.setPictureSize(optimalWidth,optimalHeigth);
 
 		//设置图片格式
 		parameters.setPictureFormat(ImageFormat.JPEG);

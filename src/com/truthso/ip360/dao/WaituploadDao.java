@@ -9,8 +9,10 @@ import android.util.Log;
 
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.WaituploadBean;
+import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.db.MySQLiteOpenHelper;
 import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.SharePreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +41,10 @@ public class WaituploadDao {
      * @param
      */
     public void save(FileInfo fileInfo) {
+        int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("userid",userId);
         values.put("filepath", fileInfo.getFilePath());
         values.put("filetitle", fileInfo.getFileName());
         values.put("filetype", fileInfo.getType());
@@ -55,6 +59,7 @@ public class WaituploadDao {
         values.put("mintime",fileInfo.getMinTime());
         values.put("resourceid",fileInfo.getResourceId());
         values.put("objectkey",fileInfo.getObjectKey());
+
         db.insert(TABLE_NAME, null, values);
         db.close();
 
@@ -138,8 +143,9 @@ public class WaituploadDao {
      * @return
      */
     public List<FileInfo> queryAll( ) {
+        int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, "userid=?", new String[]{userId+""}, null, null, "filedate desc");
         List<FileInfo> list=new ArrayList<>();
         while (cursor.moveToNext()) {
             FileInfo info= new FileInfo();

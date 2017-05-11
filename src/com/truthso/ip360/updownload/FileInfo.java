@@ -36,6 +36,15 @@ public class FileInfo {
 	private String hashCode;//hashcode
 	private String encrypte;//文件加签后的字符串
 	private int minTime;//视频录音的计费时长，照片为1
+	private int userId;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public int getMinTime() {
 		return minTime;

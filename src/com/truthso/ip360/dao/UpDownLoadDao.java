@@ -73,6 +73,7 @@ public class UpDownLoadDao {
 
 	public void saveUpLoadInfo(String url, String fileName, String fileSize,
 			int position, int resourceId, String objectkey,int status) {
+
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		int userId=(Integer) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY, "userId", SharePreferenceUtil.VALUE_IS_INT);
 		db.execSQL(

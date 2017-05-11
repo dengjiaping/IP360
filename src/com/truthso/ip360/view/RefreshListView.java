@@ -75,7 +75,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	private int FOOTER_VISIBLE = 0x5;
 	private int FOOTER_LOADING = 0x6;
 	private int FOOTER_HIDE = 0x7;
-	private boolean isOnLoad,isOnRefresh;
+	private boolean isOnLoad,isOnRefresh,isLoadComplete;
 	public RefreshListView(Context context, AttributeSet attrs) {
 		super(context, attrs);		
 		init(context);
@@ -204,6 +204,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 							Log.i(TAG, "REFRESHING状态松手,保持该状态,headView被推出顶部");
 						}
 					}
+
 					//上拉加载更多
 					if(onLoadState == FOOTER_VISIBLE&&isLastItem==true){
 						footerView.setVisibility(View.VISIBLE);
@@ -316,7 +317,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 	/** 进入上拉刷新的方法 */
 	private void onloading() {
 		// 调用回调接口中的刷新方法
-		if (onLoadListener != null) {
+		if (onLoadListener != null&&!isLoadComplete) {
 			onLoadListener.toOnLoad();
 		}
 	}
@@ -332,6 +333,16 @@ public class RefreshListView extends ListView implements OnScrollListener {
 
 	public void setOnRefresh(boolean isOnRefresh) {
 		this.isOnRefresh = isOnRefresh;
+	}
+
+	public void setLoadComplete(String s) {
+		isLoadComplete=true;
+		footerView.setLoadComplete(s);
+	}
+
+	public void setLoadStart(String s) {
+		isLoadComplete=false;
+		footerView.setLoadStart(s);
 	}
 
 	/** 使用界面传递给此ListView的回调接口,用于两者间通信 */
@@ -383,6 +394,7 @@ public class RefreshListView extends ListView implements OnScrollListener {
 			// 回复原始高度
 			headView.setPadding(0, -headContentHeight, 0, 0);
 			headView.setState(XRefreshViewState.STATE_NORMAL);
+
 			break;
 		case PULL_TO_REFRESH:// 下拉刷新状态
 			Log.i(TAG, "当前状态:PULL_TO_REFRESH");
