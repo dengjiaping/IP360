@@ -706,15 +706,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 							if(list.size()==0){
 								actionBar.setRightDisEnable();
 								actionBar.setRightText("");
+							}else {
+								listView.setLoadComplete("没有更多数据了");
 							}
-
 						}
 
-						if (list.size() >= 10) {
-							listView.setOnLoad(true);
-						} else {
-							listView.setOnLoad(false);
-						}
 						adapter.notifyDataChange(list, type, mobileType);
 					} else {
 						Toaster.showToast(getActivity(), bean.getMsg());
@@ -780,6 +776,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		searchText=et_find_service.getText().toString().trim();
 		pagerNumber=1;
 		list.clear();
+		listView.setLoadStart("查看更多");
 		getDatas(searchText,type,mobileType,pagerNumber);
 	}
 	private int getVersion() {

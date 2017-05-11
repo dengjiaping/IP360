@@ -34,14 +34,14 @@ public class XRefreshViewFooter extends LinearLayout {
 	}
 
 	public void setState(XRefreshViewState state) {
-		mHintView.setVisibility(View.INVISIBLE);
+	/*	mHintView.setVisibility(View.INVISIBLE);
 		mProgressBar.setVisibility(View.INVISIBLE);
-		mHintView.setVisibility(View.INVISIBLE);
+		mHintView.setVisibility(View.INVISIBLE);*/
 		if (state == XRefreshViewState.STATE_READY) {
-			// mHintView.setVisibility(View.VISIBLE);
-			// mHintView.setText(R.string.xrefreshview_footer_hint_ready);
+
 		} else if (state == XRefreshViewState.STATE_LOADING) {
-			mProgressBar.setVisibility(View.VISIBLE);
+
+			//mProgressBar.setVisibility(View.VISIBLE);
 		} else {
 			// mHintView.setVisibility(View.VISIBLE);
 			// mHintView.setText(R.string.xrefreshview_footer_hint_normal);
@@ -69,15 +69,25 @@ public class XRefreshViewFooter extends LinearLayout {
 	 */
 	public void normal() {
 		// mHintView.setVisibility(View.VISIBLE);
-		mProgressBar.setVisibility(View.GONE);
+		//mProgressBar.setVisibility(View.GONE);
 	}
 
 	/**
 	 * loading status
 	 */
 	public void loading() {
-		mHintView.setVisibility(View.GONE);
+		/*mHintView.setVisibility(View.GONE);
+		mProgressBar.setVisibility(View.VISIBLE);*/
+	}
+
+	public void setLoadStart(String s) {
 		mProgressBar.setVisibility(View.VISIBLE);
+		mHintView.setText(s);
+	}
+
+	public void setLoadComplete(String s) {
+		mProgressBar.setVisibility(View.GONE);
+		mHintView.setText(s);
 	}
 
 	/**
