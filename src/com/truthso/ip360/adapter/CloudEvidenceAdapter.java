@@ -215,7 +215,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private boolean isDownloading(int pkValue) {
 		//DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
 		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
-//		Log.i("djj",(CheckUtil.isEmpty(fileInfo))+":"+ (fileInfo.getStatus()!=0));
 		if(!CheckUtil.isEmpty(fileInfo) && fileInfo.getStatus()!=0){
 			return true;
 		}
