@@ -63,6 +63,7 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.MainActionBar;
 import com.truthso.ip360.view.RefreshListView;
@@ -290,6 +291,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 *下载选择的
 	 */
 	private void downloadAll() {
+		if(!NetStatusUtil.isNetValid(getActivity())){//无网络
+			Toaster.showToast(getActivity(),"网络无连接，请连接网络后重试");
+			return;
+		}
 		List<CloudEviItemBean> selected = adapter.getSelected();
 		if (selected.size()!=0){
 			for (int i = 0; i < selected.size(); i++) {
@@ -362,7 +367,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 						DownLoadFileBean bean = (DownLoadFileBean) response;
 						if (!CheckUtil.isEmpty(bean)) {
 							if (bean.getCode() == 200) {
-
 								FileInfo info = new FileInfo();
 								String fileUrl = bean.getDatas().getFileUrl();//阿里云的objectKey
 								String fileUrlformat= fileUrl.replace("/","-");

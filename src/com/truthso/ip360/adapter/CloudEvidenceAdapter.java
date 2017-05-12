@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -48,6 +49,7 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -361,6 +363,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
+			if(!NetStatusUtil.isNetValid(context)){//无网络
+				Toaster.showToast(context,"网络无连接，请连接网络后重试");
+				return;
+			}
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
 			boolean queryByPkValue = isDownloaded(data.getPkValue());//已经下载
 			boolean queryByPkValue1 = isDownloading(data.getPkValue());//正在下载
