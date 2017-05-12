@@ -342,6 +342,28 @@ public class UpDownLoadDao {
 						null);
 	}
 
+	//正在上传的不删
+	public void deleteAll() {
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		db.enableWriteAheadLogging();
+		db.execSQL("delete from updownloadlog where status!=? ",
+				new Object[] { 2});
+		db.execSQL("delete from updownloadlog where status=? and downorupload=?",
+				new Object[] { 2,0});
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/up"),
+						null);
+		MyApplication
+				.getApplication()
+				.getContentResolver()
+				.notifyChange(
+						Uri.parse("content://com.truthso.ip360/updownloadlog/down"),
+						null);
+	}
+
 	public void updateStatusByResourceId(String status,String resourceId,String completedate) {
 		Log.i("progress","resourceId"+resourceId);
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
