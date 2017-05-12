@@ -44,7 +44,9 @@ import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.ossupload.DownLoadHelper;
 import com.truthso.ip360.system.Toaster;
+import com.truthso.ip360.updownload.DownLoadManager;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
@@ -133,7 +135,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		rl_clearCache = (RelativeLayout) view.findViewById(R.id.rl_clearCache);
 		rl_clearCache.setOnClickListener(this);
 		getPersonalMsg();
-
 	}
 
 	// 获取个人信息概要
@@ -191,8 +192,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						}else{//当前无套餐
 							isHaveCombo = false;
 						}
-
-
 
 						// 是否已实名认证
 						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证
@@ -397,17 +396,13 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	 * 清除缓存
 	 */
     private void clearCache(){
-
-		List<DbBean> dbBeen = SqlDao.getSQLiteOpenHelper().queryAll();
-		for (int i=0;i<dbBeen.size();i++){
-			DbBean dbBean = dbBeen.get(i);
-			try {
-				FileUtil.deleteFile(dbBean.getResourceUrl());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		DownLoadHelper.getInstance().cancleDownload();
+		try {
+			FileUtil.deleteAllFiles(new File(MyConstants.DOWNLOAD_PATH));
+		}catch (Exception e){
+			Toaster.showToast(getActivity(),"删除文件失败");
 		}
-		UpDownLoadDao.getDao().deleteByStatus(0);
+		UpDownLoadDao.getDao().deleteAll();
 		tv_cache_size.setText("0KB");
 		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
 	}
