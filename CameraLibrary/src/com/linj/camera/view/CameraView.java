@@ -1,51 +1,38 @@
 package com.linj.camera.view;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import com.linj.cameralibrary.R;
-import com.linj.FileOperateUtil;
-import com.linj.camera.view.CameraContainer.TakePictureListener;
-
-import android.R.integer;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.Area;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.Size;
 import android.media.CamcorderProfile;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
-import android.media.ThumbnailUtils;
-import android.media.MediaRecorder.OnInfoListener;
-import android.net.Uri;
-import android.os.Handler;
-import android.provider.MediaStore.Video.Thumbnails;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.OrientationEventListener;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.Toast;
+
+import com.linj.CamParaUtil;
+import com.linj.CameraParamUtil;
+import com.linj.DisplayUtil;
+import com.linj.FileOperateUtil;
+import com.linj.camera.view.CameraContainer.TakePictureListener;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -78,6 +65,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 	/**  录像存放路径 ，用以生成缩略图*/
 	private String mRecordPath=null;
 	private String videoPath=null;
+	private float previewRate = -1f;
 	public CameraView(Context context){
 		super(context);
 		//初始化容器
@@ -99,11 +87,14 @@ public class CameraView extends SurfaceView implements CameraOperation{
 }*/
 	public CameraView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		this.previewRate=DisplayUtil.getScreenRate(context);
 		//初始化容器
 		getHolder().addCallback(callback);
 		openCamera();
 		mIsFrontCamera=false;
 	}
+
+
 
 	private SurfaceHolder.Callback callback=new SurfaceHolder.Callback() {
 
@@ -472,66 +463,25 @@ public class CameraView extends SurfaceView implements CameraOperation{
 	 */
 	private void setCameraParameters(){
 		Camera.Parameters parameters = mCamera.getParameters();
-		/*// 选择合适的预览尺寸
-		List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();
-		if (sizeList.size()>0) {
-			Size cameraSize=sizeList.get(0);
-			//预览图片大小
-			parameters.setPreviewSize(cameraSize.width, cameraSize.height);
-		}
-
-		//设置生成的图片大小
-		sizeList = parameters.getSupportedPictureSizes();
-		if (sizeList.size()>0) {
-			Size cameraSize=sizeList.get(0);
-			for (Size size : sizeList) {
-				//小于100W像素
-				if (size.width*size.height<100*10000) {
-					cameraSize=size;
-					break;
-				}
-			}
-			parameters.setPictureSize(cameraSize.width, cameraSize.height);
-		}*/
-
-		// 选择合适的预览尺寸
-		List<Camera.Size> sizeList = parameters.getSupportedPreviewSizes();
-		int  optimalWidth=0;
-		int  optimalHeigth=0;
-		for (int i = 0; i < sizeList.size(); i++) {
-			Size size=sizeList.get(i);
-			Log.i("djj","pre:"+size.width+":"+size.height);
-		}
-		for (int i = 0; i < sizeList.size(); i++) {
-			Size size=sizeList.get(i);
-			if(size.width>=optimalWidth&&size.height>=optimalHeigth){
-				optimalWidth=size.width;
-				optimalHeigth=size.height;
-			}
-		}
-		Log.i("djj","setpre"+optimalWidth+":"+optimalHeigth);
-		parameters.setPreviewSize(optimalWidth,optimalHeigth);
-
-		//设置生成合适的图片大小
-		sizeList = parameters.getSupportedPictureSizes();
-		for (int i = 0; i < sizeList.size(); i++) {
-			Size size=sizeList.get(i);
-			Log.i("djj","pic:"+size.width+":"+size.height);
-		}
-		for (int i = 0; i < sizeList.size(); i++) {
-			Size size=sizeList.get(i);
-			if(size.width>=optimalWidth&&size.height>=optimalHeigth){
-				optimalWidth=size.width;
-				optimalHeigth=size.height;
-			}
-		}
-		Log.i("djj","setpic"+optimalWidth+":"+optimalHeigth);
-		parameters.setPictureSize(optimalWidth,optimalHeigth);
-
 		//设置图片格式
 		parameters.setPictureFormat(ImageFormat.JPEG);
 		parameters.setJpegQuality(100);
 		parameters.setJpegThumbnailQuality(100);
+
+		Camera.Size previewSize = CamParaUtil.getInstance().getPropPreviewSize(parameters
+				.getSupportedPreviewSizes(),previewRate , 1000);
+		Camera.Size pictureSize = CamParaUtil.getInstance().getPropPictureSize(parameters
+				.getSupportedPictureSizes(),previewRate, 1000);
+
+		CamParaUtil.getInstance().printSupportPictureSize(parameters);
+		CamParaUtil.getInstance().printSupportPreviewSize(parameters);
+
+		parameters.setPreviewSize(previewSize.width, previewSize.height);
+		Log.i("djj","previewSize"+previewSize.width+":"+previewSize.height);
+		parameters.setPictureSize(pictureSize.width, pictureSize.height);
+		Log.i("djj","pictureSize"+pictureSize.width+":"+pictureSize.height);
+
+
 		//自动聚焦模式
 		parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
 		mCamera.setParameters(parameters);
@@ -592,6 +542,7 @@ public class CameraView extends SurfaceView implements CameraOperation{
 			mCamera.setParameters(parameters);
 		}
 	}
+
 
 	/**
 	 * @Description: 闪光灯类型枚举 默认为关闭

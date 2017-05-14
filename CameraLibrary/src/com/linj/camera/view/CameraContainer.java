@@ -59,9 +59,6 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 	/** ����󶨵�SurfaceView  */
 	private CameraView mCameraView;
 
-	/** �������ɵ�ͼƬ������һ�����Ƶ����½ǵĶ���Ч�������� */
-	private TempImageView mTempImageView;
-
 	/** ������Ļʱ��ʾ�ľ۽�ͼ��  */
 	private FocusImageView mFocusImageView;
 
@@ -103,7 +100,6 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		inflate(context, R.layout.cameracontainer, this);
 		mCameraView=(CameraView) findViewById(R.id.cameraView);
 
-		mTempImageView=(TempImageView) findViewById(R.id.tempImageView);
 
 		mFocusImageView=(FocusImageView) findViewById(R.id.focusImageView);
 

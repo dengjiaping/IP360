@@ -363,8 +363,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
-			if(!NetStatusUtil.isNetValid(context)){//无网络
-				Toaster.showToast(context,"网络无连接，请连接网络后重试");
+			if(!CheckUtil.canDownload(context)){
 				return;
 			}
 			final CloudEviItemBean data = mDatas.get((Integer) v.getTag());
@@ -423,7 +422,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 									// 下载
 									DownLoadHelper.getInstance().downloadFile(
 											info);
-
 
 								} else {
 									Toaster.toast(context, bean.getMsg(), 1);

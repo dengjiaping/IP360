@@ -159,35 +159,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 						list=bean.getDatas().getProductBalance();
 						if (list.size()!=0){
 							 productBalance = bean.getDatas().getProductBalance();
-							/*for (int i = 0; i < list.size(); i++)
-								// 取证类型
-								type = list.get(i).getType();
-								if (type == MyConstants.PHOTOTYPE) {// 拍照
-									// 累积使用量
-									usedCount_photo = list.get(i).getUsedCount();
-									//总共购买的量
-									buyCount_photo = list.get(i).getBuyCount();
-									contractStart_photo= list.get(i).getContractStart();
-									contractEnd_photo = list.get(i).getContractEnd();
-								    unit_photo = list.get(i).getUnit();
-								} else if (type == MyConstants.VIDEOTYPE) {// 录像
-									usedCount_video = list.get(i)
-											.getUsedCount();
-									buyCount_video = list.get(i).getBuyCount();
-									contractStart_video= list.get(i).getContractStart();
-									contractEnd_video = list.get(i).getContractEnd();
-									unit_video = list.get(i).getUnit();
-								} else if (type == MyConstants.RECORDTYPE) {// 录音
-									usedCount_record = list.get(i)
-											.getUsedCount();
-									buyCount_record = list.get(i).getBuyCount();
-									contractStart_record= list.get(i).getContractStart();
-									contractEnd_record = list.get(i).getContractEnd();
-									unit_record= list.get(i).getUnit();
-								}
-
-							}*/
-
 
 						}else{//当前无套餐
 							isHaveCombo = false;

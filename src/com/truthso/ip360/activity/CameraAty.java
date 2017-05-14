@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.linj.DisplayUtil;
 import com.linj.camera.view.CameraContainer;
 import com.linj.camera.view.CameraView;
 import com.truthso.ip360.constants.MyConstants;
@@ -56,6 +57,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
     private String flag;
     private Long serviceTime;
     private String mSaveRoot = MyConstants.CACHE_PATH;
+    private float previewRate = -1f;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +81,7 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         mRecordShutterButton.setOnClickListener(this);
         mFlashView.setOnClickListener(this);
         mContainer.setFlashMode(CameraView.FlashMode.OFF);
+        previewRate = DisplayUtil.getScreenRate(this); //默认全屏的比例预览
         mFlashView.setImageResource(R.drawable.btn_flash_off);
         mSwitchCameraView.setOnClickListener(this);
 

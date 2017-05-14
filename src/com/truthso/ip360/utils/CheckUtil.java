@@ -15,6 +15,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.system.Toaster;
+
 public class CheckUtil {
 
 	/**
@@ -1035,7 +1038,23 @@ public class CheckUtil {
 		Matcher m = p.matcher(validateContent);
 		return m.find();
 	}
-	
-	
-	
+
+	public static boolean canDownload(Context context){
+		if(!NetStatusUtil.isNetValid(context)){//无网络
+			Toaster.showToast(context,"网络无连接，请连接网络后重试");
+			return false;
+		}else if(NetStatusUtil.isWifiValid(context)){//wifi
+			return true;
+		}else if(NetStatusUtil.is3GValid(context)){
+			boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(context, MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
+			if(isWifi){
+				Toaster.showToast(context,"仅WIFI网络下可下载");
+				return false;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

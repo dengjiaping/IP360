@@ -9,10 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.linj.camera.view.TempImageView
-        android:id="@+id/tempImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 
     <com.linj.camera.view.FocusImageView
         android:id="@+id/focusImageView"
