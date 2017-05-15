@@ -1,5 +1,8 @@
 package com.truthso.ip360.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
@@ -29,7 +32,7 @@ import java.sql.Date;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class PhotoPreAct extends BaseActivity {
-
+    private Dialog alertDialog;
     private ImageView image;
     private Button cancel, confirm;
     private Button btn_play;
@@ -239,10 +242,40 @@ public class PhotoPreAct extends BaseActivity {
         bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
         return bitmap;
     }
+    /**
+     * 监听系统的返回键
+     */
+    @Override
+    public void onBackPressed() {
+        if(type.equals("photo")){
+            showDialogIsCancel("是否确定放弃照片？");
+        }else{
+            showDialogIsCancel("是否确定放弃录像？");
+        }
 
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
         BaiduLocationUtil.unRegisterLocationListener();
+    }
+    private void showDialogIsCancel(String msg) {
+        alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+                .setMessage(msg).setIcon(R.drawable.ww)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        alertDialog.show();
     }
 }

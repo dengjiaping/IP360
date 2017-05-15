@@ -45,10 +45,11 @@
         <item name="android:windowBackground"> @android:color/transparent </item>
     </style>
 
-    <style name="NoAnimationTheme" parent="android:Theme">
+    <style name="NoAnimationTheme" parent="AppBaseTheme"><!--android:Theme-->
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+
     </style>
 
     <style name="noAnimation">

@@ -199,4 +199,34 @@ public class CameraAty extends Activity implements View.OnClickListener, CameraC
         TimeUtile.cancelTime();
     }
 
+    /**
+     * 系统返回键
+     */
+    @Override
+    public void onBackPressed() {
+        if (flag.equals("video") && isRecording) {
+            showDialogIsCancel("是否确定放弃录像？");
+        }else{
+            finish();
+        }
+    }
+    private void showDialogIsCancel(String msg) {
+        alertDialog = new AlertDialog.Builder(this).setTitle("温馨提示")
+                .setMessage(msg).setIcon(R.drawable.ww)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+
+
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        alertDialog.show();
+    }
 }

@@ -7,6 +7,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,6 +27,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static com.truthso.ip360.utils.DisplayUtil.getScreenWidth;
+
 
 /**
  * @despriction :照片详情(原图)
@@ -64,6 +68,7 @@ public class PhotoDetailActivity extends BaseActivity {
 	@Override
 	public void initView() {
 		iv_photo = (ImageView) findViewById(R.id.iv_photo);
+
 
 		if (url.contains("http")) {
 //			iv_chuo = (ImageView) findViewById(R.id.iv_chuo);

@@ -2,7 +2,6 @@ package com.truthso.ip360.utils;
 
 import android.graphics.Bitmap;
 import android.widget.ImageView;
-
 import com.nostra13.universalimageloader.core.*;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;

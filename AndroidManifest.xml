@@ -414,6 +414,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoAnimationTheme"
             >
+
         </activity>
     </application>
 

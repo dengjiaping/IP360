@@ -71,6 +71,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	private UpdateItem updateItem;
 	private int isOpen=Integer.MAX_VALUE;
 	private Dialog alertDialog;
+	private long clickTime;
 	public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
 			int type, int mobileType) {
 		super();
@@ -220,9 +221,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if(!CheckUtil.isEmpty(fileInfo) && fileInfo.getStatus()!=0){
 			return true;
 		}
-	/*	if(!CheckUtil.isEmpty(fileInfo)){
-			return true;
-		}*/
+
 		return false;
 	}
 
@@ -363,6 +362,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			context.startActivity(intent);
 			break;
 		case R.id.tv_download:// 下载
+			//3s内按钮不能重复点击，不然上次点击的事件，文件还没在下载，重复点击，会下载多个相同文件
+			if(System.currentTimeMillis()<clickTime+3000){
+				Toast.makeText(MyApplication.getApplication(),"文件正在下载",Toast.LENGTH_SHORT).show();
+				return;
+			}
+			clickTime=System.currentTimeMillis();
 			if(!CheckUtil.canDownload(context)){
 				return;
 			}
@@ -372,7 +377,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			if (data.getArreaStatus()==1){//不欠费
 			if(queryByPkValue){
 				Toast.makeText(MyApplication.getApplication(),"文件已经下载到本地",Toast.LENGTH_SHORT).show();
-		   		return;}
+		   		return;
+			}
 				if(queryByPkValue1){
 					Toast.makeText(MyApplication.getApplication(),"文件正在下载",Toast.LENGTH_SHORT).show();
 					return;
