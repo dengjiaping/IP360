@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -22,9 +23,9 @@ import android.widget.TextView;
  */
 public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 //	private Button btn_title_left;
-	private Button btn_useragreement,btn_advice;
+	private RelativeLayout rl_advice,rl_pingfen,rl_useragreement;
 	private TextView tv_versioncode;
-
+	private  Button btn_weichat;
 	@Override
 	public void initData() {
 
@@ -34,13 +35,17 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 	public void initView() {
 //		btn_title_left = (Button) findViewById(R.id.btn_title_left);
 //		btn_title_left.setOnClickListener(this);
-		btn_useragreement = (Button) findViewById(R.id.btn_useragreement);
-		btn_useragreement.setOnClickListener(this);
-		btn_advice = (Button) findViewById(R.id.btn_advice);
-		btn_advice.setOnClickListener(this);
+		rl_useragreement = (RelativeLayout) findViewById(R.id.rl_useragreement);
+		rl_useragreement.setOnClickListener(this);
+		rl_advice = (RelativeLayout) findViewById(R.id.rl_advice);
+		rl_advice.setOnClickListener(this);
 		tv_versioncode = (TextView) findViewById(R.id.tv_versioncode);
-		tv_versioncode.setText("真相取证"+getVersion());
-
+		tv_versioncode.setText("版本号:"+getVersion());
+		rl_pingfen = (RelativeLayout) findViewById(R.id.rl_pingfen);
+		rl_pingfen.setOnClickListener(this);
+		rl_useragreement = (RelativeLayout) findViewById(R.id.rl_useragreement);
+		rl_useragreement.setOnClickListener(this);
+		btn_weichat = (Button) findViewById(R.id.btn_weichat);
 	}
 
 	@Override
@@ -56,14 +61,20 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()){
-			case R.id.btn_advice://意见反馈
+			case R.id.rl_advice://意见反馈
 			Intent intent1 = new Intent(AboutUsAcctivity.this,UserAdviceActivity.class);
 				startActivity(intent1);
 
 			break;
-			case R.id.btn_useragreement://用户协议
+			case R.id.rl_useragreement://用户协议
 				Intent intent = new Intent(AboutUsAcctivity.this,UserAgreementActivity.class);
 				startActivity(intent);
+				break;
+			case R.id.rl_pingfen://去评分
+				Intent intent2 =new Intent(AboutUsAcctivity.this,SetScoreActivity.class);
+				startActivity(intent2);
+				break;
+			case R.id.btn_weichat://微信公众号
 
 				break;
 		}

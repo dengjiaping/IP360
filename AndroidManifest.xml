@@ -106,6 +106,21 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <!-- 评分 -->
+        <activity
+            android:name="com.truthso.ip360.activity.SettingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <!-- 设置 -->
+        <activity
+            android:name="com.truthso.ip360.activity.SettingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <!-- 拍照 -->
         <!-- 录像 -->
         <activity
@@ -134,6 +149,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             >
+
         </activity>
         <!-- 录像保全页面 -->
         <activity
@@ -169,6 +185,13 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
              >
+        </activity>
+        <activity
+            android:name="com.truthso.ip360.activity.SetScoreActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+
         </activity>
         <!-- 更改绑定手机号码页面 -->
         <activity

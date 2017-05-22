@@ -141,7 +141,7 @@
 				/>
 		</RelativeLayout>
 	</RelativeLayout>
-	<RelativeLayout
+	<!--<RelativeLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:background="#F6F6F6"
@@ -162,7 +162,7 @@
 			android:text="计费规则"
 			android:textSize="@dimen/text_12"
 			android:textColor="@color/jiuhong"/>
-	</RelativeLayout>
+	</RelativeLayout>-->
 <!--
 <LinearLayout
     android:layout_width="match_parent"

@@ -105,6 +105,7 @@
         android:layout_weight="1"
         >
         <TextView
+            android:id="@+id/tv_loc1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -119,12 +120,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:singleLine="true"
-            android:maxEms="15"
-            android:ellipsize="middle"
+            android:layout_toRightOf="@id/tv_loc1"
+            android:maxLines="2"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item"
             android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             />
 
     </RelativeLayout>

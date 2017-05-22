@@ -31,6 +31,15 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/title_text_size"
                  />
+            <Button
+                android:id="@+id/btn_shezhi"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shezhi"
+                />
         </RelativeLayout>
 
         <LinearLayout
@@ -284,14 +293,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp" />-->
 
-
-
-
-
-
-
-
-
         <RelativeLayout
             android:id="@+id/rl_Certification"
             android:layout_width="match_parent"
@@ -353,7 +354,7 @@
         </LinearLayout>
 
 
-
+<!--
         <RelativeLayout
             android:id="@+id/rl_amend_psd"
             android:layout_width="match_parent"
@@ -387,10 +388,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:src="@drawable/sanjiao" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_hight"
             android:layout_marginTop="@dimen/button_margiontop_10"
@@ -410,42 +411,24 @@
                 android:layout_width="45dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:background="@drawable/button_iswifi"
                 android:button="@null"
-                android:textSize="@dimen/text_size" />
-        </RelativeLayout>
+                android:textSize="@dimen/text_size"
+                android:layout_alignTop="@+id/textView" />
+        </RelativeLayout>-->
 
       <!--  <View
             android:layout_width="match_parent"
             android:layout_height="1dp" />-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity=""
-            android:background="@color/white">
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/gry"
-                android:layout_height="1dp" />
-        </LinearLayout>
-        <RelativeLayout
+
+    <!--    <RelativeLayout
             android:id="@+id/rl_about_us"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_hight"
             android:background="@color/item_bg" >
 
-        <!--    <ImageView
-                android:id="@+id/ive"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/layout_marginLeft"
-                android:background="@drawable/gyw" />-->
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -468,8 +451,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/layout_marginRight"
                 android:src="@drawable/sanjiao" />
-        </RelativeLayout>
-    <RelativeLayout
+        </RelativeLayout>-->
+  <!--  <RelativeLayout
         android:id="@+id/rl_clearCache"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_hight"
@@ -494,18 +477,52 @@
             android:layout_marginRight="@dimen/layout_marginLeft"
             android:textSize="@dimen/text_item"
             android:textColor="@color/item_text_color"/>
-    </RelativeLayout>
-        <Button
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_hight"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_white"
-            android:text="退出登录"
-            android:textSize="@dimen/text_item"
-            android:textColor="@color/jiuhong"
-            />
-
+    </RelativeLayout>-->
+            <RelativeLayout
+                android:id="@+id/rl_my_notar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_hight"
+                android:layout_marginTop="10dp"
+                android:background="@color/item_bg" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/layout_marginLeft"
+                    android:text="我的公证"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_item" />
+                <ImageView
+                    android:id="@+id/iv_next_aboutus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/layout_marginRight"
+                    android:src="@drawable/sanjiao" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_charge_rules"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_hight"
+                android:layout_marginTop="10dp"
+                android:background="@color/item_bg" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/layout_marginLeft"
+                    android:text="计费规则"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/text_item" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/layout_marginRight"
+                    android:src="@drawable/sanjiao" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

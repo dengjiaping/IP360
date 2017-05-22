@@ -28,12 +28,14 @@ import com.truthso.ip360.activity.AccountPayActivity;
 import com.truthso.ip360.activity.AemndPsdActivity;
 import com.truthso.ip360.activity.BindEmialActivity;
 import com.truthso.ip360.activity.BindPhoNumActivity;
+import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.ReBindEmailActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
 import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.activity.RealNameInfoActivity;
+import com.truthso.ip360.activity.SettingActivity;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.GiftsProduct;
 import com.truthso.ip360.bean.PersonalMsgBean;
@@ -63,16 +65,16 @@ import cz.msebera.android.httpclient.Header;
  * @version 1.0
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
-public class PersonalCenter extends BaseFragment implements OnClickListener,CompoundButton.OnCheckedChangeListener {
+public class PersonalCenter extends BaseFragment implements OnClickListener{
 	private PersonalMsgBean bean;
-	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
-	private String buyCount_photo,buyCount_video,buyCount_record;//买的量
-	private int type;// 取证类型
-	private Dialog alertDialog;
+//	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
+//	private String buyCount_photo,buyCount_video,buyCount_record;//买的量
+//	private int type;// 取证类型
+
 	private String  accountBalance,str;
 	private ImageView iv_next_yue;
 	private RelativeLayout  rl_Certification, rl_bind_phonum,
-			rl_bind_mail, rl_amend_psd, rl_about_us, rl_account;
+			rl_bind_mail, rl_my_notar,rl_account,rl_charge_rules;
 	private Button btn_logout,btn_count_pay;
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
@@ -82,15 +84,15 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	private List<product> list;// 业务余量的集合
 	private List<GiftsProduct> listZSong;//赠送业务量
 	private boolean isOk,isContractUser,isRefreshAccount;
-	private CheckBox cb_iswifi;
 	private boolean isHaveCombo = true;
-	private String tag;//表示是账户信息调的还是账户余额调的
-	private RelativeLayout rl_clearCache;//清除缓存
 	private String Tag;
 	private List<product> productBalance;
+	private Button btn_shezhi;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+		btn_shezhi = (Button) view.findViewById(R.id.btn_shezhi);
+		btn_shezhi.setOnClickListener(this);
 		tv_account = (TextView) view.findViewById(R.id.tv_account);
 		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(getActivity(), MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
 		tv_account.setText(userAccount);
@@ -110,30 +112,21 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		rl_bind_mail = (RelativeLayout) view.findViewById(R.id.rl_bind_mail);
 		rl_bind_mail.setOnClickListener(this);
 
-		rl_amend_psd = (RelativeLayout) view.findViewById(R.id.rl_amend_psd);
-		rl_amend_psd.setOnClickListener(this);
+		rl_my_notar = (RelativeLayout) view.findViewById(R.id.rl_my_notar);
+		rl_my_notar.setOnClickListener(this);
 
-		rl_about_us = (RelativeLayout) view.findViewById(R.id.rl_about_us);
-		rl_about_us.setOnClickListener(this);
-		btn_logout = (Button) view.findViewById(R.id.btn_logout);
-		btn_logout.setOnClickListener(this);
+		rl_charge_rules= (RelativeLayout) view.findViewById(R.id.rl_charge_rules);
+		rl_charge_rules.setOnClickListener(this);
+
 		tv_account_balance = (TextView) view.findViewById(R.id.tv_account_balance);
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
 
-		tv_cache_size= (TextView) view.findViewById(R.id.tv_cache_size);
-		String dirSize=FileSizeUtil.getAutoFileOrFilesSize(MyConstants.CACHE_PATH);
-		tv_cache_size.setText(dirSize);
 
-//		iv_next_yue.setVisibility(View.INVISIBLE);
-		cb_iswifi= (CheckBox) view.findViewById(R.id.cb_iswifi);
-		cb_iswifi.setChecked(true);
-		cb_iswifi.setOnCheckedChangeListener(this);
-		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
-		cb_iswifi.setChecked(isWifi);
-		rl_clearCache = (RelativeLayout) view.findViewById(R.id.rl_clearCache);
-		rl_clearCache.setOnClickListener(this);
+
+
+
 		getPersonalMsg();
 	}
 
@@ -231,6 +224,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
+		case R.id.btn_shezhi://设置
+			startActivity(new Intent(getActivity(), SettingActivity.class));
+			break;
 		case R.id.rl_account:// 账号信息
 			startActivity(new Intent(getActivity(),AccountMagActivity.class));
 			break;
@@ -313,104 +309,24 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 			}
 
 			break;
+			case R.id.rl_my_notar://我的公证
 
-		case R.id.rl_amend_psd:// 修改密码
+				break;
+			case R.id.rl_charge_rules://计费规则
+				Intent intent = new Intent(getActivity(), ChargeRulerActivity.class);
+				startActivity(intent);
+				break;
+			default:
+				break;
 
-			Intent intent5 = new Intent(getActivity(), AemndPsdActivity.class);
-			startActivity(intent5);
-			break;
-		case R.id.rl_about_us:// 关于我们
 
-			Intent intent6 = new Intent(getActivity(), AboutUsAcctivity.class);
-			startActivity(intent6);
-			break;
-			case R.id.rl_clearCache://清除缓存
-				str ="是否确定清除缓存？";
-				tag = "clearCache";
-				showDialog(str);
 
-			break;
-		case R.id.btn_logout:// 退出登录
-			str = "是否确定退出登录";
-			tag = "logout";
-			showDialog(str);
-		default:
-			break;
+
 		}
 	}
 
-	private void showDialog(String str) {
-		alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
-				.setMessage(str).setIcon(R.drawable.ww)
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if(tag.equals("logout")){
-							logOut();
-						}else if (tag.equals("clearCache")){
-							clearCache();
-						}
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						alertDialog.dismiss();
-					}
-				}).create();
-		alertDialog.show();
-	}
-
-	/**
-	 * 清除缓存
-	 */
-    private void clearCache(){
-		DownLoadHelper.getInstance().cancleDownload();
-		try {
-			FileUtil.deleteAllFiles(new File(MyConstants.DOWNLOAD_PATH));
-		}catch (Exception e){
-			Toaster.showToast(getActivity(),"删除文件失败");
-		}
-		UpDownLoadDao.getDao().deleteAll();
-		tv_cache_size.setText("0KB");
-		Toast.makeText(getActivity(),"清除缓存成功",Toast.LENGTH_SHORT).show();
-	}
-	// 退出登录
-	private void logOut() {
-		showProgress("正在退出...");
-		ApiManager.getInstance().LogOut(new ApiCallback() {
-			@Override
-			public void onApiResult(int errorCode, String message,
-					BaseHttpResponse response) {
-				hideProgress();
-				if (!CheckUtil.isEmpty(response)) {
-					if (response.getCode() == 200) {
-						Toaster.showToast(getActivity(), "已退出登录");
-						Intent intent = new Intent(getActivity(),
-								LoginActivity.class);
-						startActivity(intent);
-						getActivity().finish();
-						// 清空登录的token
-						SharePreferenceUtil.saveOrUpdateAttribute(
-								getActivity(), MyConstants.SP_USER_KEY,
-								"token", null);
-					} else {
-						Toaster.showToast(getActivity(), response.getMsg());
-					}
-				} else {
-					Toaster.showToast(getActivity(), "退出登录失败");
-				}
-			}
-
-			@Override
-			public void onApiResultFailure(int statusCode, Header[] headers,
-					byte[] responseBody, Throwable error) {
-
-			}
-		});
-	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -425,10 +341,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener,Comp
 		super.onResume();
 	}
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		SharePreferenceUtil.saveOrUpdateAttribute(getActivity(),MyConstants.SP_USER_KEY,MyConstants.ISWIFI,isChecked);
-	}
+
 
 	/**
 	 * 禁用返回键
