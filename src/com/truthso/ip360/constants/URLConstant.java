@@ -11,7 +11,6 @@ package com.truthso.ip360.constants;
 public class URLConstant {
 
 	 static String str = "59.110.44.147:9020";//3.25测试环境
-
 //	static  String str ="101.201.112.127:9020";
 //	static String str = "60.205.86.209:9020";
 	/**`
@@ -145,4 +144,26 @@ public class URLConstant {
 	 * 获取计费规则
 	 */
 	public final static String getBillingRules = "http://"+str+"/api/v1/system/getBillingRules";
+
+	/**
+	 * 公证信息提交
+	 */
+	public final static String commitNotarMsg = "http://"+str+"/api/v1/···/commitNotarMsg";
+	/**
+	 * 申请者的信息
+	 */
+	public final static String getAccountMsg = "http://"+str+"/api/v1/···/getAccountMsg";
+	/**
+	 * 公证支付费用
+	 */
+	public final static String defrayment = "http://"+str+"/api/v1/···/defrayment";
+	/**
+	 * 我的公证
+	 */
+	public final static String getNotarMsg = "http://"+str+"/api/v1/···/getNotarMsg";
+	/**
+	 * 撤销公证
+	 */
+	public final static String backoutNotary = "http://"+str+"/api/v1/···/backoutNotary";
+
 }

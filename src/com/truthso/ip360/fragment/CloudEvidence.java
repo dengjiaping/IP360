@@ -92,7 +92,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private RefreshListView listView;
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
-	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_file;
+	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_all;
 	private CloudEviItemBean cloudEviItemBean;
 	private String keywork;//搜索框里的搜索内容
 	private int type,mobileType;//类型，取证类型
@@ -103,7 +103,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private PopupWindow downLoadwindow;
 	private View contentView;
 	private View popview;
-	private Button btn_download,btn_delete;
+	private Button btn_download,btn_delete,btn_sqgz;
 	private CheckBox acition_bar_left;
 	private List<CloudEviItemBean> list=new ArrayList<CloudEviItemBean>();
 	private List<CloudEviItemBean> datas;
@@ -230,11 +230,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 					showPop();
 				}
 				break;
-			case R.id.btn_download:
+			case R.id.btn_download://下载
 				downloadAll();
 				break;
-			case R.id.btn_delete:
+			case R.id.btn_delete://清除缓存
 				deleteAll();
+				break;
+			case R.id.btn_sqgz://申请公证
+
 				break;
 			default:
 				break;
@@ -419,7 +422,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		tv_pc = (TextView) popview.findViewById(R.id.tv_pc);
 
-		tv_file = (TextView) popview.findViewById(R.id.tv_file);
+		tv_all = (TextView) popview.findViewById(R.id.tv_all);
 
 		FrameLayout fl_empty = (FrameLayout) popview.findViewById(R.id.fl_empty);
 		cloudWindow = new PopupWindow(popview, WindowManager.LayoutParams.MATCH_PARENT,
@@ -520,13 +523,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 			}
 
 		});
-		tv_file.setOnClickListener(new OnClickListener() {//确权文件
+		tv_all.setOnClickListener(new OnClickListener() {//全部 证据
 
 			@Override
 			public void onClick(View arg0) {
 				et_find_service.setText("");
-				actionBar.setLeftText("确权文件");
-				leiBieTag = 5;
+				actionBar.setLeftText("全部证据");
+				/*leiBieTag = 5;
 				if (cloudWindow.isShowing()) {
 					actionBar.setRightEnable();
 					cloudWindow.dismiss();
@@ -536,7 +539,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				tag = false;
 				type = 1;//确权文件
 				mobileType = 0;
-				getDatas(keywork,type,mobileType,pagerNumber);
+				getDatas(keywork,type,mobileType,pagerNumber);*/
 			}
 		});
 		fl_empty.setOnClickListener(new OnClickListener() {
@@ -611,14 +614,16 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		listView.setOnRefresh(true);
 	}
 
-	// 显示底部下载按钮
+	// 显示底部按钮条
 	private void showDownLoadPop() {
 		if (CheckUtil.isEmpty(downLoadwindow)) {
 			contentView = inflater.inflate(R.layout.pop_download, null);
 			btn_download = (Button) contentView.findViewById(R.id.btn_download);
 			btn_delete = (Button) contentView.findViewById(R.id.btn_delete);
+			btn_sqgz = (Button) contentView.findViewById(R.id.btn_sqgz);
 
 			btn_download.setOnClickListener(this);
+			btn_sqgz.setOnClickListener(this);
 			btn_delete.setOnClickListener(this);
 			downLoadwindow = new PopupWindow(contentView,
 					ViewGroup.LayoutParams.MATCH_PARENT,

@@ -19,12 +19,10 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
-import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -49,7 +47,6 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
-import com.truthso.ip360.utils.NetStatusUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -185,6 +182,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		} else if (CheckUtil.isFormatDoc(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
 		}
+		//文件夹
+//			vh.iv_icon.setBackgroundResource(R.drawable.wenjianjia);
+
 
 		boolean queryByPkValue=isDownloaded(cloudEviItemBean.getPkValue());//是否已下载
 

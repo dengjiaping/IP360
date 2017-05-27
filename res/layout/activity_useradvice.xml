@@ -17,7 +17,17 @@
         android:gravity="top"
         android:background="@drawable/round_corner_white"
         />
-
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_hight"
+        android:hint="姓名"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:singleLine="true"
+        android:layout_marginTop="@dimen/margin_top_20"
+        android:background="@color/white"
+        />
     <EditText
         android:id="@+id/et_account"
         android:layout_width="match_parent"

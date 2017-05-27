@@ -197,7 +197,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 			@Override
 			public void onApiResultFailure(int statusCode, Header[] headers,
 					byte[] responseBody, Throwable error) {
-				// TODO Auto-generated method stub
 
 			}
 		});

@@ -21,8 +21,8 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public class UserAdviceActivity extends BaseActivity implements View.OnClickListener {
-    private EditText et_useradvice,et_account;
-    private boolean isAdviceEmp,isAccountEmp;
+    private EditText et_useradvice,et_account,et_name;
+    private boolean isAdviceEmp,isAccountEmp,isNameEmp;
     private Button btn_commit;
     @Override
     public void initData() {
@@ -35,6 +35,8 @@ public class UserAdviceActivity extends BaseActivity implements View.OnClickList
         btn_commit.setOnClickListener(this);
         et_useradvice = (EditText) findViewById(R.id.et_useradvice);
         et_account = (EditText) findViewById(R.id.et_account);
+        et_name = (EditText) findViewById(R.id.et_name);
+
         et_useradvice.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,14 +79,37 @@ public class UserAdviceActivity extends BaseActivity implements View.OnClickList
                 checkButtonStatus();
             }
 
-        });
 
+        });
+        et_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!CheckUtil.isEmpty(s.toString().trim())){
+                    isNameEmp = true;
+                }else{
+                    isNameEmp = false;
+                }
+                checkButtonStatus();
+            }
+
+
+        });
     }
     /**
      * 按钮是否是彩色可点击
      */
     private void checkButtonStatus() {
-        if (isAdviceEmp && isAccountEmp) {
+        if (isAdviceEmp && isAccountEmp && isNameEmp) {
             btn_commit.setEnabled(true);
             btn_commit.setTextColor(Color.WHITE);
             btn_commit.setBackgroundResource(R.drawable.round_corner_bg);
@@ -110,14 +135,15 @@ public class UserAdviceActivity extends BaseActivity implements View.OnClickList
 //        调接口
         String str = et_useradvice.getText().toString().trim();
         String str1 = et_account.getText().toString().trim();
-            commit(str,str1);
+        String str2 = et_name.getText().toString().trim();
+            commit(str,str1,str2);
 
 
     }
     //调接口提交反馈内容
-    public void commit(String cotent,String contact){
+    public void commit(String cotent,String contact,String name){
         showProgress("正在提交...");
-        ApiManager.getInstance().UserAdvice(cotent, contact, new ApiCallback() {
+        ApiManager.getInstance().UserAdvice(cotent, contact, name,new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

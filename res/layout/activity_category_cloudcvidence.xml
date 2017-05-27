@@ -25,14 +25,14 @@
             android:textColor="@color/black"
             android:textSize="14sp" />-->
         <TextView
-            android:id="@+id/tv_photo"
+            android:id="@+id/tv_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/paizhaoyuan"
+            android:drawableTop="@drawable/quanbu"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="拍照取证"
+            android:text="全部证据"
             android:textColor="@color/black"
             android:textSize="@dimen/text_item" />
 
@@ -69,6 +69,18 @@
 
 
         <TextView
+            android:id="@+id/tv_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/paizhaoyuan"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="拍照取证"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_item" />
+
+        <TextView
             android:id="@+id/tv_pc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -81,18 +93,6 @@
             android:textSize="@dimen/text_item" />
 
         <TextView
-            android:id="@+id/tv_file"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/quequanyuan"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:text="确权文件"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
-          <TextView
-                    android:id="@+id/tv_all"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

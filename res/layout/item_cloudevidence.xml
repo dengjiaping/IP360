@@ -188,6 +188,74 @@
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>
+
+    <!--有二级页面的显示条目-->
+    <LinearLayout
+        android:id="@+id/ll_option1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#cbcbcb"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        >
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_download1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/xz"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="下载"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_delete1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/sc"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_remark1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:drawableTop="@drawable/bz"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="备注"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_file_detail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:drawableTop="@drawable/chakanxiangqing"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="查看证书"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

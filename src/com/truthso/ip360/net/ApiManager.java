@@ -12,11 +12,14 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.AccountStatusBean;
 import com.truthso.ip360.bean.CertificateInfoBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
+import com.truthso.ip360.bean.DefraymentBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
+import com.truthso.ip360.bean.NotarAccountBean;
+import com.truthso.ip360.bean.NotarMsgBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.ShowPictureBean;
 import com.truthso.ip360.bean.UpLoadBean;
@@ -741,9 +744,10 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback 联系方式
      * @return
      */
-	public RequestHandle UserAdvice(String content,String contacts,ApiCallback callback){
+	public RequestHandle UserAdvice(String content,String contacts,String name,ApiCallback callback){
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
 		request.setPath(URLConstant.userAdvice);
+		request.params().add("name", name);
 		request.params().add("content", content);
 		request.params().add("contacts", contacts);
 		request.setApiCallback(callback);
@@ -752,5 +756,103 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 
+	/**
+	 * 公正信息提交
+	 * @param callback
+     * @return
+     */
+//	notarName	申请公证名称	String(20)	申请公证时，公正包的名称	非空
+//	notarLoc	公证处所在地	String(20)	所选公正处所在地	非空
+//	notarCopies	公证书份数	Integer	公证书所需份数	非空
+//	notarOfficeName	公证处名称	String(15)	公证处名称	非空	北京-东方公证处
+//	•	receiver
+//	领取人	String(8)	领取人是本人领取或其他自然人	非空
+//	•	domicileLoc
+//	申请人户籍所在地	String(30)	申请人户籍所在地	非空
+//	•	currentAddress	现居地址	String（30）	申请人现居地址	非空
+//	pkValue	申请公证的pkValue	String(20)	申请功能的文件pkvlue，多个的时候用“，”号隔开	非空	“112,333,111”
+//	receiverName
+//	领取者姓名	String(20)	领取者姓名	非空
+//	receiverCardId	领取者身份证号	String(20)	领取者身份证号	非空
+//	receiverPhoneNum	领取者邮箱	String（20）	领取者邮箱	非空
+//	notarDate	申请公正日期	String(20)	申请公正的时间	非空
 
+	public RequestHandle commitNotarMsg(String notarName,String notarLoc,int notarCopies,String notarOfficeName,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String notarDate,String receiverEmail,ApiCallback callback){
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
+		request.setPath(URLConstant.commitNotarMsg);
+		request.params().add("notarName", notarName);
+		request.params().add("notarLoc", notarLoc);
+		request.params().add("notarCopies", notarCopies+"");
+		request.params().add("notarOfficeName", notarOfficeName);
+		request.params().add("receiver", receiver);
+		request.params().add("domicileLoc", domicileLoc);
+		request.params().add("currentAddress", currentAddress);
+		request.params().add("pkValue", pkValue);
+		request.params().add("receiverName", receiverName);
+		request.params().add("receiverCardId", receiverCardId);
+		request.params().add("receiverPhoneNum", receiverPhoneNum);
+		request.params().add("receiverEmail", receiverEmail);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 申请公证人账号信息 点公证按钮时调用
+	 * @param callback
+	 * @return
+     */
+	public RequestHandle getAccountMsg(ApiCallback callback){
+		BaseHttpRequest<NotarAccountBean> request = new BaseHttpRequest<NotarAccountBean>(NotarAccountBean.class,this);
+		request.setPath(URLConstant.getAccountMsg);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 申请公证支付费用  申请公证第三步。确认支付时调用
+	 * @param notaryNum
+	 * @param callback
+     * @return
+     */
+	public RequestHandle defrayment(String notaryNum,ApiCallback callback){
+		BaseHttpRequest<DefraymentBean> request = new BaseHttpRequest<DefraymentBean>(DefraymentBean.class,this);
+		request.setPath(URLConstant.defrayment);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 我的公证
+	 * @param
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getNotarMsg(ApiCallback callback){
+		BaseHttpRequest<NotarMsgBean> request = new BaseHttpRequest<NotarMsgBean>(NotarMsgBean.class,this);
+		request.setPath(URLConstant.getNotarMsg);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 撤销公证
+	 * @param notaryNum
+	 * @param callback
+     * @return
+     */
+	public RequestHandle backoutNotary(String notaryNum,ApiCallback callback){
+		BaseHttpRequest<NotarMsgBean> request = new BaseHttpRequest<NotarMsgBean>(NotarMsgBean.class,this);
+		request.setPath(URLConstant.backoutNotary);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
 }

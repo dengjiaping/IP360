@@ -4,39 +4,89 @@
     android:layout_height="wrap_content"
     android:background="@color/activity_bg"
     android:layout_alignParentTop="true"
+    android:orientation="horizontal"
    >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/button_margiontop_10"
         android:background="@drawable/round_corner_white"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         >
-            <Button
-                android:id="@+id/btn_download"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/item_hight"
-                android:background="@drawable/round_corner_white"
-                android:drawableLeft="@drawable/download"
-                android:text="下载证据"
-                android:textSize="@dimen/button_text_size"
-                android:textColor="@color/jiuhong"
-                android:layout_gravity="center"
-                android:drawablePadding="5dp"
-                />
-    </LinearLayout>
-    <LinearLayout
+
+        <Button
+            android:id="@+id/btn_download"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_hight"
+            android:background="@drawable/round_corner_white"
+            android:drawableLeft="@drawable/download"
+            android:text="下载证据"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:drawablePadding="5dp"
+            />
+    </RelativeLayout>
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:background="@drawable/white"
+       android:layout_gravity="center_vertical">
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="30dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginBottom="10dp"
+           android:background="@drawable/shuxian">
+       </LinearLayout>
+   </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/button_margiontop_10"
-        android:layout_marginRight="@dimen/button_margiontop_10"
         android:background="@drawable/round_corner_white"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/btn_sqgz"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/item_hight"
+            android:background="@drawable/round_corner_white"
+            android:drawableLeft="@drawable/shenqinggongzheng"
+            android:text="申请公证"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/black"
+            android:layout_centerInParent="true"
+            android:drawablePadding="5dp"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white"
+        android:layout_gravity="center_vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shuxian">
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@drawable/round_corner_white"
+        android:orientation="horizontal"
         >
             <Button
                 android:id="@+id/btn_delete"
@@ -46,9 +96,9 @@
                 android:text="删除缓存"
                 android:drawableLeft="@drawable/dee"
                 android:textSize="@dimen/button_text_size"
-                android:textColor="@color/jiuhong"
-                android:layout_gravity="center"
+                android:textColor="@color/black"
+               android:layout_centerInParent="true"
                 android:drawablePadding="5dp"
                 />
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

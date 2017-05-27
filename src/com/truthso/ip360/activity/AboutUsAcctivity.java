@@ -1,6 +1,12 @@
 package com.truthso.ip360.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
+import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.truthso.ip360.system.Toaster;
 
 /**
  * @despriction :个人中心->关于我们
@@ -26,6 +34,7 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 	private RelativeLayout rl_advice,rl_pingfen,rl_useragreement;
 	private TextView tv_versioncode;
 	private  Button btn_weichat;
+	private Dialog alertDialog;
 	@Override
 	public void initData() {
 
@@ -46,6 +55,7 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 		rl_useragreement = (RelativeLayout) findViewById(R.id.rl_useragreement);
 		rl_useragreement.setOnClickListener(this);
 		btn_weichat = (Button) findViewById(R.id.btn_weichat);
+		btn_weichat.setOnClickListener(this);
 	}
 
 	@Override
@@ -75,7 +85,7 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 				startActivity(intent2);
 				break;
 			case R.id.btn_weichat://微信公众号
-
+				showDialog("公众号\"真相网络\"您可以在微信中直接粘贴搜索");
 				break;
 		}
 
@@ -90,6 +100,47 @@ public class AboutUsAcctivity extends BaseActivity implements OnClickListener {
 			return packageInfo.versionName;
 		} catch (PackageManager.NameNotFoundException e) {
 			return "";
+		}
+
+	}
+	private void showDialog(String str) {
+		alertDialog = new AlertDialog.Builder(AboutUsAcctivity.this).setTitle("温馨提示")
+				.setMessage(str).setIcon(R.drawable.ww)
+				.setPositiveButton("去微信", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//复制“真相网络”到系统粘贴板
+						ClipboardManager cmb = (ClipboardManager) AboutUsAcctivity.this.getSystemService(AboutUsAcctivity.this.CLIPBOARD_SERVICE);
+						cmb.setText("真相网络");
+						//去微信
+						gotoWeChat();
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
+	}
+
+	/**
+	 * 去微信
+	 */
+	private void gotoWeChat() {
+		try {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			ComponentName cmp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.LauncherUI");
+
+			intent.addCategory(Intent.CATEGORY_LAUNCHER);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.setComponent(cmp);
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			Toaster.showToast(AboutUsAcctivity.this,"检查到您手机没有安装微信，请安装后使用该功能");
 		}
 
 	}

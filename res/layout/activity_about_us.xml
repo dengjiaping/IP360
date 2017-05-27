@@ -131,7 +131,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity=""
+        android:layout_gravity="center"
         android:background="@color/white">
         <View
             android:layout_width="match_parent"
@@ -198,7 +198,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:text="关注我们"
-        android:textColor="@color/huise"/>
+        android:textColor="@color/black"/>
 
     <!--<Button
         android:id="@+id/btn_useragreement"
@@ -224,16 +224,17 @@
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_corner_bg"
+            android:drawableLeft="@drawable/wechat"
+            android:background="@drawable/round_corner_white"
             android:text="微信公众号"
-            android:textColor="@drawable/white"/>
+            android:textColor="@color/black"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:text="真相网络科技（北京）有限公司"
-        android:textColor="@color/huise"/>
+        android:textColor="@color/black"/>
 </LinearLayout>
 </ScrollView>
 </LinearLayout>
