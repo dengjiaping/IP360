@@ -154,6 +154,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.tv_downloaded=(TextView) convertView.findViewById(R.id.tv_downloaded);
 			vh.tv_delete=(TextView) convertView.findViewById(R.id.tv_delete);
 			vh.tv_download=(TextView) convertView.findViewById(R.id.tv_download);
+			vh.tv_download1=(TextView) convertView.findViewById(R.id.tv_download1);
+			vh.tv_delete1=(TextView) convertView.findViewById(R.id.tv_delete1);
+			vh.tv_remark1=(TextView) convertView.findViewById(R.id.tv_remark1);
+			vh.tv_file_detail=(TextView) convertView.findViewById(R.id.tv_file_detail);
+
 			vh.tv_sqgz=(TextView) convertView.findViewById(R.id.tv_sqgz);
 			convertView.setTag(vh);
 		} else {
@@ -172,34 +177,45 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		String s_size = FileSizeUtil.setFileSize(l_size);
 
 		vh.tv_size.setText(s_size);
-		String format = cloudEviItemBean.getFileFormat();
-		format = format.toLowerCase();// 格式变小写
-		// if (CheckUtil.isEmpty(format)) {
-		if (CheckUtil.isFormatPhoto(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
-		} else if (CheckUtil.isFormatVideo(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);
-		} else if (CheckUtil.isFormatRadio(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);
-		} else if (CheckUtil.isFormatDoc(format)) {
-			vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
+		if(cloudEviItemBean.getLinkCount()>1){
+			vh.iv_icon.setBackgroundResource(R.drawable.wenjianjia);
+		}else{
+			String format = cloudEviItemBean.getFileFormat();
+			format = format.toLowerCase();// 格式变小写
+			// if (CheckUtil.isEmpty(format)) {
+			if (CheckUtil.isFormatPhoto(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
+			} else if (CheckUtil.isFormatVideo(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);
+			} else if (CheckUtil.isFormatRadio(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);
+			} else if (CheckUtil.isFormatDoc(format)) {
+				vh.iv_icon.setBackgroundResource(R.drawable.icon_bq);
+			}
 		}
-		//文件夹
-//			vh.iv_icon.setBackgroundResource(R.drawable.wenjianjia);
-
 
 		boolean queryByPkValue=isDownloaded(cloudEviItemBean.getPkValue());//是否已下载
 
 		if(queryByPkValue){
 			vh.tv_downloaded.setVisibility(View.VISIBLE);
-			vh.tv_delete.setVisibility(View.VISIBLE);
-			vh.tv_download.setVisibility(View.GONE);
+			if(cloudEviItemBean.getLinkCount()>1){
+				vh.tv_delete1.setVisibility(View.VISIBLE);
+				vh.tv_download1.setVisibility(View.GONE);
+			}else{
+				vh.tv_delete.setVisibility(View.VISIBLE);
+				vh.tv_download.setVisibility(View.GONE);
+			}
 		}else{
 			vh.tv_downloaded.setVisibility(View.GONE);
-			vh.tv_delete.setVisibility(View.GONE);
-			vh.tv_download.setVisibility(View.VISIBLE);
+			if(cloudEviItemBean.getLinkCount()>1){
+				vh.tv_delete1.setVisibility(View.GONE);
+				vh.tv_download1.setVisibility(View.VISIBLE);
+			}else{
+				vh.tv_delete.setVisibility(View.GONE);
+				vh.tv_download.setVisibility(View.VISIBLE);
+			}
+
 		}
-		//boolean queryByPkValue1 = UpDownLoadDao.getDao().queryByPkValue(cloudEviItemBean.getPkValue());//正在下载
 
 		changeState(position, convertView, vh.cb_choice, vh.cb_option);
 
@@ -223,20 +239,28 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		if(!CheckUtil.isEmpty(fileInfo) && fileInfo.getStatus()!=0){
 			return true;
 		}
-
 		return false;
 	}
 
 	public class ViewHolder {
 		public CheckBox cb_choice, cb_option;
 		private ImageView iv_icon;
-		private TextView tv_filename, tv_filedate, tv_size,tv_downloaded,tv_delete,tv_download,tv_sqgz;
+		private TextView tv_filename, tv_filedate, tv_size,tv_downloaded,tv_delete,
+				tv_download,tv_sqgz,tv_download1,tv_delete1,tv_remark1,tv_file_detail;
 	}
 
 	private void changeState(final int position, View view, CheckBox cb_choice,
 			final CheckBox cb_option) {
-		final LinearLayout ll_option = (LinearLayout) view
-				.findViewById(R.id.ll_option);
+		CloudEviItemBean cloudEviItemBean = mDatas.get(position);
+		final LinearLayout ll_option;
+		if(cloudEviItemBean.getLinkCount()>1){
+			ll_option = (LinearLayout) view
+					.findViewById(R.id.ll_option1);
+		}else{
+			ll_option= (LinearLayout) view
+					.findViewById(R.id.ll_option);
+		}
+
 		if (isChoice) {
 			cb_choice.setVisibility(View.VISIBLE);
 			cb_option.setVisibility(View.GONE);
@@ -479,7 +503,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						 format = data1.getFileFormat();
 					}
 					format = format.toLowerCase();// 格式变小写
-					Log.i("djj", "url"+url);
 					if (CheckUtil.isFormatVideo(format)) {// 视频
 						Intent intent2 = new Intent(context,
 								VideoDetailActivity.class);
@@ -548,7 +571,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							filePaht=dbBean.getResourceUrl();
 						}
 						int count=SqlDao.getSQLiteOpenHelper().deleteByPkValue(MyConstants.TABLE_MEDIA_DETAIL,mDatas.get(position).getPkValue());
-						Log.i("djj",mDatas.get(position).getPkValue()+"PkValue");
 
 						FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(mDatas.get(position).getPkValue());
 						if(!CheckUtil.isEmpty(fileInfo)&&fileInfo.getFilePath()!=null){

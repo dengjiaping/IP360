@@ -211,6 +211,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:visibility="gone"
+
         >
         <RelativeLayout
             android:layout_width="0dp"
@@ -263,7 +264,7 @@
             android:drawableTop="@drawable/chakanxiangqing"
             android:drawablePadding="5dp"
             android:gravity="center"
-            android:text="查看证书"
+            android:text="查看详情"
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>

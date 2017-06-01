@@ -152,13 +152,7 @@
             android:text="客服电话:010-84770602"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:src="@drawable/sanjiao" />
+
     </RelativeLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -184,13 +178,6 @@
             android:text="客服邮箱：kf@truthso.com"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_item" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/layout_marginRight"
-            android:src="@drawable/sanjiao" />
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
