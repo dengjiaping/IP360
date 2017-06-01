@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -40,8 +43,11 @@ import android.widget.Toast;
 
 import com.lidroid.xutils.util.LogUtils;
 import com.loopj.android.http.RequestHandle;
+import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.CommitMsgActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.activity.SettingActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
 import com.truthso.ip360.adapter.NativeAdapter;
 import com.truthso.ip360.adapter.NativeAdapter.ViewHolder;
@@ -50,6 +56,7 @@ import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
@@ -92,6 +99,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	private RefreshListView listView;
 	private int CODE_SEARCH = 101;
 	private LayoutInflater inflater;
+	private Dialog alertDialog;
 	private TextView tv_photo,tv_video,tv_record,tv_pc,tv_all;
 	private CloudEviItemBean cloudEviItemBean;
 	private String keywork;//搜索框里的搜索内容
@@ -237,12 +245,59 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				deleteAll();
 				break;
 			case R.id.btn_sqgz://申请公证
+				AccountMsg();
 
 				break;
 			default:
 				break;
 		}
 
+	}
+/**
+ * 申请公证，申请人的账号信息
+ */
+	private void AccountMsg() {
+		showProgress("正在加载...");
+		ApiManager.getInstance().getAccountMsg(new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+				hideProgress();
+				NotarAccountBean bean = (NotarAccountBean) response;
+				if (!CheckUtil.isEmpty(bean)){
+					if (bean.getCode() == 200){
+						int iscer = bean.getDatas().getIscertified();//0-未实名 1-已实名
+						if (iscer==1){//已实名
+
+//							已经选择的申请公证，要type跟pkvalue
+							//跳转到提交信息页面
+							Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
+//							intent.putExtra("type",type);
+//							intent.putExtra("pkValue",);
+//							intent.putExtra("count","1");//申请公证的数量
+							intent.putExtra("requestName",bean.getDatas().getRequestName());
+							intent.putExtra("requestCardId",bean.getDatas().getRequestCardId());
+							intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());
+							intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());
+							startActivity(intent);
+
+
+						}else if(iscer ==0){//未实名
+							showDialog("是实名认证后才能申请公证，是否立即认证？");
+						}
+					}else{
+						Toaster.showToast(getActivity(),bean.getMsg());
+					}
+
+				}else{
+					Toaster.showToast(getActivity(),"获取数据失败");
+				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
 	}
 
 	/**
@@ -603,7 +658,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 		}else if(leiBieTag ==4){
 			actionBar.setLeftText("线上取证");
 		}else if(leiBieTag ==5){
-			actionBar.setLeftText("");
+			actionBar.setLeftText("全部");
 		}
 
 		Drawable dra= getResources().getDrawable(R.drawable.leibie_selector);
@@ -805,5 +860,25 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	public void onDestroy() {
 		super.onDestroy();
 		EventBus.getDefault().unregister(this);
+	}
+	private void showDialog(String str) {
+		alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
+				.setMessage(str).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//跳转到实名认证页面
+						startActivity(new Intent(getActivity(), CertificationActivity.class));
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
 	}
 }

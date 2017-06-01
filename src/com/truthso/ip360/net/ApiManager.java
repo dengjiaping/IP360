@@ -15,10 +15,12 @@ import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DefraymentBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.ExpenseBean;
+import com.truthso.ip360.bean.FileBean;
 import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.NotarAccountBean;
+import com.truthso.ip360.bean.NotarCityBean;
 import com.truthso.ip360.bean.NotarMsgBean;
 import com.truthso.ip360.bean.PersonalMsgBean;
 import com.truthso.ip360.bean.ShowPictureBean;
@@ -459,7 +461,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	/**
 	 * 云端证据
 	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
-	 * @param type 展示类别 1-确权  2-现场取证 3-pc取证 非空
+	 * @param type 展示类别 1-确权  2-现场取证 3-pc取证 非空   1-确权 2-现场取证 3-pc取证 4-全部(除了确权其他全包含)
 	 * @param mobileType 取证类型 现场取证 （拍照（50001）、录像（50003）、录音（50002）可空
 	 * @param pageNumber 当前第几页  非空
 	 * @param pageSize 每页显示条数 非空
@@ -757,33 +759,27 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	}
 
 	/**
-	 * 公正信息提交
-	 * @param callback
-     * @return
+	 * 公证信息提交
+	 * @param notarName 公证名称
+	 * @param notaryId 公证处id
+	 * @param notarCopies 公证书所需份数
+	 * @param receiver 领取类型 1-本人领取；2-其他人自然领取
+	 * @param domicileLoc 申请人户籍所在地
+	 * @param currentAddress 申请人现居地址
+	 * @param pkValue
+	 * @param receiverName 领取者姓名
+	 * @param receiverCardId 领取者身份证号
+	 * @param receiverPhoneNum 领取者手机号
+     * @param receiverEmail 领取者邮箱
+     * @param callback
+     * @return  code 503 公证名称已存在
      */
-//	notarName	申请公证名称	String(20)	申请公证时，公正包的名称	非空
-//	notarLoc	公证处所在地	String(20)	所选公正处所在地	非空
-//	notarCopies	公证书份数	Integer	公证书所需份数	非空
-//	notarOfficeName	公证处名称	String(15)	公证处名称	非空	北京-东方公证处
-//	•	receiver
-//	领取人	String(8)	领取人是本人领取或其他自然人	非空
-//	•	domicileLoc
-//	申请人户籍所在地	String(30)	申请人户籍所在地	非空
-//	•	currentAddress	现居地址	String（30）	申请人现居地址	非空
-//	pkValue	申请公证的pkValue	String(20)	申请功能的文件pkvlue，多个的时候用“，”号隔开	非空	“112,333,111”
-//	receiverName
-//	领取者姓名	String(20)	领取者姓名	非空
-//	receiverCardId	领取者身份证号	String(20)	领取者身份证号	非空
-//	receiverPhoneNum	领取者邮箱	String（20）	领取者邮箱	非空
-//	notarDate	申请公正日期	String(20)	申请公正的时间	非空
-
-	public RequestHandle commitNotarMsg(String notarName,String notarLoc,int notarCopies,String notarOfficeName,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String notarDate,String receiverEmail,ApiCallback callback){
+	public RequestHandle commitNotarMsg(String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail,ApiCallback callback){
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
 		request.setPath(URLConstant.commitNotarMsg);
 		request.params().add("notarName", notarName);
-		request.params().add("notarLoc", notarLoc);
+		request.params().add("notaryId", notaryId +"");
 		request.params().add("notarCopies", notarCopies+"");
-		request.params().add("notarOfficeName", notarOfficeName);
 		request.params().add("receiver", receiver);
 		request.params().add("domicileLoc", domicileLoc);
 		request.params().add("currentAddress", currentAddress);
@@ -821,20 +817,25 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public RequestHandle defrayment(String notaryNum,ApiCallback callback){
 		BaseHttpRequest<DefraymentBean> request = new BaseHttpRequest<DefraymentBean>(DefraymentBean.class,this);
 		request.setPath(URLConstant.defrayment);
+		request.params().add("notaryNum", notaryNum);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+
 	/**
-	 * 我的公证
-	 * @param
+	 * 我的公证列表
+	 * @param pageNumber 页码值
+	 * @param pageSize 每页数据条数
 	 * @param callback
-	 * @return
-	 */
-	public RequestHandle getNotarMsg(ApiCallback callback){
+     * @return
+     */
+	public RequestHandle getNotarMsg(int pageNumber,int pageSize,ApiCallback callback){
 		BaseHttpRequest<NotarMsgBean> request = new BaseHttpRequest<NotarMsgBean>(NotarMsgBean.class,this);
 		request.setPath(URLConstant.getNotarMsg);
+		request.params().add("pageNumber", pageNumber+"");
+		request.params().add("pageSize", pageSize+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
@@ -848,11 +849,91 @@ public class ApiManager implements BaseHttpRequestCallBack {
      * @return
      */
 	public RequestHandle backoutNotary(String notaryNum,ApiCallback callback){
-		BaseHttpRequest<NotarMsgBean> request = new BaseHttpRequest<NotarMsgBean>(NotarMsgBean.class,this);
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
 		request.setPath(URLConstant.backoutNotary);
+		request.params().add("notaryNum", notaryNum);
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+
+	/**
+	 * 获取公证处以及所在城市
+	 * @param callback
+	 * @return
+     */
+	public RequestHandle getNotaryCity(ApiCallback callback){
+		BaseHttpRequest<NotarCityBean> request = new BaseHttpRequest<NotarCityBean>(NotarCityBean.class,this);
+		request.setPath(URLConstant.getNotaryCity);
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
+	/**
+	 * 公证服务详情
+	 * @param pageNumber 页码值
+	 * @param pageSize 每页数据条数
+	 * @param pkValue 公证服务的id
+	 * @param callback
+     * @return
+     */
+	public RequestHandle getNotarInfo(int pageNumber,int pageSize,int pkValue, ApiCallback callback){
+		BaseHttpRequest<FileBean> request = new BaseHttpRequest<FileBean>(FileBean.class,this);
+		request.setPath(URLConstant.getNotarInfo);
+		request.params().add("pageNumber", pageNumber+"");
+		request.params().add("pageSize", pageSize+"");
+		request.params().add("pkValue", pkValue+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 云端证据 全部数据
+	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
+	 * @param pageNumber 当前第几页  非空
+	 * @param pageSize 每页显示条数 非空
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle getCloudEvidenceAll(String keywork,int pageNumber,int pageSize,ApiCallback callback){
+		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
+				CloudEvidenceBean.class, this);
+		request.setPath(URLConstant.getCloudEvidenceAll);
+		request.params().add("keywork", keywork);
+		request.params().add("pageNumber", pageNumber+"");
+		request.params().add("pageSize", pageSize+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+	/**
+	 * 云端证据 全部数据
+	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
+	 * @param pageNumber 当前第几页  非空
+	 * @param pageSize 每页显示条数 非空
+	 * @param callback
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle getSubEvidence(String keywork,int type,int pkValue,int pageNumber,int pageSize,ApiCallback callback){
+		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
+		CloudEvidenceBean.class, this);
+		request.setPath(URLConstant.getSubEvidence);
+		request.params().add("keywork", keywork);
+		request.params().add("type", type+"");
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("pageNumber", pageNumber+"");
+		request.params().add("pageSize", pageSize+"");
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.get();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
 }

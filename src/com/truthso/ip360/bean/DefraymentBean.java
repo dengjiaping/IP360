@@ -22,9 +22,18 @@ public class DefraymentBean extends BaseHttpResponse{
     }
 
     private class Defrayment{
+        private String status;//0不允许继续 1允许继续
     private String showText;
 
-    public String getShowText() {
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public String getShowText() {
         return showText;
     }
 

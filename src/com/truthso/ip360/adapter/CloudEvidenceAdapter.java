@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.CommitMsgActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -33,6 +34,7 @@ import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
@@ -140,7 +142,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 		size1 = FileSizeUtil.FormetFileSize(l_size);
 		mode = cloudEviItemBean.getFileMode();
 		remarkText = cloudEviItemBean.getRemarkText();
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.item_cloudevidence, null);
 			vh = new ViewHolder();
@@ -153,6 +154,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			vh.tv_downloaded=(TextView) convertView.findViewById(R.id.tv_downloaded);
 			vh.tv_delete=(TextView) convertView.findViewById(R.id.tv_delete);
 			vh.tv_download=(TextView) convertView.findViewById(R.id.tv_download);
+			vh.tv_sqgz=(TextView) convertView.findViewById(R.id.tv_sqgz);
 			convertView.setTag(vh);
 		} else {
 			vh = (ViewHolder) convertView.getTag();
@@ -228,7 +230,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	public class ViewHolder {
 		public CheckBox cb_choice, cb_option;
 		private ImageView iv_icon;
-		private TextView tv_filename, tv_filedate, tv_size,tv_downloaded,tv_delete,tv_download;
+		private TextView tv_filename, tv_filedate, tv_size,tv_downloaded,tv_delete,tv_download,tv_sqgz;
 	}
 
 	private void changeState(final int position, View view, CheckBox cb_choice,
@@ -270,6 +272,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 					.findViewById(R.id.tv_certificate_preview);
 			TextView tv_delete = (TextView) view
 					.findViewById(R.id.tv_delete);
+			TextView tv_sqgz = (TextView) view
+					.findViewById(R.id.tv_sqgz);
 
 			tv_remark.setOnClickListener(this);
 			tv_remark.setTag(position);
@@ -281,6 +285,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_file_preview.setOnClickListener(this);
 			tv_delete.setTag(position);
 			tv_delete.setOnClickListener(this);
+			tv_sqgz.setTag(position);
+			tv_sqgz.setOnClickListener(this);
 
 			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
 			ll_item.setOnClickListener(new OnClickListener() {
@@ -502,7 +508,15 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				}
 
 			}
+			case R.id.tv_sqgz://申请公证
+				int position2 = (Integer) v.getTag();
+				CloudEviItemBean cloudEviItemBean2 = mDatas.get(position2);
+				int pkValue = cloudEviItemBean2.getPkValue();
 
+				//对否实名认证
+				AccountMsg(pkValue);
+
+				break;
 		default:
 			break;
 		}
@@ -559,11 +573,70 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				create();
 		alertDialog.show();
 	}
-/*	public  boolean  isItemOpen(boolean isItemOpen){
-		*//*if (isItemOpen){
-			ll_option.setVisibility(View.GONE);
-		}*//*
-		return isItemOpen;*/
-//	}
 
+	/**
+	 * 申请公证，申请人的账号信息
+	 */
+	private void AccountMsg(final int pkValue) {
+//		showProgress("正在加载...");
+		ApiManager.getInstance().getAccountMsg(new ApiCallback() {
+			@Override
+			public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+//				hideProgress();
+				NotarAccountBean bean = (NotarAccountBean) response;
+				if (!CheckUtil.isEmpty(bean)){
+					if (bean.getCode() == 200){
+						int iscer = bean.getDatas().getIscertified();//0-未实名 1-已实名
+						if (iscer==1){//已实名
+							//跳转到提交信息页面
+							Intent intent = new Intent(context, CommitMsgActivity.class);
+							intent.putExtra("type",type);
+							intent.putExtra("pkValue",pkValue);
+							intent.putExtra("count","1");//申请公证的数量
+							intent.putExtra("requestName",bean.getDatas().getRequestName());
+							intent.putExtra("requestCardId",bean.getDatas().getRequestCardId());
+							intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());
+							intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());
+							context.startActivity(intent);
+
+
+						}else if(iscer ==0){//未实名
+							showDialog("是实名认证后才能申请公证，是否立即认证？");
+						}
+					}else{
+						Toaster.showToast(context,bean.getMsg());
+					}
+
+				}else{
+					Toaster.showToast(context,"获取数据失败");
+				}
+			}
+
+			@Override
+			public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+			}
+		});
+	}
+
+	private void showDialog(String str) {
+		alertDialog = new AlertDialog.Builder(context).setTitle("温馨提示")
+				.setMessage(str).setIcon(R.drawable.ww)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//跳转到实名认证页面
+						context.startActivity(new Intent(context, CertificationActivity.class));
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						alertDialog.dismiss();
+					}
+				}).create();
+		alertDialog.show();
+	}
 }

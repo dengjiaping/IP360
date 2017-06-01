@@ -13,19 +13,19 @@ import java.util.List;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class NotarMsgBean extends BaseHttpResponse{
-//    notarName	公正包名称	String(20)	申请公证时，公正包的名称	非空
-//    notarOfficeName	公证处名称	String(15)	公证处名称	非空	北京-东方公证处
-//    notarDate	申请公正的时间	String(20)	申请公正的时间	非空
-//    notaryNum	公证编号	String(20)	公证编号	非空
-//    requestName	申请人姓名	String(20)	申请人姓名	非空
-//    receiverName
-//    领取者姓名	String(20)	领取者姓名	非空
-//    notarStatus	公证状态	Integer	1等待审核 2等待付费3已公证	非空
-//    fileSize	文件大小	String（10）	总的文件大小	非空	36.02M
-//    fileMount	文件个数	String(10)	申请公证的文件个数	非空	7
-//    monery	待付费用	String（10）	状态为2等待付费时候的费用	可空
-//    receiverDate	证书领取日期	String(10)	状态为3已公证，且公正处给了领取时间时返回	可空
-//    fileList	申请公证的所有文件的集合	List<file>	申请出证的文件的结合	非空
+//    "notarName": "申请公证时，公正包的名称",
+//            "notarOfficeName": "公证处名称",
+//            "notarDate": "申请公正的时间",
+//            "notaryNum": "公证编号",
+//            "requestName": "申请人姓名",
+//            "receiverName": "领取者姓名",
+//            "notarStatus": 1,
+//            "noReason": "公证名称已经存在",
+//            "fileSize": "3.3M",
+//            "fileMount": "申请公证的文件个数",
+//            "monery": "待付费用",
+//            "receiverDate": "证书领取日期",
+//            "pkValue": "此条公证服务id"
     private NotarMsg datas;
 
     public NotarMsg getDatas() {
@@ -43,12 +43,30 @@ public class NotarMsgBean extends BaseHttpResponse{
         private String notaryNum;
         private String requestName;
         private String receiverName;
-        private int notarStatus;
+        private int notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
+       private String noReason;//审核没有通过的原因
         private String fileSize;
         private String fileMount;
         private String monery;
         private String receiverDate;
-        private List<FileBean> fileList;
+        private String pkValue;//此条公证服务的id
+//        private List<FileBean> fileList;
+
+        public String getNoReason() {
+            return noReason;
+        }
+
+        public void setNoReason(String noReason) {
+            this.noReason = noReason;
+        }
+
+        public String getPkValue() {
+            return pkValue;
+        }
+
+        public void setPkValue(String pkValue) {
+            this.pkValue = pkValue;
+        }
 
         public String getNotarName() {
             return notarName;
@@ -138,12 +156,6 @@ public class NotarMsgBean extends BaseHttpResponse{
             this.receiverDate = receiverDate;
         }
 
-        public List<FileBean> getFileList() {
-            return fileList;
-        }
 
-        public void setFileList(List<FileBean> fileList) {
-            this.fileList = fileList;
-        }
     }
 }

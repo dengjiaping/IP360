@@ -208,7 +208,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/et_oldpwd"
+                    android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:singleLine="true"
@@ -235,7 +235,7 @@
 
 
             <RelativeLayout
-                android:id="@+id/rl_bind_phonum"
+                android:id="@+id/rl_gzc_loc"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_hight"
                 android:background="@color/item_bg" >
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="绑定手机"
+                    android:text="公证处所在地"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -383,7 +383,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="份数："
+                    android:text="公证书份数："
                     android:layout_marginLeft="10dp"
                     android:textSize="@dimen/text_item"
                     android:textColor="@color/item_text_color"
@@ -450,7 +450,7 @@
                 android:layout_marginTop="@dimen/button_margiontop_10"
                 android:background="@color/item_bg" >
                 <TextView
-                    android:id="@+id/tv_name1"
+                    android:id="@+id/tv_request_name1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -465,7 +465,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/tv_name1"
+                    android:layout_toRightOf="@+id/tv_request_name1"
                     android:text="王木木"
                     android:layout_marginLeft="10dp"
                     android:textSize="@dimen/text_item"
@@ -764,6 +764,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_commit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height"
             android:layout_marginTop="20dp"

@@ -33,11 +33,29 @@ public class CloudEviItemBean {
 	private String fileUrl;//文件路径
 	private int pkValue;//证据记录主键值
 	private int count;//当次消费量
+	private int type;//1-确权 2-现场取证 3-pc取证 4-全部(除了确权其他全包含)
 	private String remarkText;//备注
 	private int arreaStatus;//是否欠费 0欠费 1不欠费
 	private String ossUrl;
 	private int dataType;// 1-url确权  2-其他确权  3-现场取证 4-pc取证
+	 private int linkCount;//没有二级返回1，有二级的话，1级加二级
 	public boolean isOpen = false;
+
+	public int getLinkCount() {
+		return linkCount;
+	}
+
+	public void setLinkCount(int linkCount) {
+		this.linkCount = linkCount;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
 
 	public int getDataType() {
 		return dataType;

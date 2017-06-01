@@ -9,11 +9,11 @@ package com.truthso.ip360.constants;
  */
 
 public class URLConstant {
-
 	 static String str = "59.110.44.147:9020";//3.25测试环境
-//	static  String str ="101.201.112.127:9020";
+//	static  String str ="192.168.1.154:9020";
 //	static String str = "60.205.86.209:9020";
-	/**`
+//	static String str ="192.168.1.173:9020";
+	/**
 	 * 登录
 	 */
 	public  final  static String LoginPath = "http://"+str+"/api/v1/user/login";
@@ -148,22 +148,39 @@ public class URLConstant {
 	/**
 	 * 公证信息提交
 	 */
-	public final static String commitNotarMsg = "http://"+str+"/api/v1/···/commitNotarMsg";
+	public final static String commitNotarMsg = "http://"+str+"/api/v1/notary/commitNotarMsg";
 	/**
 	 * 申请者的信息
 	 */
-	public final static String getAccountMsg = "http://"+str+"/api/v1/···/getAccountMsg";
+	public final static String getAccountMsg = "http://"+str+"/api/v1/notary/getAccountMsg";
 	/**
 	 * 公证支付费用
 	 */
-	public final static String defrayment = "http://"+str+"/api/v1/···/defrayment";
+	public final static String defrayment = "http://"+str+"/api/v1/notary/defrayment";
 	/**
 	 * 我的公证
 	 */
-	public final static String getNotarMsg = "http://"+str+"/api/v1/···/getNotarMsg";
+	public final static String getNotarMsg = "http://"+str+"/api/v1/notary/getNotarMsg";
 	/**
 	 * 撤销公证
 	 */
-	public final static String backoutNotary = "http://"+str+"/api/v1/···/backoutNotary";
+	public final static String backoutNotary = "http://"+str+"/api/v1/notary/backoutNotary";
+	/**
+	 * 获取公证处以及所在城市
+	 */
+	public final static String getNotaryCity = "http://"+str+"/api/v1/notary/getNotaryCity";
+	/**
+	 * 获取公证详情（公证包里的文件列表）
+	 */
+	public final static String getNotarInfo = "http://"+str+"/api/v1/notary/getNotarInfo";
+	/**
+	 * 获取云端证据全部类型的文件
+	 */
+	public final static String getCloudEvidenceAll = "http://"+str+"/api/v1/file/getCloudEvidenceAll";
+	/**
+	 * 获取云端证据二级链接的数据
+	 */
+	public final static String getSubEvidence = "http://"+str+"/api/v1/file/getSubEvidence";
+
 
 }
