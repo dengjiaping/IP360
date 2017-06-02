@@ -29,6 +29,7 @@ import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.RecordDetailActivity;
+import com.truthso.ip360.activity.SecordLevelActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
 import com.truthso.ip360.application.MyApplication;
 import com.truthso.ip360.bean.CloudEviItemBean;
@@ -288,23 +289,29 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				ll_option.setVisibility(View.VISIBLE);
 			}		
 			TextView tv_remark = (TextView) view.findViewById(R.id.tv_remark);
-			TextView tv_download = (TextView) view
-					.findViewById(R.id.tv_download);
-			TextView tv_file_preview = (TextView) view
-					.findViewById(R.id.tv_file_preview);
-			TextView tv_certificate_preview = (TextView) view
-					.findViewById(R.id.tv_certificate_preview);
-			TextView tv_delete = (TextView) view
-					.findViewById(R.id.tv_delete);
-			TextView tv_sqgz = (TextView) view
-					.findViewById(R.id.tv_sqgz);
+			TextView tv_remark1 = (TextView) view.findViewById(R.id.tv_remark1);
+			TextView tv_download = (TextView) view.findViewById(R.id.tv_download);
+			TextView tv_download1 = (TextView) view.findViewById(R.id.tv_download1);
+			TextView tv_file_preview = (TextView) view.findViewById(R.id.tv_file_preview);
+			TextView tv_certificate_preview = (TextView) view.findViewById(R.id.tv_certificate_preview);
+			TextView tv_file_detail = (TextView) view.findViewById(R.id.tv_file_detail);
+			TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
+			TextView tv_sqgz = (TextView) view.findViewById(R.id.tv_sqgz);
+
+
+			tv_file_detail.setOnClickListener(this);
+			tv_file_detail.setTag(position);
 
 			tv_remark.setOnClickListener(this);
 			tv_remark.setTag(position);
+			tv_remark1.setOnClickListener(this);
+			tv_remark1.setTag(position);
 			tv_certificate_preview.setTag(position);
 			tv_certificate_preview.setOnClickListener(this);
 			tv_download.setTag(position);
 			tv_download.setOnClickListener(this);
+			tv_download1.setTag(position);
+			tv_download1.setOnClickListener(this);
 			tv_file_preview.setTag(position);
 			tv_file_preview.setOnClickListener(this);
 			tv_delete.setTag(position);
@@ -313,7 +320,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			tv_sqgz.setOnClickListener(this);
 
 			LinearLayout ll_item = (LinearLayout) view .findViewById(R.id.ll_item);
-			ll_item.setOnClickListener(new OnClickListener() {
+			ll_item.setOnClickListener(new OnClickListener() {//listView条目的点击事件
 
 				@Override
 				public void onClick(View v) {
@@ -329,7 +336,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						updateItem.update(position);
 						isOpen=position;
 						cb_option.setChecked(true);
-					}			
+					}
 				}
 			});
 
@@ -391,6 +398,25 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 			intent.putExtra("dataType", cloudEviItemBean.getDataType());
 			context.startActivity(intent);
 			break;
+		case R.id.tv_remark1://二级页面的文件夹条目备注
+			int position1 = (Integer) v.getTag();
+			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
+			size = cloudEviItemBean1.getFileSize();
+			long l_size1 = Long.parseLong(size);
+			size1 = FileSizeUtil.FormetFileSize(l_size1);
+			Intent intent1 = new Intent(context, FileRemarkActivity.class);
+			intent1.putExtra("count", cloudEviItemBean1.getCount()); // 当次消费钱数
+			intent1.putExtra("fileName", cloudEviItemBean1.getFileTitle());
+			intent1.putExtra("format", cloudEviItemBean1.getFileFormat());
+			intent1.putExtra("date", cloudEviItemBean1.getFileDate());
+			intent1.putExtra("size", size1);
+			intent1.putExtra("mode", cloudEviItemBean1.getFileMode());
+			intent1.putExtra("type", type);
+			intent1.putExtra("remarkText", cloudEviItemBean1.getRemarkText());
+			intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());
+			intent1.putExtra("dataType", cloudEviItemBean1.getDataType());
+			context.startActivity(intent1);
+				break;
 		case R.id.tv_download:// 下载
 			//3s内按钮不能重复点击，不然上次点击的事件，文件还没在下载，重复点击，会下载多个相同文件
 			if(System.currentTimeMillis()<clickTime+3000){
@@ -472,17 +498,22 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				return;
 			}
 			break;
+			case R.id.tv_download1://二级页面的下载
+				//下载二级页面里的所有文件
+
+				break;
+
 		case R.id.tv_certificate_preview:// 证书预览
-			int position1 = (Integer) v.getTag();
-			CloudEviItemBean cloudEviItemBean1 = mDatas.get(position1);
-				if (cloudEviItemBean1.getArreaStatus() ==1){//不欠费
-					Intent intent1 = new Intent(context, CertificationActivity.class);
-					intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());// 唯一标识
-					intent1.putExtra("dataType", cloudEviItemBean1.getDataType());//类型
-					intent1.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
-					context.startActivity(intent1);
+			int position2 = (Integer) v.getTag();
+			CloudEviItemBean cloudEviItemBean2 = mDatas.get(position2);
+				if (cloudEviItemBean2.getArreaStatus() ==1){//不欠费
+					Intent intent2 = new Intent(context, CertificationActivity.class);
+					intent2.putExtra("pkValue", cloudEviItemBean2.getPkValue());// 唯一标识
+					intent2.putExtra("dataType", cloudEviItemBean2.getDataType());//类型
+					intent2.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
+					context.startActivity(intent2);
 					break;
-				}else if(cloudEviItemBean1.getArreaStatus() ==0){//欠费
+				}else if(cloudEviItemBean2.getArreaStatus() ==0){//欠费
 					Toast.makeText(MyApplication.getApplication(),"该文件欠费不能查看证书，请补全费用后查看！",Toast.LENGTH_SHORT).show();
 					return;
 				}
@@ -531,10 +562,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				}
 
 			}
+			case R.id.tv_file_detail://查看二级详情
+				int position_sub = (Integer) v.getTag();
+				CloudEviItemBean cloudEviItemBean_sub = mDatas.get(position_sub);
+				Intent intent_sub = new Intent(context,SecordLevelActivity.class);
+				intent_sub.putExtra("type",cloudEviItemBean_sub.getType());
+				intent_sub.putExtra("pkValue",cloudEviItemBean_sub.getPkValue());
+				context.startActivity(intent_sub);
+				break;
 			case R.id.tv_sqgz://申请公证
-				int position2 = (Integer) v.getTag();
-				CloudEviItemBean cloudEviItemBean2 = mDatas.get(position2);
-				int pkValue = cloudEviItemBean2.getPkValue();
+				int position3 = (Integer) v.getTag();
+				CloudEviItemBean cloudEviItemBean3 = mDatas.get(position3);
+				int pkValue = cloudEviItemBean3.getPkValue();
 
 				//对否实名认证
 				AccountMsg(pkValue);
@@ -584,9 +623,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						UpDownLoadDao.getDao().deleteDownInfoByResourceId(mDatas.get(position).getPkValue()+"");
 						EventBus.getDefault().post(new CEListRefreshEvent());
 					}
-				}).
-				setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						alertDialog.dismiss();
@@ -620,8 +657,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());
 							intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());
 							context.startActivity(intent);
-
-
 						}else if(iscer ==0){//未实名
 							showDialog("是实名认证后才能申请公证，是否立即认证？");
 						}

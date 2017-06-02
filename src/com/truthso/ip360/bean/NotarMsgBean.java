@@ -18,7 +18,8 @@ public class NotarMsgBean extends BaseHttpResponse{
 //            "notarDate": "申请公正的时间",
 //            "notaryNum": "公证编号",
 //            "requestName": "申请人姓名",
-//            "receiverName": "领取者姓名",
+//            "receiverName": "领取者姓名"
+// "notaryOfficeAddress": "公证处地址",
 //            "notarStatus": 1,
 //            "noReason": "公证名称已经存在",
 //            "fileSize": "3.3M",
@@ -26,6 +27,7 @@ public class NotarMsgBean extends BaseHttpResponse{
 //            "monery": "待付费用",
 //            "receiverDate": "证书领取日期",
 //            "pkValue": "此条公证服务id"
+//    notaryPageNum:公证书个数
     private NotarMsg datas;
 
     public NotarMsg getDatas() {
@@ -39,10 +41,12 @@ public class NotarMsgBean extends BaseHttpResponse{
     public class NotarMsg{
         private String notarName;
         private String notarOfficeName;
+        private String notaryOfficeAddress;
         private String notarDate;
         private String notaryNum;
         private String requestName;
         private String receiverName;
+        private String notaryPageNum;
         private int notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
        private String noReason;//审核没有通过的原因
         private String fileSize;
@@ -51,6 +55,23 @@ public class NotarMsgBean extends BaseHttpResponse{
         private String receiverDate;
         private String pkValue;//此条公证服务的id
 //        private List<FileBean> fileList;
+
+
+        public String getNotaryPageNum() {
+            return notaryPageNum;
+        }
+
+        public void setNotaryPageNum(String notaryPageNum) {
+            this.notaryPageNum = notaryPageNum;
+        }
+
+        public String getNotaryOfficeAddress() {
+            return notaryOfficeAddress;
+        }
+
+        public void setNotaryOfficeAddress(String notaryOfficeAddress) {
+            this.notaryOfficeAddress = notaryOfficeAddress;
+        }
 
         public String getNoReason() {
             return noReason;

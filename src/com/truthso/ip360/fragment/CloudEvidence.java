@@ -123,7 +123,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	protected void initView(View view, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		vCode = getVersion();
 		actionBar = (MainActionBar) view.findViewById(R.id.actionbar_cloudevidence);
-		actionBar.setLeftText("拍照取证");
+		actionBar.setLeftText("全部证据");
 		actionBar.setTitle("证据列表");
 		actionBar.setRightText("选择");
 		actionBar.setActionBarOnClickListener(this);
@@ -141,10 +141,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 		if (tag) {
 //			进来显示第一个
-			type = 2;//现场取证
-			mobileType = 50001;
-			leiBieTag =1;
-			getDatas(keywork,type,mobileType,pagerNumber);
+			type = 4;//全部文件
+			mobileType = 0;
+			pagerNumber=1;
+			leiBieTag =5;
+			getAllData();
 		}
 
 		adapter=new CloudEvidenceAdapter(getActivity(),list,type,mobileType);
@@ -611,6 +612,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 				R.id.actionbar_cloudevidence));
 	}
 
+	/**
+	 * 类别中，全部，获取全部类型的云端数据
+	 */
 	private void getAllData() {
 		ApiManager.getInstance().getCloudEvidenceAll(null, pagerNumber, 10, new ApiCallback() {
             @Override
@@ -782,7 +786,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	}
 
 	/**
-	 * 云端证据的接口
+	 * 除全部的类型外，其他类型的，云端证据的接口
 	 */
 	private void getDatas(String keywork,final int type,final int mobileType,int pagerNumber) {
 		showProgress("正在加载数据...");
@@ -869,7 +873,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 	@Override
 	public void toOnLoad() {
-		// TODO Auto-generated method stub
 		lastPosition=0;
 		pagerNumber++;
 		getDatas(searchText,type,mobileType,pagerNumber);

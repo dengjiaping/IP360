@@ -22,9 +22,8 @@ public class DefraymentBean extends BaseHttpResponse{
     }
 
     private class Defrayment{
-        private String status;//0不允许继续 1允许继续
+        private String status;//status:0-正常扣费 1-欠费 2-余额不足（0,1正常，2弹框提示去充值）
     private String showText;
-
         public String getStatus() {
             return status;
         }

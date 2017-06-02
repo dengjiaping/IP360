@@ -28,6 +28,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_marginRight"
+            android:ellipsize="end"
+            android:maxEms="15"
+            android:singleLine="true"
             android:text="我的图片证据1" 
             android:textColor="@color/gray"
             />

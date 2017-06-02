@@ -913,19 +913,17 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 	/**
-	 * 云端证据 全部数据
-	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
+	 * 云端证据 二级里面的证据
 	 * @param pageNumber 当前第几页  非空
 	 * @param pageSize 每页显示条数 非空
 	 * @param callback
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public RequestHandle getSubEvidence(String keywork,int type,int pkValue,int pageNumber,int pageSize,ApiCallback callback){
+	public RequestHandle getSubEvidence(int type,int pkValue,int pageNumber,int pageSize,ApiCallback callback){
 		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
 		CloudEvidenceBean.class, this);
 		request.setPath(URLConstant.getSubEvidence);
-		request.params().add("keywork", keywork);
 		request.params().add("type", type+"");
 		request.params().add("pkValue", pkValue+"");
 		request.params().add("pageNumber", pageNumber+"");
