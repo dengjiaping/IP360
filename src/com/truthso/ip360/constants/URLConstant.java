@@ -181,6 +181,10 @@ public class URLConstant {
 	 * 获取云端证据二级链接的数据
 	 */
 	public final static String getSubEvidence = "http://"+str+"/api/v1/file/getSubEvidence";
+	/**
+	 * 信息审核失败后，重新提交数据
+	 */
+	public final static String commitAgainNotarMsg = "http://"+str+"/api/v1/notary/commitAgainNotarMsg";
 
 
 }

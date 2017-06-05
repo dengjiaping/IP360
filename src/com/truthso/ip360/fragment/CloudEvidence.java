@@ -616,6 +616,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 	 * 类别中，全部，获取全部类型的云端数据
 	 */
 	private void getAllData() {
+		showProgress("正在加载...");
 		ApiManager.getInstance().getCloudEvidenceAll(null, pagerNumber, 10, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
@@ -623,7 +624,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 listView.onRefreshFinished();
                 listView.onLoadFinished();
                 hideProgress();
-
                 bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {

@@ -383,6 +383,13 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <!-- 公证信息提交页面，选择公证处-->
+        <activity
+            android:name="com.truthso.ip360.activity.NotarLocActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <!-- 首页计价规则-->
         <activity
             android:name="com.truthso.ip360.activity.ChargeRulerActivity"

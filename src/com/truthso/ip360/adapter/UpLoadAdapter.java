@@ -132,7 +132,8 @@ public class UpLoadAdapter extends BaseAdapter{
 
 				vh.tv_desc.setTextColor(getResources().getColor(R.color.huise_66666));
 				vh.tv_desc.setText(info.getCompleteDate());
-				vh.tv_size.setText(FileSizeUtil.setFileSize(Long.parseLong(info.getFileSize())));
+				Long l = Long.parseLong(info.getFileSize());
+				vh.tv_size.setText(FileSizeUtil.setFileSize(l));
 				break;
 			case 1://等待wifi
 				vh.rl_progress.setVisibility(View.GONE);

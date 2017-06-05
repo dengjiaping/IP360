@@ -934,4 +934,34 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		return requestHandle;
 	}
 
+	/**
+	 * 公证审核被拒，重新提交
+	 * @param notarCopies 公证书所需份数
+	 * @param domicileLoc 申请人户籍所在地
+	 * @param currentAddress 申请人现居地址
+	 * @param receiverPhoneNum 领取者手机号
+	 * @param receiverEmail 领取者邮箱
+	 * @param pkValue 此条公证服务id
+     * @param callback
+     * @return
+     */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public RequestHandle commitAgainNotarMsg(int notarCopies,String domicileLoc,String currentAddress,String receiverPhoneNum,String receiverEmail,String pkValue,ApiCallback callback){
+		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
+				CloudEvidenceBean.class, this);
+		request.setPath(URLConstant.commitAgainNotarMsg);
+		request.params().add("notarCopies", notarCopies+"");
+		request.params().add("pkValue", pkValue+"");
+		request.params().add("domicileLoc", domicileLoc);
+		request.params().add("currentAddress", currentAddress);
+		request.params().add("receiverPhoneNum", receiverPhoneNum);
+		request.params().add("receiverEmail", receiverEmail);
+		request.params().add("pkValue", pkValue);
+
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
 }

@@ -574,9 +574,10 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 				int position3 = (Integer) v.getTag();
 				CloudEviItemBean cloudEviItemBean3 = mDatas.get(position3);
 				int pkValue = cloudEviItemBean3.getPkValue();
+				int linkcount = cloudEviItemBean3.getLinkCount();
 
 				//对否实名认证
-				AccountMsg(pkValue);
+				AccountMsg(pkValue,linkcount);
 
 				break;
 		default:
@@ -636,7 +637,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	/**
 	 * 申请公证，申请人的账号信息
 	 */
-	private void AccountMsg(final int pkValue) {
+	private void AccountMsg(final int pkValue, final int linkcount) {
 //		showProgress("正在加载...");
 		ApiManager.getInstance().getAccountMsg(new ApiCallback() {
 			@Override
@@ -651,11 +652,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 							Intent intent = new Intent(context, CommitMsgActivity.class);
 							intent.putExtra("type",type);
 							intent.putExtra("pkValue",pkValue);
-							intent.putExtra("count","1");//申请公证的数量
-							intent.putExtra("requestName",bean.getDatas().getRequestName());
-							intent.putExtra("requestCardId",bean.getDatas().getRequestCardId());
-							intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());
-							intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());
+							intent.putExtra("linkcount",linkcount);//申请公证的数量
+							intent.putExtra("requestName",bean.getDatas().getRequestName());//申请人名称
+							intent.putExtra("requestCardId",bean.getDatas().getRequestCardId());//申请人身份证号
+							intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());//申请人手机号码
+							intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());//申请人邮箱
 							context.startActivity(intent);
 						}else if(iscer ==0){//未实名
 							showDialog("是实名认证后才能申请公证，是否立即认证？");
