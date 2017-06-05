@@ -3,14 +3,53 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg">
-<include layout="@layout/top_title"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:id="@+id/rl_title"
+        android:background="@color/jiuhong" >
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/back"
+            android:textColor="@color/white"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="标题"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size" />
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:text="选择"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:textSize="@dimen/text_size" />
+
+    </RelativeLayout>
+
     <com.truthso.ip360.view.RefreshListView
         android:id="@+id/lv_cloudevidence"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
-<!--<ListView
-    android:id="@+id/listview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"></ListView>-->
+    <!--<ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>-->
 </LinearLayout>

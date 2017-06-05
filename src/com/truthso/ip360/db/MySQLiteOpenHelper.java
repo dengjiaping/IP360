@@ -45,7 +45,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             } finally {
                 db.endTransaction();
             }
-        } else if (oldVersion == 2) {
+        } /*else if (oldVersion == 2) {
             db.beginTransaction();
             try {
                 db.execSQL("CREATE TABLE waitupload (_id integer primary key autoincrement,filepath text,filetitle text,filetype integer,filesize text,hashcode text,filedate text,filelocation text,filetime text,latitudelongitude text,encrypte text,rsaid integer,mintime integer,resourceid integer,objectkey text,userid integer)");
@@ -53,7 +53,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             } finally {
                 db.endTransaction();
             }
-        }
+        }*/
     }
 
 }

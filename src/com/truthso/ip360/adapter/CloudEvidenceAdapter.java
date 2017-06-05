@@ -226,7 +226,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	//检查是否已下载
 	private boolean isDownloaded(int pkValue) {
 		DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
-		//FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
 
 		if(!CheckUtil.isEmpty(dbBean)&&dbBean.getResourceUrl()!=null){
 			return FileUtil.IsFileEmpty(dbBean.getResourceUrl());
@@ -235,7 +234,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 	}
 	//检查是否正在下载
 	private boolean isDownloading(int pkValue) {
-		//DbBean dbBean = SqlDao.getSQLiteOpenHelper().searchByPkValue(pkValue);//已经下载
 		FileInfo fileInfo = UpDownLoadDao.getDao().queryDownLoadInfoByResourceId(pkValue);
 		if(!CheckUtil.isEmpty(fileInfo) && fileInfo.getStatus()!=0){
 			return true;
@@ -333,29 +331,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 						cb_option.setChecked(false);
 					}else{
 						ll_option.setVisibility(View.VISIBLE);
-						updateItem.update(position);
+						updateItem.update(position);//关闭上一条展开的item
 						isOpen=position;
 						cb_option.setChecked(true);
 					}
 				}
 			});
-
-			cb_option.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					if(ll_option.getVisibility()==View.VISIBLE){
-						ll_option.setVisibility(View.GONE);
-						isOpen=Integer.MAX_VALUE;
-					}else{
-						ll_option.setVisibility(View.VISIBLE);
-						updateItem.update(position);
-						isOpen=position;
-					}
-				}
-			});
-
-
 		}
 	}
 

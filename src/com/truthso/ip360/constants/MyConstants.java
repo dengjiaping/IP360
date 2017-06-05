@@ -15,7 +15,7 @@ import android.os.Environment;
 public class MyConstants {
 
 	//数据库版本号
-	public static final int DATABASE_VERSION=3;
+	public static final int DATABASE_VERSION=2;
 
 	//回传时候的resultCode
 	
