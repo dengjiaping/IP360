@@ -84,13 +84,8 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         rl_lingquren = (RelativeLayout) findViewById(R.id.rl_lingquren);
         btn_commit = (Button) findViewById(R.id.btn_commit);
 
-
-
-
         rl_gzc_loc.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
-
-
 
     }
 

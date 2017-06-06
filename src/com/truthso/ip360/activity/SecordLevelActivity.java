@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,6 +117,9 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
      */
     public void getSubEvidence(int pagerNumber) {
         showProgress("正在加载...");
+        //停止刷新
+        listView.onRefreshFinished();
+        listView.onLoadFinished();
         ApiManager.getInstance().getSubEvidence(type, pkValue, pagerNumber, 10, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
@@ -225,6 +229,13 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
      * 申请公证，申请人的账号信息
      */
     private void AccountMsg() {
+        List<CloudEviItemBean> selected = adapter.getSelected();
+        StringBuffer sb=new StringBuffer();
+        sb.append(selected.get(0).getType()+"-"+ selected.get(0).getPkValue());
+        for (int i=1;i<selected.size();i++){
+            sb.append(","+selected.get(i).getType()+"-"+ selected.get(i).getPkValue());
+        }
+        Log.i("djj",sb.toString());
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -331,7 +342,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
     }
 
     @Subscribe
-    public void refreshList(SCEListRefreshEvent event) {
+    public void refreshList(CEListRefreshEvent event) {
         adapter.setisOpen(Integer.MAX_VALUE);
         adapter.notifyDataSetInvalidated();
     }

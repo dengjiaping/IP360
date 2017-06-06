@@ -5,4 +5,6 @@ package com.truthso.ip360.bean;
  */
 
 public class Province {
+    private String provinceCode;
+    private String provinceName;
 }
