@@ -17,7 +17,7 @@
     
 </com.truthso.ip360.view.xrefreshview.XRefreshView> -->
  <com.truthso.ip360.view.RefreshListView
-            android:id="@+id/lv_cloudevidence"
+            android:id="@+id/lv_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
      />

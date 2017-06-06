@@ -30,6 +30,7 @@ import com.truthso.ip360.activity.BindEmialActivity;
 import com.truthso.ip360.activity.BindPhoNumActivity;
 import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.LoginActivity;
+import com.truthso.ip360.activity.MyNotarFile;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.ReBindEmailActivity;
 import com.truthso.ip360.activity.ReBindPhoNumActivity;
@@ -73,8 +74,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 
 	private String  accountBalance,str;
 	private ImageView iv_next_yue;
-	private RelativeLayout  rl_Certification, rl_bind_phonum,
-			rl_bind_mail, rl_my_notar,rl_account,rl_charge_rules;
+	private RelativeLayout  rl_Certification, rl_bind_phonum, rl_bind_mail, rl_my_notar,rl_account,rl_charge_rules;
 	private Button btn_logout,btn_count_pay;
 	// 账户余额 ,实名认证状态，已绑定的手机号，已绑定的邮箱
 	private TextView tv_account_balance, tv_realname, tv_bindphonenum,
@@ -122,7 +122,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
-
 
 
 
@@ -309,7 +308,8 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 
 			break;
 			case R.id.rl_my_notar://我的公证
-
+				Intent intent_myfile = new Intent(getActivity(),MyNotarFile.class);
+				startActivity(intent_myfile);
 				break;
 			case R.id.rl_charge_rules://计费规则
 				Intent intent = new Intent(getActivity(), ChargeRulerActivity.class);

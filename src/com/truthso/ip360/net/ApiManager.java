@@ -1,11 +1,8 @@
 package com.truthso.ip360.net;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-
 import android.content.Intent;
-
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.LoginActivity;
 import com.truthso.ip360.application.MyApplication;
