@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.truthso.ip360.event.CityEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,11 +41,11 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private String pkValue; //"2-111,3-223"
     private int type,linkcount;
     private String requestName,requestCardId,requestPhoneNum,requestEmail;
-    private TextView tv_zhengju,tv_name_shenqing,tv_cardid_shenqing;
+    private TextView tv_zhengju,tv_name_shenqing,tv_cardid_shenqing,tv_city_name;
     private int fenshu_int;
     @Override
     public void initData() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -82,10 +86,15 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         tv_cardid_shenqing.setText(requestCardId);
         rl_lingquren = (RelativeLayout) findViewById(R.id.rl_lingquren);
         btn_commit = (Button) findViewById(R.id.btn_commit);
-
+        tv_city_name= (TextView) findViewById(R.id.tv_city_name);
         rl_gzc_loc.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
 
+    }
+
+    @Subscribe
+    public void getCity(CityEvent event){
+        tv_city_name.setText(event.getProvinceName()+"\t"+event.getCityName());
     }
 
     @Override
@@ -106,7 +115,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.rl_gongzhengchu://选择公证处
-//                notaryId=？
+
                 break;
             case R.id.rl_lingquren://选择领取人 1-本人领取；2-其他人自然领取
                 break;
@@ -179,5 +188,10 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

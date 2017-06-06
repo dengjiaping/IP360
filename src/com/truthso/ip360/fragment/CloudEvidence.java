@@ -253,20 +253,21 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         }
 
     }
-    private  volatile  int count;
+    private  volatile  int count,size;
     private StringBuffer pkValueSb;
-    private  List<CloudEviItemBean> secordLevelItems;
-    private int size;
+    private  List<CloudEviItemBean> secordLevelAllItems;
+    List<CloudEviItemBean> secordItems;
+
     /**
      * 申请公证，申请人的账号信息
      */
     private void getPkValue() {
         List<CloudEviItemBean> selected = adapter.getSelected();
-        secordLevelItems=new ArrayList<>();
+        secordLevelAllItems=new ArrayList<>();
         pkValueSb=new StringBuffer();
         size=0;
         if (selected.size() != 0) {
-            List<CloudEviItemBean> secordItems = new ArrayList<>();
+             secordItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
                 if (selected.get(i).getLinkCount() > 1) {
                     secordItems.add(selected.remove(i));
@@ -306,16 +307,19 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();
+                size++;
                 CloudEvidenceBean bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
-                        secordLevelItems.addAll(bean.getDatas()) ;
-                      if(size==){
-                          if (secordLevelItems.size() != 0) {
-                              for (int i=0;i<secordLevelItems.size();i++){
-                                  pkValueSb.append(secordLevelItems.get(i).getType()+"-"+secordLevelItems.get(i).getPkValue()+",");
+                        secordLevelAllItems.addAll(bean.getDatas()) ;
+                      if(size==secordItems.size()){
+                          if (secordLevelAllItems.size() != 0) {
+                              for (int i=0;i<secordLevelAllItems.size();i++){
+                                  pkValueSb.append(secordLevelAllItems.get(i).getType()+"-"+secordLevelAllItems.get(i).getPkValue()+",");
                               }
-                              count+=secordLevelItems.size();
+                              count+=secordLevelAllItems.size();
+                              pkValueSb.deleteCharAt(pkValueSb.length()-1);
+                              getAccountMsg(pkValueSb.toString(),count);
                           }
                       }
                     } else {
@@ -335,6 +339,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
 
     private void getAccountMsg(final String pkValue, final int count) {
+        Log.i("djj","pkValue"+pkValue+":"+count);
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -350,7 +355,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
 
 							intent.putExtra("pkValue",pkValue);
-							intent.putExtra("count",count);//申请公证的数量
+							intent.putExtra("linkcount",count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
