@@ -120,7 +120,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
         //停止刷新
         listView.onRefreshFinished();
         listView.onLoadFinished();
-        ApiManager.getInstance().getSubEvidence(type, pkValue, pagerNumber, 10, new ApiCallback() {
+        ApiManager.getInstance().getSubEvidence(type, pkValue, pagerNumber, 11, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

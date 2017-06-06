@@ -1,0 +1,180 @@
+package com.truthso.ip360.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.truthso.ip360.activity.R;
+import com.truthso.ip360.bean.CloudEviItemBean;
+import com.truthso.ip360.bean.NotarMsg;
+import com.truthso.ip360.bean.NotarMsgBean;
+import com.truthso.ip360.fragment.UpdateItem;
+
+import java.util.List;
+
+/**
+ * @despriction : 我的公证列表的adapter
+ *
+ * @author wsx_summer Email:wangshaoxia@truthso.com
+ * @date 创建时间：2017/6/6 15:58
+ * @version 1.3
+ * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
+ */
+
+public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListener {
+    private Context context;
+    private LayoutInflater inflater;
+    private UpdateItem updateItem;
+    protected List<NotarMsg> mDatas;
+
+
+    private String notarName;
+    private String notarOfficeName;
+    private String notaryOfficeAddress;
+    private String receiver;//本人领取或自然人领取
+    private String notarDate;
+    private String notaryNum;
+    private String applicantCard;//申请人证件号
+    private String requestName;
+    private String receiverName;
+    private String receiverCard;//领取人证件号
+    private String notaryPageNum;//公证书份数
+    private int notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
+    private String noReason;//审核没有通过的原因
+    private String fileSize;
+    private String fileMount;
+    private String monery;
+    private String receiverDate;
+    private String pkValue;//此条公证服务的id
+
+
+    public MyNotarFileAdapter(Context context, List<NotarMsg> mDatas) {
+        super();
+        this.context = context;
+        this.mDatas = mDatas;
+        inflater = LayoutInflater.from(context);
+    }
+    public void setUpdateItem(UpdateItem updateItem){
+        this.updateItem=updateItem;
+    }
+    public void addData(List<NotarMsg> mDatas) {
+        this.mDatas.clear();
+        this.mDatas.addAll(mDatas);
+        notifyDataSetChanged();
+    }
+    public void clearData() {
+        mDatas.clear();
+        notifyDataSetChanged();
+    }
+    @Override
+    public int getCount() {
+        return mDatas.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder vh = null;
+        NotarMsg notarMsg = mDatas.get(position);
+        notarStatus = notarMsg.getNotarStatus();
+        notarName = notarMsg.getNotarName();
+        notarOfficeName = notarMsg.getNotarOfficeName();//公证处名称
+        notaryOfficeAddress = notarMsg.getNotaryOfficeAddress();//公证处地址
+        receiver = notarMsg.getReceiver();//本人领取还是自然人领取
+        notarDate = notarMsg.getNotarDate();//公证日期
+        notaryNum = notarMsg.getNotaryNum();//公证编号
+        applicantCard = notarMsg.getApplicantCard();//申请人证件号
+        requestName = notarMsg.getRequestName();//申请人姓名
+        receiverName = notarMsg.getReceiverName();//领取者姓名
+        receiverCard = notarMsg.getReceiverCard();//领取人证件号
+        notaryPageNum = notarMsg.getNotaryPageNum();//公证书份数
+        noReason = notarMsg.getNoReason();//审核没通过的原因
+        fileSize = notarMsg.getFileSize();//文件总大小
+        fileMount = notarMsg.getFileMount();//文件总数量
+        monery = notarMsg.getMonery();//钱数
+        receiverDate = notarMsg.getReceiverDate();//领取日期
+        pkValue = notarMsg.getPkValue();//此条公证服务的id
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.item_notar_file, null);
+            vh = new ViewHolder();
+            vh = (ViewHolder) convertView.getTag();
+            vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
+            vh.tv_gongzhengchu = (TextView) convertView.findViewById(R.id.tv_gongzhengchu);
+            vh.tv_gzbh = (TextView) convertView.findViewById(R.id.tv_gzbh);
+            vh.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
+            vh.tv_sehnqingren = (TextView) convertView.findViewById(R.id.tv_sehnqingren);
+            vh.tv_lingquren = (TextView) convertView.findViewById(R.id.tv_lingquren);
+            vh.tv_status = (TextView) convertView.findViewById(R.id.tv_status);
+            vh.iv_chexiao = (ImageView) convertView.findViewById(R.id.iv_chexiao);
+            vh.iv_file_detail = (ImageView) convertView.findViewById(R.id.iv_file_detail);
+            vh.iv_gongzhengxinxi = (ImageView) convertView.findViewById(R.id.iv_gongzhengxinxi);
+            convertView.setTag(vh);
+
+        } else {
+            vh = (ViewHolder) convertView.getTag();
+        }
+        vh.tv_filename.setText(notarName);
+        vh.tv_gongzhengchu.setText(notarOfficeName);
+        vh.tv_gzbh.setText(notaryNum);
+        vh.tv_date.setText(notarDate);
+        vh.tv_sehnqingren.setText(requestName);
+        vh.tv_lingquren.setText(receiverName);
+
+        if(notarStatus==0){//0审核拒绝
+            vh.tv_status.setText("审核拒绝");
+        }else if(notarStatus==1){//1等待提交（审核没通过直接跳重新提交页面，信息带过去）
+            vh.tv_status.setText("等待提交");
+        }else if(notarStatus==2){//2等待审核
+            vh.tv_status.setText("等待审核");
+        }else if(notarStatus==3){//3等待付费
+            vh.tv_status.setText("等待付费");
+        }else if(notarStatus==4){//4等待制证
+            vh.tv_status.setText("等待制证");
+        }else if(notarStatus==5){//5已公证
+            vh.tv_status.setText("已公证");
+        }
+
+        vh.iv_chexiao.setOnClickListener(this);
+        vh.iv_file_detail.setOnClickListener(this);
+        vh.iv_gongzhengxinxi.setOnClickListener(this);
+        return convertView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.iv_chexiao://撤销公证
+
+                break;
+            case R.id.iv_file_detail://公证详情
+                break;
+            case R.id.iv_gongzhengxinxi://公证信息
+                break;
+
+        }
+    }
+
+    public class ViewHolder {
+        private TextView tv_filename,tv_gongzhengchu,tv_gzbh,tv_date,tv_sehnqingren,tv_lingquren,tv_status;
+        private ImageView iv_chexiao,iv_file_detail,iv_gongzhengxinxi;
+    }
+    public void notifyDataChange(List<NotarMsg> list) {
+        if (list != null) {
+            this.mDatas = list;
+            notifyDataSetChanged();
+        }
+}}
