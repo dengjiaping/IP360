@@ -155,7 +155,6 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
 
             }
         });
-
     }
 
     @Override
@@ -229,13 +228,8 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
      * 申请公证，申请人的账号信息
      */
     private void AccountMsg() {
-        List<CloudEviItemBean> selected = adapter.getSelected();
-        StringBuffer sb=new StringBuffer();
-        sb.append(selected.get(0).getType()+"-"+ selected.get(0).getPkValue());
-        for (int i=1;i<selected.size();i++){
-            sb.append(","+selected.get(i).getType()+"-"+ selected.get(i).getPkValue());
-        }
-        Log.i("djj",sb.toString());
+        final List<CloudEviItemBean> selected = adapter.getSelected();
+
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -246,13 +240,16 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                     if (bean.getCode() == 200) {
                         int iscer = bean.getDatas().getIscertified();//0-未实名 1-已实名
                         if (iscer == 1) {//已实名
-
+                            StringBuffer sb=new StringBuffer();
+                            sb.append(selected.get(0).getType()+"-"+ selected.get(0).getPkValue());
+                            for (int i=1;i<selected.size();i++){
+                                sb.append(","+selected.get(i).getType()+"-"+ selected.get(i).getPkValue());
+                            }
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
-//							intent.putExtra("type",type);
-//							intent.putExtra("pkValue",);
-//							intent.putExtra("count","1");//申请公证的数量
+							intent.putExtra("pkValue",sb.toString());
+							intent.putExtra("count",selected.size());//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
