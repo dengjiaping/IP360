@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.truthso.ip360.event.CityEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -34,14 +38,14 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private Dialog alertDialog;
     private String name,fenshu,huji,currloc,name_lingqu,cardid_lingqu,phonenum,email;
     private int notaryId;//公证处id
-    private String pkValue1; //"2-111,3-223"
-    private int type,pkValue,linkcount;
+    private String pkValue; //"2-111,3-223"
+    private int type,linkcount;
     private String requestName,requestCardId,requestPhoneNum,requestEmail;
-    private TextView tv_zhengju,tv_name_shenqing,tv_cardid_shenqing;
+    private TextView tv_zhengju,tv_name_shenqing,tv_cardid_shenqing,tv_city_name;
     private int fenshu_int;
     @Override
     public void initData() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -54,14 +58,13 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
 //        intent.putExtra("requestPhoneNum",bean.getDatas().getRequestPhoneNum());//申请人手机号码
 //        intent.putExtra("requestEmail",bean.getDatas().getRequestEmail());//申请人邮箱
 
-        type = getIntent().getIntExtra("type",0);
-        pkValue = getIntent().getIntExtra("pkValue",0);
+        pkValue = getIntent().getStringExtra("pkValue");
         linkcount = getIntent().getIntExtra("linkcount",0);
         requestName = getIntent().getStringExtra("requestName");
         requestCardId = getIntent().getStringExtra("requestCardId");
         requestPhoneNum = getIntent().getStringExtra("requestPhoneNum");
         requestEmail = getIntent().getStringExtra("requestEmail");
-        pkValue1 = type+"-"+pkValue;
+
 
 
         tv_zhengju = (TextView) findViewById(R.id.tv_zhengju);
@@ -83,10 +86,15 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         tv_cardid_shenqing.setText(requestCardId);
         rl_lingquren = (RelativeLayout) findViewById(R.id.rl_lingquren);
         btn_commit = (Button) findViewById(R.id.btn_commit);
-
+        tv_city_name= (TextView) findViewById(R.id.tv_city_name);
         rl_gzc_loc.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
 
+    }
+
+    @Subscribe
+    public void getCity(CityEvent event){
+        tv_city_name.setText(event.getProvinceName()+"\t"+event.getCityName());
     }
 
     @Override
@@ -107,13 +115,12 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.rl_gongzhengchu://选择公证处
-//                notaryId=？
+
                 break;
             case R.id.rl_lingquren://选择领取人 1-本人领取；2-其他人自然领取
                 break;
             case R.id.btn_commit://提交
                 showDialog("是否确认提交?");
-
                 break;
         }
     }
@@ -139,9 +146,6 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         alertDialog.show();
     }
 
-
-
-
 //     * @param notarName 公证名称 notaryId 公证处id notarCopies 公证书所需份数 receiver 领取类型 1-本人领取；2-其他人自然领取
 //     * @param domicileLoc 申请人户籍所在地currentAddress 申请人现居地址pkValue  receiverName 领取者姓名receiverCardId 领取者身份证号
 //     * @param receiverPhoneNum 领取者手机号receiverEmail 领取者邮箱
@@ -161,7 +165,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         email = et_email.getText().toString().trim();
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
-        ApiManager.getInstance().commitNotarMsg(name, 1,fenshu_int,"1", huji, currloc, pkValue1, name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
+        ApiManager.getInstance().commitNotarMsg(name, 1,fenshu_int,"1", huji, currloc, pkValue, name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();
@@ -184,5 +188,10 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

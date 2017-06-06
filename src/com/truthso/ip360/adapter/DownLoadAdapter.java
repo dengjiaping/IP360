@@ -98,6 +98,7 @@ public class DownLoadAdapter extends BaseAdapter  {
 		}
 
 		final FileInfo info = list.get(position);
+		Log.i("djj","info:"+info.toString());
 		if(!CheckUtil.isEmpty(info.getReMark())){
 			vh.tv_fileName.setText(info.getReMark());
 		}else{

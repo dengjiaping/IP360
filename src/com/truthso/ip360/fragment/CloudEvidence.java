@@ -47,6 +47,7 @@ import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.CommitMsgActivity;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.activity.SearchCloudEvidenceActivity;
+import com.truthso.ip360.activity.SecordLevelActivity;
 import com.truthso.ip360.activity.SettingActivity;
 import com.truthso.ip360.adapter.CloudEvidenceAdapter;
 import com.truthso.ip360.adapter.NativeAdapter;
@@ -228,7 +229,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 if (list.size() > 0) {
                     choice();
                 }
-
                 break;
             case R.id.acition_bar_left:
                 if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
@@ -246,18 +246,100 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 deleteAll();
                 break;
             case R.id.btn_sqgz://申请公证
-                AccountMsg();
+                getPkValue();
                 break;
             default:
                 break;
         }
 
     }
+    private  volatile  int count,size;
+    private StringBuffer pkValueSb;
+    private  List<CloudEviItemBean> secordLevelAllItems;
+    List<CloudEviItemBean> secordItems;
 
     /**
      * 申请公证，申请人的账号信息
      */
-    private void AccountMsg() {
+    private void getPkValue() {
+        List<CloudEviItemBean> selected = adapter.getSelected();
+        secordLevelAllItems=new ArrayList<>();
+        pkValueSb=new StringBuffer();
+        size=0;
+        if (selected.size() != 0) {
+             secordItems = new ArrayList<>();
+            for (int i = 0; i < selected.size(); i++) {
+                if (selected.get(i).getLinkCount() > 1) {
+                    secordItems.add(selected.remove(i));
+                } else {
+                    pkValueSb.append(selected.get(i).getType()+"-"+selected.get(i).getPkValue()+",");
+                }
+            }
+            count+=selected.size();
+            if(secordItems.size()>0){
+                for (int i=0;i<secordItems.size();i++){
+                    getsecordItemsPkValue(secordItems.get(i));
+                }
+            }else{
+                getAccountMsg(pkValueSb.toString(),count);
+            }
+
+            adapter.setChoice(false);
+            adapter.notifyDataSetChanged();
+
+            if (!CheckUtil.isEmpty(cloudWindow) && cloudWindow.isShowing()) {
+                actionBar.setRightEnable();
+                cloudWindow.dismiss();
+            }
+            if (!CheckUtil.isEmpty(downLoadwindow)
+                    && downLoadwindow.isShowing()) {
+                cancelChoose();
+            }
+        } else {
+            Toaster.showToast(getActivity(), "请选择删除的条目");
+        }
+    }
+
+
+    public void getsecordItemsPkValue(CloudEviItemBean bean) {
+        showProgress("正在加载...");
+        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
+                size++;
+                CloudEvidenceBean bean = (CloudEvidenceBean) response;
+                if (!CheckUtil.isEmpty(bean)) {
+                    if (bean.getCode() == 200) {
+                        secordLevelAllItems.addAll(bean.getDatas()) ;
+                      if(size==secordItems.size()){
+                          if (secordLevelAllItems.size() != 0) {
+                              for (int i=0;i<secordLevelAllItems.size();i++){
+                                  pkValueSb.append(secordLevelAllItems.get(i).getType()+"-"+secordLevelAllItems.get(i).getPkValue()+",");
+                              }
+                              count+=secordLevelAllItems.size();
+                              pkValueSb.deleteCharAt(pkValueSb.length()-1);
+                              getAccountMsg(pkValueSb.toString(),count);
+                          }
+                      }
+                    } else {
+                        Toaster.showToast(getActivity(), bean.getMsg());
+                    }
+                } else {
+                    Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
+                }
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            }
+        });
+    }
+
+
+
+    private void getAccountMsg(final String pkValue, final int count) {
+        Log.i("djj","pkValue"+pkValue+":"+count);
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -268,20 +350,17 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                     if (bean.getCode() == 200) {
                         int iscer = bean.getDatas().getIscertified();//0-未实名 1-已实名
                         if (iscer == 1) {//已实名
-
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
-//							intent.putExtra("type",type);
-//							intent.putExtra("pkValue",);
-//							intent.putExtra("count","1");//申请公证的数量
+
+							intent.putExtra("pkValue",pkValue);
+							intent.putExtra("linkcount",count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
                             intent.putExtra("requestEmail", bean.getDatas().getRequestEmail());
                             startActivity(intent);
-
-
                         } else if (iscer == 0) {//未实名
                             showDialog("是实名认证后才能申请公证，是否立即认证？");
                         }
@@ -307,9 +386,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     private void deleteAll() {
         List<CloudEviItemBean> selected = adapter.getSelected();
         if (selected.size() != 0) {
+            List<CloudEviItemBean> secordItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
-                delete(selected.get(i));
+                if (selected.get(i).getLinkCount() > 1) {
+                    secordItems.add(selected.remove(i));
+                } else {
+                    delete(selected.get(i));
+                }
             }
+            deleteSecordItem(secordItems);
             adapter.setChoice(false);
             adapter.notifyDataSetChanged();
 
@@ -323,6 +408,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             }
         } else {
             Toaster.showToast(getActivity(), "请选择删除的条目");
+        }
+    }
+
+    //删除二级页面的条目
+    private void deleteSecordItem(List<CloudEviItemBean> secordItems) {
+        for (int i = 0; i < secordItems.size(); i++) {
+            getSubEvidence(secordItems.get(i), 2);
         }
     }
 
@@ -350,23 +442,34 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * 下载选择的
      */
     private void downloadAll() {
+
         if (!NetStatusUtil.isNetValid(getActivity())) {//无网络
             Toaster.showToast(getActivity(), "网络无连接，请连接网络后重试");
             return;
         }
         List<CloudEviItemBean> selected = adapter.getSelected();
+
         if (selected.size() != 0) {
+            List<CloudEviItemBean> secordLevelItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
-                if (isDownloaded(selected.get(i).getPkValue())) {//文件已经下载到本地
-                    Toaster.showToast(getActivity(), "文件已经下载到本地");
-                    continue;
+                //有二级页面的先调接口再下载
+                if(selected.get(i).getLinkCount() > 0){
+                    secordLevelItems.add(selected.remove(i));
+                }else{
+                    if (isDownloaded(selected.get(i).getPkValue())) {//文件已经下载到本地
+                        Toaster.showToast(getActivity(), "文件已经下载到本地");
+                        continue;
+                    }
+                    if (isDownloading(selected.get(i).getPkValue())) {
+                        Toaster.showToast(getActivity(), "文件正在下载");
+                        continue;
+                    }
+                    download(selected.get(i));
                 }
-                if (isDownloading(selected.get(i).getPkValue())) {
-                    Toaster.showToast(getActivity(), "文件正在下载");
-                    continue;
-                }
-                download(selected.get(i));
             }
+
+            downloadSecordLevelItems(secordLevelItems);
+
             adapter.setChoice(false);
             adapter.notifyDataSetChanged();
 
@@ -381,7 +484,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         } else {
             Toaster.showToast(getActivity(), "没有要下载的文件");
         }
+    }
 
+    //下载二级页面中的证据
+    private void downloadSecordLevelItems(List<CloudEviItemBean> secordLevelItems) {
+        for (int i = 0; i < secordLevelItems.size(); i++) {
+            getSubEvidence(secordLevelItems.get(i), 1);
+        }
     }
 
     //检查是否已下载
@@ -411,7 +520,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      */
     private void download(final CloudEviItemBean data) {
 
-        ApiManager.getInstance().downloadFile(data.getPkValue(), type, data.getDataType(),
+        ApiManager.getInstance().downloadFile(data.getPkValue(), data.getType(), data.getDataType(),
                 new ApiCallback() {
 
                     @Override
@@ -465,6 +574,54 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                         }
                     }
                 });
+    }
+
+    /**
+     * 获取二级链接的数据
+     * downloadOrDelete 1-下载 2-删除
+     */
+    public void getSubEvidence(CloudEviItemBean bean, final int downloadOrDelete) {
+        showProgress("正在加载...");
+        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
+                CloudEvidenceBean bean = (CloudEvidenceBean) response;
+                if (!CheckUtil.isEmpty(bean)) {
+                    if (bean.getCode() == 200) {
+                        List<CloudEviItemBean> secordLevelItems = bean.getDatas();
+
+                        if (secordLevelItems.size() != 0) {
+                            if (downloadOrDelete == 1) {
+                                for (int i = 0; i < secordLevelItems.size(); i++) {
+                                    if (isDownloaded(secordLevelItems.get(i).getPkValue())) {//文件已经下载到本地
+                                        Toaster.showToast(getActivity(), "文件已经下载到本地");
+                                        continue;
+                                    }
+                                    if (isDownloading(secordLevelItems.get(i).getPkValue())) {
+                                        Toaster.showToast(getActivity(), "文件正在下载");
+                                        continue;
+                                    }
+                                    download(secordLevelItems.get(i));
+                                }
+                            } else {
+                                for (int i = 0; i < secordLevelItems.size(); i++) {
+                                    delete(secordLevelItems.get(i));
+                                }
+                            }
+                        }
+                    } else {
+                        Toaster.showToast(getActivity(), bean.getMsg());
+                    }
+                } else {
+                    Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
+                }
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            }
+        });
     }
 
     // 显示类别popwindow
