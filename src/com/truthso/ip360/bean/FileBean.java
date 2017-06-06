@@ -2,6 +2,8 @@ package com.truthso.ip360.bean;
 
 import com.truthso.ip360.net.BaseHttpResponse;
 
+import java.util.List;
+
 /**
  * @despriction :我的公证 中的证据信息
  *
@@ -20,81 +22,13 @@ public class FileBean extends BaseHttpResponse{
 //    pkValue	证据记录主键值	Integer	证据记录唯一标识，查看证书时候传	非空
 //    type	请求展示类别	Integer	1-确权  2-现场取证 3-pc取证	非空	2
 //    mobileType	取证类型	Integer	现场取证 （拍照（50001）、录像（50003）、录音（50002）	可空	现场取证传递此值
-  private File datas;
+  private List<File> datas;
 
-    public File getDatas() {
+    public List<File> getDatas() {
         return datas;
     }
 
-    public void setDatas(File datas) {
+    public void setDatas(List<File> datas) {
         this.datas = datas;
     }
-
-    public class File{
-
-        private String fileSize;
-        private String fileTitle;
-        private String fileDate;
-        private String fileUrl;
-        private int pkValue;
-        private int type;
-        private int mobileType;
-
-        public String getFileSize() {
-            return fileSize;
-        }
-
-        public void setFileSize(String fileSize) {
-            this.fileSize = fileSize;
-        }
-
-        public String getFileTitle() {
-            return fileTitle;
-        }
-
-        public void setFileTitle(String fileTitle) {
-            this.fileTitle = fileTitle;
-        }
-
-        public String getFileDate() {
-            return fileDate;
-        }
-
-        public void setFileDate(String fileDate) {
-            this.fileDate = fileDate;
-        }
-
-        public String getFileUrl() {
-            return fileUrl;
-        }
-
-        public void setFileUrl(String fileUrl) {
-            this.fileUrl = fileUrl;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public int getPkValue() {
-            return pkValue;
-        }
-
-        public void setPkValue(int pkValue) {
-            this.pkValue = pkValue;
-        }
-
-        public int getMobileType() {
-            return mobileType;
-        }
-
-        public void setMobileType(int mobileType) {
-            this.mobileType = mobileType;
-        }
-    }
-
 }

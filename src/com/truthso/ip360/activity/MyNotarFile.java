@@ -121,7 +121,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
     public void toOnLoad() {
 //        lastPosition = 0;
         pagerNumber++;
-//        getDatas(searchText, type, mobileType, pagerNumber);
+        getData();
     }
 
 

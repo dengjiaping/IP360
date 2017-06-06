@@ -1,6 +1,10 @@
 package com.truthso.ip360.adapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +13,29 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.activity.NotarFileDetail;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
+import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.NotarMsg;
 import com.truthso.ip360.bean.NotarMsgBean;
+import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.CEListRefreshEvent;
 import com.truthso.ip360.fragment.UpdateItem;
+import com.truthso.ip360.net.ApiCallback;
+import com.truthso.ip360.net.ApiManager;
+import com.truthso.ip360.net.BaseHttpResponse;
+import com.truthso.ip360.updownload.FileInfo;
+import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.utils.FileUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * @despriction : 我的公证列表的adapter
@@ -32,7 +52,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
     private UpdateItem updateItem;
     protected List<NotarMsg> mDatas;
 
-
+    private Dialog alertDialog;
     private String notarName;
     private String notarOfficeName;
     private String notaryOfficeAddress;
@@ -158,14 +178,40 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.iv_chexiao://撤销公证
-
+               int position = (Integer) v.getTag();
+               NotarMsg  notarnum =  mDatas.get(position);
+                showDialog(notarnum.getNotaryNum());
                 break;
             case R.id.iv_file_detail://公证详情
+                int position1 = (Integer) v.getTag();
+                NotarMsg  notarnum1 =  mDatas.get(position1);
+                Intent intent = new Intent(context,NotarFileDetail.class);
+                intent.putExtra("pkValue",notarnum1.getPkValue());
+                context.startActivity(intent);
                 break;
             case R.id.iv_gongzhengxinxi://公证信息
+                int position2 = (Integer) v.getTag();
+                NotarMsg  notarnum2 =  mDatas.get(position2);
                 break;
 
         }
+    }
+
+    /**
+     * 撤销公证
+     */
+    private void chexiaoNotar(String notaryNum) {
+        ApiManager.getInstance().backoutNotary(notaryNum, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 
     public class ViewHolder {
@@ -177,4 +223,27 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
             this.mDatas = list;
             notifyDataSetChanged();
         }
-}}
+}
+
+    private void showDialog(final String notarNum) {
+        alertDialog = new AlertDialog.Builder(context).
+                setTitle("温馨提示").
+                setMessage("撤销公证将删除此条公证申请，是否确认？").
+                setIcon(R.drawable.ww).
+                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //撤销
+                        chexiaoNotar(notarNum);
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        }).
+                create();
+        alertDialog.show();
+    }
+
+}

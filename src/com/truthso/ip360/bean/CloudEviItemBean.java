@@ -39,6 +39,25 @@ public class CloudEviItemBean {
 	private String ossUrl;
 	private int dataType;// 1-url确权  2-其他确权  3-现场取证 4-pc取证
 	 private int linkCount;//没有二级返回1，有二级的话，1级加二级
+	private  int mobileType;
+	private String fileFormatType;//1-文本 2-图片 3-音视频
+
+	public String getFileFormatType() {
+		return fileFormatType;
+	}
+
+	public void setFileFormatType(String fileFormatType) {
+		this.fileFormatType = fileFormatType;
+	}
+
+	public int getMobileType() {
+		return mobileType;
+	}
+
+	public void setMobileType(int mobileType) {
+		this.mobileType = mobileType;
+	}
+
 	public boolean isOpen = false;
 
 	public int getLinkCount() {
