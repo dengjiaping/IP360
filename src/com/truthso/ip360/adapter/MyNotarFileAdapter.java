@@ -138,8 +138,11 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
             vh.tv_lingquren = (TextView) convertView.findViewById(R.id.tv_lingquren);
             vh.tv_status = (TextView) convertView.findViewById(R.id.tv_status);
             vh.iv_chexiao = (ImageView) convertView.findViewById(R.id.iv_chexiao);
+            vh.iv_chexiao.setTag(position);
             vh.iv_file_detail = (ImageView) convertView.findViewById(R.id.iv_file_detail);
+            vh.iv_file_detail.setTag(position);
             vh.iv_gongzhengxinxi = (ImageView) convertView.findViewById(R.id.iv_gongzhengxinxi);
+            vh.iv_gongzhengxinxi.setTag(position);
             convertView.setTag(vh);
 
         } else {

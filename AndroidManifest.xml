@@ -486,6 +486,13 @@
             android:theme="@style/NoAnimationTheme"
             >
         </activity>
+        <activity
+            android:name="com.truthso.ip360.activity.NotarFileDetail"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
     </application>
 
 </manifest>

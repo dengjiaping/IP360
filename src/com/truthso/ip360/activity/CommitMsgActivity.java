@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.truthso.ip360.event.CityEvent;
+import com.truthso.ip360.event.NotaryOfficEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -44,7 +45,8 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private TextView tv_zhengju,tv_name_shenqing,tv_cardid_shenqing,tv_city_name,tv_gongzhengchu,tv_receiver;
     private int fenshu_int;
     private String cityName,gongzhengchu,tvreceiver;
-
+    private CityEvent cityEvent;
+    private String receiver;
     @Override
     public void initData() {
         EventBus.getDefault().register(this);
@@ -71,6 +73,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         et_phonenum = (EditText) findViewById(R.id.et_phonenum);
         et_email = (EditText) findViewById(R.id.et_email);
         rl_gongzhengchu = (RelativeLayout) findViewById(R.id.rl_gongzhengchu);
+        rl_gongzhengchu.setOnClickListener(this);
         rl_gzc_loc = (RelativeLayout) findViewById(R.id.rl_gzc_loc);
 
         tv_name_shenqing = (TextView) findViewById(R.id.tv_name_shenqing);
@@ -78,18 +81,24 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         tv_cardid_shenqing = (TextView) findViewById(R.id.tv_cardid_shenqing);
         tv_cardid_shenqing.setText(requestCardId);
         rl_lingquren = (RelativeLayout) findViewById(R.id.rl_lingquren);
+        rl_lingquren.setOnClickListener(this);
         btn_commit = (Button) findViewById(R.id.btn_commit);
         tv_city_name= (TextView) findViewById(R.id.tv_city_name);
         tv_receiver = (TextView)findViewById(R.id.tv_receiver);
         tv_gongzhengchu = (TextView) findViewById(R.id.tv_gongzhengchu);
         rl_gzc_loc.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
-
     }
 
     @Subscribe
     public void getCity(CityEvent event){
+        this.cityEvent=event;
         tv_city_name.setText(event.getProvinceName()+"\t"+event.getCityName());
+    }
+
+    @Subscribe
+    public void getNotarOffic(NotaryOfficEvent event){
+        tv_gongzhengchu.setText(event.getName());
     }
 
     @Override
@@ -110,14 +119,35 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.rl_gongzhengchu://选择公证处
-
+                if(cityEvent==null){
+                    return;
+                }
+                Intent intent1 = new Intent(CommitMsgActivity.this,NotarLocActivity.class);
+                intent1.putExtra("page_type","notaryoffic");
+                intent1.putExtra("citycode",cityEvent.getCityCode());
+                startActivity(intent1);
                 break;
             case R.id.rl_lingquren://选择领取人 1-本人领取；2-其他自然人领取
-
+                Intent intent2 = new Intent(CommitMsgActivity.this,NotarLocActivity.class);
+                intent2.putExtra("page_type","receiver");
+                startActivityForResult(intent2,101);
                 break;
             case R.id.btn_commit://提交
                 showDialog("是否确认提交?");
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==101){
+            receiver= data.getStringExtra("receiver");
+            if(receiver!=null&&receiver.equals("1")){
+                tv_receiver.setText("本人领取");
+            }else{
+                tv_receiver.setText("其他自然人领取");
+            }
         }
     }
 
@@ -169,7 +199,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         }
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
-        ApiManager.getInstance().commitNotarMsg(name, 2,fenshu_int,2+"", huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
+        ApiManager.getInstance().commitNotarMsg(name, 2,fenshu_int,receiver, huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
 //        ApiManager.getInstance().commitNotarMsg("测试固定值", 2,3,2+"", "河南", "北京", "2-2856", "王某某", "12387917413", "18810075505","960894632@qq.com", new ApiCallback() {
         @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {

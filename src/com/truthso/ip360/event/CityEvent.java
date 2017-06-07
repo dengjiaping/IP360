@@ -10,6 +10,7 @@ public class CityEvent {
     private String provinceCode;
     private String provinceName;
 
+
     public String getProvinceName() {
         return provinceName;
     }
