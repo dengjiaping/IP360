@@ -547,7 +547,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         if (!CheckUtil.isEmpty(bean)) {
                             if (bean.getCode() == 200) {
                                 FileInfo info = new FileInfo();
-//									String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + data.getFileTitle();
+//							    String nativePath = MyConstants.DOWNLOAD_PATH+ "/" + data.getFileTitle();
                                 String fileUrl = bean.getDatas().getFileUrl();//阿里云的objectKey
                                 String fileUrlformat = fileUrl.replace("/", "-");
                                 //因为有文件名相同的情况，把阿里云的objectkey路径当成文件名

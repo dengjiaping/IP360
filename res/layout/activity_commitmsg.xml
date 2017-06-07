@@ -216,6 +216,7 @@
                     android:layout_toRightOf="@+id/tv_name"
                     android:hint="请输入您申请公证的名称"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
@@ -307,6 +308,7 @@
                     android:src="@drawable/sanjiao" />
 
                 <TextView
+                    android:id="@+id/tv_gongzhengchu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -355,6 +357,7 @@
                     android:src="@drawable/sanjiao" />
 
                 <TextView
+                    android:id="@+id/tv_receiver"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -400,6 +403,7 @@
                     android:background="@null"
                     android:hint="请输入您申请公证书的份数"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
         </LinearLayout>
@@ -542,7 +546,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="户籍所在地"
+                    android:text="户籍所在地:"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -557,6 +561,7 @@
                     android:background="@null"
                     android:hint="请输入您的户籍所在地"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
 
@@ -584,7 +589,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="现居地址"
+                    android:text="现居地址:"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -599,6 +604,7 @@
                     android:background="@null"
                     android:hint="请输入您的现居地址"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
 
@@ -657,7 +663,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="领取人姓名"
+                    android:text="领取人姓名:"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -672,6 +678,7 @@
                     android:background="@null"
                     android:hint="请输入领取人姓名"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
 
@@ -687,7 +694,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="身份证号"
+                    android:text="身份证号:"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -702,6 +709,7 @@
                     android:background="@null"
                     android:hint="请输入身份证号"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
 
@@ -731,6 +739,7 @@
                     android:background="@null"
                     android:hint="请输入领取人手机号"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
 
@@ -745,7 +754,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/layout_marginLeft"
-                    android:text="邮箱"
+                    android:text="邮箱:"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />
 
@@ -760,6 +769,7 @@
                     android:background="@null"
                     android:hint="请输入领取人邮箱"
                     android:textSize="@dimen/text_item"
+                    android:textColor="@color/item_text_color"
                     />
             </RelativeLayout>
         </LinearLayout>

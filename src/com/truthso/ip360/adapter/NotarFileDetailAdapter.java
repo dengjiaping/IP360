@@ -84,7 +84,6 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_zhengju_detail, null);
             vh = new ViewHolder();
-            vh = (ViewHolder) convertView.getTag();
             vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
             vh.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
             vh.tv_filesize = (TextView) convertView.findViewById(R.id.tv_filesize);

@@ -51,7 +51,6 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
     private LayoutInflater inflater;
     private UpdateItem updateItem;
     protected List<NotarMsg> mDatas;
-
     private Dialog alertDialog;
     private String notarName;
     private String notarOfficeName;
@@ -131,7 +130,6 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_notar_file, null);
             vh = new ViewHolder();
-            vh = (ViewHolder) convertView.getTag();
             vh.tv_filename = (TextView) convertView.findViewById(R.id.tv_filename);
             vh.tv_gongzhengchu = (TextView) convertView.findViewById(R.id.tv_gongzhengchu);
             vh.tv_gzbh = (TextView) convertView.findViewById(R.id.tv_gzbh);
@@ -189,7 +187,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                 intent.putExtra("pkValue",notarnum1.getPkValue());
                 context.startActivity(intent);
                 break;
-            case R.id.iv_gongzhengxinxi://公证信息
+            case R.id.iv_gongzhengxinxi://公证信息(公证到哪一步了 )
                 int position2 = (Integer) v.getTag();
                 NotarMsg  notarnum2 =  mDatas.get(position2);
                 break;

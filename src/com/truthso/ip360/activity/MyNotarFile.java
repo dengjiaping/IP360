@@ -68,7 +68,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                             Toaster.showToast(MyNotarFile.this,bean.getMsg());
                         }
                 }else{
-                    Toaster.showToast(MyNotarFile.this,"加载失败");
+                    Toaster.showToast(MyNotarFile.this,"未查询到数据");
                 }
 
             }

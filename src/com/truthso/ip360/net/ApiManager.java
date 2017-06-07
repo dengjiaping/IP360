@@ -51,19 +51,23 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	public void onRequestResult(RequestHandle requestHandle, int errorCode,
 			String message, BaseHttpResponse response) {
 		//被挤掉的时候，调证据列表的接口会闪退一下，因为response为空
-		if (CheckUtil.isEmpty(response)||response.getCode() == 405||response.getCode()==400) {//其他设备
-			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
-			intent.putExtra("tag","otherlogin");
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			MyApplication.getInstance().startActivity(intent);
-			return;
-		}else if(response.getCode() == 501){//登陆失效
-			Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
-			intent.putExtra("tag","ineffic");
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			MyApplication.getInstance().startActivity(intent);
-			return;
+//		if (CheckUtil.isEmpty(response)||response.getCode() == 405||response.getCode()==400) {//其他设备
+		if(!CheckUtil.isEmpty(response)){
+			if (response.getCode() == 405||response.getCode()==400) {//其他设备
+				Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
+				intent.putExtra("tag","otherlogin");
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				MyApplication.getInstance().startActivity(intent);
+				return;
+			}else if(response.getCode() == 501){//登陆失效
+				Intent intent = new Intent(MyApplication.getInstance(), LoginActivity.class);
+				intent.putExtra("tag","ineffic");
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				MyApplication.getInstance().startActivity(intent);
+				return;
+			}
 		}
+
 
 		if (requestHandle != null) {
 			BaseHttpRequest request = requestHashMap.get(requestHandle);
