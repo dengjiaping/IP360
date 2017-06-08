@@ -75,7 +75,6 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         rl_gongzhengchu = (RelativeLayout) findViewById(R.id.rl_gongzhengchu);
         rl_gongzhengchu.setOnClickListener(this);
         rl_gzc_loc = (RelativeLayout) findViewById(R.id.rl_gzc_loc);
-
         tv_name_shenqing = (TextView) findViewById(R.id.tv_name_shenqing);
         tv_name_shenqing.setText(requestName);
         tv_cardid_shenqing = (TextView) findViewById(R.id.tv_cardid_shenqing);
@@ -145,8 +144,16 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
             receiver= data.getStringExtra("receiver");
             if(receiver!=null&&receiver.equals("1")){
                 tv_receiver.setText("本人领取");
+                et_name_lingqu.setText(requestName);
+                et_carsid_lingqu.setText(requestCardId);
+                et_phonenum.setText(requestPhoneNum);
+                et_email.setText(requestEmail);
             }else{
                 tv_receiver.setText("其他自然人领取");
+                et_name_lingqu.setText("");
+                et_carsid_lingqu.setText("");
+                et_phonenum.setText("");
+                et_email.setText("");
             }
         }
     }
@@ -182,7 +189,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private void commitMsg() {
         name = et_name.getText().toString().trim();
         fenshu = et_fenshu.getText().toString().trim();
-//        fenshu_int =  Integer.parseInt(fenshu);
+        fenshu_int =  Integer.parseInt(fenshu);
         huji = et_huji.getText().toString().trim();
         currloc = et_currloc.getText().toString().trim();
         name_lingqu = et_name_lingqu.getText().toString().trim();
@@ -192,15 +199,14 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         cityName = tv_city_name.getText().toString().trim();
         gongzhengchu = tv_gongzhengchu.getText().toString().trim();
         tvreceiver = tv_receiver.getText().toString().trim();
-//        gongzhengchu.equals("请选择")||tvreceiver.equals("请选择")||cityName.equals("请选择")||
-        if (CheckUtil.isEmpty(name)||CheckUtil.isEmpty(fenshu)||CheckUtil.isEmpty(huji)||CheckUtil.isEmpty(currloc)||CheckUtil.isEmpty(name_lingqu)||CheckUtil.isEmpty(cardid_lingqu)||CheckUtil.isEmpty(phonenum)||CheckUtil.isEmpty(email)){
+
+        if (gongzhengchu.equals("请选择")||tvreceiver.equals("请选择")||cityName.equals("请选择")||CheckUtil.isEmpty(name)||CheckUtil.isEmpty(fenshu)||CheckUtil.isEmpty(huji)||CheckUtil.isEmpty(currloc)||CheckUtil.isEmpty(name_lingqu)||CheckUtil.isEmpty(cardid_lingqu)||CheckUtil.isEmpty(phonenum)||CheckUtil.isEmpty(email)){
             Toaster.showToast(this,"还有信息没有选择或填写");
-//            return;
+            return;
         }
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
-        ApiManager.getInstance().commitNotarMsg(name, 2,fenshu_int,receiver, huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
-//        ApiManager.getInstance().commitNotarMsg("测试固定值", 2,3,2+"", "河南", "北京", "2-2856", "王某某", "12387917413", "18810075505","960894632@qq.com", new ApiCallback() {
+        ApiManager.getInstance().commitNotarMsg(name, 2,fenshu_int,receiver, huji, currloc, pkValue, name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
         @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

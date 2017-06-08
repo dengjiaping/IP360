@@ -133,13 +133,13 @@ public class NotarLocActivity extends BaseActivity implements AdapterView.OnItem
         switch (v.getId()){
             case R.id.tv_other:
                 Intent intent=new Intent();
-                intent.putExtra("receiver","1");
+                intent.putExtra("receiver","2");
                 setResult(101,intent);
                 finish();
                 break;
             case R.id.tv_self:
                 Intent intent1=new Intent();
-                intent1.putExtra("receiver","2");
+                intent1.putExtra("receiver","1");
                 setResult(101,intent1);
                 finish();
                 break;
