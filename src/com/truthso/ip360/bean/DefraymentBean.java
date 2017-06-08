@@ -21,9 +21,10 @@ public class DefraymentBean extends BaseHttpResponse{
         this.datas = datas;
     }
 
-    private class Defrayment{
+    public class Defrayment{
         private String status;//status:0-正常扣费 1-欠费 2-余额不足（0,1正常，2弹框提示去充值）
-    private String showText;
+        private String showText;
+
         public String getStatus() {
             return status;
         }
@@ -33,11 +34,10 @@ public class DefraymentBean extends BaseHttpResponse{
         }
 
         public String getShowText() {
-        return showText;
-    }
+            return showText;
+        }
 
-    public void setShowText(String showText) {
-        this.showText = showText;
-    }
-}
-}
+        public void setShowText(String showText) {
+            this.showText = showText;
+        }
+    }}

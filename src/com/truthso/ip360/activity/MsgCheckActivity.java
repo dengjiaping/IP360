@@ -66,8 +66,6 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
             tv_reason.setText(reason);
             btn_commitagin.setVisibility(View.VISIBLE);
-        }else{
-
         }
 
     }

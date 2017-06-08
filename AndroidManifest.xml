@@ -376,6 +376,13 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <!-- 公证信息拒绝，重新提交-->
+        <activity
+            android:name="com.truthso.ip360.activity.CommitAgainNotarMsg"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <!-- 二级页面的公证详情-->
         <activity
             android:name="com.truthso.ip360.activity.SecordLevelActivity"

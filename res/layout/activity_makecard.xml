@@ -120,6 +120,7 @@
 
     <!--等待制证-->
     <LinearLayout
+        android:id="@+id/ll_zhizheng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -176,6 +177,7 @@
             android:layout_marginLeft="10dp" />
     </LinearLayout>
     <!--取证书领取-->
+   <!-- android:visibility="gone"-->
     <LinearLayout
         android:id="@+id/ll_lingqu"
         android:layout_width="match_parent"
@@ -183,7 +185,7 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
+
         android:layout_weight="0.10"
         android:weightSum="1">
         <RelativeLayout

@@ -36,7 +36,8 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
     private List<File> datas;
     private NotarFileDetailAdapter adapter;
     private FileBean bean;
-    private int pkValue;
+    private String pkValue;
+    private int pkValue_int;
     @Override
     public void initData() {
         getData();
@@ -44,7 +45,10 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
 
     @Override
     public void initView() {
-        pkValue = getIntent().getIntExtra("pkValue",0);
+        pkValue = getIntent().getStringExtra("pkValue");
+        if (!CheckUtil.isEmpty(pkValue)){
+            pkValue_int = Integer.parseInt(pkValue);
+        }
         listView = (RefreshListView) findViewById(R.id.lv_listview);
         listView.setOnRefreshListener(this);
         listView.setOnLoadListener(this);
@@ -78,7 +82,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
      */
     private void getData() {
         showProgress("正在加载...");
-        ApiManager.getInstance().getNotarInfo(pagerNumber, 10,pkValue, new ApiCallback() {
+        ApiManager.getInstance().getNotarInfo(pagerNumber, 10,pkValue_int, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

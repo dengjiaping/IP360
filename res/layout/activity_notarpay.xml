@@ -289,7 +289,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/item_text_color"/>
             <TextView
-                android:id="@+id/tv_gonzhengchu_loc"
+                android:id="@+id/tv_fenshu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_loc"
@@ -312,6 +312,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/item_text_color"/>
             <TextView
+                android:id="@+id/tv_filemount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_tis"
@@ -328,6 +329,7 @@
             android:background="@color/white"
            android:layout_alignParentBottom="true">
             <TextView
+                android:id="@+id/tv_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
