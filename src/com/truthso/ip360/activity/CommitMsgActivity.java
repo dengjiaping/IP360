@@ -95,9 +95,11 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         tv_city_name.setText(event.getProvinceName()+"\t"+event.getCityName());
     }
 
+    private int notarOfficId;
     @Subscribe
-    public void getNotarOffic(NotaryOfficEvent event){
-        tv_gongzhengchu.setText(event.getName());
+    public void getNotaryOffic(NotaryOfficEvent event){
+        notarOfficId=event.getNotarOfficId();
+        tv_gongzhengchu.setText(event.getNotarOfficName());
     }
 
     @Override
@@ -206,7 +208,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         }
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
-        ApiManager.getInstance().commitNotarMsg(name, 2,fenshu_int,receiver, huji, currloc, pkValue, name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
+        ApiManager.getInstance().commitNotarMsg(name, notarOfficId,fenshu_int,receiver, huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
         @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

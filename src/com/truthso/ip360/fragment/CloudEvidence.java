@@ -265,6 +265,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         List<CloudEviItemBean> selected = adapter.getSelected();
         secordLevelAllItems=new ArrayList<>();
         pkValueSb=new StringBuffer();
+        count=0;
         size=0;
         if (selected.size() != 0) {
              secordItems = new ArrayList<>();

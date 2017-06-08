@@ -62,7 +62,8 @@ public class NotarOfficAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 NotaryOfficEvent event=new NotaryOfficEvent();
-                event.setName(datas.get(position).getNotaryName());
+                event.setNotarOfficName(datas.get(position).getNotaryName());
+                event.setNotarOfficId(datas.get(position).getNotaryId());
                 EventBus.getDefault().post(event);
                 notarLocActivity.finish();
             }

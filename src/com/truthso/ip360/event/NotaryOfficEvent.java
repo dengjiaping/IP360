@@ -5,13 +5,22 @@ package com.truthso.ip360.event;
  */
 
 public class NotaryOfficEvent {
-    private String name;
+    private String notarOfficName;
+    private int notarOfficId;
 
-    public String getName() {
-        return name;
+    public String getNotarOfficName() {
+        return notarOfficName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNotarOfficName(String notarOfficName) {
+        this.notarOfficName = notarOfficName;
+    }
+
+    public int getNotarOfficId() {
+        return notarOfficId;
+    }
+
+    public void setNotarOfficId(int notarOfficId) {
+        this.notarOfficId = notarOfficId;
     }
 }
