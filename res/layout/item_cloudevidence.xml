@@ -213,7 +213,6 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:visibility="gone"
-
         >
         <RelativeLayout
             android:layout_width="0dp"
@@ -267,6 +266,18 @@
             android:drawablePadding="5dp"
             android:gravity="center"
             android:text="查看详情"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_sqgz1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:drawableTop="@drawable/chakanxiangqing"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="申请公证"
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>

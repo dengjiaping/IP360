@@ -298,7 +298,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 cancelChoose();
             }
         } else {
-            Toaster.showToast(getActivity(), "请选择删除的条目");
+            Toaster.showToast(getActivity(), "请选择申请公证的条目");
         }
     }
 
@@ -387,7 +387,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     }
 
     private void getAccountMsg() {
-
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -401,7 +400,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
-
                             intent.putExtra("pkValue",pkValueSb.toString());
                             intent.putExtra("linkcount",count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
@@ -415,12 +413,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                     } else {
                         Toaster.showToast(getActivity(), bean.getMsg());
                     }
-
                 } else {
                     Toaster.showToast(getActivity(), "获取数据失败");
                 }
             }
-
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 

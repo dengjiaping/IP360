@@ -224,6 +224,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
         }
     }
 
+
     /**
      * 申请公证，申请人的账号信息
      */
@@ -245,17 +246,18 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                             for (int i=1;i<selected.size();i++){
                                 sb.append(","+selected.get(i).getType()+"-"+ selected.get(i).getPkValue());
                             }
+
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
 							intent.putExtra("pkValue",sb.toString());
-							intent.putExtra("count",selected.size());//申请公证的数量
+							intent.putExtra("linkcount",selected.size());//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
                             intent.putExtra("requestEmail", bean.getDatas().getRequestEmail());
                             startActivity(intent);
-
+                            cancelChoose();
                         } else if (iscer == 0) {//未实名
                             showDialog("是实名认证后才能申请公证，是否立即认证？");
                         }

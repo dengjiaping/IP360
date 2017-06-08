@@ -36,6 +36,7 @@ import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
@@ -161,7 +162,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             vh.tv_delete1 = (TextView) convertView.findViewById(R.id.tv_delete1);
             vh.tv_remark1 = (TextView) convertView.findViewById(R.id.tv_remark1);
             vh.tv_file_detail = (TextView) convertView.findViewById(R.id.tv_file_detail);
-
+            vh.tv_sqgz1= (TextView) convertView.findViewById(R.id.tv_sqgz1);
             vh.tv_sqgz = (TextView) convertView.findViewById(R.id.tv_sqgz);
             convertView.setTag(vh);
         } else {
@@ -248,7 +249,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         public CheckBox cb_choice, cb_option;
         private ImageView iv_icon;
         private TextView tv_filename, tv_filedate, tv_size, tv_downloaded, tv_delete,
-                tv_download, tv_sqgz, tv_download1, tv_delete1, tv_remark1, tv_file_detail;
+                tv_download, tv_sqgz,tv_sqgz1,tv_download1, tv_delete1, tv_remark1, tv_file_detail;
     }
 
     private void changeState(final int position, View view, CheckBox cb_choice,
@@ -299,7 +300,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             TextView tv_file_detail = (TextView) view.findViewById(R.id.tv_file_detail);
             TextView tv_delete = (TextView) view.findViewById(R.id.tv_delete);
             TextView tv_sqgz = (TextView) view.findViewById(R.id.tv_sqgz);
-
+            TextView tv_sqgz1= (TextView) view.findViewById(R.id.tv_sqgz1);
 
             tv_file_detail.setOnClickListener(this);
             tv_file_detail.setTag(position);
@@ -322,6 +323,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             tv_delete.setOnClickListener(this);
             tv_sqgz.setTag(position);
             tv_sqgz.setOnClickListener(this);
+            tv_sqgz1.setTag(position);
+            tv_sqgz1.setOnClickListener(this);
 
             LinearLayout ll_item = (LinearLayout) view.findViewById(R.id.ll_item);
             ll_item.setOnClickListener(new OnClickListener() {//listView条目的点击事件
@@ -447,7 +450,12 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 CloudEviItemBean cloudEviItemBean5 = mDatas.get(position5);
                 showDialog2(cloudEviItemBean5);
                 break;
-
+            case R.id.tv_sqgz1://二级页面的申请公证
+                Log.i("djj", "tv_download1");
+                int position6 = (Integer) v.getTag();
+                CloudEviItemBean cloudEviItemBean6 = mDatas.get(position6);
+                getsecordItemsPkValue(cloudEviItemBean6);
+                break;
             case R.id.tv_certificate_preview:// 证书预览
                 int position2 = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean2 = mDatas.get(position2);
@@ -519,14 +527,87 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 CloudEviItemBean cloudEviItemBean3 = mDatas.get(position3);
                 int pkValue = cloudEviItemBean3.getPkValue();
                 int linkcount = cloudEviItemBean3.getLinkCount();
-
+                Log.i("djj",pkValue+":"+linkcount);
                 //对否实名认证
-                AccountMsg(pkValue, linkcount);
-
+                AccountMsg(pkValue+"",1);
                 break;
             default:
                 break;
         }
+    }
+
+    private StringBuffer pkValueSb;
+    public void getsecordItemsPkValue(CloudEviItemBean bean) {
+        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                pkValueSb=new StringBuffer();
+                CloudEvidenceBean bean = (CloudEvidenceBean) response;
+                if (!CheckUtil.isEmpty(bean)) {
+                    if (bean.getCode() == 200) {
+                        List<CloudEviItemBean> datas = bean.getDatas();
+                            if (datas.size() != 0) {
+                                for (int i=0;i<datas.size();i++){
+                                    pkValueSb.append(datas.get(i).getType()+"-"+datas.get(i).getPkValue()+",");
+                                }
+                                pkValueSb.deleteCharAt(pkValueSb.length()-1);
+                                getLinkCount(pkValueSb.toString());
+                            }
+                    } else {
+                        Toaster.showToast(context, bean.getMsg());
+                    }
+                } else {
+                    Toaster.showToast(context, "数据加载失败请刷新重试");
+                }
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            }
+        });
+    }
+
+    //获取申请公证的证据数量
+    private void getLinkCount(final String pkValue) {
+        ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                GetLinkCountBean bean=(GetLinkCountBean)response;
+                if(bean!=null&&bean.getCode()==200){
+                    Log.i("djj","pkValue"+pkValueSb.toString()+":"+count);
+                    showGetLinkDialog(bean.getDatas().getShowText(),bean.getDatas().getStatus());
+                    if(bean.getDatas().getStatus()!=0){
+                        count=Integer.parseInt(bean.getDatas().getFileCount());
+                    }
+                }
+            }
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            }
+        });
+    }
+
+    private void showGetLinkDialog(String showText, final int status) {
+        alertDialog = new AlertDialog.Builder(context).setTitle("温馨提示")
+                .setMessage(showText).setIcon(R.drawable.ww)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(status!=0){
+                            //对否实名认证
+                            AccountMsg(pkValueSb.toString(),count);
+                        }
+
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        alertDialog.show();
     }
 
     //下载文件
@@ -667,7 +748,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
     /**
      * 申请公证，申请人的账号信息
      */
-    private void AccountMsg(final int pkValue, final int linkcount) {
+    private void AccountMsg(final String pkValue,final int count) {
 //		showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -682,7 +763,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                             Intent intent = new Intent(context, CommitMsgActivity.class);
                             intent.putExtra("type", type);
                             intent.putExtra("pkValue", pkValue);
-                            intent.putExtra("linkcount", linkcount);//申请公证的数量
+                            intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());//申请人名称
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());//申请人身份证号
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());//申请人手机号码
@@ -740,7 +821,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
                         List<CloudEviItemBean> secordLevelItems = bean.getDatas();
-
                         if (secordLevelItems.size() != 0) {
                             if (downloadOrDelete == 1) { //下载
                                 for (int i = 0; i < secordLevelItems.size(); i++) {
