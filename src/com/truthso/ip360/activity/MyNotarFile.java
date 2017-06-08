@@ -35,7 +35,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
 
     @Override
     public void initData() {
-        getData();
+
     }
 
     /**
@@ -62,15 +62,14 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                                     listView.setLoadComplete("没有更多数据了");
                                 }
                             }
-
                             adapter.notifyDataChange(list);
                         }else{
                             Toaster.showToast(MyNotarFile.this,bean.getMsg());
                         }
                 }else{
+                    adapter.notifyDataChange(list);
                     Toaster.showToast(MyNotarFile.this,"未查询到数据");
                 }
-
             }
 
             @Override
@@ -88,9 +87,9 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
         listView.setOnLoad(true);
         listView.setOnRefresh(true);
 
-
         adapter = new MyNotarFileAdapter(this, list);
         listView.setAdapter(adapter);
+        getData();
     }
 
     @Override
@@ -105,7 +104,14 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
 
     @Override
     public void toRefresh() {
+       refreshPage();
+    }
 
+    //刷新页面
+    public void refreshPage() {
+        list.clear();
+        pagerNumber=1;
+        getData();
     }
 
     @Override

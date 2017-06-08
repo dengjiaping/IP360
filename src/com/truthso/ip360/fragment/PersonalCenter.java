@@ -305,7 +305,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 			} else {
 				getPersonalMsg();
 			}
-
 			break;
 			case R.id.rl_my_notar://我的公证
 				Intent intent_myfile = new Intent(getActivity(),MyNotarFile.class);

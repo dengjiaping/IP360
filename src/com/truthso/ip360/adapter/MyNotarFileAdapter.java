@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.activity.MyNotarFile;
 import com.truthso.ip360.activity.NotarFileDetail;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
@@ -205,7 +206,8 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
         ApiManager.getInstance().backoutNotary(notaryNum, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-
+                //撤销后刷新页面
+                ((MyNotarFile) context).refreshPage();
             }
 
             @Override

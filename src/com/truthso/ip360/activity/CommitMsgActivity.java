@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.truthso.ip360.event.CityEvent;
 import com.truthso.ip360.event.NotaryOfficEvent;
@@ -191,7 +192,6 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private void commitMsg() {
         name = et_name.getText().toString().trim();
         fenshu = et_fenshu.getText().toString().trim();
-        fenshu_int =  Integer.parseInt(fenshu);
         huji = et_huji.getText().toString().trim();
         currloc = et_currloc.getText().toString().trim();
         name_lingqu = et_name_lingqu.getText().toString().trim();
@@ -202,10 +202,11 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
         gongzhengchu = tv_gongzhengchu.getText().toString().trim();
         tvreceiver = tv_receiver.getText().toString().trim();
 
-        if (gongzhengchu.equals("请选择")||tvreceiver.equals("请选择")||cityName.equals("请选择")||CheckUtil.isEmpty(name)||CheckUtil.isEmpty(fenshu)||CheckUtil.isEmpty(huji)||CheckUtil.isEmpty(currloc)||CheckUtil.isEmpty(name_lingqu)||CheckUtil.isEmpty(cardid_lingqu)||CheckUtil.isEmpty(phonenum)||CheckUtil.isEmpty(email)){
+        if (CheckUtil.isEmpty(fenshu)||gongzhengchu.equals("请选择")||tvreceiver.equals("请选择")||cityName.equals("请选择")||CheckUtil.isEmpty(name)||CheckUtil.isEmpty(fenshu)||CheckUtil.isEmpty(huji)||CheckUtil.isEmpty(currloc)||CheckUtil.isEmpty(name_lingqu)||CheckUtil.isEmpty(cardid_lingqu)||CheckUtil.isEmpty(phonenum)||CheckUtil.isEmpty(email)){
             Toaster.showToast(this,"还有信息没有选择或填写");
             return;
         }
+        fenshu_int =  Integer.parseInt(fenshu);
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
         ApiManager.getInstance().commitNotarMsg(name, notarOfficId,fenshu_int,receiver, huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
