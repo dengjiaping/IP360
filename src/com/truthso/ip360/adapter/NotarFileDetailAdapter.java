@@ -60,6 +60,12 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
         this.mDatas.addAll(mDatas);
         notifyDataSetChanged();
     }
+    public void notifyDataChange( List<File> mDatas ) {
+        if (mDatas != null) {
+            this.mDatas = mDatas;
+            notifyDataSetChanged();
+        }
+    }
     public void clearData() {
         mDatas.clear();
         notifyDataSetChanged();

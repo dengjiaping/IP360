@@ -56,11 +56,6 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                             datas = bean.getDatas();
                             if (!CheckUtil.isEmpty(datas)) {
                                 list.addAll(datas);
-                            } else {
-                                if (list.size() == 0) {
-                                } else {
-                                    listView.setLoadComplete("没有更多数据了");
-                                }
                             }
                             adapter.notifyDataChange(list);
                         }else{
@@ -68,6 +63,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                         }
                 }else{
                     adapter.notifyDataChange(list);
+
                     Toaster.showToast(MyNotarFile.this,"未查询到数据");
                 }
             }

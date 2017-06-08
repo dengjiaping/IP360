@@ -186,5 +186,8 @@ public class URLConstant {
 	 */
 	public final static String commitAgainNotarMsg = "http://"+str+"/api/v1/notary/commitAgainNotarMsg";
 
-
+	/**
+	 * 获取链接数量
+	 */
+	public final static String getLinkCount = "http://"+str+"/api/v1/notary/getLinkCount";
 }

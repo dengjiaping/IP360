@@ -57,6 +57,7 @@ import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
@@ -282,7 +283,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                     getsecordItemsPkValue(secordItems.get(i));
                 }
             }else{
-                getAccountMsg(pkValueSb.toString(),count);
+                getLinkCount(pkValueSb.toString());
             }
 
             adapter.setChoice(false);
@@ -320,7 +321,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                               }
                               count+=secordLevelAllItems.size();
                               pkValueSb.deleteCharAt(pkValueSb.length()-1);
-                              getAccountMsg(pkValueSb.toString(),count);
+                              getLinkCount(pkValueSb.toString());
                           }
                       }
                     } else {
@@ -337,10 +338,56 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         });
     }
 
+    //获取申请公证的证据数量
+    private void getLinkCount(final String pkValue) {
+        showProgress("正在加载...");
+        ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
+                GetLinkCountBean bean=(GetLinkCountBean)response;
+                if(bean!=null&&bean.getCode()==200){
+                    Log.i("djj","pkValue"+pkValueSb.toString()+":"+count);
+                    showGetLinkDialog(bean.getDatas().getShowText(),bean.getDatas().getStatus());
+                    if(bean.getDatas().getStatus()!=0){
+                        count=Integer.parseInt(bean.getDatas().getFileCount());
+                    }
+                }
+            }
+
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
 
 
-    private void getAccountMsg(final String pkValue, final int count) {
-        Log.i("djj","pkValue"+pkValue+":"+count);
+    }
+
+    private void showGetLinkDialog(String showText, final int status) {
+        alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
+                .setMessage(showText).setIcon(R.drawable.ww)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(status!=0){
+                            getAccountMsg();
+                        }
+
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        alertDialog.show();
+    }
+
+    private void getAccountMsg() {
+
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -355,8 +402,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                             //跳转到提交信息页面
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
 
-							intent.putExtra("pkValue",pkValue);
-							intent.putExtra("linkcount",count);//申请公证的数量
+                            intent.putExtra("pkValue",pkValueSb.toString());
+                            intent.putExtra("linkcount",count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
@@ -1075,6 +1122,28 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+
+    private void show(String str) {
+        alertDialog = new AlertDialog.Builder(getActivity()).setTitle("温馨提示")
+                .setMessage(str).setIcon(R.drawable.ww)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //跳转到实名认证页面
+                        startActivity(new Intent(getActivity(), CertificationActivity.class));
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                }).create();
+        alertDialog.show();
     }
 
     private void showDialog(String str) {
