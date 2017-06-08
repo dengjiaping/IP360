@@ -15,6 +15,7 @@ import com.truthso.ip360.bean.ExpenseBean;
 import com.truthso.ip360.bean.FileBean;
 import com.truthso.ip360.bean.FilePositionBean;
 import com.truthso.ip360.bean.FileRemarkBean;
+import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.bean.NotarCityBean;
@@ -964,5 +965,24 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
 	}
+
+	/**
+	 * 获取链接数量
+	 * @param pkValue
+	 * @param callback
+	 * @return
+	 */
+	public RequestHandle getLinkCount(String pkValue,ApiCallback callback){
+		BaseHttpRequest<GetLinkCountBean> request = new BaseHttpRequest<GetLinkCountBean>(
+				GetLinkCountBean.class, this);
+		request.setPath(URLConstant.getLinkCount);
+		request.params().add("pkValue", pkValue);
+
+		request.setApiCallback(callback);
+		RequestHandle requestHandle = request.post();
+		requestHashMap.put(requestHandle, request);
+		return requestHandle;
+	}
+
 
 }

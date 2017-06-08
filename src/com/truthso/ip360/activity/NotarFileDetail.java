@@ -106,13 +106,21 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
                                 listView.setLoadComplete("没有更多数据了");
                             }
                         }
+<<<<<<< HEAD
 
                         adapter.notifyDataChange(list);
+=======
+//                        adapter.notifyDataChange(list);
+>>>>>>> 47a24b0c80e6f30b418b3a321d0ecab56e9d86f3
                     }else{
                         Toaster.showToast(NotarFileDetail.this,bean.getMsg());
                     }
                 }else{
-                    Toaster.showToast(NotarFileDetail.this,"加载失败");
+                    adapter.notifyDataChange(list);
+                    if (list.size() == 0) {
+                    } else {
+                        listView.setLoadComplete("没有更多数据了");
+                    }
                 }
 
             }
