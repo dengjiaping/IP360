@@ -216,6 +216,7 @@
                     android:layout_toRightOf="@+id/tv_name"
                     android:hint="请输入您申请公证的名称"
                     android:textSize="@dimen/text_item"
+
                     android:textColor="@color/item_text_color"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
@@ -404,7 +405,7 @@
                     android:hint="请输入您申请公证书的份数"
                     android:textSize="@dimen/text_item"
                     android:textColor="@color/item_text_color"
-                    />
+                    android:inputType="number" />
             </RelativeLayout>
         </LinearLayout>
         <!--申请人信息-->
