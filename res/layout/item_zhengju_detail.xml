@@ -36,8 +36,9 @@
                     android:layout_height="wrap_content"
                     android:text="我的照片证据1.png"
                     android:textColor="#666666"
+                    android:maxEms="15"
+                    android:singleLine="true"
                     android:ellipsize="end"
-                    android:maxEms="20"
                     android:textSize="@dimen/text_size" />
 
                 <RelativeLayout

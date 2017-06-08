@@ -107,7 +107,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
                             }
                         }
 
-//                        adapter.notifyDataChange(list);
+                        adapter.notifyDataChange(list);
                     }else{
                         Toaster.showToast(NotarFileDetail.this,bean.getMsg());
                     }

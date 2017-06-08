@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.NotarFileDetail;
 import com.truthso.ip360.activity.PhotoDetailActivity;
@@ -142,8 +143,10 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
         }
                 break;
             case R.id.iv_ckzs://查看证书
-
-
+                Intent intent = new Intent(context, CertificationActivity.class);
+                intent.putExtra("pkValue",pkValue);
+                intent.putExtra("type",type);
+                context.startActivity(intent);
                 break;
         }
     }
@@ -151,5 +154,11 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
     public class ViewHolder{
         private TextView tv_filename,tv_date,tv_filesize;
         private ImageView iv_icon,iv_zhengjiuyulan,iv_ckzs;
+    }
+    public void notifyDataChange( List<File> mDatas ) {
+        if (mDatas != null) {
+            this.mDatas = mDatas;
+            notifyDataSetChanged();
+        }
     }
 }
