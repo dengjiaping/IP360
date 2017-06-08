@@ -79,9 +79,6 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh = null;
        File file = mDatas.get(position);
-
-
-
         url=   file.getFileUrl();
         mobileType = file.getMobileType();
         pkValue =  file.getPkValue();

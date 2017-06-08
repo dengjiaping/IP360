@@ -63,7 +63,6 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                         }
                 }else{
                     adapter.notifyDataChange(list);
-
                     Toaster.showToast(MyNotarFile.this,"未查询到数据");
                 }
             }
