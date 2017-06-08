@@ -71,8 +71,6 @@ public class PhotoDetailActivity extends BaseActivity {
 
 
 		if (url.contains("http")) {
-//			iv_chuo = (ImageView) findViewById(R.id.iv_chuo);
-//				iv_chuo.setVisibility(View.GONE);
 				showProgress("加载中...");
 				ImageLoaderUtil.dispalyImage(url, iv_photo, new ImageLoadingListener() {
 

@@ -1,5 +1,7 @@
 package com.truthso.ip360.activity;
 
+import android.util.Log;
+
 import com.truthso.ip360.adapter.MyNotarFileAdapter;
 import com.truthso.ip360.adapter.NotarFileDetailAdapter;
 import com.truthso.ip360.bean.CloudEviItemBean;
@@ -13,6 +15,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.view.RefreshListView;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
     private int pkValue_int;
     @Override
     public void initData() {
-        getData();
+
     }
 
     @Override
@@ -55,6 +58,8 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
         listView.setOnLoad(true);
         listView.setOnRefresh(true);
         adapter = new NotarFileDetailAdapter(this,list);
+        listView.setAdapter(adapter);
+        getData();
     }
 
     @Override

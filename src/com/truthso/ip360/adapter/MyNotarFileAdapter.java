@@ -33,6 +33,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -161,7 +162,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
         if(notarStatus==0){//0审核拒绝
             vh.tv_status.setText("审核拒绝");
         }else if(notarStatus==1){//1等待提交（审核没通过直接跳重新提交页面，信息带过去）
-//            vh.tv_status.setText("等待提交");
+            vh.tv_status.setText("等待提交");
         }else if(notarStatus==2){//2等待审核
             vh.tv_status.setText("等待审核");
         }else if(notarStatus==3){//3等待付费
