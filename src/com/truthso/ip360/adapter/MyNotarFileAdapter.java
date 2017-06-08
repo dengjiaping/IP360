@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.truthso.ip360.activity.MsgCheckActivity;
 import com.truthso.ip360.activity.NotarFileDetail;
 import com.truthso.ip360.activity.R;
 import com.truthso.ip360.bean.CloudEviItemBean;
@@ -193,6 +194,43 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
             case R.id.iv_gongzhengxinxi://公证信息(公证到哪一步了 )
                 int position2 = (Integer) v.getTag();
                 NotarMsg  notarnum2 =  mDatas.get(position2);
+              int status =   notarnum2.getNotarStatus();
+               String reason =  notarnum2.getNoReason();
+             String notarName =  notarnum2.getNotarName();//申请公证的名称
+             String notarOfficeName =  notarnum2.getNotarOfficeName();//公证处名称
+             String notarOfferAddress = notarnum2.getNotaryOfficeAddress();//公证处地址
+             String receiver =   notarnum2.getReceiver();//领取人是本人还是自然人
+              String requestName =  notarnum2.getRequestName();//申请人姓名
+              String applicationCard =  notarnum2.getApplicantCard();//申请人证件号
+                String receiverName =  notarnum2.getReceiverName();//领取人名称
+               String receiverCard = notarnum2.getReceiverCard();//领取人身份证号
+               String fileMount =  notarnum2.getFileMount();//申请文件的个数
+               String pkValue =  notarnum2.getPkValue();//此条公证服务的id
+
+
+
+
+
+                if(status==0||status==1){//0审核拒绝,1等待提交，审核没通过直接跳重新提交页面，信息带过去
+                    Intent intent_0 = new Intent(context, MsgCheckActivity.class);
+                    intent_0.putExtra("reason",reason);//审核拒绝的原因
+                    intent_0.putExtra("notarName",notarName);//公证名称
+                    intent_0.putExtra("notarOfficeName",notarOfficeName);//公证处名称
+                    intent_0.putExtra("notarOfferAddress",notarOfferAddress);//公证处地址
+                    intent_0.putExtra("requestName",requestName);//申请人姓名
+                    intent_0.putExtra("receiver",receiver);//领取人是本人还是其他自然人
+                    intent_0.putExtra("applicationCard",applicationCard);//申请人证件号
+                    intent_0.putExtra("receiverName",receiverName);//领取人姓名
+                    intent_0.putExtra("receiverCard",receiverCard);//领取人身份证号
+                    intent_0.putExtra("fileMount",fileMount);//文件个数
+                    intent_0.putExtra("pkValue",pkValue);//此条公证服务的id
+                    context.startActivity(intent_0);
+
+                }else if(status==2){//2等待审核
+                }else if(status==3){//3等待付费
+                }else if(status==4){//4等待制证
+                }else if(status==5){//5已公证
+                }
                 break;
 
         }

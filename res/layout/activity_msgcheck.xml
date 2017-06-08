@@ -162,6 +162,7 @@
                 android:layout_height="1dp" />
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.5"
@@ -172,5 +173,17 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp" />
+        <Button
+            android:id="@+id/btn_commitagin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="重新提交"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:background="@drawable/round_corner_bg"/>
     </LinearLayout>
+
 </LinearLayout>
