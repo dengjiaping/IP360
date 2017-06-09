@@ -3,6 +3,7 @@ package com.truthso.ip360.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.CertificationActivity;
 import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.CommitMsgActivity;
@@ -45,6 +47,7 @@ import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.CEListRefreshEvent;
 import com.truthso.ip360.fragment.UpdateItem;
+import com.truthso.ip360.listener.ProgressDialogDismissListener;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -54,10 +57,9 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.view.MyProgressDialog;
 import com.truthso.ip360.utils.NetStatusUtil;
-
 import org.greenrobot.eventbus.EventBus;
-
 import cz.msebera.android.httpclient.Header;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements
@@ -77,6 +79,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
     private int isOpen = Integer.MAX_VALUE;
     private Dialog alertDialog;
     private long clickTime;
+    private MyProgressDialog dialog;
 
     public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
                                 int type, int mobileType) {
@@ -87,6 +90,14 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         this.mobileType = mobileType;
 
         inflater = LayoutInflater.from(context);
+        dialog=new MyProgressDialog((Activity) context, new ProgressDialogDismissListener() {
+            @Override
+            public void onDismiss() {
+                if(requestHandle!=null){
+                    requestHandle.cancel(true);
+                }
+            }
+        });
     }
 
     public void setUpdateItem(UpdateItem updateItem) {
@@ -544,22 +555,25 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
     }
 
     private StringBuffer pkValueSb;
+    private RequestHandle requestHandle;
     public void getsecordItemsPkValue(CloudEviItemBean bean) {
-        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
+        dialog.showProgress("努力加载中...");
+         requestHandle = ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-                pkValueSb=new StringBuffer();
+                dialog.hideProgress();
+                pkValueSb = new StringBuffer();
                 CloudEvidenceBean bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
                         List<CloudEviItemBean> datas = bean.getDatas();
-                            if (datas.size() != 0) {
-                                for (int i=0;i<datas.size();i++){
-                                    pkValueSb.append(datas.get(i).getType()+"-"+datas.get(i).getPkValue()+",");
-                                }
-                                pkValueSb.deleteCharAt(pkValueSb.length()-1);
-                                getLinkCount(pkValueSb.toString());
+                        if (datas.size() != 0) {
+                            for (int i = 0; i < datas.size(); i++) {
+                                pkValueSb.append(datas.get(i).getType() + "-" + datas.get(i).getPkValue() + ",");
                             }
+                            pkValueSb.deleteCharAt(pkValueSb.length() - 1);
+                            getLinkCount(pkValueSb.toString());
+                        }
                     } else {
                         Toaster.showToast(context, bean.getMsg());
                     }
@@ -576,9 +590,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
     //获取申请公证的证据数量
     private void getLinkCount(final String pkValue) {
-        ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
+        dialog.showProgress("努力加载中...");
+        requestHandle=ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                dialog.hideProgress();
                 GetLinkCountBean bean=(GetLinkCountBean)response;
                 if(bean!=null&&bean.getCode()==200){
                     Log.i("djj","pkValue"+pkValueSb.toString()+":"+count);
@@ -619,18 +635,21 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
     //下载文件
     private void downloadFile(final CloudEviItemBean data) {
-        ApiManager.getInstance().downloadFile(data.getPkValue(), data.getType(), data.getDataType(),
+        dialog.showProgress("努力加载中...");
+        requestHandle= ApiManager.getInstance().downloadFile(data.getPkValue(), data.getType(), data.getDataType(),
                 new ApiCallback() {
                     @Override
                     public void onApiResultFailure(int statusCode,
                                                    Header[] headers, byte[] responseBody,
                                                    Throwable error) {
+                        dialog.hideProgress();
                         Toaster.toast(context, "获取数据失败", 1);
                     }
 
                     @Override
                     public void onApiResult(int errorCode, String message,
                                             BaseHttpResponse response) {
+                        dialog.hideProgress();
                         DownLoadFileBean bean = (DownLoadFileBean) response;
                         if (!CheckUtil.isEmpty(bean)) {
                             if (bean.getCode() == 200) {
@@ -669,6 +688,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                                 Toaster.toast(context, bean.getMsg(), 1);
                             }
                         } else {
+                            dialog.hideProgress();
                             Toaster.toast(context, "获取数据失败", 1);
                         }
                     }
@@ -756,11 +776,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
      * 申请公证，申请人的账号信息
      */
     private void AccountMsg(final String pkValue,final int count) {
-//		showProgress("正在加载...");
-        ApiManager.getInstance().getAccountMsg(new ApiCallback() {
+		 dialog.showProgress("努力加载中...");
+        requestHandle= ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-//				hideProgress();
+                dialog.hideProgress();
                 NotarAccountBean bean = (NotarAccountBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
@@ -790,7 +810,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
 
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                dialog.hideProgress();
             }
         });
     }
@@ -821,9 +841,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
      * downloadOrDelete 1-下载  2-删除
      */
     public void getSubEvidence(final CloudEviItemBean bean, final int downloadOrDelete) {
-        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
+        dialog.showProgress("努力加载中...");
+        requestHandle=  ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                dialog.hideProgress();
                 CloudEvidenceBean bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
@@ -851,6 +873,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         Toaster.showToast(context, bean.getMsg());
                     }
                 } else {
+                    dialog.hideProgress();
                     Toaster.showToast(context, "数据加载失败请刷新重试");
                 }
             }
