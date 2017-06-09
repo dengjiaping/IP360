@@ -2,45 +2,13 @@ package com.truthso.ip360.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.lidroid.xutils.BitmapUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.truthso.ip360.activity.BaseActivity;
-import com.truthso.ip360.activity.R;
-import com.truthso.ip360.bean.DbBean;
-import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.ImageLoaderUtil;
-import com.truthso.ip360.utils.StreamTool;
 import com.truthso.ip360.view.TouchImageView;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static com.truthso.ip360.utils.DisplayUtil.getScreenWidth;
 
 
 /**

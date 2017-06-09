@@ -186,6 +186,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                int position = (Integer) v.getTag();
                NotarMsg  notarnum =  mDatas.get(position);
                 showDialog(notarnum.getNotaryNum());
+                LogUtils.e("111111111111111111111111111111111111111111111"+notarnum.getNotaryNum());
                 break;
             case R.id.iv_file_detail://公证详情
                 int position1 = (Integer) v.getTag();
