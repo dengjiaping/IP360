@@ -99,8 +99,7 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
         alertDialog = new AlertDialog.Builder(NotarPayActivity.this).
                 setTitle("温馨提示").
                 setMessage("是否确认支付？").
-                setIcon(R.drawable.ww).
-                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                setIcon(R.drawable.ww).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Pay();
@@ -110,8 +109,7 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
             }
-        }).
-                create();
+        }).create();
         alertDialog.show();
     }
 
