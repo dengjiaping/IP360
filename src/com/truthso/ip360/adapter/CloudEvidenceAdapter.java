@@ -479,7 +479,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 }
                 break;
             case R.id.tv_file_preview://文件预览
-
                 if (mDatas.size() > 0) {
                     final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
                     String url = null;

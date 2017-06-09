@@ -22,6 +22,7 @@ import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.LoginBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
+import com.truthso.ip360.event.LoginEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -29,6 +30,8 @@ import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.MD5Util;
 import com.truthso.ip360.utils.SharePreferenceUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -192,6 +195,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						//跳转到主页面
 						Intent intent2 = new Intent(LoginActivity.this,MainActivity.class);
 						startActivity(intent2);
+						EventBus.getDefault().post(new LoginEvent());
 						finish();
 						
 					}else{
