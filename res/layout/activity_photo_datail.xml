@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
+    android:orientation="vertical"
 >
     <include layout="@layout/top_title" />
-    <ImageView
-        android:id="@+id/iv_photo"
+
+    <com.truthso.ip360.view.TouchImageView
+        android:id="@+id/iv_touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/rl_title"
-        android:scaleType="centerCrop"
-
-      />
-
-    </RelativeLayout>
+        />
+    </LinearLayout>
 

@@ -44,6 +44,7 @@ import com.truthso.ip360.bean.product;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
+import com.truthso.ip360.event.LoginEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -55,6 +56,9 @@ import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.utils.SharePreferenceUtil;
 import com.truthso.ip360.view.xrefreshview.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -94,8 +98,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		btn_shezhi = (Button) view.findViewById(R.id.btn_shezhi);
 		btn_shezhi.setOnClickListener(this);
 		tv_account = (TextView) view.findViewById(R.id.tv_account);
-		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(getActivity(), MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
-		tv_account.setText(userAccount);
+
 		btn_count_pay = (Button) view.findViewById(R.id.btn_count_pay);
 		btn_count_pay.setOnClickListener(this);
 		iv_next_yue = (ImageView) view.findViewById(R.id.iv_next_yue);
@@ -122,15 +125,20 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
+		getPersonalMsg();
+		EventBus.getDefault().register(this);
+	}
 
-
-
-
+	@Subscribe
+	public void updatePersonalMsg(LoginEvent event){
 		getPersonalMsg();
 	}
 
+
 	// 获取个人信息概要
 	public void getPersonalMsg() {
+		String userAccount = (String) SharePreferenceUtil.getAttributeByKey(getActivity(), MyConstants.SP_USER_KEY, "userAccount", SharePreferenceUtil.VALUE_IS_STRING);
+		tv_account.setText(userAccount);
 		showProgress("正在获取信息，请稍后...");
 		ApiManager.getInstance().getPersonalMsg(new ApiCallback() {
 			@Override
@@ -285,9 +293,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 			} else {
 				getPersonalMsg();
 			}
-
 			break;
-
 		case R.id.rl_bind_mail:// 绑定邮箱
 			if (isOk) {
 				if (CheckUtil.isEmpty(bean.getDatas().getBindedEmail())) {// 为空是未绑定
@@ -316,10 +322,6 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 				break;
 			default:
 				break;
-
-
-
-
 		}
 	}
 
@@ -358,4 +360,9 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		tv_cache_size.setText(dirSize);
 	}*/
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
+	}
 }

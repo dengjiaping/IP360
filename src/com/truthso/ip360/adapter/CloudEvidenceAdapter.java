@@ -470,9 +470,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                     Toast.makeText(MyApplication.getApplication(), "该文件欠费不能查看证书，请补全费用后查看！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                break;
             case R.id.tv_file_preview://文件预览
-
                 if (mDatas.size() > 0) {
                     final CloudEviItemBean data1 = mDatas.get((Integer) v.getTag());
                     String url = null;
@@ -514,6 +513,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         Toast.makeText(MyApplication.getApplication(), "该文件欠费不能在线查看，请补全费用后查看！", Toast.LENGTH_SHORT).show();
                     }
                 }
+                break;
             case R.id.tv_file_detail://查看二级详情
                 int position_sub = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean_sub = mDatas.get(position_sub);
