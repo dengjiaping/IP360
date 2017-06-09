@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.CommitMsgActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
@@ -39,6 +40,7 @@ import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.CEListRefreshEvent;
@@ -52,6 +54,7 @@ import com.truthso.ip360.updownload.FileInfo;
 import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
+import com.truthso.ip360.utils.NetStatusUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -451,7 +454,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 showDialog2(cloudEviItemBean5);
                 break;
             case R.id.tv_sqgz1://二级页面的申请公证
-                Log.i("djj", "tv_download1");
+                //无网络
+                if(!NetStatusUtil.isNetValid(context)){
+                    Toaster.showToast(context,"当前无网络，请稍后重试！");
+                    return;
+                }
                 int position6 = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean6 = mDatas.get(position6);
                 getsecordItemsPkValue(cloudEviItemBean6);
@@ -470,7 +477,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                     Toast.makeText(MyApplication.getApplication(), "该文件欠费不能查看证书，请补全费用后查看！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                break;
             case R.id.tv_file_preview://文件预览
 
                 if (mDatas.size() > 0) {
@@ -514,6 +521,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         Toast.makeText(MyApplication.getApplication(), "该文件欠费不能在线查看，请补全费用后查看！", Toast.LENGTH_SHORT).show();
                     }
                 }
+                break;
             case R.id.tv_file_detail://查看二级详情
                 int position_sub = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean_sub = mDatas.get(position_sub);

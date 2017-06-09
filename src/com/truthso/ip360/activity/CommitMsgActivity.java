@@ -18,6 +18,7 @@ import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
+import com.truthso.ip360.view.xrefreshview.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -135,6 +136,88 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent2,101);
                 break;
             case R.id.btn_commit://提交
+                name = et_name.getText().toString().trim();
+                fenshu = et_fenshu.getText().toString().trim();
+                huji = et_huji.getText().toString().trim();
+                currloc = et_currloc.getText().toString().trim();
+                name_lingqu = et_name_lingqu.getText().toString().trim();
+                cardid_lingqu = et_carsid_lingqu.getText().toString().trim();
+                phonenum = et_phonenum.getText().toString().trim();
+                email = et_email.getText().toString().trim();
+                cityName = tv_city_name.getText().toString().trim();
+                gongzhengchu = tv_gongzhengchu.getText().toString().trim();
+                tvreceiver = tv_receiver.getText().toString().trim();
+                if(!CheckUtil.isEmpty(fenshu_int)){
+                    fenshu_int =  Integer.parseInt(fenshu);
+                }
+
+                if (gongzhengchu.equals("请选择")){
+                    Toaster.showToast(this,"请选择公证处");
+                    return;
+                }else if(tvreceiver.equals("请选择")){
+                    Toaster.showToast(this,"请选择领取人");
+                    return;
+                }else if (cityName.equals("请选择")){
+                    Toaster.showToast(this,"请选择公证处所在地");
+                    return;
+                }else if(CheckUtil.isEmpty(name)){
+                    Toaster.showToast(this,"请填写申请公证的名称");
+                    return;
+                }else if(CheckUtil.isEmpty(name_lingqu)){
+                    Toaster.showToast(this,"请填写领取人的姓名");
+                    return;
+                }
+                if(CheckUtil.isEmpty(currloc)){
+                    Toaster.showToast(this,"请填写申请人的现居地址");
+                    return;
+                }else if(currloc.length()<5||currloc.length()>50){
+                    Toaster.showToast(this,"地址长度在5到50个字之间");
+                    return;
+            }
+                if (CheckUtil.isEmpty(cardid_lingqu)){
+                    Toaster.showToast(this,"请填写领取人的身份证号");
+                    return;
+                }else{
+                    if(!CheckUtil.isIDFormat(cardid_lingqu)){
+                        Toaster.showToast(this,"请填写正确格式的领取人的身份证号");
+                        return;
+                    }
+                }
+                if(CheckUtil.isEmpty(phonenum)){
+                    Toaster.showToast(this,"请填写领取人手机号");
+                    return;
+                }else{
+                    if (!CheckUtil.isPhoneNum(phonenum)){
+                        Toaster.showToast(this,"请填写正确格式的领取人手机号");
+                        return;
+                    }
+                }
+                if (CheckUtil.isEmpty(email)){
+                    Toaster.showToast(this,"请填写领取人邮箱");
+                    return;
+                }else if(!CheckUtil.isEmailFormat(email)){
+                    Toaster.showToast(this,"请填写领取人正确格式的邮箱");
+                    return;
+                }
+                if(CheckUtil.isEmpty(fenshu)){//请输入份数
+                    Toaster.showToast(this,"请输入份数");
+                    return;
+                }else{
+                    if (fenshu_int<1||fenshu_int>100){
+                        Toaster.showToast(this,"份数应该是1-100之间的整数");
+                        return;
+                    }
+                }
+              if(CheckUtil.isEmpty(huji)){
+                Toaster.showToast(this,"请填写户籍");
+                return;
+            }else if(huji.length()<5||huji.length()>50){
+                    Toaster.showToast(this,"地址长度在5到50个字之间");
+                    return;
+            }
+
+
+
                 showDialog("是否确认提交?");
                 break;
         }
@@ -190,23 +273,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
      * 提交信息
      */
     private void commitMsg() {
-        name = et_name.getText().toString().trim();
-        fenshu = et_fenshu.getText().toString().trim();
-        huji = et_huji.getText().toString().trim();
-        currloc = et_currloc.getText().toString().trim();
-        name_lingqu = et_name_lingqu.getText().toString().trim();
-        cardid_lingqu = et_carsid_lingqu.getText().toString().trim();
-        phonenum = et_phonenum.getText().toString().trim();
-        email = et_email.getText().toString().trim();
-        cityName = tv_city_name.getText().toString().trim();
-        gongzhengchu = tv_gongzhengchu.getText().toString().trim();
-        tvreceiver = tv_receiver.getText().toString().trim();
 
-        if (CheckUtil.isEmpty(fenshu)||gongzhengchu.equals("请选择")||tvreceiver.equals("请选择")||cityName.equals("请选择")||CheckUtil.isEmpty(name)||CheckUtil.isEmpty(fenshu)||CheckUtil.isEmpty(huji)||CheckUtil.isEmpty(currloc)||CheckUtil.isEmpty(name_lingqu)||CheckUtil.isEmpty(cardid_lingqu)||CheckUtil.isEmpty(phonenum)||CheckUtil.isEmpty(email)){
-            Toaster.showToast(this,"还有信息没有选择或填写");
-            return;
-        }
-        fenshu_int =  Integer.parseInt(fenshu);
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
         ApiManager.getInstance().commitNotarMsg(name, notarOfficId,fenshu_int,receiver, huji, currloc, "2-2856", name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {

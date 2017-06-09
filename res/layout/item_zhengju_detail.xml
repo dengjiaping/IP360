@@ -92,9 +92,9 @@
                 />
         </RelativeLayout>
     </RelativeLayout>
-  <!--  <View
+    <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="@color/grey" />-->
+        android:background="@color/grey" />
 
 </LinearLayout>

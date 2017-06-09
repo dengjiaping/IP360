@@ -3,6 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/line_bg" />
     <RelativeLayout
         android:id="@+id/rl_item"
         android:layout_width="match_parent"
@@ -193,4 +197,6 @@
             android:padding="10dp"
             android:src="@drawable/gongzhengxinxi"/>
     </RelativeLayout>
+
+
 </LinearLayout>

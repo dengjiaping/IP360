@@ -94,10 +94,7 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-     showProgress("是否确认提交");
-    }
 
-    private void commitMsg() {
         name = et_name.getText().toString().trim();
         fenshu = et_fenshu.getText().toString().trim();
         fenshu_int =  Integer.parseInt(fenshu);
@@ -110,6 +107,75 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
         cityName = tv_city_name.getText().toString().trim();
         gongzhengchu = tv_gongzhengchu.getText().toString().trim();
         tvreceiver = tv_receiver.getText().toString().trim();
+        if (gongzhengchu.equals("请选择")){
+            Toaster.showToast(this,"请选择公证处");
+            return;
+        }else if(tvreceiver.equals("请选择")){
+            Toaster.showToast(this,"请选择领取人");
+            return;
+        }else if (cityName.equals("请选择")){
+            Toaster.showToast(this,"请选择公证处所在地");
+            return;
+        }else if(CheckUtil.isEmpty(name)){
+            Toaster.showToast(this,"请填写申请公证的名称");
+            return;
+        }else if(CheckUtil.isEmpty(name_lingqu)){
+            Toaster.showToast(this,"请填写领取人的姓名");
+            return;
+        }
+        if(CheckUtil.isEmpty(currloc)){
+            Toaster.showToast(this,"请填写申请人的现居地址");
+            return;
+        }else if(currloc.length()<5||currloc.length()>50){
+            Toaster.showToast(this,"地址长度在5到50个字之间");
+            return;
+        }
+        if (CheckUtil.isEmpty(cardid_lingqu)){
+            Toaster.showToast(this,"请填写领取人的身份证号");
+            return;
+        }else{
+            if(!CheckUtil.isIDFormat(cardid_lingqu)){
+                Toaster.showToast(this,"请填写正确格式的领取人的身份证号");
+                return;
+            }
+        }
+        if(CheckUtil.isEmpty(phonenum)){
+            Toaster.showToast(this,"请填写领取人手机号");
+            return;
+        }else{
+            if (!CheckUtil.isPhoneNum(phonenum)){
+                Toaster.showToast(this,"请填写正确格式的领取人手机号");
+                return;
+            }
+        }
+        if (CheckUtil.isEmpty(email)){
+            Toaster.showToast(this,"请填写领取人邮箱");
+            return;
+        }else if(!CheckUtil.isEmailFormat(email)){
+            Toaster.showToast(this,"请填写领取人正确格式的邮箱");
+            return;
+        }
+        if(CheckUtil.isEmpty(fenshu)){//请输入份数
+            Toaster.showToast(this,"请输入份数");
+            return;
+        }else{
+            if (fenshu_int<1||fenshu_int>100){
+                Toaster.showToast(this,"份数应该是1-100之间的整数");
+                return;
+            }
+        }
+        if(CheckUtil.isEmpty(huji)){
+            Toaster.showToast(this,"请填写户籍");
+            return;
+        }else if(huji.length()<5||huji.length()>50){
+            Toaster.showToast(this,"地址长度在5到50个字之间");
+            return;
+        }
+
+        showDialog("是否确认提交");
+    }
+
+    private void commitMsg() {
         showProgress("正在提交信息...");
         ApiManager.getInstance().commitAgainNotarMsg(fenshu_int, huji, currloc, phonenum, email, pkValue, new ApiCallback() {
             @Override
