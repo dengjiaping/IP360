@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestHandle;
 import com.truthso.ip360.activity.CertificationActivity;
+import com.truthso.ip360.activity.ChargeRulerActivity;
 import com.truthso.ip360.activity.CommitMsgActivity;
 import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
@@ -41,6 +42,7 @@ import com.truthso.ip360.bean.DownLoadFileBean;
 import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
+import com.truthso.ip360.constants.URLConstant;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.CEListRefreshEvent;
@@ -56,9 +58,8 @@ import com.truthso.ip360.utils.CheckUtil;
 import com.truthso.ip360.utils.FileSizeUtil;
 import com.truthso.ip360.utils.FileUtil;
 import com.truthso.ip360.view.MyProgressDialog;
-
+import com.truthso.ip360.utils.NetStatusUtil;
 import org.greenrobot.eventbus.EventBus;
-
 import cz.msebera.android.httpclient.Header;
 
 public class CloudEvidenceAdapter extends BaseAdapter implements
@@ -464,7 +465,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 showDialog2(cloudEviItemBean5);
                 break;
             case R.id.tv_sqgz1://二级页面的申请公证
-                Log.i("djj", "tv_download1");
+                //无网络
+                if(!NetStatusUtil.isNetValid(context)){
+                    Toaster.showToast(context,"当前无网络，请稍后重试！");
+                    return;
+                }
                 int position6 = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean6 = mDatas.get(position6);
                 getsecordItemsPkValue(cloudEviItemBean6);

@@ -232,6 +232,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		switch (view.getId()) {
 		case R.id.btn_shezhi://设置
 			startActivity(new Intent(getActivity(), SettingActivity.class));
+
 			break;
 		case R.id.rl_account:// 账号信息
 			startActivity(new Intent(getActivity(),AccountMagActivity.class));

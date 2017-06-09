@@ -247,6 +247,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 deleteAll();
                 break;
             case R.id.btn_sqgz://申请公证
+                //无网络
+                if(!NetStatusUtil.isNetValid(getActivity())){
+                    Toaster.showToast(getActivity(),"当前无网络，请稍后重试！");
+                    return;
+                }
                 getPkValue();
                 break;
             default:
