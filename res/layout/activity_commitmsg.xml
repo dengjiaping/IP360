@@ -783,7 +783,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:text="确认并提交"
+            android:text="提交"
             android:textColor="@color/white"
             android:background="@drawable/round_corner_bg"
             android:textSize="@dimen/button_text_size"/>

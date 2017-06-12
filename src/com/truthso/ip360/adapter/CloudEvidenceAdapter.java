@@ -31,6 +31,7 @@ import com.truthso.ip360.activity.DocumentDetailActivity;
 import com.truthso.ip360.activity.FileRemarkActivity;
 import com.truthso.ip360.activity.PhotoDetailActivity;
 import com.truthso.ip360.activity.R;
+import com.truthso.ip360.activity.RealNameCertification;
 import com.truthso.ip360.activity.RecordDetailActivity;
 import com.truthso.ip360.activity.SecordLevelActivity;
 import com.truthso.ip360.activity.VideoDetailActivity;
@@ -395,7 +396,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 intent.putExtra("date", cloudEviItemBean.getFileDate());
                 intent.putExtra("size", size1);
                 intent.putExtra("mode", cloudEviItemBean.getFileMode());
-                intent.putExtra("type", type);
+                intent.putExtra("type", cloudEviItemBean.getType());
                 intent.putExtra("remarkText", cloudEviItemBean.getRemarkText());
                 intent.putExtra("pkValue", cloudEviItemBean.getPkValue());
                 intent.putExtra("dataType", cloudEviItemBean.getDataType());
@@ -414,7 +415,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 intent1.putExtra("date", cloudEviItemBean1.getFileDate());
                 intent1.putExtra("size", size1);
                 intent1.putExtra("mode", cloudEviItemBean1.getFileMode());
-                intent1.putExtra("type", type);
+                intent1.putExtra("type", cloudEviItemBean1.getType());
                 intent1.putExtra("remarkText", cloudEviItemBean1.getRemarkText());
                 intent1.putExtra("pkValue", cloudEviItemBean1.getPkValue());
                 intent1.putExtra("dataType", cloudEviItemBean1.getDataType());
@@ -481,7 +482,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                     Intent intent2 = new Intent(context, CertificationActivity.class);
                     intent2.putExtra("pkValue", cloudEviItemBean2.getPkValue());// 唯一标识
                     intent2.putExtra("dataType", cloudEviItemBean2.getDataType());//类型
-                    intent2.putExtra("type", type);// 类型 1-确权 2-现场取证 3-pc取证
+                    intent2.putExtra("type", cloudEviItemBean2.getType());// 类型 1-确权 2-现场取证 3-pc取证
                     context.startActivity(intent2);
                     break;
                 } else if (cloudEviItemBean2.getArreaStatus() == 0) {//欠费
@@ -821,7 +822,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //跳转到实名认证页面
-                        context.startActivity(new Intent(context, CertificationActivity.class));
+                        context.startActivity(new Intent(context, RealNameCertification.class));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
