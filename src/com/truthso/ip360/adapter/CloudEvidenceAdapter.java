@@ -282,7 +282,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         if (isChoice) {
             cb_choice.setVisibility(View.VISIBLE);
             cb_option.setVisibility(View.GONE);
-            //1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，什么逻辑~
+            //1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，PM什么逻辑~
             cb_choice.setClickable(true);
             cb_choice.setBackgroundResource(R.drawable.cb_selector);
             if (isAllSelect && cb_choice.isClickable()) {
@@ -298,7 +298,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         } else {
             cb_choice.setVisibility(View.GONE);
             cb_option.setVisibility(View.VISIBLE);
-
             cb_option.setChecked(false);
             ll_option.setVisibility(View.GONE);
             if (position == isOpen) {

@@ -67,6 +67,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
 				MyApplication.getInstance().startActivity(intent);
 				return;
 			}
+		}else{
+
 		}
 
 
@@ -969,6 +971,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	/**
 	 * 获取链接数量
 	 * @param pkValue
+	 * isSub	int	是	是否二级文件夹内查询数量( 0-否 1- 是)
 	 * @param callback
 	 * @return
 	 */
