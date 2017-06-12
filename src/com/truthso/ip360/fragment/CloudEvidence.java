@@ -63,6 +63,7 @@ import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
 import com.truthso.ip360.dao.UpDownLoadDao;
 import com.truthso.ip360.event.CEListRefreshEvent;
+import com.truthso.ip360.event.LoginEvent;
 import com.truthso.ip360.net.ApiCallback;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.net.BaseHttpResponse;
@@ -906,6 +907,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         adapter.setisOpen(Integer.MAX_VALUE);
         adapter.notifyDataSetInvalidated();
     }
+
+    @Subscribe
+    public void refreshList(LoginEvent event) {
+        toRefresh();
+    }
+
+
 
     @Override
     public void onStop() {
