@@ -797,7 +797,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                             intent.putExtra("requestEmail", bean.getDatas().getRequestEmail());//申请人邮箱
                             context.startActivity(intent);
                         } else if (iscer == 0) {//未实名
-                            showDialog("是实名认证后才能申请公证，是否立即认证？");
+                            showDialog("实名认证后才能申请公证，是否立即认证？");
                         }
                     } else {
                         Toaster.showToast(context, bean.getMsg());

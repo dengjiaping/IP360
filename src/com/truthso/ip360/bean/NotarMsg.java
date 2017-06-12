@@ -20,7 +20,7 @@ public class NotarMsg{
     private String receiverName;
     private String receiverCard;//领取人证件号
     private String notaryPageNum;//公证书份数
-    private int notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
+    private String notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
     private String noReason;//审核没有通过的原因
     private String fileSize;
     private String fileMount;
@@ -133,11 +133,11 @@ public class NotarMsg{
         this.receiverName = receiverName;
     }
 
-    public int getNotarStatus() {
+    public String getNotarStatus() {
         return notarStatus;
     }
 
-    public void setNotarStatus(int notarStatus) {
+    public void setNotarStatus(String notarStatus) {
         this.notarStatus = notarStatus;
     }
 

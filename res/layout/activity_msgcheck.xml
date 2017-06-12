@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="1.5"
             android:lines="3"
-            android:text="您的申请信息已提交公证处审核，预计1个工作日内会将 审核结果通过短信发送到您的手机上，请您注意查收。在 此期间如您有疑问可联系客服电话010-84770602"
+            android:text="您的申请信息已提交公证处审核，预计1个工作日内会将审核结果通过短信发送到您的手机上，请您注意查收。在此期间如您有疑问可联系客服电话010-84770602"
             android:textColor="@color/item_text_color"
             android:textSize="@dimen/text_12"
             android:layout_marginTop="10dp"

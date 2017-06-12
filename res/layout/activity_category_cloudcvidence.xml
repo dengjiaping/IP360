@@ -29,6 +29,18 @@
             android:textSize="@dimen/text_item" />
 
         <TextView
+            android:id="@+id/tv_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/paizhaoyuan"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="拍照证据"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_item" />
+
+        <TextView
             android:id="@+id/tv_video"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,20 +48,10 @@
             android:drawableTop="@drawable/luxiangyuan"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="录像取证"
+            android:text="录像证据"
             android:textColor="@color/black"
             android:textSize="@dimen/text_item" />
-        <TextView
-            android:id="@+id/tv_record"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/luyinyuan"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:text="录音取证"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_item" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -59,19 +61,17 @@
         android:orientation="horizontal" >
 <!--  android:layout_weight="17.33" -->
 
-
         <TextView
-            android:id="@+id/tv_photo"
+            android:id="@+id/tv_record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/paizhaoyuan"
+            android:drawableTop="@drawable/luyinyuan"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="拍照取证"
+            android:text="录音证据"
             android:textColor="@color/black"
             android:textSize="@dimen/text_item" />
-
         <TextView
             android:id="@+id/tv_pc"
             android:layout_width="0dp"
@@ -80,7 +80,7 @@
             android:drawableTop="@drawable/xianshangyuan"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="线上取证"
+            android:text="线上证据"
             android:textColor="@color/black"
             android:textSize="@dimen/text_item" />
 

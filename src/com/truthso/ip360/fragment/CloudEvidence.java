@@ -413,7 +413,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                             intent.putExtra("requestEmail", bean.getDatas().getRequestEmail());
                             startActivity(intent);
                         } else if (iscer == 0) {//未实名
-                            showDialog("是实名认证后才能申请公证，是否立即认证？");
+                            showDialog("实名认证后才能申请公证，是否立即认证？");
                         }
                     } else {
                         Toaster.showToast(getActivity(), bean.getMsg());

@@ -67,7 +67,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
     private String receiverName;
     private String receiverCard;//领取人证件号
     private String notaryPageNum;//公证书份数
-    private int notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
+    private String notarStatus;//0审核拒绝1等待提交2等待审核3等待付费4等待制证5已公证
     private String noReason;//审核没有通过的原因
     private String fileSize;
     private String fileMount;
@@ -159,17 +159,17 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
         vh.tv_sehnqingren.setText(requestName);
         vh.tv_lingquren.setText(receiverName);
 
-        if(notarStatus==0){//0审核拒绝
+        if(notarStatus.equals("0")){//0审核拒绝
             vh.tv_status.setText("审核拒绝");
-        }else if(notarStatus==1){//1等待提交（审核没通过直接跳重新提交页面，信息带过去）
+        }else if(notarStatus.equals("1")){//1等待提交（审核没通过直接跳重新提交页面，信息带过去）
             vh.tv_status.setText("等待提交");
-        }else if(notarStatus==2){//2等待审核
+        }else if(notarStatus.equals("2")){//2等待审核
             vh.tv_status.setText("等待审核");
-        }else if(notarStatus==3){//3等待付费
+        }else if(notarStatus.equals("3")){//3等待付费
             vh.tv_status.setText("等待付费");
-        }else if(notarStatus==4){//4等待制证
+        }else if(notarStatus.equals("4")){//4等待制证
             vh.tv_status.setText("等待制证");
-        }else if(notarStatus==5){//5已公证
+        }else if(notarStatus.equals("5")){//5已公证
             vh.tv_status.setText("已公证");
         }
 
@@ -186,7 +186,6 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                int position = (Integer) v.getTag();
                NotarMsg  notarnum =  mDatas.get(position);
                 showDialog(notarnum.getNotaryNum());
-                LogUtils.e("111111111111111111111111111111111111111111111"+notarnum.getNotaryNum());
                 break;
             case R.id.iv_file_detail://公证详情
                 int position1 = (Integer) v.getTag();
@@ -199,7 +198,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
             case R.id.iv_gongzhengxinxi://公证信息(公证到哪一步了 )
                 int position2 = (Integer) v.getTag();
                 NotarMsg  notarnum2 =  mDatas.get(position2);
-                int status =   notarnum2.getNotarStatus();
+               String  status =   notarnum2.getNotarStatus();
                String reason =  notarnum2.getNoReason();
                  String notarName =  notarnum2.getNotarName();//申请公证的名称
                  String notarOfficeName =  notarnum2.getNotarOfficeName();//公证处名称
@@ -212,7 +211,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                String fileMount =  notarnum2.getFileMount();//申请文件的个数
                String pkValue =  notarnum2.getPkValue();//此条公证服务的id
 
-                if(status==0||status==2){//0审核拒绝
+                if(status.equals("0")||status.equals("2")){//0审核拒绝
                     Intent intent_0 = new Intent(context, MsgCheckActivity.class);
                     intent_0.putExtra("reason",reason);//审核拒绝的原因
                     intent_0.putExtra("notarName",notarName);//公证名称
@@ -226,8 +225,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                     intent_0.putExtra("fileMount",fileMount);//文件个数
                     intent_0.putExtra("pkValue",pkValue);//此条公证服务的id
                     context.startActivity(intent_0);
-
-                }else if(status==3){//3等待付费
+                }else if(status.equals("3")){//3等待付费
                     Intent intent_3 = new Intent(context, NotarPayActivity.class);
                     intent_3.putExtra("notarName",notarName);//公证名称
                     intent_3.putExtra("notarNum",notarnum2.getNotaryNum());//公正编号
@@ -238,18 +236,17 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                     intent_3.putExtra("fileMount",fileMount);//文件个数
                     intent_3.putExtra("monery",notarnum2.getMonery());//待支付费用
                     context.startActivity(intent_3);
-                }else if(status==4){//4等待制证
+                }else if(status.equals("4")){//4等待制证
                     Intent intent_4 = new Intent(context, MackCardActivity.class);
                     intent_4.putExtra("status","等待制证");
                     context.startActivity(intent_4);
-                }else if(status==5){//5已公证
+                }else if(status.equals("5")){//5已公证
                     Intent intent_5 = new Intent(context, MackCardActivity.class);
                     intent_5.putExtra("status","已公证");
                     intent_5.putExtra("receiverDate",notarnum2.getReceiverDate());//公证书领取时间
                     intent_5.putExtra("notarOfficeName",notarOfficeName);//公证处名称
                     intent_5.putExtra("notaryOfficeAddress",notarnum2.getNotaryOfficeAddress());
                     context.startActivity(intent_5);
-
                 }
                 break;
 

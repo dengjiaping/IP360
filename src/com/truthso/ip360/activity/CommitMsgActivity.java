@@ -147,23 +147,21 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 cityName = tv_city_name.getText().toString().trim();
                 gongzhengchu = tv_gongzhengchu.getText().toString().trim();
                 tvreceiver = tv_receiver.getText().toString().trim();
-                if(!CheckUtil.isEmpty(fenshu_int)){
-                    fenshu_int =  Integer.parseInt(fenshu);
-                }
 
-                if (gongzhengchu.equals("请选择")){
-                    Toaster.showToast(this,"请选择公证处");
-                    return;
-                }else if(tvreceiver.equals("请选择")){
-                    Toaster.showToast(this,"请选择领取人");
-                    return;
-                }else if (cityName.equals("请选择")){
-                    Toaster.showToast(this,"请选择公证处所在地");
-                    return;
-                }else if(CheckUtil.isEmpty(name)){
-                    Toaster.showToast(this,"请填写申请公证的名称");
-                    return;
-                }else if(CheckUtil.isEmpty(name_lingqu)){
+
+         if(CheckUtil.isEmpty(name)){
+                Toaster.showToast(this,"请填写申请公证的名称");
+                return;
+            }else if (gongzhengchu.equals("请选择")){
+                Toaster.showToast(this,"请选择公证处");
+                return;
+            }else if(tvreceiver.equals("请选择")){
+                Toaster.showToast(this,"请选择领取人");
+                return;
+            }else if (cityName.equals("请选择")){
+                Toaster.showToast(this,"请选择公证处所在地");
+                return;
+            }else if(CheckUtil.isEmpty(name_lingqu)){
                     Toaster.showToast(this,"请填写领取人的姓名");
                     return;
                 }
@@ -216,7 +214,9 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                     return;
             }
 
-
+                if(!CheckUtil.isEmpty(fenshu_int)){
+                    fenshu_int =  Integer.parseInt(fenshu);
+                }
 
                 showDialog("是否确认提交?");
                 break;
