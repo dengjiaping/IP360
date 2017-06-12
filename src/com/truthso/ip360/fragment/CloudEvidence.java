@@ -259,37 +259,21 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         }
 
     }
-    private  volatile  int count,size;
+    private  volatile  int count;
     private StringBuffer pkValueSb;
-    private  List<CloudEviItemBean> secordLevelAllItems;
-    List<CloudEviItemBean> secordItems;
 
     /**
      * 申请公证，申请人的账号信息
      */
     private void getPkValue() {
         List<CloudEviItemBean> selected = adapter.getSelected();
-        secordLevelAllItems=new ArrayList<>();
         pkValueSb=new StringBuffer();
         count=0;
-        size=0;
         if (selected.size() != 0) {
-             secordItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
-                if (selected.get(i).getLinkCount() > 1) {
-                    secordItems.add(selected.remove(i));
-                } else {
                     pkValueSb.append(selected.get(i).getType()+"-"+selected.get(i).getPkValue()+",");
-                }
             }
-            count+=selected.size();
-            if(secordItems.size()>0){
-                for (int i=0;i<secordItems.size();i++){
-                    getsecordItemsPkValue(secordItems.get(i));
-                }
-            }else{
                 getLinkCount(pkValueSb.toString());
-            }
 
             adapter.setChoice(false);
             adapter.notifyDataSetChanged();
@@ -307,46 +291,10 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         }
     }
 
-
-    public void getsecordItemsPkValue(CloudEviItemBean bean) {
-        showProgress("正在加载...");
-        ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
-            @Override
-            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
-                hideProgress();
-                size++;
-                CloudEvidenceBean bean = (CloudEvidenceBean) response;
-                if (!CheckUtil.isEmpty(bean)) {
-                    if (bean.getCode() == 200) {
-                        secordLevelAllItems.addAll(bean.getDatas()) ;
-                      if(size==secordItems.size()){
-                          if (secordLevelAllItems.size() != 0) {
-                              for (int i=0;i<secordLevelAllItems.size();i++){
-                                  pkValueSb.append(secordLevelAllItems.get(i).getType()+"-"+secordLevelAllItems.get(i).getPkValue()+",");
-                              }
-                              count+=secordLevelAllItems.size();
-                              pkValueSb.deleteCharAt(pkValueSb.length()-1);
-                              getLinkCount(pkValueSb.toString());
-                          }
-                      }
-                    } else {
-                        Toaster.showToast(getActivity(), bean.getMsg());
-                    }
-                } else {
-                    Toaster.showToast(getActivity(), "数据加载失败请刷新重试");
-                }
-            }
-
-            @Override
-            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            }
-        });
-    }
-
     //获取申请公证的证据数量
     private void getLinkCount(final String pkValue) {
         showProgress("正在加载...");
-        ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
+        ApiManager.getInstance().getLinkCount(pkValue,0,new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();
@@ -359,14 +307,11 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                     }
                 }
             }
-
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
             }
         });
-
-
     }
 
     private void showGetLinkDialog(String showText, final int status) {
@@ -379,7 +324,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                         if(status!=0){
                             getAccountMsg();
                         }
-
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

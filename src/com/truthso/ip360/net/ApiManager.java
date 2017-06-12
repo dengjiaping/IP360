@@ -975,12 +975,12 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param callback
 	 * @return
 	 */
-	public RequestHandle getLinkCount(String pkValue,ApiCallback callback){
+	public RequestHandle getLinkCount(String pkValue,int isSub,ApiCallback callback){
 		BaseHttpRequest<GetLinkCountBean> request = new BaseHttpRequest<GetLinkCountBean>(
 				GetLinkCountBean.class, this);
 		request.setPath(URLConstant.getLinkCount);
 		request.params().add("pkValue", pkValue);
-
+		request.params().add("isSub", isSub+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);
