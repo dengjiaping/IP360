@@ -1088,7 +1088,12 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     public void toOnLoad() {
         lastPosition = 0;
         pagerNumber++;
-        getDatas(searchText, type, mobileType, pagerNumber);
+        if (leiBieTag == 5) {
+            getAllData();
+        } else {
+            getDatas(searchText, type, mobileType, pagerNumber);
+        }
+//        getDatas(searchText, type, mobileType, pagerNumber);
     }
 
     @Override
