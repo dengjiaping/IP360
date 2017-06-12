@@ -630,7 +630,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * downloadOrDelete 1-下载 2-删除
      */
     public void getSubEvidence(CloudEviItemBean bean, final int downloadOrDelete) {
-        showProgress("正在加载...");
+//        showProgress("正在加载...");
         ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
@@ -823,14 +823,14 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * 类别中，全部，获取全部类型的云端数据
      */
     private void getAllData() {
-        showProgress("正在加载...");
+//        showProgress("正在加载...");
         ApiManager.getInstance().getCloudEvidenceAll(null, pagerNumber, 10, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 //停止刷新
                 listView.onRefreshFinished();
                 listView.onLoadFinished();
-                hideProgress();
+//                hideProgress();
                 bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
@@ -995,7 +995,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * 除全部的类型外，其他类型的，云端证据的接口
      */
     private void getDatas(String keywork, final int type, final int mobileType, int pagerNumber) {
-        showProgress("正在加载数据...");
+//        showProgress("正在加载数据...");
         if (requestHandle != null && !requestHandle.isFinished()) {
             requestHandle.cancel(true);
         }
@@ -1007,7 +1007,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 //停止刷新
                 listView.onRefreshFinished();
                 listView.onLoadFinished();
-                hideProgress();
+//                hideProgress();
 
                 bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
@@ -1093,7 +1093,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         } else {
             getDatas(searchText, type, mobileType, pagerNumber);
         }
-//        getDatas(searchText, type, mobileType, pagerNumber);
+        getDatas(searchText, type, mobileType, pagerNumber);
     }
 
     @Override
