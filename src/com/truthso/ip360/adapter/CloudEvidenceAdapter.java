@@ -232,7 +232,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 vh.tv_delete.setVisibility(View.GONE);
                 vh.tv_download.setVisibility(View.VISIBLE);
             }
-
         }
 
         changeState(position, convertView, vh.cb_choice, vh.cb_option);
@@ -472,7 +471,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 }
                 int position6 = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean6 = mDatas.get(position6);
-                getsecordItemsPkValue(cloudEviItemBean6);
+               // getsecordItemsPkValue(cloudEviItemBean6);
+                getLinkCount(cloudEviItemBean6.getType()+"-"+cloudEviItemBean6.getPkValue());
                 break;
             case R.id.tv_certificate_preview:// 证书预览
                 int position2 = (Integer) v.getTag();
@@ -554,9 +554,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         }
     }
 
-    private StringBuffer pkValueSb;
     private RequestHandle requestHandle;
-    public void getsecordItemsPkValue(CloudEviItemBean bean) {
+/*    public void getsecordItemsPkValue(CloudEviItemBean bean) {
         dialog.showProgress("努力加载中...");
          requestHandle = ApiManager.getInstance().getSubEvidence(bean.getType(), bean.getPkValue(), 1, 999999, new ApiCallback() {
             @Override
@@ -586,19 +585,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             }
         });
-    }
+    }*/
 
     //获取申请公证的证据数量
     private void getLinkCount(final String pkValue) {
         dialog.showProgress("努力加载中...");
-        requestHandle=ApiManager.getInstance().getLinkCount(pkValue, new ApiCallback() {
+        requestHandle=ApiManager.getInstance().getLinkCount(pkValue,0, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 dialog.hideProgress();
                 GetLinkCountBean bean=(GetLinkCountBean)response;
                 if(bean!=null&&bean.getCode()==200){
-                    Log.i("djj","pkValue"+pkValueSb.toString()+":"+count);
-                    showGetLinkDialog(bean.getDatas().getShowText(),bean.getDatas().getStatus());
+                    showGetLinkDialog(pkValue,bean.getDatas().getShowText(),bean.getDatas().getStatus());
                     if(bean.getDatas().getStatus()!=0){
                         count=Integer.parseInt(bean.getDatas().getFileCount());
                     }
@@ -610,7 +608,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
         });
     }
 
-    private void showGetLinkDialog(String showText, final int status) {
+    private void showGetLinkDialog(final String pkvalue, String showText, final int status) {
         alertDialog = new AlertDialog.Builder(context).setTitle("温馨提示")
                 .setMessage(showText).setIcon(R.drawable.ww)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -619,7 +617,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                     public void onClick(DialogInterface dialog, int which) {
                         if(status!=0){
                             //对否实名认证
-                            AccountMsg(pkValueSb.toString(),count);
+                            AccountMsg(pkvalue,count);
                         }
 
                     }

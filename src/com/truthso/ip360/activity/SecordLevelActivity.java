@@ -23,6 +23,7 @@ import com.truthso.ip360.bean.CloudEviItemBean;
 import com.truthso.ip360.bean.CloudEvidenceBean;
 import com.truthso.ip360.bean.DbBean;
 import com.truthso.ip360.bean.DownLoadFileBean;
+import com.truthso.ip360.bean.GetLinkCountBean;
 import com.truthso.ip360.bean.NotarAccountBean;
 import com.truthso.ip360.constants.MyConstants;
 import com.truthso.ip360.dao.SqlDao;
@@ -225,12 +226,16 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
     }
 
 
+    private   NotarAccountBean notarAccountBean;
     /**
      * 申请公证，申请人的账号信息
      */
     private void AccountMsg() {
         final List<CloudEviItemBean> selected = adapter.getSelected();
-
+        if(selected.size()==0){
+            Toaster.showToast(this,"请选择申请公证的证据");
+            return;
+        }
         showProgress("正在加载...");
         ApiManager.getInstance().getAccountMsg(new ApiCallback() {
             @Override
@@ -239,6 +244,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                 NotarAccountBean bean = (NotarAccountBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
+                        notarAccountBean=bean;
                         int iscer = bean.getDatas().getIscertified();//0-未实名 1-已实名
                         if (iscer == 1) {//已实名
                             StringBuffer sb=new StringBuffer();
@@ -246,18 +252,8 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                             for (int i=1;i<selected.size();i++){
                                 sb.append(","+selected.get(i).getType()+"-"+ selected.get(i).getPkValue());
                             }
+                            getLinkCount(sb.toString(),selected.size());
 
-//							已经选择的申请公证，要type跟pkvalue
-                            //跳转到提交信息页面
-                            Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
-							intent.putExtra("pkValue",sb.toString());
-							intent.putExtra("linkcount",selected.size());//申请公证的数量
-                            intent.putExtra("requestName", bean.getDatas().getRequestName());
-                            intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
-                            intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
-                            intent.putExtra("requestEmail", bean.getDatas().getRequestEmail());
-                            startActivity(intent);
-                            cancelChoose();
                         } else if (iscer == 0) {//未实名
                             showDialog("是实名认证后才能申请公证，是否立即认证？");
                         }
@@ -270,6 +266,36 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                 }
             }
 
+            @Override
+            public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+    }
+
+    //获取申请公证的证据数量
+    private void getLinkCount(final String pkValue, final int count) {
+        showProgress("正在加载...");
+        ApiManager.getInstance().getLinkCount(pkValue,1,new ApiCallback() {
+            @Override
+            public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
+                GetLinkCountBean bean=(GetLinkCountBean)response;
+                if(bean!=null&&bean.getCode()==200){
+
+                    //							已经选择的申请公证，要type跟pkvalue
+                    //跳转到提交信息页面
+                    Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
+                    intent.putExtra("pkValue",pkValue.toString());
+                    intent.putExtra("linkcount",count);//申请公证的数量
+                    intent.putExtra("requestName", notarAccountBean.getDatas().getRequestName());
+                    intent.putExtra("requestCardId", notarAccountBean.getDatas().getRequestCardId());
+                    intent.putExtra("requestPhoneNum", notarAccountBean.getDatas().getRequestPhoneNum());
+                    intent.putExtra("requestEmail", notarAccountBean.getDatas().getRequestEmail());
+                    startActivity(intent);
+                    cancelChoose();
+                }
+            }
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
