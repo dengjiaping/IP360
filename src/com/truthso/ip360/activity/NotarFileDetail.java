@@ -74,6 +74,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
 
     @Override
     public void toRefresh() {
+        pagerNumber=1;
         list.clear();
         getData();
     }
@@ -81,7 +82,6 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
     @Override
     public void toOnLoad() {
         pagerNumber++;
-        pagerNumber=1;
         getData();
     }
     /**
@@ -105,7 +105,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
                         } else {
                             if (list.size() == 0) {
                             } else {
-                                listView.setLoadComplete("没有更多数据了");
+                                Toaster.showToast(NotarFileDetail.this,"没有更多数据了");
                             }
                         }
                         adapter.notifyDataChange(list);
