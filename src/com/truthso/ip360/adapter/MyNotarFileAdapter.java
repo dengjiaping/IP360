@@ -175,6 +175,12 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
         } else if (notarStatus.equals("5")) {//5已公证
             vh.tv_status.setText("已公证");
         }
+        if(notarStatus.equals("5")||notarStatus.equals("4")){
+            vh.iv_chexiao.setVisibility(View.GONE);
+        }else{
+            vh.iv_chexiao.setVisibility(View.VISIBLE);
+        }
+
 
         vh.iv_chexiao.setOnClickListener(this);
         vh.iv_file_detail.setOnClickListener(this);

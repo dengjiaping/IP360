@@ -68,9 +68,9 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
         tv_fenshu = (TextView) findViewById(R.id. tv_fenshu);
         tv_fenshu.setText(fenshu+"份");
         tv_filemount = (TextView) findViewById(R.id.tv_filemount);
-        tv_filemount.setText(fileMount);
+        tv_filemount.setText(fileMount+"个");
         tv_money = (TextView) findViewById(R.id.tv_money);
-        tv_money.setText(monery+"元");
+        tv_money.setText("代付费用：￥"+monery);
         btn_pay = (Button) findViewById(R.id.btn_pay);
         btn_pay.setOnClickListener(this);
 
@@ -160,7 +160,9 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        //跳充值页面
+                        Intent intent = new Intent(NotarPayActivity.this,AccountPayActivity.class);
+                        startActivity(intent);
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override

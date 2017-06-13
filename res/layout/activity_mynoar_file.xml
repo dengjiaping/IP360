@@ -4,15 +4,20 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg">
 <include layout="@layout/top_title"></include>
-  <!--  <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>-->
+
     <com.truthso.ip360.view.RefreshListView
         android:id="@+id/lv_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:listSelector="@color/activity_bg"
+        />
+    <ImageView
+        android:id="@+id/iv_nonotar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/nonotar"
+        android:visibility="gone"
         />
 </LinearLayout>
