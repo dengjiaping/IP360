@@ -184,6 +184,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             vh = (ViewHolder) convertView.getTag();
 
         }
+
         String fileName = mDatas.get(position).getFileTitle();
         if (!CheckUtil.isEmpty(remarkText)) {//有备注的，文件名显示备注
             vh.tv_filename.setText(remarkText);
@@ -234,7 +235,8 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                 vh.tv_download.setVisibility(View.VISIBLE);
             }
         }
-
+        vh.cb_choice.setTag(position);
+        vh.cb_choice.setOnCheckedChangeListener(null);
         changeState(position, convertView, vh.cb_choice, vh.cb_option);
 
         return convertView;
@@ -284,7 +286,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             //1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，PM什么逻辑~
             cb_choice.setClickable(true);
             cb_choice.setBackgroundResource(R.drawable.cb_selector);
-            if (isAllSelect && cb_choice.isClickable()) {
+            if ((isAllSelect && cb_choice.isClickable())||selectedList.contains(cloudEviItemBean)) {
                 cb_choice.setChecked(true);
             } else {
                 cb_choice.setChecked(false);
@@ -292,7 +294,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             if (ll_option.getVisibility() == View.VISIBLE) {
                 ll_option.setVisibility(View.GONE);
             }
-            cb_choice.setTag(position);
+
             cb_choice.setOnCheckedChangeListener(this);
         } else {
             cb_choice.setVisibility(View.GONE);
