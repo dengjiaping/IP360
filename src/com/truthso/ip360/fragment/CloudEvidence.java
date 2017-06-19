@@ -26,6 +26,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -170,47 +171,22 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 inputManager.showSoftInput(et_find_service, 0);
             }
         }, 300);
-        et_find_service.addTextChangedListener(new TextWatcher() {
-
+        et_find_service.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (CheckUtil.isEmpty(s.toString())) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String key = et_find_service.getText().toString().trim();
                     list.clear();
-                    getDatas(null, type, mobileType, 1);
-
-                } else {
-                    mHandler.removeMessages(101);
-                    if (!CheckUtil.isEmpty(requestHandle)) {
-                        requestHandle.cancel(true);
+                    if (leiBieTag == 5) {
+                        getAllData();
+                    } else {
+                        getDatas(key, type, mobileType, 1);
                     }
-                    Message msg = new Message();
-                    msg.what = 101;
-                    msg.obj = s.toString();
-                    mHandler.sendMessageDelayed(msg, 500);
-                }
             }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
-
-    private Handler mHandler = new Handler() {
-
-        public void handleMessage(Message msg) {
-
-            list.clear();
-            getDatas((String) (msg.obj), type, mobileType, 1);
+                return false;
         }
-    };
-
+    });
+    }
     private RequestHandle requestHandle;
 
     @Override
@@ -249,8 +225,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 break;
             case R.id.btn_sqgz://申请公证
                 //无网络
-                if(!NetStatusUtil.isNetValid(getActivity())){
-                    Toaster.showToast(getActivity(),"当前无网络，请稍后重试！");
+                if (!NetStatusUtil.isNetValid(getActivity())) {
+                    Toaster.showToast(getActivity(), "当前无网络，请稍后重试！");
                     return;
                 }
                 getPkValue();
@@ -260,7 +236,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         }
 
     }
-    private  volatile  int count;
+
+    private volatile int count;
     private StringBuffer pkValueSb;
 
     /**
@@ -268,13 +245,13 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      */
     private void getPkValue() {
         List<CloudEviItemBean> selected = adapter.getSelected();
-        pkValueSb=new StringBuffer();
-        count=0;
+        pkValueSb = new StringBuffer();
+        count = 0;
         if (selected.size() != 0) {
             for (int i = 0; i < selected.size(); i++) {
-                    pkValueSb.append(selected.get(i).getType()+"-"+selected.get(i).getPkValue()+",");
+                pkValueSb.append(selected.get(i).getType() + "-" + selected.get(i).getPkValue() + ",");
             }
-                getLinkCount(pkValueSb.toString());
+            getLinkCount(pkValueSb.toString());
 
             adapter.setChoice(false);
             adapter.notifyDataSetChanged();
@@ -295,19 +272,20 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     //获取申请公证的证据数量
     private void getLinkCount(final String pkValue) {
         showProgress("正在加载...");
-        ApiManager.getInstance().getLinkCount(pkValue,0,new ApiCallback() {
+        ApiManager.getInstance().getLinkCount(pkValue, 0, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();
-                GetLinkCountBean bean=(GetLinkCountBean)response;
-                if(bean!=null&&bean.getCode()==200){
-                    Log.i("djj","pkValue"+pkValueSb.toString()+":"+count);
-                    showGetLinkDialog(bean.getDatas().getShowText(),bean.getDatas().getStatus());
-                    if(bean.getDatas().getStatus()!=0){
-                        count=Integer.parseInt(bean.getDatas().getFileCount());
+                GetLinkCountBean bean = (GetLinkCountBean) response;
+                if (bean != null && bean.getCode() == 200) {
+                    Log.i("djj", "pkValue" + pkValueSb.toString() + ":" + count);
+                    showGetLinkDialog(bean.getDatas().getShowText(), bean.getDatas().getStatus());
+                    if (bean.getDatas().getStatus() != 0) {
+                        count = Integer.parseInt(bean.getDatas().getFileCount());
                     }
                 }
             }
+
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
@@ -322,7 +300,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(status!=0){
+                        if (status != 0) {
                             getAccountMsg();
                         }
                     }
@@ -350,8 +328,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
-                            intent.putExtra("pkValue",pkValueSb.toString());
-                            intent.putExtra("linkcount",count);//申请公证的数量
+                            intent.putExtra("pkValue", pkValueSb.toString());
+                            intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
                             intent.putExtra("requestCardId", bean.getDatas().getRequestCardId());
                             intent.putExtra("requestPhoneNum", bean.getDatas().getRequestPhoneNum());
@@ -367,6 +345,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                     Toaster.showToast(getActivity(), "获取数据失败");
                 }
             }
+
             @Override
             public void onApiResultFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
@@ -447,9 +426,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             List<CloudEviItemBean> secordLevelItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
                 //有二级页面的先调接口再下载
-                if(selected.get(i).getLinkCount() > 0){
+                if (selected.get(i).getLinkCount() > 0) {
                     secordLevelItems.add(selected.remove(i));
-                }else{
+                } else {
                     if (isDownloaded(selected.get(i).getPkValue())) {//文件已经下载到本地
                         Toaster.showToast(getActivity(), "文件已经下载到本地");
                         continue;
@@ -769,7 +748,8 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      */
     private void getAllData() {
 //        showProgress("正在加载...");
-        ApiManager.getInstance().getCloudEvidenceAll(null, pagerNumber, 10, new ApiCallback() {
+        searchText = et_find_service.getText().toString().trim();
+        ApiManager.getInstance().getCloudEvidenceAll(searchText, pagerNumber, 10, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 //停止刷新
@@ -914,7 +894,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
     }
 
 
-
     @Override
     public void onStop() {
         super.onStop();
@@ -977,7 +956,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                                 listView.setLoadComplete("没有更多数据了");
                             }
                         }
-
                         adapter.notifyDataChange(list, type, mobileType);
                     } else {
                         Toaster.showToast(getActivity(), bean.getMsg());
@@ -1045,7 +1023,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         } else {
             getDatas(searchText, type, mobileType, pagerNumber);
         }
-        getDatas(searchText, type, mobileType, pagerNumber);
     }
 
     @Override
