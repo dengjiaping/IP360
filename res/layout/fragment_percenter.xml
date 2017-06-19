@@ -18,31 +18,31 @@
             android:background="@color/activity_bg">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_height"
-            android:background="@color/jiuhong" >
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="个人中心"
-                android:textColor="@color/white"
-                android:textSize="@dimen/title_text_size"
-                 />
-            <Button
-                android:id="@+id/btn_shezhi"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/shezhi"
-                />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_height"
+                android:background="@color/jiuhong" >
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="个人中心"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/title_text_size"
+                     />
+                <ImageView
+                    android:id="@+id/btn_shezhi"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/shezhi"
+                    />
+            </RelativeLayout>
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"

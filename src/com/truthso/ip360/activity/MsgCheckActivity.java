@@ -18,7 +18,7 @@ import com.truthso.ip360.utils.CheckUtil;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class MsgCheckActivity extends BaseActivity implements View.OnClickListener {
-    private String reason, notarName, notarOfficeName, notarOfferAddress, requestName, receiver, applicationCard, receiverName, receiverCard, fileMount, pkValue;
+    private String reason, notarName, notarOfficeName, notarOfferAddress, requestName, receiver, applicationCard, receiverName, receiverCard, status,fileMount, pkValue;
     private TextView tv_reason;
     private Button btn_commitagin;
     private ImageView iv_icon;
@@ -40,6 +40,7 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
 //        intent_0.putExtra("receiverCard",receiverCard);//领取人身份证号
 //        intent_0.putExtra("fileMount",fileMount);//文件个数
 //        intent_0.putExtra("pkValue",pkValue);//此条公证服务的id
+        status =  getIntent().getStringExtra("status");
         reason = getIntent().getStringExtra("reason");
         notarName = getIntent().getStringExtra("notarName");
         notarOfficeName = getIntent().getStringExtra("notarOfficeName");
@@ -55,11 +56,20 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         btn_commitagin = (Button) findViewById(R.id.btn_commitagin);
         btn_commitagin.setOnClickListener(this);
         tv_reason = (TextView) findViewById(R.id.tv_reason);
-        if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
-            tv_reason.setText(reason);
-            btn_commitagin.setVisibility(View.VISIBLE);
-            iv_icon.setVisibility(View.VISIBLE);
+        if (!CheckUtil.isEmpty(status)){
+            if (status.equals("0")){//审核拒绝
+                if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
+                    tv_reason.setText(reason);
+                    btn_commitagin.setVisibility(View.VISIBLE);
+                    iv_icon.setVisibility(View.VISIBLE);
+                }
+            }
+        }else{
+            btn_commitagin.setVisibility(View.GONE);
+            iv_icon.setVisibility(View.GONE);
         }
+
+
 
     }
 

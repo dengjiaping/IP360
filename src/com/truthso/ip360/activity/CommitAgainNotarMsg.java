@@ -97,7 +97,7 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
 
         name = et_name.getText().toString().trim();
         fenshu = et_fenshu.getText().toString().trim();
-        fenshu_int =  Integer.parseInt(fenshu);
+
         huji = et_huji.getText().toString().trim();
         currloc = et_currloc.getText().toString().trim();
         name_lingqu = et_name_lingqu.getText().toString().trim();
@@ -159,6 +159,7 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
             Toaster.showToast(this,"请输入份数");
             return;
         }else{
+                fenshu_int =  Integer.parseInt(fenshu);
             if (fenshu_int<1||fenshu_int>100){
                 Toaster.showToast(this,"份数应该是1-100之间的整数");
                 return;
@@ -180,6 +181,7 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
         ApiManager.getInstance().commitAgainNotarMsg(fenshu_int, huji, currloc, phonenum, email, pkValue, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
+                hideProgress();
                     if (!CheckUtil.isEmpty(response)){
                         if (response.getCode() == 200){
                             Toaster.showToast(CommitAgainNotarMsg.this,"提交成功");
@@ -188,7 +190,7 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
                             Toaster.showToast(CommitAgainNotarMsg.this,response.getMsg());
                         }
                     }else{
-                        Toaster.showToast(CommitAgainNotarMsg.this,"信息提交失败，请稍后重试");
+//                        Toaster.showToast(CommitAgainNotarMsg.this,"信息提交失败，请稍后重试");
                     }
 
             }

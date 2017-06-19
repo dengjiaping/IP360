@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,11 +92,11 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 	private boolean isHaveCombo = true;
 	private String Tag;
 	private List<product> productBalance;
-	private Button btn_shezhi;
+	private ImageView btn_shezhi;
 	@Override
 	protected void initView(View view, LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		btn_shezhi = (Button) view.findViewById(R.id.btn_shezhi);
+		btn_shezhi = (ImageView) view.findViewById(R.id.btn_shezhi);
 		btn_shezhi.setOnClickListener(this);
 		tv_account = (TextView) view.findViewById(R.id.tv_account);
 

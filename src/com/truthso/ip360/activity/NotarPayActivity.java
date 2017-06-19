@@ -16,6 +16,8 @@ import com.truthso.ip360.net.BaseHttpResponse;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.utils.CheckUtil;
 
+import java.text.DecimalFormat;
+
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -46,7 +48,8 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
 //        intent_3.putExtra("fenshu", notarnum2.getNotaryPageNum());//公证书份数
 //        intent_3.putExtra("fileMount",fileMount);//文件个数
 //        intent_3.putExtra("monery",notarnum2.getMonery());//待支付费用
-        notarName = getIntent().getStringExtra("notarName");
+
+        notarName = getIntent().getStringExtra("notarName");//0审核拒绝
         notarNum = getIntent().getStringExtra("notarNum");
         notarOfficeName = getIntent().getStringExtra("notarOfficeName");
         requestName = getIntent().getStringExtra("requestName");
@@ -70,7 +73,7 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
         tv_filemount = (TextView) findViewById(R.id.tv_filemount);
         tv_filemount.setText(fileMount+"个");
         tv_money = (TextView) findViewById(R.id.tv_money);
-        tv_money.setText("代付费用：￥"+monery);
+        tv_money.setText("待付费用：￥"+monery);
         btn_pay = (Button) findViewById(R.id.btn_pay);
         btn_pay.setOnClickListener(this);
 
@@ -129,7 +132,15 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
                             startActivity(intent_4);
                             finish();
                         }else{
-                            showDialog1(bean.getDatas().getShowText());
+                            String str = bean.getDatas().getBalance();
+                            if (!CheckUtil.isEmpty(str)){
+                                int balance =Integer.parseInt(str);
+                                double account = balance*0.01;
+                                DecimalFormat dec = new DecimalFormat("0.00");
+                              String  accountBalance = "￥"+ dec.format(account);
+                                showDialog1(bean.getDatas().getShowText(),accountBalance);
+                            }
+
                         }
 
 
@@ -152,7 +163,7 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
      * 余额不足
      * @param str
      */
-    private void showDialog1(String str) {
+    private void showDialog1(String str, final String balance) {
         alertDialog = new AlertDialog.Builder(NotarPayActivity.this).
                 setTitle("温馨提示").
                 setMessage(str).
@@ -162,6 +173,7 @@ private String notarName,notarNum,notarOfficeName,requestName,receiverName,fensh
                     public void onClick(DialogInterface dialog, int which) {
                         //跳充值页面
                         Intent intent = new Intent(NotarPayActivity.this,AccountPayActivity.class);
+                        intent.putExtra("accountBalance",balance);
                         startActivity(intent);
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
