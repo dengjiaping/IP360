@@ -181,9 +181,10 @@ public class DownLoadAdapter extends BaseAdapter  {
 				break;
 		}
 
-		String str =info.getFileName();
+	/*	String str =info.getFileName();
 		foramt1 = str.substring(str.lastIndexOf(".")+1);
-		String format= foramt1.toLowerCase();// 格式变小写
+		String format= foramt1.toLowerCase();// 格式变小写*/
+		String format=info.getFileFormat();
 		if (CheckUtil.isFormatPhoto(format)) {
 			vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
 		} else if (CheckUtil.isFormatVideo(format)) {

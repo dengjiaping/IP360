@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.truthso.ip360.net.ApiManager;
 import com.truthso.ip360.utils.CheckUtil;
@@ -20,6 +21,7 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
     private String reason, notarName, notarOfficeName, notarOfferAddress, requestName, receiver, applicationCard, receiverName, receiverCard, fileMount, pkValue;
     private TextView tv_reason;
     private Button btn_commitagin;
+    private ImageView iv_icon;
     @Override
     public void initData() {
 
@@ -49,12 +51,14 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         receiverCard = getIntent().getStringExtra("receiverCard");
         fileMount = getIntent().getStringExtra("fileMount");
         pkValue = getIntent().getStringExtra("pkValue");
+        iv_icon = (ImageView) findViewById(R.id.iv_icon);
         btn_commitagin = (Button) findViewById(R.id.btn_commitagin);
         btn_commitagin.setOnClickListener(this);
         tv_reason = (TextView) findViewById(R.id.tv_reason);
         if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
             tv_reason.setText(reason);
             btn_commitagin.setVisibility(View.VISIBLE);
+            iv_icon.setVisibility(View.VISIBLE);
         }
 
     }

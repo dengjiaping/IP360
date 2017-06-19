@@ -148,7 +148,6 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                 gongzhengchu = tv_gongzhengchu.getText().toString().trim();
                 tvreceiver = tv_receiver.getText().toString().trim();
 
-
          if(CheckUtil.isEmpty(name)){
                 Toaster.showToast(this,"请填写申请公证的名称");
                 return;
@@ -201,6 +200,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
                     Toaster.showToast(this,"请输入份数");
                     return;
                 }else{
+                    fenshu_int = Integer.parseInt(fenshu);
                     if (fenshu_int<1||fenshu_int>100){
                         Toaster.showToast(this,"份数应该是1-100之间的整数");
                         return;

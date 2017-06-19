@@ -2,6 +2,8 @@ package com.truthso.ip360.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.truthso.ip360.adapter.MyNotarFileAdapter;
 import com.truthso.ip360.bean.NotarMsg;
@@ -32,6 +34,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
     private MyNotarFileAdapter adapter;
     private List<NotarMsg> datas;
     private NotarMsgBean bean;
+    private ImageView iv_nonotar;
 
     @Override
     public void initData() {
@@ -57,7 +60,12 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                             if (!CheckUtil.isEmpty(datas)) {
                                 list.addAll(datas);
                             }else{
-                                Toaster.showToast(MyNotarFile.this,"没有更多数据了");
+                                if(list.size()==0){
+                                    listView.setVisibility(View.GONE);
+                                    iv_nonotar.setVisibility(View.VISIBLE);
+                                }else{
+                                    Toaster.showToast(MyNotarFile.this,"没有更多数据了");
+                                }
                             }
                             adapter.notifyDataChange(list);
                         }else{
@@ -78,12 +86,12 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
 
     @Override
     public void initView() {
+        iv_nonotar= (ImageView) findViewById(R.id.iv_nonotar);
         listView = (RefreshListView) findViewById(R.id.lv_listview);
         listView.setOnRefreshListener(this);
         listView.setOnLoadListener(this);
         listView.setOnLoad(true);
         listView.setOnRefresh(true);
-
         adapter = new MyNotarFileAdapter(this, list);
         listView.setAdapter(adapter);
         getData();

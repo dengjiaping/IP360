@@ -426,7 +426,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             List<CloudEviItemBean> secordLevelItems = new ArrayList<>();
             for (int i = 0; i < selected.size(); i++) {
                 //有二级页面的先调接口再下载
-                if (selected.get(i).getLinkCount() > 0) {
+
+                if(selected.get(i).getLinkCount() > 1){
+                    Log.i("djj",selected.get(i).getPkValue()+"");
                     secordLevelItems.add(selected.remove(i));
                 } else {
                     if (isDownloaded(selected.get(i).getPkValue())) {//文件已经下载到本地
@@ -441,7 +443,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 }
             }
 
-            downloadSecordLevelItems(secordLevelItems);
+            if(secordLevelItems.size()>0){
+                downloadSecordLevelItems(secordLevelItems);
+            }
 
             adapter.setChoice(false);
             adapter.notifyDataSetChanged();
