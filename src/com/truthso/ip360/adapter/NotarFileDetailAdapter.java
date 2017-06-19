@@ -38,8 +38,7 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
     private Context context;
     private LayoutInflater inflater;
     protected List<File> mDatas;
-    private String  url,date,formatType;
-    private int mobileType,type,pkValue;
+
     public NotarFileDetailAdapter(Context context, List<File> mDatas) {
         super();
         this.context = context;
@@ -74,12 +73,7 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh = null;
-       File file = mDatas.get(position);
-        url=   file.getFileUrl();
-        mobileType = file.getMobileType();
-        pkValue =  file.getPkValue();
-       type = file.getType();
-        formatType = file.getFileFormatType();
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_zhengju_detail, null);
             vh = new ViewHolder();
@@ -95,6 +89,10 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
             vh = (ViewHolder) convertView.getTag();
         }
 
+
+        File file = mDatas.get(position);
+        String formatType=file.getFileFormatType();
+        int mobileType=file.getMobileType();
         vh.tv_filename.setText(file.getFileTitle());
         vh.tv_date.setText(file.getFileDate());
         vh.tv_filesize.setText( file.getFileSize());
@@ -110,14 +108,24 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
                     }
         }
         vh.iv_zhengjiuyulan.setOnClickListener(this);
+        vh.iv_zhengjiuyulan.setTag(position);
         vh.iv_ckzs.setOnClickListener(this);
+        vh.iv_ckzs.setTag(position);
         return convertView;
     }
 
     @Override
     public void onClick(View v) {
+        int position= (int) v.getTag();
+        File file = mDatas.get(position);
+
         switch (v.getId()){
             case  R.id.iv_zhengjiuyulan://证据预览
+
+                String formatType=file.getFileFormatType();
+                int mobileType=file.getMobileType();
+                String url= file.getFileUrl();
+
                 if (formatType.equals("1")){//文本
                     Intent intentDoc = new Intent(context, DocumentDetailActivity.class);
                     intentDoc.putExtra("url", url);
@@ -145,8 +153,8 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
                 break;
             case R.id.iv_ckzs://查看证书
                 Intent intent = new Intent(context, CertificationActivity.class);
-                intent.putExtra("pkValue",pkValue);
-                intent.putExtra("type",type);
+                intent.putExtra("pkValue",file.getPkValue());
+                intent.putExtra("type",file.getType());
                 context.startActivity(intent);
                 break;
         }

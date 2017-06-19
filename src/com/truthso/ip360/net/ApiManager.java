@@ -951,8 +951,8 @@ public class ApiManager implements BaseHttpRequestCallBack {
      */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RequestHandle commitAgainNotarMsg(int notarCopies,String domicileLoc,String currentAddress,String receiverPhoneNum,String receiverEmail,String pkValue,ApiCallback callback){
-		BaseHttpRequest<CloudEvidenceBean> request = new BaseHttpRequest<CloudEvidenceBean>(
-				CloudEvidenceBean.class, this);
+		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(
+				BaseHttpResponse.class, this);
 		request.setPath(URLConstant.commitAgainNotarMsg);
 		request.params().add("notarCopies", notarCopies+"");
 		request.params().add("pkValue", pkValue+"");
