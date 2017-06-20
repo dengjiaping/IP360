@@ -11,7 +11,7 @@ public class File{
     private String fileUrl;
     private int pkValue;
     private int type;
-    private int mobileType;
+    private String mobileType;
     private String fileFormatType;//1-文本 2-图片 3-音视频
 
     public String getFileFormatType() {
@@ -70,11 +70,11 @@ public class File{
         this.pkValue = pkValue;
     }
 
-    public int getMobileType() {
+    public String getMobileType() {
         return mobileType;
     }
 
-    public void setMobileType(int mobileType) {
+    public void setMobileType(String mobileType) {
         this.mobileType = mobileType;
     }
 }

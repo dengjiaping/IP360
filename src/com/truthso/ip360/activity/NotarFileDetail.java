@@ -105,7 +105,7 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
                         } else {
                             if (list.size() == 0) {
                             } else {
-                                Toaster.showToast(NotarFileDetail.this,"没有更多数据了");
+                                listView.setLoadComplete("没有更多数据了");
                             }
                         }
                         adapter.notifyDataChange(list);

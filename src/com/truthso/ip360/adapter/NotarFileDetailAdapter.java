@@ -92,7 +92,7 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
 
         File file = mDatas.get(position);
         String formatType=file.getFileFormatType();
-        int mobileType=file.getMobileType();
+        String mobileType=file.getMobileType();
         vh.tv_filename.setText(file.getFileTitle());
         vh.tv_date.setText(file.getFileDate());
         vh.tv_filesize.setText( file.getFileSize());
@@ -101,10 +101,10 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
             }else if(formatType.equals("2")){//图片
             vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
             }else if(formatType.equals("3")){//音视频
-            if (!CheckUtil.isEmpty(mobileType)){
-                if (mobileType==50002){
+            if (!mobileType.equals("")){
+                if (mobileType.equals("50002")){
                     vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);//音频
-                }else if(mobileType==50003){
+                }else if(mobileType.equals("50003")){
                     vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);//视频
                 }
             }else{//过程取证只有视频
@@ -128,7 +128,7 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
             case  R.id.iv_zhengjiuyulan://证据预览
 
                 String formatType=file.getFileFormatType();
-                int mobileType=file.getMobileType();
+                String mobileType=file.getMobileType();
                 String url= file.getFileUrl();
 
                 if (formatType.equals("1")){//文本
@@ -142,12 +142,12 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
                     context.startActivity(intent2);
                 }else if(formatType.equals("3")){//音视频
                     if(!CheckUtil.isEmpty(mobileType)){
-                        if (mobileType==50002){
+                        if (mobileType.equals(50002)){
                             Intent intent2 = new Intent(context,
                                     RecordDetailActivity.class);
                             intent2.putExtra("url", url);
                             context.startActivity(intent2);
-                        }else if(mobileType==50003){
+                        }else if(mobileType.equals(50003)){
                             Intent intent2 = new Intent(context,
                                     VideoDetailActivity.class);
                             intent2.putExtra("url", url);

@@ -83,7 +83,6 @@ public class RecordDetailActivity extends BaseActivity implements OnClickListene
 		tv_total.setText(formatter.format(duration)) ;  
 		sb_recorddetail=(SeekBar) findViewById(R.id.sb_recorddetail);
 		sb_recorddetail.setMax(duration);
-		
 		sb_recorddetail.setOnSeekBarChangeListener(this);
 		btn_start.setOnClickListener(this);
 		mp.setOnCompletionListener(new OnCompletionListener() {

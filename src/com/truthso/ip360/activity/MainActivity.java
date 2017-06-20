@@ -323,9 +323,9 @@ public class MainActivity extends FragmentActivity implements
 			if (wifiValid) {
 				upOrDownLoad();
 			} else {
-				showUploadDialog();
+//				showUploadDialog();
 			}
-		}		
+		}
 	}
 
 	private void upOrDownLoad() {

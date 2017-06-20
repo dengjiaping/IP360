@@ -133,7 +133,7 @@ public class PhotoPreserved extends BaseActivity implements OnClickListener {
                     fileUploadHelper.uploadFileInfo(info);
                 }
                 //调获取本次保全费用，及是否可用的接口
-                // getport();
+//                 getport();
                 fileUploadHelper.uploadFile();
                 break;
             case R.id.btn_title_left://返回键

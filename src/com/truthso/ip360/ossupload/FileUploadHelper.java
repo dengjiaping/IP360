@@ -368,6 +368,8 @@ public class FileUploadHelper {
                         //上传文件
                         boolean resuambleUpload = UpLoadManager.getInstance().resuambleUpload(info);
                         if(!resuambleUpload){
+                            activity.startActivity(new Intent(activity,MainActivity.class));
+                            activity.finish();
                             return;
                         }
                         if(upload_type==UPLOAD_FILE){
