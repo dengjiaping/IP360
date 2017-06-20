@@ -465,7 +465,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	/**
 	 * 云端证据
 	 * @param keywork 搜索内容 （确权和现场取证:文件名，remark pc取证:证据名称，remark） 可空
-	 * @param type 展示类别 1-确权  2-现场取证 3-pc取证 非空   1-确权 2-现场取证 3-pc取证 4-全部(除了确权其他全包含)
+	 * @param type 展示类别   1-确权 2-现场取证 3-pc取证 4-全部(除了确权其他全包含)
 	 * @param mobileType 取证类型 现场取证 （拍照（50001）、录像（50003）、录音（50002）可空
 	 * @param pageNumber 当前第几页  非空
 	 * @param pageSize 每页显示条数 非空
@@ -844,6 +844,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		RequestHandle requestHandle = request.get();
 		requestHashMap.put(requestHandle, request);
 		return requestHandle;
+
 	}
 
 	/**
