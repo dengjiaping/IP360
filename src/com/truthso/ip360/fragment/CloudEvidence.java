@@ -143,7 +143,6 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 R.layout.head_cloudevidence, null);
         listView.addHeaderView(headView);
         et_find_service = (EditText) headView.findViewById(R.id.et_find_service);
-
         if (tag) {
 //			进来显示第一个
             type = 4;//全部文件
@@ -328,6 +327,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 //							已经选择的申请公证，要type跟pkvalue
                             //跳转到提交信息页面
                             Intent intent = new Intent(getActivity(), CommitMsgActivity.class);
+                            intent.putExtra("isSub",0);//是否二级文件夹内查询数量( 0-否 1- 是)
                             intent.putExtra("pkValue", pkValueSb.toString());
                             intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());
@@ -710,7 +710,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             }
 
         });
-        //全部 证据
+        //全部证据
         tv_allevi.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {

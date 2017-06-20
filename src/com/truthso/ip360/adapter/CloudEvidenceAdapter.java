@@ -788,6 +788,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         if (iscer == 1) {//已实名
                             //跳转到提交信息页面
                             Intent intent = new Intent(context, CommitMsgActivity.class);
+                            intent.putExtra("isSub",0);//是否二级文件夹内查询数量( 0-否 1- 是)
                             intent.putExtra("pkValue", pkValue);
                             intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());//申请人名称

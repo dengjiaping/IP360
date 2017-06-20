@@ -49,6 +49,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
     private String cityName,gongzhengchu,tvreceiver;
     private CityEvent cityEvent;
     private String receiver;
+    private int isSub;
     @Override
     public void initData() {
         EventBus.getDefault().register(this);
@@ -56,6 +57,8 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void initView() {
+//        intent.putExtra("isSub",0);//是否二级文件夹内查询数量( 0-否 1- 是)
+        isSub = getIntent().getIntExtra("isSub",0);
         pkValue = getIntent().getStringExtra("pkValue");
         linkcount = getIntent().getIntExtra("linkcount",0);
         requestName = getIntent().getStringExtra("requestName");
@@ -275,7 +278,7 @@ public class CommitMsgActivity extends BaseActivity implements View.OnClickListe
 
         showProgress("正在提交...");
 //       String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail
-        ApiManager.getInstance().commitNotarMsg(name, notarOfficId,fenshu_int,receiver, huji, currloc,pkValue, name_lingqu, cardid_lingqu, phonenum,email, new ApiCallback() {
+        ApiManager.getInstance().commitNotarMsg(name, notarOfficId,fenshu_int,receiver, huji, currloc,pkValue, name_lingqu, cardid_lingqu, phonenum,email, isSub,new ApiCallback() {
         @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 hideProgress();

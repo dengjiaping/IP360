@@ -286,6 +286,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                     //已经选择的申请公证，要type跟pkvalue
                     //跳转到提交信息页面
                     Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
+                    intent.putExtra("isSub",1);//是否二级文件夹内查询数量( 0-否 1- 是)
                     intent.putExtra("pkValue",pkValue.toString());
                     intent.putExtra("linkcount",count);//申请公证的数量
                     intent.putExtra("requestName", notarAccountBean.getDatas().getRequestName());

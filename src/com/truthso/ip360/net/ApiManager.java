@@ -775,10 +775,11 @@ public class ApiManager implements BaseHttpRequestCallBack {
 	 * @param receiverCardId 领取者身份证号
 	 * @param receiverPhoneNum 领取者手机号
      * @param receiverEmail 领取者邮箱
+	 * @param  isSub  是否二级文件夹内查询数量( 0-否 1- 是)
      * @param callback
      * @return  code 503 公证名称已存在
      */
-	public RequestHandle commitNotarMsg(String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail,ApiCallback callback){
+	public RequestHandle commitNotarMsg(String notarName,int notaryId,int notarCopies,String receiver,String domicileLoc,String currentAddress,String pkValue,String receiverName,String receiverCardId,String receiverPhoneNum,String receiverEmail,int isSub, ApiCallback callback){
 		BaseHttpRequest<BaseHttpResponse> request = new BaseHttpRequest<BaseHttpResponse>(BaseHttpResponse.class,this);
 		request.setPath(URLConstant.commitNotarMsg);
 		request.params().add("notarName", notarName);
@@ -792,6 +793,7 @@ public class ApiManager implements BaseHttpRequestCallBack {
 		request.params().add("receiverCardId", receiverCardId);
 		request.params().add("receiverPhoneNum", receiverPhoneNum);
 		request.params().add("receiverEmail", receiverEmail);
+		request.params().add("isSub",isSub+"");
 		request.setApiCallback(callback);
 		RequestHandle requestHandle = request.post();
 		requestHashMap.put(requestHandle, request);

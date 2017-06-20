@@ -101,11 +101,16 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
             }else if(formatType.equals("2")){//图片
             vh.iv_icon.setBackgroundResource(R.drawable.icon_tp);
             }else if(formatType.equals("3")){//音视频
-                    if (mobileType==50002){
-                        vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);//音频
-                    }else if(mobileType==50003){
-                        vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);//视频
-                    }
+            if (!CheckUtil.isEmpty(mobileType)){
+                if (mobileType==50002){
+                    vh.iv_icon.setBackgroundResource(R.drawable.icon_yp);//音频
+                }else if(mobileType==50003){
+                    vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);//视频
+                }
+            }else{//过程取证只有视频
+             vh.iv_icon.setBackgroundResource(R.drawable.icon_sp);//视频
+            }
+
         }
         vh.iv_zhengjiuyulan.setOnClickListener(this);
         vh.iv_zhengjiuyulan.setTag(position);
@@ -136,17 +141,25 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
                     intent2.putExtra("url", url);
                     context.startActivity(intent2);
                 }else if(formatType.equals("3")){//音视频
-                    if (mobileType==50002){
-                        Intent intent2 = new Intent(context,
-                                RecordDetailActivity.class);
-                        intent2.putExtra("url", url);
-                        context.startActivity(intent2);
-                    }else if(mobileType==50003){
+                    if(!CheckUtil.isEmpty(mobileType)){
+                        if (mobileType==50002){
+                            Intent intent2 = new Intent(context,
+                                    RecordDetailActivity.class);
+                            intent2.putExtra("url", url);
+                            context.startActivity(intent2);
+                        }else if(mobileType==50003){
+                            Intent intent2 = new Intent(context,
+                                    VideoDetailActivity.class);
+                            intent2.putExtra("url", url);
+                            context.startActivity(intent2);
+                        }
+                    }else{//线上取证只有视频
                         Intent intent2 = new Intent(context,
                                 VideoDetailActivity.class);
                         intent2.putExtra("url", url);
                         context.startActivity(intent2);
                     }
+
                 }   else {
             Toaster.showToast(context, "不支持预览该格式的文件，请下载后查看");
         }

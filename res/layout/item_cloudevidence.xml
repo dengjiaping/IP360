@@ -186,7 +186,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="30dp"
             android:drawableTop="@drawable/sqgongzheng"
-            android:drawablePadding="5dp"
+            android:drawablePadding="10dp"
             android:gravity="center"
             android:text="申请公证"
             android:textColor="@color/white"
