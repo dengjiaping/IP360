@@ -44,7 +44,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 
 	}
 
-	@SuppressLint("NewApi") @Override
+	@SuppressLint("NewApi")
 	public void initView() {
 		path = getIntent().getStringExtra("url");
 		viv = (MyVideoView) findViewById(R.id.videoView);

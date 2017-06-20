@@ -545,11 +545,11 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             case R.id.tv_sqgz://申请公证
                 int position3 = (Integer) v.getTag();
                 CloudEviItemBean cloudEviItemBean3 = mDatas.get(position3);
-                int pkValue = cloudEviItemBean3.getPkValue();
+                String pkValue = cloudEviItemBean3.getType()+"-"+cloudEviItemBean3.getPkValue();
                 int linkcount = cloudEviItemBean3.getLinkCount();
                 Log.i("djj",pkValue+":"+linkcount);
                 //对否实名认证
-                AccountMsg(pkValue+"",1);
+                AccountMsg(pkValue,1);
                 break;
             default:
                 break;
@@ -788,7 +788,6 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         if (iscer == 1) {//已实名
                             //跳转到提交信息页面
                             Intent intent = new Intent(context, CommitMsgActivity.class);
-                            intent.putExtra("type", type);
                             intent.putExtra("pkValue", pkValue);
                             intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());//申请人名称

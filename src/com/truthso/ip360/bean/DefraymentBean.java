@@ -13,6 +13,7 @@ import com.truthso.ip360.net.BaseHttpResponse;
 public class DefraymentBean extends BaseHttpResponse{
     private Defrayment datas;
 
+
     public Defrayment getDatas() {
         return datas;
     }
@@ -24,6 +25,14 @@ public class DefraymentBean extends BaseHttpResponse{
     public class Defrayment{
         private String status;//status:0-正常扣费 1-欠费 2-余额不足（0,1正常，2弹框提示去充值）
         private String showText;
+        private String balance;//余额
+        public String getBalance() {
+            return balance;
+        }
+
+        public void setBalance(String balance) {
+            this.balance = balance;
+        }
 
         public String getStatus() {
             return status;

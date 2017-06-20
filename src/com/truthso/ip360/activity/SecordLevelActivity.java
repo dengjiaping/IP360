@@ -283,7 +283,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                 GetLinkCountBean bean=(GetLinkCountBean)response;
                 if(bean!=null&&bean.getCode()==200){
 
-                    //							已经选择的申请公证，要type跟pkvalue
+                    //已经选择的申请公证，要type跟pkvalue
                     //跳转到提交信息页面
                     Intent intent = new Intent(SecordLevelActivity.this, CommitMsgActivity.class);
                     intent.putExtra("pkValue",pkValue.toString());

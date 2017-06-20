@@ -64,7 +64,8 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
                                     listView.setVisibility(View.GONE);
                                     iv_nonotar.setVisibility(View.VISIBLE);
                                 }else{
-                                    Toaster.showToast(MyNotarFile.this,"没有更多数据了");
+//                                    Toaster.showToast(MyNotarFile.this,"没有更多数据了");
+                                    listView.setLoadComplete("没有更多数据了");
                                 }
                             }
                             adapter.notifyDataChange(list);

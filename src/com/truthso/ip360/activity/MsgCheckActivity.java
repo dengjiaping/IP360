@@ -18,7 +18,7 @@ import com.truthso.ip360.utils.CheckUtil;
  * @Copyright (c) 2016 真相网络科技（北京）.Co.Ltd. All rights reserved.
  */
 public class MsgCheckActivity extends BaseActivity implements View.OnClickListener {
-    private String reason, notarName, notarOfficeName, notarOfferAddress, requestName, receiver, applicationCard, receiverName, receiverCard, fileMount, pkValue;
+    private String reason, notarName, notarOfficeName, notarOfferAddress, requestName, receiver, applicationCard, receiverName, receiverCard, status,fileMount, pkValue;
     private TextView tv_reason;
     private Button btn_commitagin;
     private ImageView iv_icon;
@@ -40,6 +40,7 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
 //        intent_0.putExtra("receiverCard",receiverCard);//领取人身份证号
 //        intent_0.putExtra("fileMount",fileMount);//文件个数
 //        intent_0.putExtra("pkValue",pkValue);//此条公证服务的id
+        status =  getIntent().getStringExtra("status");
         reason = getIntent().getStringExtra("reason");
         notarName = getIntent().getStringExtra("notarName");
         notarOfficeName = getIntent().getStringExtra("notarOfficeName");
@@ -55,11 +56,20 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         btn_commitagin = (Button) findViewById(R.id.btn_commitagin);
         btn_commitagin.setOnClickListener(this);
         tv_reason = (TextView) findViewById(R.id.tv_reason);
-        if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
-            tv_reason.setText(reason);
-            btn_commitagin.setVisibility(View.VISIBLE);
-            iv_icon.setVisibility(View.VISIBLE);
+        if (!CheckUtil.isEmpty(status)){
+            if (status.equals("0")){//审核拒绝
+                if(!CheckUtil.isEmpty(reason)){//审核没通过的原因
+                    tv_reason.setText(reason);
+                    btn_commitagin.setVisibility(View.VISIBLE);
+                    iv_icon.setVisibility(View.VISIBLE);
+                }
+            }
+        }else{
+            btn_commitagin.setVisibility(View.GONE);
+            iv_icon.setVisibility(View.GONE);
         }
+
+
 
     }
 
@@ -74,6 +84,7 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
     }
 
 
+    private int request_code=101;
     @Override
     public void onClick(View v) {
        Intent intent = new Intent(this,CommitAgainNotarMsg.class);
@@ -88,6 +99,19 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra("receiverCard",receiverCard);//领取人身份证号
         intent.putExtra("fileMount",fileMount);//文件个数
         intent.putExtra("pkValue",pkValue);//此条公证服务的id
-        startActivity(intent);
+        startActivityForResult(intent,request_code);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==101&&data!=null){
+           int status= data.getIntExtra("status",0);
+           if(status==2){
+               btn_commitagin.setVisibility(View.GONE);
+               iv_icon.setVisibility(View.GONE);
+               tv_reason.setText("您的申请信息已提交公证处审核，预计1个工作日内会将审核结果通过短信发送到您的手机上，请您注意查收。在此期间如您有疑问可联系客服电话010-84770602");
+           }
+        }
     }
 }

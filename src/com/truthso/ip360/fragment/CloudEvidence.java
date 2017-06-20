@@ -635,7 +635,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             @Override
             public void onClick(View arg0) {
                 //et_find_service.setText("");
-                actionBar.setLeftText("拍照取证");
+                actionBar.setLeftText("拍照证据");
                 leiBieTag = 1;
                 if (cloudWindow.isShowing()) {
                     actionBar.setRightEnable();
@@ -653,7 +653,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             @Override
             public void onClick(View arg0) {
                 //et_find_service.setText("");
-                actionBar.setLeftText("录像取证");
+                actionBar.setLeftText("录像证据");
                 leiBieTag = 2;
                 if (cloudWindow.isShowing()) {
                     actionBar.setRightEnable();
@@ -674,7 +674,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             @Override
             public void onClick(View arg0) {
                 //et_find_service.setText("");
-                actionBar.setLeftText("录音取证");
+                actionBar.setLeftText("录音证据");
                 leiBieTag = 3;
                 if (cloudWindow.isShowing()) {
                     actionBar.setRightEnable();
@@ -694,7 +694,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             @Override
             public void onClick(View arg0) {
                 //et_find_service.setText("");
-                actionBar.setLeftText("线上取证");
+                actionBar.setLeftText("线上证据");
                 leiBieTag = 4;
                 if (cloudWindow.isShowing()) {
                     actionBar.setRightEnable();
@@ -751,15 +751,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * 类别中，全部，获取全部类型的云端数据
      */
     private void getAllData() {
-//        showProgress("正在加载...");
-        searchText = et_find_service.getText().toString().trim();
-        ApiManager.getInstance().getCloudEvidenceAll(searchText, pagerNumber, 10, new ApiCallback() {
+        showProgress("正在加载...");
+       String searthText   = et_find_service.getText().toString().trim();
+        ApiManager.getInstance().getCloudEvidenceAll(searthText, pagerNumber, 10, new ApiCallback() {
             @Override
             public void onApiResult(int errorCode, String message, BaseHttpResponse response) {
                 //停止刷新
                 listView.onRefreshFinished();
                 listView.onLoadFinished();
-//                hideProgress();
+                hideProgress();
                 bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
                     if (bean.getCode() == 200) {
@@ -772,7 +772,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                             if (list.size() == 0) {
                                 actionBar.setRightDisEnable();
                                 actionBar.setRightText("");
-                            } else {
+                            } else if (list.size() != 0){
                                 listView.setLoadComplete("没有更多数据了");
                             }
                         }
@@ -831,15 +831,15 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
         listView.invalidateViews();
         actionBar.setRightText("选择");
         if (leiBieTag == 1) {
-            actionBar.setLeftText("拍照取证");
+            actionBar.setLeftText("拍照证据");
         } else if (leiBieTag == 2) {
-            actionBar.setLeftText("录像取证");
+            actionBar.setLeftText("录像证据");
         } else if (leiBieTag == 3) {
-            actionBar.setLeftText("录音取证");
+            actionBar.setLeftText("录音证据");
         } else if (leiBieTag == 4) {
-            actionBar.setLeftText("线上取证");
+            actionBar.setLeftText("线上证据");
         } else if (leiBieTag == 5) {
-            actionBar.setLeftText("全部");
+            actionBar.setLeftText("全部证据");
         }
 
         Drawable dra = getResources().getDrawable(R.drawable.leibie_selector);
@@ -930,7 +930,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
      * 除全部的类型外，其他类型的，云端证据的接口
      */
     private void getDatas(String keywork, final int type, final int mobileType, int pagerNumber) {
-//        showProgress("正在加载数据...");
+        showProgress("正在加载数据...");
         if (requestHandle != null && !requestHandle.isFinished()) {
             requestHandle.cancel(true);
         }
@@ -942,7 +942,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                 //停止刷新
                 listView.onRefreshFinished();
                 listView.onLoadFinished();
-//                hideProgress();
+                hideProgress();
 
                 bean = (CloudEvidenceBean) response;
                 if (!CheckUtil.isEmpty(bean)) {
@@ -956,7 +956,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
                             if (list.size() == 0) {
                                 actionBar.setRightDisEnable();
                                 actionBar.setRightText("");
-                            } else {
+                            } else if(list.size() != 0) {
                                 listView.setLoadComplete("没有更多数据了");
                             }
                         }

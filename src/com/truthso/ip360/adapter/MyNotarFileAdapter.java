@@ -223,6 +223,7 @@ public class MyNotarFileAdapter extends BaseAdapter implements View.OnClickListe
                 if (status.equals("0") || status.equals("2")) {//0审核拒绝
                     Intent intent_0 = new Intent(context, MsgCheckActivity.class);
                     intent_0.putExtra("reason", reason);//审核拒绝的原因
+                    intent_0.putExtra("status", status);
                     intent_0.putExtra("notarName", notarName);//公证名称
                     intent_0.putExtra("notarOfficeName", notarOfficeName);//公证处名称
                     intent_0.putExtra("notarOfferAddress", notarOfferAddress);//公证处地址
