@@ -3,6 +3,7 @@ package com.truthso.ip360.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -185,6 +186,9 @@ public class CommitAgainNotarMsg extends BaseActivity implements View.OnClickLis
                     if (!CheckUtil.isEmpty(response)){
                         if (response.getCode() == 200){
                             Toaster.showToast(CommitAgainNotarMsg.this,"提交成功");
+                            Intent intent=new Intent();
+                            intent.putExtra("status",2);
+                            setResult(102,intent);
                             finish();
                         }else{
                             Toaster.showToast(CommitAgainNotarMsg.this,response.getMsg());

@@ -84,6 +84,7 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
     }
 
 
+    private int request_code=101;
     @Override
     public void onClick(View v) {
        Intent intent = new Intent(this,CommitAgainNotarMsg.class);
@@ -98,6 +99,19 @@ public class MsgCheckActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra("receiverCard",receiverCard);//领取人身份证号
         intent.putExtra("fileMount",fileMount);//文件个数
         intent.putExtra("pkValue",pkValue);//此条公证服务的id
-        startActivity(intent);
+        startActivityForResult(intent,request_code);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==101&&data!=null){
+           int status= data.getIntExtra("status",0);
+           if(status==2){
+               btn_commitagin.setVisibility(View.GONE);
+               iv_icon.setVisibility(View.GONE);
+               tv_reason.setText("您的申请信息已提交公证处审核，预计1个工作日内会将审核结果通过短信发送到您的手机上，请您注意查收。在此期间如您有疑问可联系客服电话010-84770602");
+           }
+        }
     }
 }
