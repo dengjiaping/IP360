@@ -2,18 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/grey"
+    >
 
     <include layout="@layout/top_title" 
         android:id="@+id/title"/>
 
-   
-    <com.truthso.ip360.view.MyVideoView
-        android:id="@+id/videoView" 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        />
+
     <ImageView
         android:id="@+id/iv_chuo"
         android:layout_width="120dp"
@@ -23,10 +19,11 @@
         android:visibility="gone"
         android:layout_marginRight="@dimen/mar_left_20"
         android:src="@drawable/bat"/>
-  <!--  <io.vov.vitamio.widget.VideoView
+
+    <com.truthso.ip360.view.MyVideoView
         android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>-->
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
 </RelativeLayout>

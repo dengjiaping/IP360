@@ -81,14 +81,16 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
     private Dialog alertDialog;
     private long clickTime;
     private MyProgressDialog dialog;
+    private int isSub;
 
     public CloudEvidenceAdapter(Context context, List<CloudEviItemBean> mDatas,
-                                int type, int mobileType) {
+                                int type, int mobileType,int isSub) {
         super();
         this.context = context;
         this.mDatas = mDatas;
         this.type = type;
         this.mobileType = mobileType;
+        this.isSub=isSub;
 
         inflater = LayoutInflater.from(context);
         dialog=new MyProgressDialog((Activity) context, new ProgressDialogDismissListener() {
@@ -294,16 +296,18 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             if (ll_option.getVisibility() == View.VISIBLE) {
                 ll_option.setVisibility(View.GONE);
             }
-
             cb_choice.setOnCheckedChangeListener(this);
         } else {
             cb_choice.setVisibility(View.GONE);
             cb_option.setVisibility(View.VISIBLE);
-            cb_option.setChecked(false);
             ll_option.setVisibility(View.GONE);
-            if (position == isOpen) {
+            cb_option.setChecked(false);
+            if (position == isOpen&&isOpen!=Integer.MAX_VALUE) {
                 cb_option.setChecked(true);
                 ll_option.setVisibility(View.VISIBLE);
+            }else{
+                cb_option.setChecked(false);
+                ll_option.setVisibility(View.GONE);
             }
             TextView tv_remark = (TextView) view.findViewById(R.id.tv_remark);
             TextView tv_remark1 = (TextView) view.findViewById(R.id.tv_remark1);
@@ -788,7 +792,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
                         if (iscer == 1) {//已实名
                             //跳转到提交信息页面
                             Intent intent = new Intent(context, CommitMsgActivity.class);
-                            intent.putExtra("isSub",0);//是否二级文件夹内查询数量( 0-否 1- 是)
+                            intent.putExtra("isSub",isSub);//是否二级文件夹内查询数量( 0-否 1- 是)
                             intent.putExtra("pkValue", pkValue);
                             intent.putExtra("linkcount", count);//申请公证的数量
                             intent.putExtra("requestName", bean.getDatas().getRequestName());//申请人名称

@@ -152,7 +152,7 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
             getAllData();
         }
 
-        adapter = new CloudEvidenceAdapter(getActivity(), list, type, mobileType);
+        adapter = new CloudEvidenceAdapter(getActivity(), list, type, mobileType,0);
         adapter.setUpdateItem(this);
         listView.setAdapter(adapter);
         setSearchMode();
@@ -1031,6 +1031,9 @@ public class CloudEvidence extends BaseFragment implements OnClickListener,
 
     @Override
     public void toRefresh() {
+        if(adapter!=null){
+            adapter.setisOpen(Integer.MAX_VALUE);
+        }
         lastPosition = 0;
         searchText = et_find_service.getText().toString().trim();
         pagerNumber = 1;

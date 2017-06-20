@@ -3,6 +3,7 @@ package com.truthso.ip360.activity;
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 
+import com.linj.DisplayUtil;
 import com.truthso.ip360.system.Toaster;
 import com.truthso.ip360.view.MyVideoView;
 
@@ -36,6 +38,7 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 	private String path;
 	private Map<String,String> headers ;
 	private ImageView iv_chuo;
+	private int mVideoWidth,mVideoHeight;
 	@Override
 	public void initData() {
 
@@ -58,12 +61,22 @@ public class VideoDetailActivity extends BaseActivity implements OnTouchListener
 		viv.requestFocus();
 		viv.start();
 		showProgress("正在缓冲...");
+
 		viv.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 			
 			@Override
 			public void onPrepared(MediaPlayer arg0) {
-				 hideProgress();
-//				iv_chuo.setVisibility(View.VISIBLE);//真相保全的戳
+				hideProgress();
+				int vh = arg0.getVideoHeight();
+				int vw = arg0.getVideoWidth();
+				if (vw > 0 && vw > 0) {
+					float scale = (float) vw / (float) vh;
+					mVideoWidth = DisplayUtil.getScreenWidth(VideoDetailActivity.this);
+					mVideoHeight = (int) (mVideoWidth / scale);
+					//viv.getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+					viv.setMeasure(mVideoWidth, mVideoHeight);
+					viv.requestLayout();
+				}
 			}
 	});
 		viv.setOnErrorListener(new MediaPlayer.OnErrorListener() {

@@ -57,13 +57,8 @@ public class UpLoadManager {
 
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
          if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
-<<<<<<< HEAD
-			 Toaster.showToast(MyApplication.getApplication(),"2222222您已设置仅在wifi下保全，请连接wifi或更改设置");
-			 UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),1);
-=======
 			 Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
 			 UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(),info.getFileSize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),1);
->>>>>>> c13b876b62650483f2ddfbae3fcee7d497d262ba
             return false;
 		 }
 		resuambleUpload.putObject();
@@ -76,7 +71,7 @@ public class UpLoadManager {
 
 		boolean isWifi= (Boolean) SharePreferenceUtil.getAttributeByKey(MyApplication.getApplication(), MyConstants.SP_USER_KEY,MyConstants.ISWIFI,SharePreferenceUtil.VALUE_IS_BOOLEAN);
 		if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
-			Toaster.showToast(MyApplication.getApplication(),"1111111111您已设置仅在wifi下保全，请连接wifi或更改设置");
+			Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
 		}else {
 			ResuambleUpload resuambleUpload=new ResuambleUpload(oss, testBucket, info);
 			resuambleUpload.putObject();

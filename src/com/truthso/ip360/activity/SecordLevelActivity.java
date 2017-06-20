@@ -131,7 +131,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                         datas = bean.getDatas();
                         if (!CheckUtil.isEmpty(datas)) {
                             list.addAll(datas);
-                            adapter = new CloudEvidenceAdapter(SecordLevelActivity.this, list, type, 0);
+                            adapter = new CloudEvidenceAdapter(SecordLevelActivity.this, list, type, 0,1);
                             adapter.setUpdateItem(SecordLevelActivity.this);
                             listView.setAdapter(adapter);
                         } else {
