@@ -158,6 +158,7 @@ public class UpDownLoadDao {
 			info.setCompleteDate(cursor.getString(cursor.getColumnIndex("completedate")));
 			list.add(info);
 		}
+
 		return list;
 	}
 
@@ -215,7 +216,7 @@ public class UpDownLoadDao {
 
 
 	public FileInfo queryDownLoadInfoByResourceId(int resourceId) {
-		Log.i("djj","resourceId"+resourceId);
+
 		SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(
 				"select * from updownloadlog where sourceid=?",
