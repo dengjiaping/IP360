@@ -117,6 +117,7 @@ public class MyNotarFile extends BaseActivity implements RefreshListView.OnRefre
     public void refreshPage() {
         list.clear();
         pagerNumber=1;
+        listView.setLoadStart("查看更多");
         getData();
     }
 

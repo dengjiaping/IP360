@@ -74,8 +74,10 @@ public class NotarFileDetail extends BaseActivity implements RefreshListView.OnR
 
     @Override
     public void toRefresh() {
+
         pagerNumber=1;
         list.clear();
+        listView.setLoadStart("查看更多");
         getData();
     }
 

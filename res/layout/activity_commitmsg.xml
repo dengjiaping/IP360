@@ -246,7 +246,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/layout_marginLeft"
+                    android:layout_marginLeft="8dp"
                     android:text="公证处所在地"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/text_item" />

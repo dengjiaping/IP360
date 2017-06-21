@@ -142,12 +142,12 @@ public class NotarFileDetailAdapter extends BaseAdapter implements View.OnClickL
                     context.startActivity(intent2);
                 }else if(formatType.equals("3")){//音视频
                     if(!CheckUtil.isEmpty(mobileType)){
-                        if (mobileType.equals(50002)){
+                        if (mobileType.equals("50002")){
                             Intent intent2 = new Intent(context,
                                     RecordDetailActivity.class);
                             intent2.putExtra("url", url);
                             context.startActivity(intent2);
-                        }else if(mobileType.equals(50003)){
+                        }else if(mobileType.equals("50003")){
                             Intent intent2 = new Intent(context,
                                     VideoDetailActivity.class);
                             intent2.putExtra("url", url);
