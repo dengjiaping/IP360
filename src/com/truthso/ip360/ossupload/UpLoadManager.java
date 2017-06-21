@@ -59,7 +59,6 @@ public class UpLoadManager {
          if(isWifi&&!NetStatusUtil.isWifiValid(MyApplication.getApplication())){
 			 UpDownLoadDao.getDao().saveUpLoadInfo(info.getFilePath(), info.getFileName(), info.getLlsize(), info.getPosition(), info.getResourceId(),info.getObjectKey(),1);
 //			 Toaster.showToast(MyApplication.getApplication(),"您已设置仅在wifi下保全，请连接wifi或更改设置");
-
             return false;
 		 }
 		resuambleUpload.putObject();

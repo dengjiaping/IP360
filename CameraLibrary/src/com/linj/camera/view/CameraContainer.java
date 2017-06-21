@@ -88,7 +88,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 		super(context, attrs);
 		initView(context);
 		mHandler=new Handler();
-		mTimeFormat=new SimpleDateFormat("mm:ss",Locale.getDefault());
+		mTimeFormat=new SimpleDateFormat("hh:mm:ss",Locale.getDefault());
 		setOnTouchListener(new TouchListener());
 	}
 
@@ -136,7 +136,7 @@ public class CameraContainer extends RelativeLayout implements CameraOperation{
 
 			if(mCameraView.isRecording()){
 				long recordTime=SystemClock.uptimeMillis()-mRecordStartTime;
-				mRecordingInfoTextView.setText("00:"+mTimeFormat.format(new Date(recordTime)));
+				mRecordingInfoTextView.setText(mTimeFormat.format(new Date(recordTime)));
 				mHandler.postAtTime(this,mRecordingInfoTextView, SystemClock.uptimeMillis()+500);
 			}else {
 				mRecordingInfoTextView.setVisibility(View.GONE);
