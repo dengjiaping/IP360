@@ -76,7 +76,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 //	private int usedCount_photo, usedCount_video, usedCount_record;// 累积使用量
 //	private String buyCount_photo,buyCount_video,buyCount_record;//买的量
 //	private int type;// 取证类型
-
+private ImageView iv_next_renzheng;
 	private String  accountBalance,str;
 	private ImageView iv_next_yue;
 	private RelativeLayout  rl_Certification, rl_bind_phonum, rl_bind_mail, rl_my_notar,rl_account,rl_charge_rules;
@@ -126,6 +126,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 		tv_realname = (TextView) view.findViewById(R.id.tv_realname);
 		tv_bindphonenum = (TextView) view.findViewById(R.id.tv_bindphonenum);
 		tv_bindemail = (TextView) view.findViewById(R.id.tv_bindemail);
+		iv_next_renzheng = (ImageView) view.findViewById(R.id.iv_next_renzheng);
 		getPersonalMsg();
 		EventBus.getDefault().register(this);
 	}
@@ -166,11 +167,16 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 						}
 
 						// 是否已实名认证
-						if (bean.getDatas().getRealNameState() == 1) {// 1是未认证
-																		// ，2是已认证
+						if (bean.getDatas().getRealNameState() == 1||bean.getDatas().getRealNameState() == 4) {// 1是未认证
+																		// ，2是已认证4-已打回
 							tv_realname.setText("未实名认证");// 实名认证状态
+							iv_next_renzheng.setVisibility(View.VISIBLE);
 						} else if (bean.getDatas().getRealNameState() == 2) {
 							tv_realname.setText("已实名认证");// 实名认证状态
+							iv_next_renzheng.setVisibility(View.VISIBLE);
+						}else if(bean.getDatas().getRealNameState() == 3){//3-认证中
+							tv_realname.setText("认证中");
+							iv_next_renzheng.setVisibility(View.INVISIBLE);
 						}
 
 						// 是否已绑定手机号
@@ -185,8 +191,7 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 						}
 
 						// 是否绑定邮箱
-						if (!CheckUtil
-								.isEmpty(bean.getDatas().getBindedEmail())) {// 为空时，是未绑定
+						if (!CheckUtil.isEmpty(bean.getDatas().getBindedEmail())) {// 为空时，是未绑定
 							tv_bindemail.setText(bean.getDatas()
 									.getBindedEmail());
 						} else {
@@ -256,11 +261,14 @@ public class PersonalCenter extends BaseFragment implements OnClickListener{
 						intent.putExtra("realName",bean.getDatas().getRealName());
 						intent.putExtra("cardId",bean.getDatas().getCardId());
 							startActivity(intent);
-					}else if(bean.getDatas().getRealNameState() ==1 ){//1未认证
+					}else if(bean.getDatas().getRealNameState() ==1||bean.getDatas().getRealNameState() ==4 ){//1未认证4-已打回
 						Intent intent2 = new Intent(getActivity(),
 								RealNameCertification.class);
 						startActivityForResult(intent2,
 								MyConstants.REALNAME_VERTIFICATION);
+					}else if(bean.getDatas().getRealNameState() ==3 ){//认证中3-审核中
+						//认证中，不跳
+
 					}
 
 				} else {

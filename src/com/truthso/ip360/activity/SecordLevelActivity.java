@@ -314,7 +314,7 @@ public class SecordLevelActivity extends BaseActivity implements RefreshListView
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //跳转到实名认证页面
-                        startActivity(new Intent(SecordLevelActivity.this, CertificationActivity.class));
+                        startActivity(new Intent(SecordLevelActivity.this, RealNameCertification.class));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {

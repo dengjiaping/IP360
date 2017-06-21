@@ -107,12 +107,7 @@
             >
         </activity>
         <!-- 评分 -->
-        <activity
-            android:name="com.truthso.ip360.activity.SettingActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            >
-        </activity>
+
 
         <!-- 设置 -->
         <activity
