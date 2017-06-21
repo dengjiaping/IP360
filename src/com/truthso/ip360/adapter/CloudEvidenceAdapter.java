@@ -288,6 +288,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             //1.1版本本地已经下载有的，不再下载，但是让能选中！！醉了，PM什么逻辑~
             cb_choice.setClickable(true);
             cb_choice.setBackgroundResource(R.drawable.cb_selector);
+            cb_choice.setOnCheckedChangeListener(this);
             if ((isAllSelect && cb_choice.isClickable())||selectedList.contains(cloudEviItemBean)) {
                 cb_choice.setChecked(true);
             } else {
@@ -296,7 +297,7 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
             if (ll_option.getVisibility() == View.VISIBLE) {
                 ll_option.setVisibility(View.GONE);
             }
-            cb_choice.setOnCheckedChangeListener(this);
+
         } else {
             cb_choice.setVisibility(View.GONE);
             cb_option.setVisibility(View.VISIBLE);
@@ -376,7 +377,9 @@ public class CloudEvidenceAdapter extends BaseAdapter implements
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         int position = (Integer) buttonView.getTag();
         if (isChecked) {
-            selectedList.add(mDatas.get(position));
+            if(!selectedList.contains(mDatas.get(position))){
+                selectedList.add(mDatas.get(position));
+            }
         } else {
             selectedList.remove(mDatas.get(position));
         }
